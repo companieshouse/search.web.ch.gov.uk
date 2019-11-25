@@ -1,0 +1,274 @@
+{% extends "base.html" %}
+
+{% block pageTitle %}
+  Alphabetical Search
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Search again",
+  href: "alpha-search"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      <h1 class="govuk-heading-xl">
+        Search results {{ titlesList[1] }}
+      </h1>
+      {{ govukTable({
+        firstCellIsHeader: false,
+        head: [
+          {
+            text: "Company name"
+          },
+          {
+            text: "Company number"
+          },
+          {
+            text: "Status"
+          }
+        ],
+        rows: [
+          [
+            {
+              html: "<a href='company-profile'>ACM DIGITAL LIMITED</a>"
+            },
+            {
+              text: "09638734"
+            },
+            {
+              text: "Active"
+            }
+          ],
+          [
+            {
+              html: "<a href='company-profile'>ACM DIRECT LTD</a>"
+            },
+            {
+              text: "10932242"
+            },
+            {
+              text: "Active"
+            }
+          ],
+          [
+            {
+              html: "<a href='company-profile'>ACM DISTRIBUTION LIMITED</a>"
+            },
+            {
+              text: "10925161"
+            },
+            {
+              text: "Active"
+            }
+          ],
+          [
+            {
+              html: "<a href='company-profile'>ACM DISTRIBUTORS LTD</a>"
+            },
+            {
+              text: "11462148"
+            },
+            {
+              text: "Dissolved"
+            }
+          ],
+          [
+            {
+              html: "<a href='company-profile'>ACM DRIVER LTD</a>"
+            },
+            {
+              text: "11252756"
+            },
+            {
+              text: "Active"
+            }
+          ],
+          [
+            {
+              html: "<a href='company-profile'>ACM DRIVER HIRE LTD</a>"
+            },
+            {
+              text: "07820295"
+            },
+            {
+              text: "Dissolved"
+            }
+          ],
+          [
+            {
+              html: "<a href='company-profile'>ACM DRIVEWAYS & PATIOS LTD</a>"
+            },
+            {
+              text: "10175661"
+            },
+            {
+              text: "Active"
+            }
+          ],
+          [
+            {
+              html: "<a href='company-profile'>ACM DRIVING SERVICES LIMITED</a>"
+            },
+            {
+              text: "09966536"
+            },
+            {
+              text: "Dissolved"
+            }
+          ],
+          [
+            {
+              html: "<a href='company-profile'>ACM DRYLINING LTD</a>"
+            },
+            {
+              text: "10317628"
+            },
+            {
+              text: "Dissolved"
+            }
+          ],
+          [
+            {
+              html: "<a href='company-profile'>ACMD SERVICES LTD</a>"
+            },
+            {
+              text: "06044388"
+            },
+            {
+              text: "Dissolved"
+            }
+          ],
+          [
+            {
+              html: "<a href='company-profile'>ACME LTD</a>",
+              classes: "exact exact__name"
+            },
+            {
+              text: "06232576",
+              classes: "exact"
+            },
+            {
+              text: "Active",
+              classes: "exact"
+            }
+          ],
+          [
+            {
+              html: "<a href='company-profile'>ACME ACCOUNTANCY SERVICES LIMITED</a>"
+            },
+            {
+              text: "05852670"
+            },
+            {
+              text: "Dissolved"
+            }
+          ],
+          [
+            {
+              html: "<a href='company-profile'>ACME ACCOUNTANCY SERVICES LIMITED</a>"
+            },
+            {
+              text: "11916565"
+            },
+            {
+              text: "Active"
+            }
+          ],
+          [
+            {
+              html: "<a href='company-profile'>ACME ACCOUNTANTS & TAX ADVISORS LIMITED</a>"
+            },
+            {
+              text: "08938857"
+            },
+            {
+              text: "Active"
+            }
+          ],
+          [
+            {
+              html: "<a href='company-profile'>ACME ACCOUNTING CONSULTANTS LIMITED</a>"
+            },
+            {
+              text: "05937617"
+            },
+            {
+              text: "Dissolved"
+            }
+          ],
+          [
+            {
+              html: "<a href='company-profile'>ACME ADVICE LIMITED</a>"
+            },
+            {
+              text: "07994907"
+            },
+            {
+              text: "Dissolved"
+            }
+          ],
+          [
+            {
+              html: "<a href='company-profile'>ACME ADVISORS LIMITED</a>"
+            },
+            {
+              text: "06773115"
+            },
+            {
+              text: "Active"
+            }
+          ],
+          [
+            {
+              html: "<a href='company-profile'>ACME ALBA LTD</a>"
+            },
+            {
+              text: "SC601644"
+            },
+            {
+              text: "Active"
+            }
+          ],
+          [
+            {
+              html: "<a href='company-profile'>ACME ALLIANCE LIMITED</a>"
+            },
+            {
+              text: "07094411"
+            },
+            {
+              text: "Dissolved"
+            }
+          ],
+          [
+            {
+              html: "<a href='company-profile'>ACME ALLIED SERVICES LIMITED</a>"
+            },
+            {
+              text: "09186719"
+            },
+            {
+              text: "Dissolved"
+            }
+          ],
+          [
+            {
+              html: "<a href='company-profile'>ACME ANALYTICS LTD</a>"
+            },
+            {
+              text: "10828592"
+            },
+            {
+              text: "Active"
+            }
+          ]
+        ]
+      }) }}
+    </div>
+  </div>
+
+{% endblock %}
