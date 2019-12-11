@@ -1,6 +1,6 @@
 import {Router} from "express";
-import {searchHandler} from "../handlers";
-import getResults from "../handlers/results";
+import {searchHandler} from "../controllers";
+import getResults from "../controllers/results";
 
 const request = require('request');
 
