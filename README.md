@@ -1,12 +1,7 @@
-# Web Starter NodeJS
+# search.web.ch.gov.uk
 
 ### Overview
-
-The aim of this template is to give you a head start in setting up a new web application for Companies House.
-
-The template uses [Express](https://expressjs.com), [TypeScript](https://typescriptlang.org) and the [GovUK Frontend](https://github.com/alphagov/govuk-frontend) toolkit to set up a simple example of a web application that runs on NodeJS.
-
-**You can create a new project from this template by clicking the [Use this template](https://github.com/companieshouse/node-web-starter/generate) button.**
+This service interacts with search.api.gov.uk to query and display companies from elastic search in an alphabetical order.
 
 ## Contents
 
