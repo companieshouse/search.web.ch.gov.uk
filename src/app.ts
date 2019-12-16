@@ -1,7 +1,7 @@
 import * as express from "express";
 import * as nunjucks from "nunjucks";
 import * as path from "path";
-import router from "./routers";
+import router from "./routes/routes";
 
 const app = express();
 
