@@ -15,6 +15,6 @@ const renderTemplate = (template: string) => (req: Request, res: Response) => {
 };
 
 router.get(pageUrls.ROOT, renderTemplate(templatePaths.INDEX));
-router.post(pageUrls.ROOT, searchController);
+router.get(pageUrls.GET_RESULTS, searchController);
 
 export default router;
