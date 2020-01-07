@@ -1,5 +1,7 @@
 import {Request, Response} from "express";
 import axios, { AxiosResponse, AxiosError, Method, AxiosRequestConfig } from "axios";
+import * as templatePaths from "../model/template.paths";
+import { text } from "body-parser";
 
 const url: string = 'http://localhost:4089/alphabetical-search/corporate-name'
 
@@ -73,7 +75,21 @@ const getCompanies = async (companyName: string): Promise<CompaniesResource> => 
 export default async (req: Request, res: Response) => {
     let companyName: string = req.query["company-name"];
     
-    const response = await getCompanies(companyName);
+    const companyResource = await getCompanies(companyName);
+    const searchResults = companyResource.results.map((result) => {
 
-    res.send(response.results);
+        return  [
+              {
+                html: "<a href='" + result.links.self + "'>" + result.items.corporate_name + "</a>"
+              },
+              {
+                text: result.items.company_number
+              },
+              {
+                text: result.items.company_status
+              }
+            ]
+    });
+
+    res.render(templatePaths.SEARCH_RESULTS, {searchResults});
 };
