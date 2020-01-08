@@ -1,6 +1,7 @@
 import axios, { AxiosResponse, AxiosError, Method, AxiosRequestConfig } from "axios";
 
-const GET_COMPANIES_PATH: string = "http://localhost:4089/alphabetical-search/corporate-name";
+// TODO - Extract out into config - PCI-491, PCI-488
+const GET_COMPANIES_PATH: string = "http://chs-dev.internal:4089/alphabetical-search/corporate-name";
 
 const HTTP_POST: Method = "post";
 
