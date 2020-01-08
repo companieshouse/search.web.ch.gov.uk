@@ -5,6 +5,7 @@
   ],
   "jsRules": {},
   "rules": {
+    "no-console": false,
     "interface-name": false,
     "variable-name": [true, "check-format", "allow-leading-underscore"],
     "ordered-imports": false

@@ -1,7 +1,7 @@
 import {Router, Request, Response} from "express";
 import {searchController} from "../controllers/index.controller";
 import * as pageUrls from "../model/page.urls";
-import * as templatePaths from "../model/template.paths"
+import * as templatePaths from "../model/template.paths";
 
 const router = Router();
 
