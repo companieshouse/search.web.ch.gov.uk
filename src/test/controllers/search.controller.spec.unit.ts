@@ -12,7 +12,7 @@ describe("search.controller tests", () => {
     it("should return a results page successfully", async() => {
         mockCompaniesResource.mockResolvedValue(mockUtils.getDummyCompanyResource());
 
-        const res = await request(app).get("/get-results");
+        const res = await request(app).get("/alphabetical-search/get-results");
         expect(res.status).toEqual(200);
     });
 });

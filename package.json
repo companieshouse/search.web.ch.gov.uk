@@ -4,7 +4,7 @@
   "description": "A starter web application",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_ENV=development ts-node ./src/server.ts",
+    "start": "node dist/app/bin/www.ts",
     "start:watch": "NODE_ENV=development nodemon",
     "build": "NODE_ENV=production tsc",
     "lint": "tslint -p .",
@@ -48,6 +48,6 @@
     "ignore": [
       "**/*.spec.ts"
     ],
-    "exec": "ts-node ./src/server.ts"
+    "exec": "ts-node ./src/bin/www.ts"
   }
 }
