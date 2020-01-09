@@ -1,9 +1,11 @@
 import * as express from "express";
 import * as nunjucks from "nunjucks";
 import * as path from "path";
-import router from "./routers";
+import router from "./routes/routes";
 
 const app = express();
+
+app.use(express.urlencoded({ extended: false }));
 
 // set some app variables from the environment
 app.set("port", process.env.PORT || "3000");
