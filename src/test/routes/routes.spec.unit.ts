@@ -7,8 +7,14 @@ describe("Basic URL Tests", () => {
 
     it("should find the search page url", async () => {
         const response = await request(app)
-          .get("/");
-          expect(response.status).toEqual(200);
+            .get("/");
+        expect(response.status).toEqual(200);
     });
-});
 
+    it("should return 404 if page doesnt exist", async() => {
+        const response = await request(app)
+            .get("/gibberish")
+        expect(response.status).toEqual(404);
+    });
+
+});

@@ -4,6 +4,7 @@ import * as path from "path";
 
 import router from "./routes/routes";
 import {ERROR_SUMMARY_TITLE} from "./model/error.messages";
+import errorHandlers from "./controllers/error.controller";
 
 const app = express();
 
@@ -41,5 +42,6 @@ if (process.env.NODE_ENV === "development") {
 }
 // apply our default router to /
 app.use("/", router);
+app.use(...errorHandlers);
 
 export default app;
