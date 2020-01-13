@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { check, validationResult } from "express-validator";
-import {createGovUkErrorData, GovUkErrorData} from "../model/govuk.error.data";
+import { createGovUkErrorData, GovUkErrorData } from "../model/govuk.error.data";
 
 import { CompaniesResource, getCompanies } from "../client/apiclient";
 import * as templatePaths from "../model/template.paths";
@@ -16,25 +16,31 @@ const route = async (req: Request, res: Response) => {
     if (errors.isEmpty()) {
 
         const companyName: string = req.query.companyName;
+        let searchResults;
 
-        const companyResource: CompaniesResource = await getCompanies(companyName);
-        const searchResults = companyResource.results.map((result) => {
-            const status = result.items.company_status;
-            const capitalisedStatus = status.charAt(0).toUpperCase() + status.slice(1);
-            return [
-                {
-                    html: "<a href='" + result.links.self + "'>" + result.items.corporate_name + "</a>",
-                },
-                {
-                    text: result.items.company_number,
-                },
-                {
-                    text: capitalisedStatus,
-                },
-            ];
-        });
+        try {
+            const companyResource: CompaniesResource = await getCompanies(companyName);
+            searchResults = companyResource.results.map((result) => {
+                const status = result.items.company_status;
+                const capitalisedStatus = status.charAt(0).toUpperCase() + status.slice(1);
+                return [
+                    {
+                        html: `<a href="${result.links.self}">${result.items.corporate_name}</a>`,
+                    },
+                    {
+                        text: result.items.company_number,
+                    },
+                    {
+                        text: capitalisedStatus,
+                    },
+                ];
+            });
+        } catch (err) {
+            searchResults = [];
+            console.log(err);
+        }
 
-        res.render(templatePaths.SEARCH_RESULTS, { searchResults });
+        res.render(templatePaths.SEARCH_RESULTS, { searchResults, searchTerm: companyName });
     } else {
         const errorText = errors.array().map((err) => err.msg).pop() as string;
         const companyNameErrorData: GovUkErrorData = createGovUkErrorData(errorText, "#companyName", true, "");

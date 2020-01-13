@@ -1,39 +1,41 @@
 {% extends "base.html" %}
 
 {% block pageTitle %}
-  Alphabetical Search
+    Alphabetical Search
 {% endblock %}
 
 {% block beforeContent %}
-  {{ govukBackLink({
-  text: "Search again",
-  href: "/"
-}) }}
+    {{ govukBackLink({
+        text: "Search again",
+        href: "/"
+    }) }}
 {% endblock %}
 
 {% block content %}
 
-  <div class="govuk-grid-row">
+<div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-      <h1 class="govuk-heading-xl">
-        Search results
-      </h1>
-
-      {{ govukTable({
-        firstCellIsHeader: false,
-        head: [
-          {
-            text: "Company name"
-          },
-          {
-            text: "Company number"
-          },
-          {
-            text: "Status"
-          }
-        ],
-        rows: searchResults
-      }) }}
+        <h1 class="govuk-heading-xl">Search results</h1>
+        {% if searchResults.length > 0 %}
+            {{ govukTable({
+                firstCellIsHeader: false,
+                head: [
+                    {
+                        text: "Company name"
+                    },
+                    {
+                        text: "Company number"
+                    },
+                    {
+                        text: "Status"
+                    }
+                ],
+                rows: searchResults
+            }) }}
+        {% else %}
+            <h2 class="govuk-heading-l">No results found for {{ searchTerm }}</h2>
+            <p class="govuk-body">Please try searching again using a different criteria</p>
+        {% endif %}
     </div>
   </div>
 
