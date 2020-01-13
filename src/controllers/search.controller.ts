@@ -1,27 +1,49 @@
-import {Request, Response} from "express";
-import {CompaniesResource, getCompanies} from "../client/apiclient";
+import { Request, Response } from "express";
+import { check, validationResult } from "express-validator";
+import {createGovUkErrorData, GovUkErrorData} from "../model/govuk.error.data";
+
+import { CompaniesResource, getCompanies } from "../client/apiclient";
 import * as templatePaths from "../model/template.paths";
+import * as errorMessages from "../model/error.messages";
 
-export default async (req: Request, res: Response) => {
-    const companyName: string = req.query["company-name"];
+const validators = [
+    check("companyName").not().isEmpty().withMessage(errorMessages.COMPANY_NAME_EMPTY),
+];
 
-    const companyResource: CompaniesResource = await getCompanies(companyName);
-    const searchResults = companyResource.results.map((result) => {
+const route = async (req: Request, res: Response) => {
+    const errors = validationResult(req);
 
-        const status = result.items.company_status;
-        const capitalisedStatus = status.charAt(0).toUpperCase() + status.slice(1);
-        return  [
-              {
-                html: "<a href='" + result.links.self + "'>" + result.items.corporate_name + "</a>",
-              },
-              {
-                text: result.items.company_number,
-              },
-              {
-                text: capitalisedStatus,
-              },
+    if (errors.isEmpty()) {
+
+        const companyName: string = req.query.companyName;
+
+        const companyResource: CompaniesResource = await getCompanies(companyName);
+        const searchResults = companyResource.results.map((result) => {
+            const status = result.items.company_status;
+            const capitalisedStatus = status.charAt(0).toUpperCase() + status.slice(1);
+            return [
+                {
+                    html: "<a href='" + result.links.self + "'>" + result.items.corporate_name + "</a>",
+                },
+                {
+                    text: result.items.company_number,
+                },
+                {
+                    text: capitalisedStatus,
+                },
             ];
-    });
+        });
 
-    res.render(templatePaths.SEARCH_RESULTS, {searchResults});
+        res.render(templatePaths.SEARCH_RESULTS, { searchResults });
+    } else {
+        const errorText = errors.array().map((err) => err.msg).pop() as string;
+        const companyNameErrorData: GovUkErrorData = createGovUkErrorData(errorText, "#companyName", true, "");
+        res.render(templatePaths.INDEX, {
+            companyNameErrorData,
+            errorList: [companyNameErrorData],
+            templateName: templatePaths.INDEX,
+        });
+    }
 };
+
+export default [...validators, route];

@@ -6,17 +6,25 @@
         <h1 class="govuk-heading-xl">
             Alphabetical company search
         </h1>
+        {% if errorList.length > 0 %}
+            {{ govukErrorSummary({
+                titleText: ERROR_SUMMARY_TITLE,
+                errorList: errorList
+            }) }}
+        {% endif %}
         <p class="govuk-body">
             Search the register and get alphabetical results up to 10 January 2020
         </p>
         <form action="/get-results" method="GET">
         {{ govukInput({
+            id: "companyName",
+            name: "companyName",
             label: {
                 text: "Company name"
             },
-            id: "company-name",
-            name: "company-name"
-            }) }}
+            errorMessage: companyNameErrorData
+            })
+        }}
         {{ govukButton({
             text: "Search"
         }) }}
