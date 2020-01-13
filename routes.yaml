@@ -1,0 +1,7 @@
+
+app_name: search.web.ch.gov.uk
+group: web
+weight: 900
+routes:
+  1: ^/alphabetical-search
+  2: ^/alphabetical-search/.*
