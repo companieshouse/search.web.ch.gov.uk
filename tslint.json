@@ -9,7 +9,7 @@
     "interface-name": false,
     "variable-name": [true, "check-format", "allow-leading-underscore"],
     "ordered-imports": false,
-    "indent": [true, "spaces", 4]
+    "indent": [true, "spaces", 2]
   },
   "linterOptions": {
     "exclude": [

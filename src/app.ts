@@ -3,7 +3,7 @@ import * as nunjucks from "nunjucks";
 import * as path from "path";
 
 import router from "./routes/routes";
-import {ERROR_SUMMARY_TITLE} from "./model/error.messages";
+import { ERROR_SUMMARY_TITLE } from "./model/error.messages";
 import errorHandlers from "./controllers/error.controller";
 
 const app = express();
@@ -19,12 +19,12 @@ const viewPath = path.join(__dirname, "views");
 
 // set up the template engine
 const env = nunjucks.configure([
-    viewPath,
-    "node_modules/govuk-frontend/",
-    "node_modules/govuk-frontend/components",
+  viewPath,
+  "node_modules/govuk-frontend/",
+  "node_modules/govuk-frontend/components",
 ], {
-    autoescape: true,
-    express: app,
+  autoescape: true,
+  express: app,
 });
 
 // add global variables to all templates
@@ -37,8 +37,8 @@ app.set("view engine", "html");
 
 // serve static assets in development. this will not execute in production.
 if (process.env.NODE_ENV === "development") {
-    app.use("/static", express.static("dist/static"));
-    env.addGlobal("CSS_URL", "/static/app.css");
+  app.use("/static", express.static("dist/static"));
+  env.addGlobal("CSS_URL", "/static/app.css");
 }
 // apply our default router to /
 app.use("/", router);

@@ -7,49 +7,49 @@ import * as templatePaths from "../model/template.paths";
 import * as errorMessages from "../model/error.messages";
 
 const validators = [
-    check("companyName").not().isEmpty().withMessage(errorMessages.COMPANY_NAME_EMPTY),
+  check("companyName").not().isEmpty().withMessage(errorMessages.COMPANY_NAME_EMPTY),
 ];
 
 const route = async (req: Request, res: Response) => {
-    const errors = validationResult(req);
+  const errors = validationResult(req);
 
-    if (errors.isEmpty()) {
+  if (errors.isEmpty()) {
 
-        const companyName: string = req.query.companyName;
-        let searchResults;
+    const companyName: string = req.query.companyName;
+    let searchResults;
 
-        try {
-            const companyResource: CompaniesResource = await getCompanies(companyName);
-            searchResults = companyResource.results.map((result) => {
-                const status = result.items.company_status;
-                const capitalisedStatus = status.charAt(0).toUpperCase() + status.slice(1);
-                return [
-                    {
-                        html: `<a href="${result.links.self}">${result.items.corporate_name}</a>`,
-                    },
-                    {
-                        text: result.items.company_number,
-                    },
-                    {
-                        text: capitalisedStatus,
-                    },
-                ];
-            });
-        } catch (err) {
-            searchResults = [];
-            console.log(err);
-        }
-
-        res.render(templatePaths.SEARCH_RESULTS, { searchResults, searchTerm: companyName });
-    } else {
-        const errorText = errors.array().map((err) => err.msg).pop() as string;
-        const companyNameErrorData: GovUkErrorData = createGovUkErrorData(errorText, "#companyName", true, "");
-        res.render(templatePaths.INDEX, {
-            companyNameErrorData,
-            errorList: [companyNameErrorData],
-            templateName: templatePaths.INDEX,
-        });
+    try {
+      const companyResource: CompaniesResource = await getCompanies(companyName);
+      searchResults = companyResource.results.map((result) => {
+        const status = result.items.company_status;
+        const capitalisedStatus = status.charAt(0).toUpperCase() + status.slice(1);
+        return [
+          {
+            html: `<a href="${result.links.self}">${result.items.corporate_name}</a>`,
+          },
+          {
+            text: result.items.company_number,
+          },
+          {
+            text: capitalisedStatus,
+          },
+        ];
+      });
+    } catch (err) {
+      searchResults = [];
+      console.log(err);
     }
+
+    res.render(templatePaths.SEARCH_RESULTS, { searchResults, searchTerm: companyName });
+  } else {
+    const errorText = errors.array().map((err) => err.msg).pop() as string;
+    const companyNameErrorData: GovUkErrorData = createGovUkErrorData(errorText, "#companyName", true, "");
+    res.render(templatePaths.INDEX, {
+      companyNameErrorData,
+      errorList: [companyNameErrorData],
+      templateName: templatePaths.INDEX,
+    });
+  }
 };
 
 export default [...validators, route];
