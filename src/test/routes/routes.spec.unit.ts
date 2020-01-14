@@ -5,16 +5,16 @@ jest.mock("../../controllers/search.controller");
 
 describe("Basic URL Tests", () => {
 
-    it("should find the search page url", async () => {
-        const response = await request(app)
-            .get("/alphabetical-search/");
-        expect(response.status).toEqual(200);
-    });
+  it("should find the search page url", async () => {
+    const response = await request(app)
+      .get("/alphabetical-search/");
+    expect(response.status).toEqual(200);
+  });
 
-    it("should return 404 if page doesnt exist", async() => {
-        const response = await request(app)
-            .get("/gibberish")
-        expect(response.status).toEqual(404);
-    });
+  it("should return 404 if page doesnt exist", async () => {
+    const response = await request(app)
+      .get("/gibberish")
+    expect(response.status).toEqual(404);
+  });
 
 });
