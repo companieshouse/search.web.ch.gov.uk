@@ -55,7 +55,7 @@ const makeAPICall = async (config: AxiosRequestConfig): Promise<AxiosResponse> =
 const getApiData = async (config: AxiosRequestConfig): Promise<any> => {
     const axiosResponse: AxiosResponse = await makeAPICall(config);
     const data = axiosResponse.data;
-    console.log(`data returned from axios api call : ${data}`);
+    console.log(`data returned from axios api call : ${JSON.stringify(data)}`);
     return data;
 };
 
