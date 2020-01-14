@@ -10,10 +10,6 @@ const app = express();
 
 app.use(express.urlencoded({ extended: false }));
 
-// set some app variables from the environment
-app.set("port", process.env.PORT || "3000");
-app.set("dev", process.env.NODE_ENV === "development");
-
 // where nunjucks templates should resolve to
 const viewPath = path.join(__dirname, "views");
 
@@ -37,11 +33,11 @@ app.set("view engine", "html");
 
 // serve static assets in development. this will not execute in production.
 if (process.env.NODE_ENV === "development") {
-  app.use("/static", express.static("dist/static"));
-  env.addGlobal("CSS_URL", "/static/app.css");
+  app.use("/alphabetical-search/static", express.static("dist/static"));
+  env.addGlobal("CSS_URL", "/alphabetical-search/static/app.css");
 }
 // apply our default router to /
-app.use("/", router);
+app.use("/alphabetical-search", router);
 app.use(...errorHandlers);
 
 export default app;
