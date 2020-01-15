@@ -28,8 +28,7 @@ describe("search.controller tests", () => {
   it("should display an error message if no company name is entered", async () => {
     const response = await request(app).get("/alphabetical-search/get-results?companyName=");
     expect(response.status).toEqual(200);
-    expect(response.text).toContain("There is a problem");
-    expect(response.text).toContain("Enter a Company name");
+    expect(response.text).toContain("Search the register and get alphabetical");
   });
 
 });
