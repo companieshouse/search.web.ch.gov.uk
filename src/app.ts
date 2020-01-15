@@ -1,7 +1,10 @@
 import * as express from "express";
 import * as nunjucks from "nunjucks";
 import * as path from "path";
+
 import router from "./routes/routes";
+import {ERROR_SUMMARY_TITLE} from "./model/error.messages";
+import errorHandlers from "./controllers/error.controller";
 
 const app = express();
 
@@ -24,6 +27,7 @@ app.set("views", viewPath);
 app.set("view engine", "html");
 
 // add global variables to all templates
+env.addGlobal("ERROR_SUMMARY_TITLE", ERROR_SUMMARY_TITLE);
 env.addGlobal("PIWIK_URL", "https://example.com");
 env.addGlobal("PIWIK_SITE_ID", "123");
 
@@ -38,5 +42,6 @@ if (process.env.NODE_ENV !== "production") {
 }
 // apply our default router to /
 app.use("/alphabetical-search", router);
+app.use(...errorHandlers);
 
 export default app;

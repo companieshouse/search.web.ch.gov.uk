@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Start script for certificates.orders.web.ch.gov.uk
+# Start script for search.web.ch.gov.uk
 
 APP_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
