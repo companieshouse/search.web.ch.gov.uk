@@ -1,4 +1,3 @@
 export default async () => {
-  // perform any necessary setup here.
-  // this will execute before all tests are run
+  process.env.ALPHABETICAL_SEARCH_URL = "http://localhost:4089/alphabetical-search/corporate-body"
 }

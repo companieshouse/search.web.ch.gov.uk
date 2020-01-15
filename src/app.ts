@@ -23,17 +23,21 @@ const env = nunjucks.configure([
   express: app,
 });
 
+app.set("views", viewPath);
+app.set("view engine", "html");
+
 // add global variables to all templates
 env.addGlobal("ERROR_SUMMARY_TITLE", ERROR_SUMMARY_TITLE);
 env.addGlobal("PIWIK_URL", "https://example.com");
 env.addGlobal("PIWIK_SITE_ID", "123");
 
-app.set("views", viewPath);
-app.set("view engine", "html");
-
-// serve static assets in development. this will not execute in production.
-if (process.env.NODE_ENV === "development") {
+// serve static assets in development.
+// this will execute in production for now, but we will host these else where in the future.
+if (process.env.NODE_ENV !== "production") {
   app.use("/alphabetical-search/static", express.static("dist/static"));
+  env.addGlobal("CSS_URL", "/alphabetical-search/static/app.css");
+} else {
+  app.use("/alphabetical-search/static", express.static("static"));
   env.addGlobal("CSS_URL", "/alphabetical-search/static/app.css");
 }
 // apply our default router to /

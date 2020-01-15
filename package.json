@@ -4,9 +4,9 @@
   "description": "A starter web application",
   "main": "index.js",
   "scripts": {
-    "start": "node dist/app/bin/www.js",
+    "start": "node dist/bin/www.js",
     "start:watch": "NODE_ENV=development nodemon",
-    "build": "NODE_ENV=production tsc",
+    "build": "NODE_ENV=production tsc && cp -r src/views dist/ && gulp static",
     "lint": "tslint -p .",
     "test": "jest -c src/test/jest.config.js"
   },
@@ -20,7 +20,8 @@
     "express-validator": "^6.3.1",
     "govuk-frontend": "^3.2.0",
     "nunjucks": "^3.2.0",
-    "request": "^2.88.0"
+    "request": "^2.88.0",
+    "yargs": "^15.1.0"
   },
   "devDependencies": {
     "@types/express": "^4.17.1",
