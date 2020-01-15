@@ -6,12 +6,6 @@
     <h1 class="govuk-heading-xl">
       Alphabetical company search
     </h1>
-    {% if errorList.length > 0 %}
-      {{ govukErrorSummary({
-          titleText: ERROR_SUMMARY_TITLE,
-          errorList: errorList
-      }) }}
-    {% endif %}
     <p class="govuk-body">
       Search the register and get alphabetical results up to 10 January 2020
     </p>
@@ -21,8 +15,7 @@
         name: "companyName",
         label: {
           text: "Company name"
-        },
-        errorMessage: companyNameErrorData
+        }
       }) }}
       {{ govukButton({
         text: "Search"
