@@ -1,7 +1,8 @@
 import axios, { AxiosResponse, AxiosError, Method, AxiosRequestConfig } from "axios";
-import {ALPHABETICAL_SEARCH_URL} from "../config/config";
+import Cookies = require("cookies");
 
-const GET_COMPANIES_PATH: string = ALPHABETICAL_SEARCH_URL;
+// Return to configed out option when added authentication
+const GET_COMPANIES_PATH: string = "http://chs-dev.internal:4089/alphabetical-search/corporate-name";
 
 const HTTP_POST: Method = "post";
 
@@ -59,15 +60,19 @@ const getApiData = async (config: AxiosRequestConfig): Promise<any> => {
     return data;
 };
 
-export const getCompanies = async (companyName: string): Promise<CompaniesResource> => {
+export const getCompanies = async (companyName: string, cookies: Cookies): Promise<CompaniesResource> => {
     const config: AxiosRequestConfig = getBaseAxiosRequestConfig();
-    config.headers["Content-Type"] = "application/json";
+    config.headers = {
+        "Content-Type": "application.json",
+        "X-Request-ID": cookies.get("user"),
+    };
     config.data = {
         company_name: companyName,
     };
     config.method = HTTP_POST;
     config.url = GET_COMPANIES_PATH;
 
+    console.log(config.headers);
     const data = await getApiData(config) as CompaniesResource;
     return data;
 };

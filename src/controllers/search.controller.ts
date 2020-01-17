@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { check, validationResult } from "express-validator";
 import { createGovUkErrorData, GovUkErrorData } from "../model/govuk.error.data";
+import Cookies = require("cookies");
 
 import { CompaniesResource, getCompanies } from "../client/apiclient";
 import * as templatePaths from "../model/template.paths";
@@ -10,7 +11,13 @@ const validators = [
   check("companyName").not().isEmpty().withMessage(errorMessages.COMPANY_NAME_EMPTY),
 ];
 
+const keys = ["alphabetical search"];
+
 const route = async (req: Request, res: Response) => {
+
+  const cookies = new Cookies(req, res ,{keys: keys});
+  cookies.set("search.web.user", "abc");
+
   const errors = validationResult(req);
 
   if (errors.isEmpty()) {
@@ -19,7 +26,7 @@ const route = async (req: Request, res: Response) => {
     let searchResults;
 
     try {
-      const companyResource: CompaniesResource = await getCompanies(companyName);
+      const companyResource: CompaniesResource = await getCompanies(companyName, cookies);
       searchResults = companyResource.results.map((result) => {
         const status = result.items.company_status;
         const capitalisedStatus = status.charAt(0).toUpperCase() + status.slice(1);
