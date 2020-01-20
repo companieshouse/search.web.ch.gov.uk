@@ -11,12 +11,9 @@ const validators = [
   check("companyName").not().isEmpty().withMessage(errorMessages.COMPANY_NAME_EMPTY),
 ];
 
-const keys = ["alphabetical search"];
-
 const route = async (req: Request, res: Response) => {
 
-  const cookies = new Cookies(req, res ,{keys: keys});
-  cookies.set("search.web.user", "abc");
+  const cookies = new Cookies(req, res);
 
   const errors = validationResult(req);
 
