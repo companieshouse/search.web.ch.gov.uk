@@ -63,8 +63,8 @@ const getApiData = async (config: AxiosRequestConfig): Promise<any> => {
 export const getCompanies = async (companyName: string, cookies: Cookies): Promise<CompaniesResource> => {
     const config: AxiosRequestConfig = getBaseAxiosRequestConfig();
     config.headers = {
-        "Content-Type": "application.json",
-        "X-Request-ID": cookies.get("user"),
+        "Content-Type": "application/json",
+        "X-Request-ID": cookies.get("search.web.user"),
     };
     config.data = {
         company_name: companyName,
