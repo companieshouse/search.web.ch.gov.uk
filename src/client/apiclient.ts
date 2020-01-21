@@ -1,8 +1,8 @@
 import axios, { AxiosResponse, AxiosError, Method, AxiosRequestConfig } from "axios";
+import {ALPHABETICAL_SEARCH_URL, AUTH_KEY} from "../config/config";
 import Cookies = require("cookies");
 
-// Return to configed out option when added authentication
-const GET_COMPANIES_PATH: string = "http://chs-dev.internal:4089/alphabetical-search/corporate-name";
+const GET_COMPANIES_PATH: string = "http://" + ALPHABETICAL_SEARCH_URL;
 
 const HTTP_POST: Method = "post";
 
@@ -34,7 +34,9 @@ const getBaseAxiosRequestConfig = (): AxiosRequestConfig => {
     return {
         headers: {
             Accept: "application/json",
+            Authorization: AUTH_KEY,
         },
+        proxy: false,
     };
 };
 
@@ -65,6 +67,7 @@ export const getCompanies = async (companyName: string, cookies: Cookies): Promi
     config.headers = {
         "Content-Type": "application/json",
         "X-Request-ID": cookies.get("search.web.user"),
+        "Authorization": AUTH_KEY,
     };
     config.data = {
         company_name: companyName,
@@ -72,6 +75,7 @@ export const getCompanies = async (companyName: string, cookies: Cookies): Promi
     config.method = HTTP_POST;
     config.url = GET_COMPANIES_PATH;
 
+    console.log(GET_COMPANIES_PATH);
     console.log(config.headers);
     const data = await getApiData(config) as CompaniesResource;
     return data;
