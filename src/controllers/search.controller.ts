@@ -26,7 +26,11 @@ const route = async (req: Request, res: Response) => {
       const companyResource: CompaniesResource = await getCompanies(companyName, cookies);
       searchResults = companyResource.results.map((result) => {
         const status = result.items.company_status;
-        const capitalisedStatus = status.charAt(0).toUpperCase() + status.slice(1);
+        let capitalisedStatus: string = "";
+        if (status !== undefined) {
+          capitalisedStatus = status.charAt(0).toUpperCase() + status.slice(1);
+        }
+
         return [
           {
             html: `<a href="${result.links.self}">${result.items.corporate_name}</a>`,
