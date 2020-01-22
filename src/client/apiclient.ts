@@ -62,11 +62,11 @@ const getApiData = async (config: AxiosRequestConfig): Promise<any> => {
     return data;
 };
 
-export const getCompanies = async (companyName: string, cookies: Cookies): Promise<CompaniesResource> => {
+export const getCompanies = async (companyName: string, requestId): Promise<CompaniesResource> => {
     const config: AxiosRequestConfig = getBaseAxiosRequestConfig();
     config.headers = {
         "Content-Type": "application/json",
-        "X-Request-ID": cookies.get("search.web.user"),
+        "X-Request-ID": requestId,
         "Authorization": AUTH_KEY,
     };
     config.data = {

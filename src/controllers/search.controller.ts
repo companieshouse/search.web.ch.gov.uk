@@ -23,7 +23,7 @@ const route = async (req: Request, res: Response) => {
     let searchResults;
 
     try {
-      const companyResource: CompaniesResource = await getCompanies(companyName, cookies);
+      const companyResource: CompaniesResource = await getCompanies(companyName, cookies.get("search.web.user"));
       searchResults = companyResource.results.map((result) => {
         const status = result.items.company_status;
         let capitalisedStatus: string = "";
