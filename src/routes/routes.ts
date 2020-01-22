@@ -18,7 +18,7 @@ const renderTemplate = (template: string) => (req: Request, res: Response) => {
   const cookies = new Cookies(req, res);
 
   if (cookies === undefined || cookies.get(SEARCH_WEB_COOKIE_NAME) === undefined) {
-    cookies.set("search.web.user", uuid());
+    cookies.set(SEARCH_WEB_COOKIE_NAME, uuid());
   }
 
   return res.render(template);
