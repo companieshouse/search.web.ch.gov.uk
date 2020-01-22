@@ -1,5 +1,5 @@
 import axios, { AxiosResponse, AxiosError, Method, AxiosRequestConfig } from "axios";
-import { ALPHABETICAL_SEARCH_URL, AUTH_KEY } from "../config/config";
+import { ALPHABETICAL_SEARCH_URL, CHS_API_KEY } from "../config/config";
 
 const HTTP_POST: Method = "post";
 
@@ -31,7 +31,7 @@ const getBaseAxiosRequestConfig = (): AxiosRequestConfig => {
     return {
         headers: {
             Accept: "application/json",
-            Authorization: AUTH_KEY,
+            Authorization: CHS_API_KEY,
         },
         proxy: false,
     };
@@ -62,7 +62,7 @@ const getApiData = async (config: AxiosRequestConfig): Promise<any> => {
 export const getCompanies = async (companyName: string, requestId): Promise<CompaniesResource> => {
     const config: AxiosRequestConfig = getBaseAxiosRequestConfig();
     config.headers = {
-        "Authorization": AUTH_KEY,
+        "Authorization": CHS_API_KEY,
         "Content-Type": "application/json",
         "X-Request-ID": requestId,
     };
