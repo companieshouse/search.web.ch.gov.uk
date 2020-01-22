@@ -2,8 +2,9 @@ import {Router, Request, Response} from "express";
 import {searchController} from "../controllers/index.controller";
 import * as pageUrls from "../model/page.urls";
 import * as templatePaths from "../model/template.paths";
-import uuid = require("uuid/v1");
+import uuid = require("uuid/v4");
 import Cookies = require("cookies");
+import { SEARCH_WEB_COOKIE_NAME } from "../config/config";
 
 const router = Router();
 
@@ -16,7 +17,7 @@ const renderTemplate = (template: string) => (req: Request, res: Response) => {
 
   const cookies = new Cookies(req, res);
 
-  if (cookies === undefined || cookies.get("search.web.user") === undefined) {
+  if (cookies === undefined || cookies.get(SEARCH_WEB_COOKIE_NAME) === undefined) {
     cookies.set("search.web.user", uuid());
   }
 

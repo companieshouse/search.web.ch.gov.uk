@@ -1,8 +1,5 @@
 import axios, { AxiosResponse, AxiosError, Method, AxiosRequestConfig } from "axios";
-import {ALPHABETICAL_SEARCH_URL, AUTH_KEY} from "../config/config";
-import Cookies = require("cookies");
-
-const GET_COMPANIES_PATH: string = "http://" + ALPHABETICAL_SEARCH_URL;
+import { ALPHABETICAL_SEARCH_URL, AUTH_KEY } from "../config/config";
 
 const HTTP_POST: Method = "post";
 
@@ -65,18 +62,16 @@ const getApiData = async (config: AxiosRequestConfig): Promise<any> => {
 export const getCompanies = async (companyName: string, requestId): Promise<CompaniesResource> => {
     const config: AxiosRequestConfig = getBaseAxiosRequestConfig();
     config.headers = {
+        "Authorization": AUTH_KEY,
         "Content-Type": "application/json",
         "X-Request-ID": requestId,
-        "Authorization": AUTH_KEY,
     };
     config.data = {
         company_name: companyName,
     };
     config.method = HTTP_POST;
-    config.url = GET_COMPANIES_PATH;
+    config.url = ALPHABETICAL_SEARCH_URL;
 
-    console.log(GET_COMPANIES_PATH);
-    console.log(config.headers);
     const data = await getApiData(config) as CompaniesResource;
     return data;
 };

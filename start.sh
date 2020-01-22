@@ -8,6 +8,7 @@ if [[ -z "${MESOS_SLAVE_PID}" ]]; then
 
     source ~/.chs_env/private_env
     source ~/.chs_env/global_env
+    source ~/.chs_env/search.web.ch.gov.uk/env
 
     PORT="${SEARCH_WEB_PORT}"
 
