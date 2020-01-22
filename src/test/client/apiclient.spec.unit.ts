@@ -40,7 +40,7 @@ const dummyAxiosResponse: AxiosResponse<CompaniesResource> = {
 
 describe("apiclient unit tests", () => {
   it("returns a CompaniesResource object", async () => {
-    const companies = await getCompanies("string");
+    const companies = await getCompanies("string", "requestId");
     expect(companies).toEqual(mockUtils.getDummyCompanyResource());
   });
 });
