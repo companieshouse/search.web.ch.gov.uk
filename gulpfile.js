@@ -17,8 +17,15 @@ gulp.task('sass', function() {
     .pipe(gulp.dest('./dist/static'));
 });
 
+// copies the static images to the dist directory
+gulp.task('images', function() {
+  return gulp.src('./static/images/*.*')
+    .pipe(gulp.dest('./dist/static/images'));
+});
+
 // executes all static asset tasks in parallel
 exports.static = gulp.parallel(
   gulp.task("sass"),
+  gulp.task("images"),
   gulp.task("govuk-frontend-copy")
 );
