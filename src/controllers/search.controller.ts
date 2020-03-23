@@ -25,6 +25,7 @@ const route = async (req: Request, res: Response) => {
 
     try {
       const companyResource: CompaniesResource = await getCompanies(companyName, cookies.get(SEARCH_WEB_COOKIE_NAME));
+      let topHit: string  = companyResource.topHit;
       searchResults = companyResource.results.map((result) => {
         const status = result.items.company_status;
         let capitalisedStatus: string = "";
@@ -32,6 +33,20 @@ const route = async (req: Request, res: Response) => {
           capitalisedStatus = status.charAt(0).toUpperCase() + status.slice(1);
         }
 
+        if (result.items.corporate_name === topHit) {
+          return [
+            {
+              html: `<a id="centre-page" href="${result.links.self}">${result.items.corporate_name}</a>`,
+              classes: "nearest"
+            },
+            {
+              text: result.items.company_number,
+            },
+            {
+              text: capitalisedStatus,
+            },
+          ];
+        }
         return [
           {
             html: `<a href="${result.links.self}">${result.items.corporate_name}</a>`,
