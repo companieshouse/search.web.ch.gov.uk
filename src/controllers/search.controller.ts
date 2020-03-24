@@ -29,27 +29,19 @@ const route = async (req: Request, res: Response) => {
       searchResults = companyResource.results.map((result) => {
         const status = result.items.company_status;
         let capitalisedStatus: string = "";
+        let nearestClass: string = "";
         if (status !== undefined) {
           capitalisedStatus = status.charAt(0).toUpperCase() + status.slice(1);
         }
 
         if (result.items.corporate_name === topHit) {
-          return [
-            {
-              html: `<a id="centre-page" href="${result.links.self}">${result.items.corporate_name}</a>`,
-              classes: "nearest"
-            },
-            {
-              text: result.items.company_number,
-            },
-            {
-              text: capitalisedStatus,
-            },
-          ];
+          nearestClass = "nearest";
         }
+
         return [
           {
             html: `<a href="${result.links.self}">${result.items.corporate_name}</a>`,
+            classes: nearestClass,
           },
           {
             text: result.items.company_number,
