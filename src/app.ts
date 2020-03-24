@@ -36,11 +36,13 @@ env.addGlobal("PIWIK_SITE_ID", "123");
 if (process.env.NODE_ENV !== "production") {
   app.use("/alphabetical-search/static", express.static("dist/static"));
   env.addGlobal("CSS_URL", "/alphabetical-search/static/app.css");
-  env.addGlobal("FOOTER", "/alphabetical-search/static/footer.css");
+  env.addGlobal("ALPHABETICAL_SEARCH", "/alphabetical-search/static/alphabetical_search.css");
+  env.addGlobal("MATCHER", "/alphabetical-search/static/js/matcher.js");
 } else {
   app.use("/alphabetical-search/static", express.static("static"));
   env.addGlobal("CSS_URL", "/alphabetical-search/static/app.css");
-  env.addGlobal("FOOTER", "/alphabetical-search/static/footer.css");
+  env.addGlobal("ALPHABETICAL_SEARCH", "/alphabetical-search/static/alphabetical_search.css");
+  env.addGlobal("MATCHER", "/alphabetical-search/static/js/matcher.js");
 }
 // apply our default router to /
 app.use("/alphabetical-search", router);

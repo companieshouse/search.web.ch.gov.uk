@@ -25,16 +25,23 @@ const route = async (req: Request, res: Response) => {
 
     try {
       const companyResource: CompaniesResource = await getCompanies(companyName, cookies.get(SEARCH_WEB_COOKIE_NAME));
+      let topHit: string  = companyResource.topHit;
       searchResults = companyResource.results.map((result) => {
         const status = result.items.company_status;
         let capitalisedStatus: string = "";
+        let nearestClass: string = "";
         if (status !== undefined) {
           capitalisedStatus = status.charAt(0).toUpperCase() + status.slice(1);
+        }
+
+        if (result.items.corporate_name === topHit) {
+          nearestClass = "nearest";
         }
 
         return [
           {
             html: `<a href="${result.links.self}">${result.items.corporate_name}</a>`,
+            classes: nearestClass,
           },
           {
             text: result.items.company_number,
