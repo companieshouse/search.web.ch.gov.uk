@@ -18,7 +18,11 @@
         }
       }) }}
       {{ govukButton({
-        text: "Search"
+        text: "Search",
+        attributes: {
+          "data-event-id": "alphabetical-search-button",
+          id: "alphabetical-search-button"
+        }
       }) }}
     </form>
   </div>

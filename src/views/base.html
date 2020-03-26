@@ -54,3 +54,18 @@
       }
     }) }}
 {% endblock %}
+
+{% block bodyEnd %}
+  {# Run JavaScript at end of the <body>, to avoid blocking the initial render. #}
+  <script src="//{{CDN_URL}}/javascripts/app/piwik-enable.js"></script>
+  <script type="application/javascript">
+    (function() {
+      bindPiwikListener('alphabetical-search', '{{PIWIK_URL}}', {{PIWIK_SITE_ID}});
+    }());
+  </script>
+  <noscript>
+    <p>
+      <img src="{{PIWIK_URL}}/piwik.php?idsite={{PIWIK_SITE_ID}}" style="border:0;" alt="" />
+    </p>
+  </noscript>
+{% endblock %}
