@@ -17,7 +17,7 @@ const notFoundHandler = (req: Request, res: Response, next: NextFunction) => {
  */
 const errorHandler = async (err: unknown, req: Request, res: Response, next: NextFunction) => {
   console.log(errorMessages.ERROR_500, err);
-  res.status(500).render(templatePaths.ERROR);
+  res.status(500).render(templatePaths.ERROR, {templateName: templatePaths.ERROR});
 };
 
 export default [notFoundHandler, errorHandler];

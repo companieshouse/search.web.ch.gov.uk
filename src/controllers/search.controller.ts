@@ -58,14 +58,14 @@ const route = async (req: Request, res: Response) => {
       console.log(err);
     }
 
-    res.render(templatePaths.SEARCH_RESULTS, { searchResults, searchTerm: companyName });
+    res.render(templatePaths.SEARCH_RESULTS, { searchResults, searchTerm: companyName, templateName: templatePaths.SEARCH_RESULTS });
   } else {
     const errorText = errors.array().map((err) => err.msg).pop() as string;
     const companyNameErrorData: GovUkErrorData = createGovUkErrorData(errorText, "#companyName", true, "");
     res.render(templatePaths.INDEX, {
       companyNameErrorData,
       errorList: [companyNameErrorData],
-      templateName: templatePaths.INDEX,
+      templateName: templatePaths.NO_RESULTS,
     });
   }
 };
