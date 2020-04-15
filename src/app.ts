@@ -5,7 +5,7 @@ import * as path from "path";
 import router from "./routes/routes";
 import {ERROR_SUMMARY_TITLE} from "./model/error.messages";
 import errorHandlers from "./controllers/error.controller";
-import {PIWIK_SITE_ID, PIWIK_URL, INDEX_DATE} from "./config/config";
+import {PIWIK_SITE_ID, PIWIK_URL} from "./config/config";
 
 const app = express();
 
@@ -32,7 +32,6 @@ env.addGlobal("ERROR_SUMMARY_TITLE", ERROR_SUMMARY_TITLE);
 env.addGlobal("PIWIK_URL", PIWIK_URL);
 env.addGlobal("PIWIK_SITE_ID", PIWIK_SITE_ID);
 env.addGlobal("CDN_URL", process.env.CDN_HOST);
-env.addGlobal("INDEX_DATE", INDEX_DATE);
 
 // serve static assets in development.
 // this will execute in production for now, but we will host these else where in the future.
