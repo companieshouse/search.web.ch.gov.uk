@@ -1,10 +1,10 @@
 import { CompaniesResource, Result, Items, Links } from "../client/apiclient";
 
-export const getDummyCompanyResource = (): CompaniesResource => {
+export const getDummyCompanyResource = (name?: string): CompaniesResource => {
   return {
     searchType: "searchType",
     topHit: "topHit",
-    results: createDummyResults(),
+    results: createDummyResults(name),
   }
 };
 
@@ -16,25 +16,25 @@ export const getDummyCompanyResourceEmpty = (): CompaniesResource => {
   }
 }
 
-export const createDummyResults = (): Result[] => {
-  const results: Result[] = [createDummyResult()];
+export const createDummyResults = (name?: string): Result[] => {
+  const results: Result[] = [createDummyResult(name)];
   return results;
 };
 
-export const createDummyResult = (): Result => {
+export const createDummyResult = (name?: string): Result => {
   return {
     ID: "ID",
     company_type: "company_type",
-    items: createDummyItems(),
+    items: createDummyItems(name),
     links: createDummyLinks(),
   }
 };
 
-export const createDummyItems = (): Items => {
+export const createDummyItems = (name = "Test"): Items => {
   return {
     company_number: "00006400",
     company_status: "active",
-    corporate_name: "Test",
+    corporate_name: name,
     record_type: "test",
   }
 }
