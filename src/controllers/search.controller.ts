@@ -7,6 +7,7 @@ import { CompaniesResource, getCompanies } from "../client/apiclient";
 import * as templatePaths from "../model/template.paths";
 import * as errorMessages from "../model/error.messages";
 import { SEARCH_WEB_COOKIE_NAME } from "../config/config";
+import * as escape from "escape-html"
 
 const validators = [
   check("companyName").not().isEmpty().withMessage(errorMessages.COMPANY_NAME_EMPTY),
@@ -40,10 +41,12 @@ const route = async (req: Request, res: Response) => {
           noNearestMatch = false;
         }
 
+        const sanitisedCorporateName = escape(result.items.corporate_name);
+
         return [
           {
             classes: nearestClass,
-            html: `<a href="${result.links.self}">${result.items.corporate_name}</a>`,
+            html: `<a href="${result.links.self}">${sanitisedCorporateName}</a>`,
           },
           {
             text: result.items.company_number,
