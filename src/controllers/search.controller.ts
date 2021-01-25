@@ -2,12 +2,15 @@ import { Request, Response } from "express";
 import { check, validationResult } from "express-validator";
 import { createGovUkErrorData, GovUkErrorData } from "../model/govuk.error.data";
 import Cookies = require("cookies");
-
-import { CompaniesResource, getCompanies } from "../client/apiclient";
+import { getCompanies } from "../client/apiclient";
 import * as templatePaths from "../model/template.paths";
 import * as errorMessages from "../model/error.messages";
-import { SEARCH_WEB_COOKIE_NAME } from "../config/config";
-import * as escape from "escape-html"
+import { SEARCH_WEB_COOKIE_NAME, API_KEY, APPLICATION_NAME } from "../config/config";
+import escape from "escape-html";
+import { AlphabeticalSearchPostRequest, CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/alphabetical-search/types";
+import { createLogger } from "ch-structured-logging";
+
+const logger = createLogger(APPLICATION_NAME);
 
 const validators = [
   check("companyName").not().isEmpty().withMessage(errorMessages.COMPANY_NAME_EMPTY),
@@ -16,16 +19,16 @@ const validators = [
 const route = async (req: Request, res: Response) => {
 
   const cookies = new Cookies(req, res);
-
   const errors = validationResult(req);
 
   if (errors.isEmpty()) {
-
-    const companyName: string = req.query.companyName;
+    const companyNameRequestParam: string = req.query.companyName as string;
+    const companyName: AlphabeticalSearchPostRequest = { company_name: companyNameRequestParam };
     let searchResults;
 
     try {
-      const companyResource: CompaniesResource = await getCompanies(companyName, cookies.get(SEARCH_WEB_COOKIE_NAME));
+      const companyResource: CompaniesResource =
+        await getCompanies(API_KEY, companyName, cookies.get(SEARCH_WEB_COOKIE_NAME));
       const topHit: string  = companyResource.topHit;
       let noNearestMatch: boolean = true;
       searchResults = companyResource.results.map((result) => {
@@ -58,10 +61,12 @@ const route = async (req: Request, res: Response) => {
       });
     } catch (err) {
       searchResults = [];
-      console.log(err);
+      logger.error(`${err}`);
     }
 
-    res.render(templatePaths.SEARCH_RESULTS, { searchResults, searchTerm: companyName, templateName: templatePaths.SEARCH_RESULTS });
+    res.render(templatePaths.SEARCH_RESULTS, {
+      searchResults, searchTerm: companyName, templateName: templatePaths.SEARCH_RESULTS,
+    });
   } else {
     const errorText = errors.array().map((err) => err.msg).pop() as string;
     const companyNameErrorData: GovUkErrorData = createGovUkErrorData(errorText, "#companyName", true, "");

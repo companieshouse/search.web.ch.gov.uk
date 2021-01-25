@@ -1,77 +1,20 @@
-import axios, { AxiosResponse, AxiosError, Method, AxiosRequestConfig } from "axios";
-import { ALPHABETICAL_SEARCH_URL, CHS_API_KEY } from "../config/config";
+import { createApiClient } from "@companieshouse/api-sdk-node";
+import { CompaniesResource, AlphabeticalSearchPostRequest } from "@companieshouse/api-sdk-node/dist/services/search/alphabetical-search/types";
+import { API_URL, APPLICATION_NAME } from "../config/config";
+import { createLogger } from "ch-structured-logging";
+import Resource from "@companieshouse/api-sdk-node/dist/services/resource";
+import createError from "http-errors";
 
-const HTTP_POST: Method = "post";
+const logger = createLogger(APPLICATION_NAME);
 
-export interface CompaniesResource {
-    searchType: string;
-    topHit: string;
-    results: Result[];
-}
-
-export interface Result {
-    ID: string;
-    company_type: string;
-    items: Items;
-    links: Links;
-}
-
-export interface Items {
-    company_number: string;
-    company_status: string;
-    corporate_name: string;
-    record_type: string;
-}
-
-export interface Links {
-    self: string;
-}
-
-const getBaseAxiosRequestConfig = (): AxiosRequestConfig => {
-    return {
-        headers: {
-            Accept: "application/json",
-            Authorization: CHS_API_KEY,
-        },
-        proxy: false,
-    };
-};
-
-const makeAPICall = async (config: AxiosRequestConfig): Promise<AxiosResponse> => {
-    try {
-        return await axios.request<any>(config);
-    } catch (err) {
-        console.log(`API ERROR ${err}`);
-        const axiosError = err as AxiosError;
-        const{response, message} = axiosError;
-        throw {
-            data: response ? response.data.errors : [],
-            message,
-            status: response ? response.status : -1,
-        };
+export const getCompanies =
+    async (apiKey: string, companyName: AlphabeticalSearchPostRequest, requestId): Promise<CompaniesResource> => {
+    const api = createApiClient(apiKey, undefined, API_URL);
+    const companiesResource: Resource<CompaniesResource> =
+        await api.alphabeticalSearch.getCompanies(companyName, requestId);
+    if (companiesResource.httpStatusCode !== 200 && companiesResource.httpStatusCode !== 201) {
+        throw createError(companiesResource.httpStatusCode, companiesResource.httpStatusCode.toString());
     }
-};
-
-const getApiData = async (config: AxiosRequestConfig): Promise<any> => {
-    const axiosResponse: AxiosResponse = await makeAPICall(config);
-    const data = axiosResponse.data;
-    console.log(`data returned from axios api call : ${JSON.stringify(data)}`);
-    return data;
-};
-
-export const getCompanies = async (companyName: string, requestId): Promise<CompaniesResource> => {
-    const config: AxiosRequestConfig = getBaseAxiosRequestConfig();
-    config.headers = {
-        "Authorization": CHS_API_KEY,
-        "Content-Type": "application/json",
-        "X-Request-ID": requestId,
-    };
-    config.data = {
-        company_name: companyName,
-    };
-    config.method = HTTP_POST;
-    config.url = ALPHABETICAL_SEARCH_URL;
-
-    const data = await getApiData(config) as CompaniesResource;
-    return data;
+    logger.info(`Get company name alphabetical search results, company_name=${companyName.company_name}, status_code=${companiesResource.httpStatusCode}`);
+    return companiesResource.resource as CompaniesResource;
 };

@@ -1,6 +1,6 @@
-import * as express from "express";
-import * as nunjucks from "nunjucks";
-import * as path from "path";
+import express from "express";
+import nunjucks from "nunjucks";
+import path from "path";
 
 import router from "./routes/routes";
 import {ERROR_SUMMARY_TITLE} from "./model/error.messages";
