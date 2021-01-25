@@ -1,4 +1,5 @@
-import { CompaniesResource, Result, Items, Links } from "../client/apiclient";
+import { CompaniesResource, Result, Items, Links } from "@companieshouse/api-sdk-node/dist/services/search/alphabetical-search/types";
+
 
 export const getDummyCompanyResource = (name?: string): CompaniesResource => {
   return {

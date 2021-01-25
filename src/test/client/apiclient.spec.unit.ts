@@ -1,19 +1,13 @@
-const mockRequest: jest.Mock = jest.fn(() => { return dummyAxiosResponse });
-jest.mock("axios", () => {
-  return {
-    default: {
-      request: mockRequest
-    }
-  };
-});
+import sinon from "sinon";
+import chai from "chai";
+import Resource from "@companieshouse/api-sdk-node/dist/services/resource";
+import { AlphabeticalSearchPostRequest, CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/alphabetical-search/types";
+import { getCompanies } from "../../client/apiclient";
+import AlphabeticalSearchService from "@companieshouse/api-sdk-node/dist/services/search/alphabetical-search/service";
 
-// Need to import after mocks set or the real axios module will be imported before mocks
-import { AxiosResponse } from "axios";
-import { CompaniesResource, getCompanies } from "../../client/apiclient";
-import * as mockUtils from "../mock.utils";
-
-const dummyAxiosResponse: AxiosResponse<CompaniesResource> = {
-  data: {
+const mockResponse: Resource<CompaniesResource> = {
+  httpStatusCode: 200,
+  resource: {
     searchType: "searchType",
     topHit: "topHit",
     results: [
@@ -23,7 +17,7 @@ const dummyAxiosResponse: AxiosResponse<CompaniesResource> = {
         items: {
           company_number: "00006400",
           company_status: "active",
-          corporate_name: "Test",
+          corporate_name: "TEST",
           record_type: "test",
         },
         links: {
@@ -31,16 +25,30 @@ const dummyAxiosResponse: AxiosResponse<CompaniesResource> = {
         }
       }
     ]
-  },
-  status: 200,
-  statusText: "OK",
-  headers: "header",
-  config: {}
+  }
 };
 
-describe("apiclient unit tests", () => {
-  it("returns a CompaniesResource object", async () => {
-    const companies = await getCompanies("string", "requestId");
-    expect(companies).toEqual(mockUtils.getDummyCompanyResource());
+const mockAlphabeticalSearchPostRequest: AlphabeticalSearchPostRequest = ({
+  company_name: "TEST"
+});
+
+const mockRequestID: string = "ID";
+
+const sandbox = sinon.createSandbox();
+
+describe("api.client", () => {
+  afterEach(() => {
+    sandbox.reset();
+    sandbox.restore();
+  });
+
+  describe("alphabetical search", () => {
+    it.only("POST returns alphabetical search results", async () => {
+      sandbox.stub(AlphabeticalSearchService.prototype, "getCompanies")
+        .returns(Promise.resolve(mockResponse));
+
+      const alphabeticalSearchResults = await getCompanies("api key", mockAlphabeticalSearchPostRequest, mockRequestID);
+      chai.expect(alphabeticalSearchResults).to.equal(mockResponse.resource);
+    });
   });
 });

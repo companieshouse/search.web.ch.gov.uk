@@ -1,5 +1,5 @@
 import app from "../../app";
-import * as request from "supertest";
+import request from "supertest";
 import { getCompanies } from "../../client/apiclient";
 import * as mockUtils from "../mock.utils";
 
