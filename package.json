@@ -15,7 +15,7 @@
   "license": "ISC",
   "dependencies": {
     "@companieshouse/api-sdk-node": "^1.0.19",
-    "ch-structured-logging": "git+ssh://git@github.com/companieshouse/ch-structured-logging-node.git#15a811238ceb58988ab755229a5c07b9500200f2",
+    "@companieshouse/structured-logging-node": "1.0.4",
     "body-parser": "^1.19.0",
     "cookies": "^0.8.0",
     "escape-html": "^1.0.3",
