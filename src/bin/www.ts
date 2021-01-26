@@ -7,7 +7,7 @@
 import http from "http";
 import yargs from "yargs";
 import app from "../app";
-import { createLogger } from "ch-structured-logging";
+import { createLogger } from "@companieshouse/structured-logging-node";
 import { APPLICATION_NAME } from "../config/config";
 
 const logger = createLogger(APPLICATION_NAME);

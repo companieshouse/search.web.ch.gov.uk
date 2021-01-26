@@ -1,7 +1,7 @@
 import { createApiClient } from "@companieshouse/api-sdk-node";
 import { CompaniesResource, AlphabeticalSearchPostRequest } from "@companieshouse/api-sdk-node/dist/services/search/alphabetical-search/types";
 import { API_URL, APPLICATION_NAME } from "../config/config";
-import { createLogger } from "ch-structured-logging";
+import { createLogger } from "@companieshouse/structured-logging-node";
 import Resource from "@companieshouse/api-sdk-node/dist/services/resource";
 import createError from "http-errors";
 

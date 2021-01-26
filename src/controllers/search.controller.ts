@@ -8,7 +8,7 @@ import * as errorMessages from "../model/error.messages";
 import { SEARCH_WEB_COOKIE_NAME, API_KEY, APPLICATION_NAME } from "../config/config";
 import escape from "escape-html";
 import { AlphabeticalSearchPostRequest, CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/alphabetical-search/types";
-import { createLogger } from "ch-structured-logging";
+import { createLogger } from "@companieshouse/structured-logging-node";
 
 const logger = createLogger(APPLICATION_NAME);
 
@@ -65,7 +65,7 @@ const route = async (req: Request, res: Response) => {
     }
 
     res.render(templatePaths.SEARCH_RESULTS, {
-      searchResults, searchTerm: companyName, templateName: templatePaths.SEARCH_RESULTS,
+      searchResults, searchTerm: companyName.company_name, templateName: templatePaths.SEARCH_RESULTS,
     });
   } else {
     const errorText = errors.array().map((err) => err.msg).pop() as string;
