@@ -7,7 +7,8 @@
     "start": "node dist/bin/www.js",
     "start:watch": "NODE_ENV=development nodemon",
     "build": "NODE_ENV=production tsc && cp -r src/views dist/ && gulp static",
-    "lint": "tslint -p .",
+    "lint": "eslint 'src/*.ts' 'src/**/*.ts' ./src/'test/*.ts' './src/test/**/*.ts'",
+    "lint:fix": "eslint 'src/*.ts' 'src/**/*.ts' './src/test/*.ts' './src/test/**/*.ts' --fix",
     "test": "jest -c src/test/jest.config.js"
   },
   "keywords": [],
@@ -39,7 +40,15 @@
     "@types/uuid": "^3.4.6",
     "@types/sinon": "~9.0.4",
     "@types/sinon-chai": "~3.2.4",
+    "@typescript-eslint/eslint-plugin": "2.29.0",
+    "@typescript-eslint/parser": "2.29.0",
     "chai": "~4.2.0",
+    "eslint": "6.8.0",
+    "eslint-config-standard": "14.1.1",
+    "eslint-plugin-import": "2.20.2",
+    "eslint-plugin-node": "11.1.0",
+    "eslint-plugin-promise": "4.2.1",
+    "eslint-plugin-standard": "4.0.1",
     "gulp": "^4.0.2",
     "gulp-sass": "^4.0.2",
     "jest": "^24.9.0",
@@ -50,7 +59,6 @@
     "supertest": "^4.0.2",
     "ts-jest": "^24.1.0",
     "ts-node": "^8.4.1",
-    "tslint": "^5.20.0",
     "typescript": "^3.6.3"
   },
   "nodemonConfig": {

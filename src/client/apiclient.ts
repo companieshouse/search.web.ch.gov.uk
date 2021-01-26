@@ -9,12 +9,12 @@ const logger = createLogger(APPLICATION_NAME);
 
 export const getCompanies =
     async (apiKey: string, companyName: AlphabeticalSearchPostRequest, requestId): Promise<CompaniesResource> => {
-    const api = createApiClient(apiKey, undefined, API_URL);
-    const companiesResource: Resource<CompaniesResource> =
-        await api.alphabeticalSearch.getCompanies(companyName, requestId);
-    if (companiesResource.httpStatusCode !== 200 && companiesResource.httpStatusCode !== 201) {
-        throw createError(companiesResource.httpStatusCode, companiesResource.httpStatusCode.toString());
-    }
-    logger.info(`Get company name alphabetical search results, company_name=${companyName.company_name}, status_code=${companiesResource.httpStatusCode}`);
-    return companiesResource.resource as CompaniesResource;
-};
+        const api = createApiClient(apiKey, undefined, API_URL);
+        const companiesResource: Resource<CompaniesResource> =
+            await api.alphabeticalSearch.getCompanies(companyName, requestId);
+        if (companiesResource.httpStatusCode !== 200 && companiesResource.httpStatusCode !== 201) {
+            throw createError(companiesResource.httpStatusCode, companiesResource.httpStatusCode.toString());
+        }
+        logger.info(`Get company name alphabetical search results, company_name=${companyName.company_name}, status_code=${companiesResource.httpStatusCode}`);
+        return companiesResource.resource as CompaniesResource;
+    };

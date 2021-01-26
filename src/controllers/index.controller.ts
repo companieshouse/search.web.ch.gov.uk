@@ -1,1 +1,1 @@
-export {default as searchController} from "./search.controller";
+export { default as searchController } from "./search.controller";

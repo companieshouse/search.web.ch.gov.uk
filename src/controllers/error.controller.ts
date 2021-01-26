@@ -6,14 +6,13 @@ import { createLogger } from "@companieshouse/structured-logging-node";
 
 const logger = createLogger(APPLICATION_NAME);
 
-
 /**
  * This handler catches all routes that don't match a handler i.e. 404 Not Found, because of its position
  * in the middleware chain.
  */
 const notFoundHandler = (req: Request, res: Response, next: NextFunction) => {
-  logger.error(errorMessages.ERROR_404 + `${req.path}`);
-  return res.status(404).render(templatePaths.ERROR_404);
+    logger.error(errorMessages.ERROR_404 + `${req.path}`);
+    return res.status(404).render(templatePaths.ERROR_404);
 };
 
 /**
@@ -21,8 +20,8 @@ const notFoundHandler = (req: Request, res: Response, next: NextFunction) => {
  * last handler in the chain for it to work.
  */
 const errorHandler = async (err: unknown, req: Request, res: Response, next: NextFunction) => {
-  logger.error(errorMessages.ERROR_500 + err);
-  res.status(500).render(templatePaths.ERROR, {templateName: templatePaths.ERROR});
+    logger.error(errorMessages.ERROR_500 + err);
+    res.status(500).render(templatePaths.ERROR, { templateName: templatePaths.ERROR });
 };
 
 export default [notFoundHandler, errorHandler];
