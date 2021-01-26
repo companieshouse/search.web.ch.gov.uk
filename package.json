@@ -16,6 +16,7 @@
   "dependencies": {
     "@companieshouse/api-sdk-node": "^1.0.19",
     "@companieshouse/structured-logging-node": "1.0.4",
+    "body-parser": "^1.19.0",
     "cookies": "^0.8.0",
     "escape-html": "^1.0.3",
     "express": "^4.17.1",
