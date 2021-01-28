@@ -43,7 +43,7 @@ describe("api.client", () => {
     });
 
     describe("alphabetical search", () => {
-        it.only("POST returns alphabetical search results", async () => {
+        it("POST returns alphabetical search results", async () => {
             sandbox.stub(AlphabeticalSearchService.prototype, "getCompanies")
                 .returns(Promise.resolve(mockResponse));
 

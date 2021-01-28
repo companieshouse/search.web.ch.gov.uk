@@ -1,18 +1,32 @@
-import app from "../../app";
-import request from "supertest";
+import chai from "chai";
+import sinon from "sinon";
 
-jest.mock("../../controllers/search.controller");
+let testApp = null;
+const sandbox = sinon.createSandbox();
 
-describe("Basic URL Tests", () => {
-    it("should find the search page url", async () => {
-        const response = await request(app)
-            .get("/alphabetical-search/");
-        expect(response.status).toEqual(200);
+describe("routes.spec.unit", () => {
+    beforeEach((done) => {
+        testApp = require("../../../src/app").default;
+        done();
     });
 
-    it("should return 404 if page doesnt exist", async () => {
-        const response = await request(app)
-            .get("/gibberish");
-        expect(response.status).toEqual(404);
+    afterEach(() => {
+        sandbox.reset();
+        sandbox.restore();
+    });
+
+    describe("Basic URL Tests", () => {
+        it("should find the search page url", async () => {
+            const resp = await chai.request(testApp)
+                .get("/alphabetical-search/");
+            chai.expect(resp.status).to.equal(200);
+        });
+
+        it("should return 404 if page doesnt exist", async () => {
+            const response = await chai.request(testApp)
+                .get("/gibberish");
+
+            chai.expect(response.status).to.equal(404);
+        });
     });
 });

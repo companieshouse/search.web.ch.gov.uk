@@ -1,40 +1,69 @@
-import app from "../../app";
-import request from "supertest";
-import { getCompanies } from "../../client/apiclient";
 import * as mockUtils from "../mock.utils";
+import sinon from "sinon";
+import chai from "chai";
+import * as apiClient from "../../../src/client/apiclient";
 
-jest.mock("../../client/apiclient");
+const sandbox = sinon.createSandbox();
+let testApp = null;
+let getCompanyItemStub;
 
-const mockCompaniesResource: jest.Mock = (<unknown>getCompanies as jest.Mock<typeof getCompanies>);
-
-describe("search.controller tests", () => {
-    it("should return a results page successfully", async () => {
-        mockCompaniesResource.mockResolvedValue(mockUtils.getDummyCompanyResource());
-
-        const res = await request(app).get("/alphabetical-search/get-results?companyName=nab");
-        expect(res.status).toEqual(200);
-        expect(res.text).toContain("00006400");
+describe("search.controller.spec.unit", () => {
+    beforeEach((done) => {
+        testApp = require("../../../src/app").default;
+        done();
     });
 
-    it("should escape any HTML tags that are embedded in the text", async () => {
-        mockCompaniesResource.mockResolvedValue(mockUtils.getDummyCompanyResource("<I>company_name</I>"));
-
-        const res = await request(app).get("/alphabetical-search/get-results?companyName=nab");
-        expect(res.status).toEqual(200);
-        expect(res.text).toContain("00006400");
-        expect(res.text).toContain("&lt;I&gt;company_name&lt;/I&gt;");
+    afterEach(() => {
+        sandbox.reset();
+        sandbox.restore();
     });
 
-    it("should display No results found, if no search results have been found", async () => {
-        mockCompaniesResource.mockResolvedValue(mockUtils.getDummyCompanyResourceEmpty());
+    describe("check it returns a results page successfully", () => {
+        it("should return a results page successfully", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyCompanyResource()));
 
-        const response = await request(app).get("/alphabetical-search/get-results?companyName=sfgasfjgsdkfhkjdshgjkfdhgkjdhfkghfldgh");
-        expect(response.status).toEqual(200);
-        expect(response.text).toContain("No results found");
+            const resp = await chai.request(testApp)
+                .get("/alphabetical-search/get-results?companyName=nab");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("00006400");
+        });
     });
 
-    it("should display an error message if no company name is entered", async () => {
-        const response = await request(app).get("/alphabetical-search/get-results?companyName=");
-        expect(response.status).toEqual(200);
+    describe("check it escapes any HTML tags that are embeeded in the text", () => {
+        it("should escape any HTML tags that are embedded in the text", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyCompanyResource("<I>company_name</I>")));
+
+            const resp = await chai.request(testApp)
+                .get("/alphabetical-search/get-results?companyName=nab");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("00006400");
+            chai.expect(resp.text).to.contain("&lt;I&gt;company_name&lt;/I&gt;");
+        });
+    });
+
+    describe("check it displays not results found if they have not been found", () => {
+        it("should display No results found, if no search results have been found", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyCompanyResourceEmpty()));
+
+            const resp = await chai.request(testApp)
+                .get("/alphabetical-search/get-results?companyName=sfgasfjgsdkfhkjdshgjkfdhgkjdhfkghfldgh");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("No results found");
+        });
+    });
+
+    describe("check it displays an error message if a company name hasn't been entered", () => {
+        it("should display an error message if no company name is entered", async () => {
+            const resp = await chai.request(testApp)
+                .get("/alphabetical-search/get-results?companyName=");
+
+            chai.expect(resp.status).to.equal(200);
+        });
     });
 });
