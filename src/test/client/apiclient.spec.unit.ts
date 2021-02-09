@@ -1,7 +1,7 @@
 import sinon from "sinon";
 import chai from "chai";
 import Resource from "@companieshouse/api-sdk-node/dist/services/resource";
-import { AlphabeticalSearchPostRequest, CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/alphabetical-search/types";
+import { CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/alphabetical-search/types";
 import { getCompanies } from "../../client/apiclient";
 import AlphabeticalSearchService from "@companieshouse/api-sdk-node/dist/services/search/alphabetical-search/service";
 
@@ -28,10 +28,6 @@ const mockResponse: Resource<CompaniesResource> = {
     }
 };
 
-const mockAlphabeticalSearchPostRequest: AlphabeticalSearchPostRequest = ({
-    company_name: "TEST"
-});
-
 const mockRequestID: string = "ID";
 
 const sandbox = sinon.createSandbox();
@@ -43,11 +39,11 @@ describe("api.client", () => {
     });
 
     describe("alphabetical search", () => {
-        it("POST returns alphabetical search results", async () => {
+        it("GET returns alphabetical search results", async () => {
             sandbox.stub(AlphabeticalSearchService.prototype, "getCompanies")
                 .returns(Promise.resolve(mockResponse));
 
-            const alphabeticalSearchResults = await getCompanies("api key", mockAlphabeticalSearchPostRequest, mockRequestID);
+            const alphabeticalSearchResults = await getCompanies("api key", "TEST COMPANY NAME", mockRequestID);
             chai.expect(alphabeticalSearchResults).to.equal(mockResponse.resource);
         });
     });
