@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { check, validationResult } from "express-validator";
 import { createGovUkErrorData, GovUkErrorData } from "../model/govuk.error.data";
-import { AlphabeticalSearchPostRequest, CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/alphabetical-search/types";
+import { CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/alphabetical-search/types";
 import { createLogger } from "@companieshouse/structured-logging-node";
 import { SEARCH_WEB_COOKIE_NAME, API_KEY, APPLICATION_NAME } from "../config/config";
 import { getCompanies } from "../client/apiclient";
@@ -23,7 +23,7 @@ const route = async (req: Request, res: Response) => {
 
     if (errors.isEmpty()) {
         const companyNameRequestParam: string = req.query.companyName as string;
-        const companyName: AlphabeticalSearchPostRequest = { company_name: companyNameRequestParam };
+        const companyName: string = companyNameRequestParam;
         let searchResults;
 
         try {
@@ -65,7 +65,7 @@ const route = async (req: Request, res: Response) => {
         }
 
         res.render(templatePaths.SEARCH_RESULTS, {
-            searchResults, searchTerm: companyName.company_name, templateName: templatePaths.SEARCH_RESULTS
+            searchResults, searchTerm: companyName, templateName: templatePaths.SEARCH_RESULTS
         });
     } else {
         const errorText = errors.array().map((err) => err.msg).pop() as string;
