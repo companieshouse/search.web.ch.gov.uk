@@ -5,3 +5,5 @@ weight: 900
 routes:
   1: ^/alphabetical-search
   2: ^/alphabetical-search/.*
+  3: ^/dissolved-search
+  4: ^/dissolved-search/.*

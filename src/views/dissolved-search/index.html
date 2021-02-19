@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">
+      Dissolved company search
+    </h1>
+    <form action="/dissolved-search/get-results" method="GET">
+      {{ govukInput({
+        id: "companyName",
+        name: "companyName",
+        label: {
+          text: "Company name"
+        }
+      }) }}
+      {{ govukButton({
+        text: "Search",
+        attributes: {
+          "data-event-id": "dissolved-search-button",
+          id: "dissolved-search-button"
+        }
+      }) }}
+    </form>
+  </div>
+</div>
+{% endblock %}
