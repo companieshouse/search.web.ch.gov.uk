@@ -1,5 +1,5 @@
 import { Router, Request, Response } from "express";
-import { searchController } from "../../controllers/alphabetical-search/index.controller";
+import { searchController } from "../../controllers/dissolved-search/index.controller";
 import { SEARCH_WEB_COOKIE_NAME } from "../../config/config";
 import * as pageUrls from "../../model/page.urls";
 import * as templatePaths from "../../model/template.paths";
@@ -24,5 +24,6 @@ const renderTemplate = (template: string) => (req: Request, res: Response) => {
 };
 
 router.get(pageUrls.DISSOLVED_ROOT, renderTemplate(templatePaths.DISSOLVED_INDEX));
+router.get(pageUrls.DISSOLVED_GET_RESULTS, searchController);
 
 export default router;
