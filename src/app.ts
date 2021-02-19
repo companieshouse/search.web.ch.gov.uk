@@ -2,10 +2,11 @@ import express from "express";
 import nunjucks from "nunjucks";
 import path from "path";
 
-import router from "./routes/routes";
+import alphabeticalRouter from "./routes/alphabetical-search/routes";
 import { ERROR_SUMMARY_TITLE } from "./model/error.messages";
 import errorHandlers from "./controllers/error.controller";
-import { PIWIK_SITE_ID, PIWIK_URL } from "./config/config";
+import { ALPHABETICAL_SERVICE_NAME, DISSOLVED_SERVICE_NAME, PIWIK_SITE_ID, PIWIK_URL, SERVICE_NAME_GENERIC } from "./config/config";
+import { ALPHABETICAL_ROOT, DISSOLVED_ROOT } from "./model/page.urls";
 
 const app = express();
 
@@ -33,6 +34,20 @@ env.addGlobal("PIWIK_URL", PIWIK_URL);
 env.addGlobal("PIWIK_SITE_ID", PIWIK_SITE_ID);
 env.addGlobal("CDN_URL", process.env.CDN_HOST);
 
+app.use((req, res, next) => {
+    if (req.path.includes("/alphabetical-search")) {
+        env.addGlobal("SERVICE_NAME", ALPHABETICAL_SERVICE_NAME);
+        env.addGlobal("BACK_LINK", ALPHABETICAL_ROOT);
+    } else if (req.path.includes("/dissolved-search")) {
+        env.addGlobal("SERVICE_NAME", DISSOLVED_SERVICE_NAME);
+        env.addGlobal("BACK_LINK", DISSOLVED_ROOT);
+    } else {
+        env.addGlobal("SERVICE_NAME", SERVICE_NAME_GENERIC);
+        env.addGlobal("SERVICE_PATH", "");
+    }
+    next();
+});
+
 // serve static assets in development.
 // this will execute in production for now, but we will host these else where in the future.
 if (process.env.NODE_ENV !== "production") {
@@ -47,7 +62,7 @@ if (process.env.NODE_ENV !== "production") {
     env.addGlobal("MATCHER", "/alphabetical-search/static/js/matcher.js");
 }
 // apply our default router to /
-app.use("/alphabetical-search", router);
+app.use("/", alphabeticalRouter);
 app.use(...errorHandlers);
 
 export default app;

@@ -17,3 +17,7 @@ export const PIWIK_SITE_ID = getEnvironmentValue("PIWIK_SITE_ID");
 export const API_URL = getEnvironmentValue("API_URL");
 export const APPLICATION_NAME = "search.web.ch.gov.uk";
 export const API_KEY = getEnvironmentValue("CHS_API_KEY");
+
+export const ALPHABETICAL_SERVICE_NAME = "Alphabetical company search";
+export const DISSOLVED_SERVICE_NAME = "Dissolved company search";
+export const SERVICE_NAME_GENERIC = "";

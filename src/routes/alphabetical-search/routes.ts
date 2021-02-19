@@ -1,8 +1,8 @@
 import { Router, Request, Response } from "express";
-import { searchController } from "../controllers/index.controller";
-import { SEARCH_WEB_COOKIE_NAME } from "../config/config";
-import * as pageUrls from "../model/page.urls";
-import * as templatePaths from "../model/template.paths";
+import { searchController } from "../../controllers/alphabetical-search/index.controller";
+import { SEARCH_WEB_COOKIE_NAME } from "../../config/config";
+import * as pageUrls from "../../model/page.urls";
+import * as templatePaths from "../../model/template.paths";
 import uuid = require("uuid/v4");
 import Cookies = require("cookies");
 
@@ -23,7 +23,7 @@ const renderTemplate = (template: string) => (req: Request, res: Response) => {
     return res.render(template);
 };
 
-router.get(pageUrls.ROOT, renderTemplate(templatePaths.INDEX));
-router.get(pageUrls.GET_RESULTS, searchController);
+router.get(pageUrls.ALPHABETICAL_ROOT, renderTemplate(templatePaths.ALPHABETICAL_INDEX));
+router.get(pageUrls.ALPHABETICAL_GET_RESULTS, searchController);
 
 export default router;
