@@ -3,6 +3,7 @@ import nunjucks from "nunjucks";
 import path from "path";
 
 import alphabeticalRouter from "./routes/alphabetical-search/routes";
+import dissolvedRouter from "./routes/dissolved-search/routes";
 import { ERROR_SUMMARY_TITLE } from "./model/error.messages";
 import errorHandlers from "./controllers/error.controller";
 import { ALPHABETICAL_SERVICE_NAME, DISSOLVED_SERVICE_NAME, PIWIK_SITE_ID, PIWIK_URL, SERVICE_NAME_GENERIC } from "./config/config";
@@ -63,6 +64,7 @@ if (process.env.NODE_ENV !== "production") {
 }
 // apply our default router to /
 app.use("/", alphabeticalRouter);
+app.use("/", dissolvedRouter);
 app.use(...errorHandlers);
 
 export default app;

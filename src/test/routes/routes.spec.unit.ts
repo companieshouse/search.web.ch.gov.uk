@@ -16,9 +16,15 @@ describe("routes.spec.unit", () => {
     });
 
     describe("Basic URL Tests", () => {
-        it("should find the search page url", async () => {
+        it("should find the alphabetical search page url", async () => {
             const resp = await chai.request(testApp)
                 .get("/alphabetical-search/");
+            chai.expect(resp.status).to.equal(200);
+        });
+
+        it("should find the dissolved search page url", async () => {
+            const resp = await chai.request(testApp)
+                .get("/dissolved-search/");
             chai.expect(resp.status).to.equal(200);
         });
 
