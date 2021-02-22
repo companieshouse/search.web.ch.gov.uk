@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block pageTitle %}
+    Dissolved search - results
+{% endblock %}
+{% block beforeContent %}
+    {{ govukBackLink({
+        text: "Search again",
+        href: "/dissolved-search"
+    }) }}
+{% endblock %}
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <h1 class="govuk-heading-xl">Search results</h1>
+    {% if searchResults.length > 0 %}
+      {{ govukTable({
+        firstCellIsHeader: false,
+          head: [
+            {
+              text: "Company name"
+            },
+            {
+              text: "Company number"
+            },
+            {
+              text: "Incorporated on"
+            },
+            {
+              text: "Dissolved on"
+            },
+            {
+              text: "Town"
+            },
+            {
+              text: "Postcode"
+            }
+          ],
+          rows: searchResults
+      }) }}
+    {% else %}
+      <h2 class="govuk-heading-l" style="overflow-wrap: break-word;">No results found for "{{ searchTerm }}"</h2>
+      <p class="govuk-body">Please try searching again using a different search criteria.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

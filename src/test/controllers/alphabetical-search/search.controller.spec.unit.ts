@@ -1,7 +1,7 @@
-import * as mockUtils from "../mock.utils";
+import * as mockUtils from "../../mock.utils";
 import sinon from "sinon";
 import chai from "chai";
-import * as apiClient from "../../../src/client/apiclient";
+import * as apiClient from "../../../client/apiclient";
 
 const sandbox = sinon.createSandbox();
 let testApp = null;
@@ -9,7 +9,7 @@ let getCompanyItemStub;
 
 describe("search.controller.spec.unit", () => {
     beforeEach((done) => {
-        testApp = require("../../../src/app").default;
+        testApp = require("../../../../src/app").default;
         done();
     });
 
