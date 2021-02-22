@@ -2,10 +2,16 @@
 
 {% block content %}
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
+  <div class="govuk-grid-column-three-quarters">
     <h1 class="govuk-heading-xl">
       Dissolved company search
     </h1>
+    <p class="govuk-body">Search by name for companies dissolved between 1/1/1989 and 31/12/2009. </p>
+
+    <div class="govuk-inset-text">
+      We will only show companies that had this name when they were dissolved. 
+      You cannot search previous names held by a company.
+    </div>
     <form action="/dissolved-search/get-results" method="GET">
       {{ govukInput({
         id: "companyName",
