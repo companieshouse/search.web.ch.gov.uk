@@ -8,9 +8,10 @@
     </h1>
     <p class="govuk-body">Search by name for companies dissolved between 1/1/1989 and 31/12/2009. </p>
 
-    {{ govukInsetText({
-      text: "We will only show companies that had this name when they were dissolved. You cannot search previous names held by a company."
-    }) }} 
+    <div class="govuk-inset-text">
+      We will only show companies that had this name when they were dissolved. 
+      You cannot search previous names held by a company.
+    </div>
     
     <form action="/dissolved-search/get-results" method="GET">
       {{ govukInput({
