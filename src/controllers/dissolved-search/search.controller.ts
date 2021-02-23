@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
 import { check, validationResult } from "express-validator";
 import { createGovUkErrorData, GovUkErrorData } from "../../model/govuk.error.data";
-import { CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/alphabetical-search/types";
+import { CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/dissolved-search/types";
 import { createLogger } from "@companieshouse/structured-logging-node";
 import { SEARCH_WEB_COOKIE_NAME, API_KEY, APPLICATION_NAME } from "../../config/config";
-import { getCompanies } from "../../client/apiclient";
+import { getDissolvedCompanies } from "../../client/apiclient";
 import * as templatePaths from "../../model/template.paths";
 import * as errorMessages from "../../model/error.messages";
 
@@ -24,38 +24,66 @@ const route = async (req: Request, res: Response) => {
     if (errors.isEmpty()) {
         const companyNameRequestParam: string = req.query.companyName as string;
         const companyName: string = companyNameRequestParam;
+        Date();
         let searchResults;
+        let postCode, halfPostCode;
+        let town;
+        let incorpDate, incorpDateFormatted, dissolvedDate;
+
+        function formatDate(date){
+            
+            let year = date.slice(0, 4);
+            let month = date.slice(4, 6);
+            let day = date.slice(6, 8);
+
+            let dateToReturn = [day, month, year].join(" ");
+
+            var d = new Date(dateToReturn);
+
+            return dateToReturn;
+
+        }
 
         try {
             const companyResource: CompaniesResource =
-                await getCompanies(API_KEY, companyName, cookies.get(SEARCH_WEB_COOKIE_NAME));
-            const topHit: string = companyResource.topHit;
+                await getDissolvedCompanies(API_KEY, companyName, cookies.get(SEARCH_WEB_COOKIE_NAME));
+            const topHit: object = companyResource.top_hit;
             let noNearestMatch: boolean = true;
-            searchResults = companyResource.results.map((result) => {
-                const status = result.items.company_status;
-                let capitalisedStatus: string = "";
-                let nearestClass: string = "";
-                if (status !== undefined) {
-                    capitalisedStatus = status.charAt(0).toUpperCase() + status.slice(1);
+            searchResults = companyResource.items.map((result) => {
+
+                if (result.address.postal_code != null){
+                    postCode = result.address.postal_code.split(" ");
+                    halfPostCode = postCode[0];
                 }
 
-                if (result.items.corporate_name === topHit && noNearestMatch) {
-                    nearestClass = "nearest";
-                    noNearestMatch = false;
+                if (result.address.locality == null) {
+                    town = " ";
+                }
+                else {
+                    town = result.address.locality;
                 }
 
-                const sanitisedCorporateName = escape(result.items.corporate_name);
+                incorpDate = result.date_of_creation;
+                incorpDateFormatted = new Date(incorpDate);
 
                 return [
                     {
-                        classes: nearestClass,
-                        html: `<a href="${result.links.self}">${sanitisedCorporateName}</a>`
+                        text: result.company_name
                     },
                     {
-                        text: result.items.company_number
+                        text: result.company_number
                     },
                     {
-                        text: capitalisedStatus
+                        text: formatDate(result.date_of_creation)
+                    },
+                    {
+                        text: formatDate(result.date_of_cessation)
+                    },
+                    {
+                        text: town
+                    },
+                    {
+                        text: halfPostCode
                     }
                 ];
             });
