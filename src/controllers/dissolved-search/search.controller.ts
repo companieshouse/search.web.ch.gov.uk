@@ -26,23 +26,6 @@ const route = async (req: Request, res: Response) => {
         const companyName: string = companyNameRequestParam;
         Date();
         let searchResults;
-        let postCode, halfPostCode;
-        let town;
-        let incorpDate, incorpDateFormatted, dissolvedDate;
-
-        function formatDate(date){
-            
-            let year = date.slice(0, 4);
-            let month = date.slice(4, 6);
-            let day = date.slice(6, 8);
-
-            let dateToReturn = [day, month, year].join(" ");
-
-            var d = new Date(dateToReturn);
-
-            return dateToReturn;
-
-        }
 
         try {
             const companyResource: CompaniesResource =
@@ -51,20 +34,6 @@ const route = async (req: Request, res: Response) => {
             let noNearestMatch: boolean = true;
             searchResults = companyResource.items.map((result) => {
 
-                if (result.address.postal_code != null){
-                    postCode = result.address.postal_code.split(" ");
-                    halfPostCode = postCode[0];
-                }
-
-                if (result.address.locality == null) {
-                    town = " ";
-                }
-                else {
-                    town = result.address.locality;
-                }
-
-                incorpDate = result.date_of_creation;
-                incorpDateFormatted = new Date(incorpDate);
 
                 return [
                     {
@@ -80,10 +49,10 @@ const route = async (req: Request, res: Response) => {
                         text: formatDate(result.date_of_cessation)
                     },
                     {
-                        text: town
+                        text: formatTown(result.address.locality)
                     },
                     {
-                        text: halfPostCode
+                        text: formatPostCode(result.address.postal_code)
                     }
                 ];
             });
@@ -104,6 +73,84 @@ const route = async (req: Request, res: Response) => {
             templateName: templatePaths.NO_RESULTS
         });
     };
+
+    function formatDate(date){
+            
+        let year = date.slice(0, 4);
+        let month = date.slice(4, 6);
+        let day = date.slice(6, 8);
+        let monthWord;
+
+        switch(month) {
+            case "01":
+                monthWord = "Jan";
+                break;
+            case "02":
+                monthWord = "Feb";
+                break;
+            case "03":
+                monthWord = "Mar";
+                break;
+            case "04":
+                monthWord = "Apr";
+                break;
+            case "05":
+                monthWord = "May";
+                break;
+            case "06":
+                monthWord = "Jun";
+                break;
+            case "07":
+                monthWord = "Jul";
+                break;
+            case "08":
+                monthWord = "Aug";
+                break;
+            case "09":
+                monthWord = "Sep";
+                break;
+            case "10":
+                monthWord = "Oct";
+                break;
+            case "11":
+                monthWord = "Nov";
+                break;
+            case "12":
+                monthWord = "Dec";
+                break;
+            default:
+                monthWord = month;
+        }
+
+        let dateToReturn = [day, monthWord, year].join(" ");
+
+        return dateToReturn;
+    }
+
+    function formatPostCode(postCode) {
+
+        let halfPostCode;
+
+        if (postCode != null){
+            let newPostCode = postCode.split(" ");
+            halfPostCode = newPostCode[0];
+        }
+        return halfPostCode;
+    }
+
+    function formatTown(town) {
+
+        let newTown;
+
+        if (town == null) {
+            newTown = " ";
+        }
+        else {
+            newTown = town;
+        }
+
+        return newTown;
+    }
 };
 
 export default [...validators, route];
