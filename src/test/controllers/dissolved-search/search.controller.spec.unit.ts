@@ -1,11 +1,82 @@
-import * as mockUtils from "../../mock.utils";
+import * as mockUtils from "../../MockUtils/dissolved-search/mock.utils";
 import sinon from "sinon";
 import chai from "chai";
 import * as apiClient from "../../../client/apiclient";
+import { CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/dissolved-search/types";
 
 const sandbox = sinon.createSandbox();
 let testApp = null;
 let getCompanyItemStub;
+
+const mockResponseBody : CompaniesResource = ({
+    etag: "etag",
+    items: [
+        {
+            address: {
+                locality: "cardiff",
+                postal_code: "cf5 6rb"
+            },
+            company_name: "test company",
+            company_number: "0000789",
+            company_status: "active",
+            date_of_cessation: "19910212",
+            date_of_creation: "19910212",
+            kind: "kind",
+            previous_company_names: [
+                {
+                    ceased_on: "19910212",
+                    effective_from: "19910212",
+                    name: "old name"
+                }
+            ]
+        }
+    ],
+    kind: "kind",
+    top_hit: {
+        address: {
+            locality: "cardiff",
+            postal_code: "cf5 6rb"
+        },
+        company_name: "test company",
+        company_number: "0000789",
+        company_status: "active",
+        date_of_cessation: "19910212",
+        date_of_creation: "19910212",
+        kind: "kind",
+        previous_company_names: [
+            {
+                ceased_on: "19910212",
+                effective_from: "19910212",
+                name: "old name"
+            }
+        ]
+    }
+});
+
+const emptyMockResponseBody : CompaniesResource = ({
+    etag: "etag",
+    items: [],
+    kind: "kind",
+    top_hit: {
+        address: {
+            locality: "",
+            postal_code: ""
+        },
+        company_name: "",
+        company_number: "",
+        company_status: "",
+        date_of_cessation: "",
+        date_of_creation: "",
+        kind: "kind",
+        previous_company_names: [
+            {
+                ceased_on: "",
+                effective_from: "",
+                name: ""
+            }
+        ]
+    }
+});
 
 describe("search.controller.spec.unit", () => {
     beforeEach((done) => {
@@ -18,37 +89,23 @@ describe("search.controller.spec.unit", () => {
         sandbox.restore();
     });
 
-    describe("check it returns a results page successfully", () => {
+    describe("check it returns a dissolved results page successfully", () => {
         it("should return a results page successfully", async () => {
-            getCompanyItemStub = sandbox.stub(apiClient, "getCompanies")
-                .returns(Promise.resolve(mockUtils.getDummyCompanyResource()));
+            getCompanyItemStub = sandbox.stub(apiClient, "getDissolvedCompanies")
+                .returns(Promise.resolve(mockResponseBody));
 
             const resp = await chai.request(testApp)
-                .get("/dissolved-search/get-results?companyName=nab");
+                .get("/dissolved-search/get-results?companyName=test");
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain("00006400");
+            chai.expect(resp.text).to.contain("0000789");
         });
     });
 
-    describe("check it escapes any HTML tags that are embeeded in the text", () => {
-        it("should escape any HTML tags that are embedded in the text", async () => {
-            getCompanyItemStub = sandbox.stub(apiClient, "getCompanies")
-                .returns(Promise.resolve(mockUtils.getDummyCompanyResource("<I>company_name</I>")));
-
-            const resp = await chai.request(testApp)
-                .get("/dissolved-search/get-results?companyName=nab");
-
-            chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain("00006400");
-            chai.expect(resp.text).to.contain("&lt;I&gt;company_name&lt;/I&gt;");
-        });
-    });
-
-    describe("check it displays not results found if they have not been found", () => {
+    describe("check it displays no dissolved results found if they have not been found", () => {
         it("should display No results found, if no search results have been found", async () => {
-            getCompanyItemStub = sandbox.stub(apiClient, "getCompanies")
-                .returns(Promise.resolve(mockUtils.getDummyCompanyResourceEmpty()));
+            getCompanyItemStub = sandbox.stub(apiClient, "getDissolvedCompanies")
+                .returns(Promise.resolve(emptyMockResponseBody));
 
             const resp = await chai.request(testApp)
                 .get("/dissolved-search/get-results?companyName=sfgasfjgsdkfhkjdshgjkfdhgkjdhfkghfldgh");

@@ -1,4 +1,4 @@
-import * as mockUtils from "../../mock.utils";
+import * as mockUtils from "../../MockUtils/alphabetical-search/mock.utils";
 import sinon from "sinon";
 import chai from "chai";
 import * as apiClient from "../../../client/apiclient";

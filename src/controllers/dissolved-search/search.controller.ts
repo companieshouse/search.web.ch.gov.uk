@@ -7,8 +7,6 @@ import { SEARCH_WEB_COOKIE_NAME, API_KEY, APPLICATION_NAME } from "../../config/
 import { getDissolvedCompanies } from "../../client/apiclient";
 import * as templatePaths from "../../model/template.paths";
 import * as errorMessages from "../../model/error.messages";
-
-import escape from "escape-html";
 import Cookies = require("cookies");
 
 const logger = createLogger(APPLICATION_NAME);
