@@ -46,3 +46,7 @@ endif
 	cd $(tmpdir) && zip -r ../$(artifact_name)-$(version).zip .
 	rm -rf $(tmpdir)
 
+.PHONY: sonar
+sonar:
+	npm run analyse-code
+

@@ -9,7 +9,8 @@
     "build": "NODE_ENV=production tsc && cp -r src/views dist/ && gulp static",
     "lint": "eslint 'src/*.ts' 'src/**/*.ts' ./src/'test/*.ts' './src/test/**/*.ts'",
     "lint:fix": "eslint 'src/*.ts' 'src/**/*.ts' './src/test/*.ts' './src/test/**/*.ts' --fix",
-    "test": "mocha"
+    "test": "mocha",
+    "analyse-code": "sonar-scanner"
   },
   "keywords": [],
   "author": "",
@@ -57,6 +58,7 @@
     "node-sass": "^4.13.1",
     "nodemon": "^1.19.3",
     "sinon": "~9.0.2",
+    "sonarqube-scanner": "^2.7.0",
     "ts-node": "^8.4.1",
     "typescript": "^3.6.3"
   },

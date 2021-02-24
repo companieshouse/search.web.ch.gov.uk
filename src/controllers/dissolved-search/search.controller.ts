@@ -123,7 +123,7 @@ const route = async (req: Request, res: Response) => {
         let trimmedPostCode;
 
         if (postCode != null) {
-            const newPostCode = postCode.split(" ");
+            const newPostCode = postCode.split(" "); 
             halfPostCode = newPostCode[0];
 
             trimmedPostCode = halfPostCode.slice(0, 4);
