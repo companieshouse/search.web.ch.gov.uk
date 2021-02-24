@@ -20,7 +20,6 @@ export const getCompanies =
         return companiesResource.resource as AlphabeticalCompaniesResource;
     };
 
-
 export const getDissolvedCompanies =
 async (apiKey: string, companyName: string, requestId): Promise<DissolvedCompaniesResource> => {
     const api = createApiClient(apiKey, undefined, API_URL);

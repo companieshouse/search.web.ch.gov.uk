@@ -31,10 +31,7 @@ const route = async (req: Request, res: Response) => {
             const companyResource: CompaniesResource =
                 await getDissolvedCompanies(API_KEY, companyName, cookies.get(SEARCH_WEB_COOKIE_NAME));
             const topHit: object = companyResource.top_hit;
-            let noNearestMatch: boolean = true;
             searchResults = companyResource.items.map((result) => {
-
-
                 return [
                     {
                         text: result.company_name
@@ -47,9 +44,6 @@ const route = async (req: Request, res: Response) => {
                     },
                     {
                         text: formatDate(result.date_of_cessation)
-                    },
-                    {
-                        text: formatTown(result.address.locality)
                     },
                     {
                         text: formatPostCode(result.address.postal_code)
@@ -74,82 +68,70 @@ const route = async (req: Request, res: Response) => {
         });
     };
 
-    function formatDate(date){
-            
-        let year = date.slice(0, 4);
-        let month = date.slice(4, 6);
-        let day = date.slice(6, 8);
+    function formatDate (date) {
+        const year = date.slice(0, 4);
+        const month = date.slice(4, 6);
+        const day = date.slice(6, 8);
         let monthWord;
 
-        switch(month) {
-            case "01":
-                monthWord = "Jan";
-                break;
-            case "02":
-                monthWord = "Feb";
-                break;
-            case "03":
-                monthWord = "Mar";
-                break;
-            case "04":
-                monthWord = "Apr";
-                break;
-            case "05":
-                monthWord = "May";
-                break;
-            case "06":
-                monthWord = "Jun";
-                break;
-            case "07":
-                monthWord = "Jul";
-                break;
-            case "08":
-                monthWord = "Aug";
-                break;
-            case "09":
-                monthWord = "Sep";
-                break;
-            case "10":
-                monthWord = "Oct";
-                break;
-            case "11":
-                monthWord = "Nov";
-                break;
-            case "12":
-                monthWord = "Dec";
-                break;
-            default:
-                monthWord = month;
+        switch (month) {
+        case "01":
+            monthWord = "Jan";
+            break;
+        case "02":
+            monthWord = "Feb";
+            break;
+        case "03":
+            monthWord = "Mar";
+            break;
+        case "04":
+            monthWord = "Apr";
+            break;
+        case "05":
+            monthWord = "May";
+            break;
+        case "06":
+            monthWord = "Jun";
+            break;
+        case "07":
+            monthWord = "Jul";
+            break;
+        case "08":
+            monthWord = "Aug";
+            break;
+        case "09":
+            monthWord = "Sep";
+            break;
+        case "10":
+            monthWord = "Oct";
+            break;
+        case "11":
+            monthWord = "Nov";
+            break;
+        case "12":
+            monthWord = "Dec";
+            break;
+        default:
+            monthWord = month;
         }
 
-        let dateToReturn = [day, monthWord, year].join(" ");
+        const dateToReturn = [day, monthWord, year].join(" ");
 
         return dateToReturn;
     }
 
-    function formatPostCode(postCode) {
-
+    function formatPostCode (postCode) {
         let halfPostCode;
+        let trimmedPostCode;
 
-        if (postCode != null){
-            let newPostCode = postCode.split(" ");
+        if (postCode != null) {
+            const newPostCode = postCode.split(" ");
             halfPostCode = newPostCode[0];
-        }
-        return halfPostCode;
-    }
 
-    function formatTown(town) {
-
-        let newTown;
-
-        if (town == null) {
-            newTown = " ";
-        }
-        else {
-            newTown = town;
+            trimmedPostCode = halfPostCode.slice(0, 4);
         }
 
-        return newTown;
+        return trimmedPostCode;
     }
 };
 
