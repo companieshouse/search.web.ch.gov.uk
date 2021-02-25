@@ -17,7 +17,7 @@ const mockResponseBody : CompaniesResource = ({
             },
             company_name: "test company",
             company_number: "0000789",
-            company_status: "active",
+            company_status: "dissolved",
             date_of_cessation: "19910212",
             date_of_creation: "19910212",
             kind: "kind",
@@ -100,6 +100,9 @@ describe("search.controller.spec.unit", () => {
             chai.expect(resp.text).to.contain("0000789");
         });
     });
+
+    
+
 
     describe("check it displays no dissolved results found if they have not been found", () => {
         it("should display No results found, if no search results have been found", async () => {
