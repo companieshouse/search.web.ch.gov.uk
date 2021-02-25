@@ -28,7 +28,6 @@ const route = async (req: Request, res: Response) => {
         try {
             const companyResource: CompaniesResource =
                 await getDissolvedCompanies(API_KEY, companyName, cookies.get(SEARCH_WEB_COOKIE_NAME));
-            const topHit: object = companyResource.top_hit;
             searchResults = companyResource.items.map((result) => {
                 return [
                     {
@@ -64,7 +63,7 @@ const route = async (req: Request, res: Response) => {
             errorList: [companyNameErrorData],
             templateName: templatePaths.NO_RESULTS
         });
-    };
+    }
 
     function formatDate (date) {
         const year = date.slice(0, 4);
