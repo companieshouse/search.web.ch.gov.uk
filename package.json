@@ -9,7 +9,9 @@
     "build": "NODE_ENV=production tsc && cp -r src/views dist/ && gulp static",
     "lint": "eslint 'src/*.ts' 'src/**/*.ts' ./src/'test/*.ts' './src/test/**/*.ts'",
     "lint:fix": "eslint 'src/*.ts' 'src/**/*.ts' './src/test/*.ts' './src/test/**/*.ts' --fix",
-    "test": "mocha --coverage",
+    "sonarqube": "sonar-scanner",
+    "test": "mocha",
+    "test:coverage": "nyc npm test",
     "analyse-code": "sonar-scanner"
   },
   "keywords": [],
@@ -25,6 +27,7 @@
     "express-validator": "^6.3.1",
     "govuk-frontend": "^3.2.0",
     "nunjucks": "^3.2.1",
+    "nyc": "^15.1.0",
     "request": "^2.88.0",
     "uuid": "^3.4.0",
     "yargs": "^15.1.0"
@@ -55,6 +58,7 @@
     "gulp-sass": "^4.0.2",
     "http-errors": "~1.7.3",
     "mocha": "~7.2.0",
+    "nyc": "^15.1.0",
     "node-sass": "^4.13.1",
     "nodemon": "^1.19.3",
     "sinon": "~9.0.2",
