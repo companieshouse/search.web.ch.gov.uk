@@ -214,6 +214,14 @@ describe("search.controller.spec.unit", () => {
         });
     });
 
+    describe("check it returns a dissolved results page with a the date in DD MM YYYY format for both columns", () => {
+        it("should return a results page with a correct date format if it can't workout the month", () => {
+            const date: string = "19900025";
+
+            chai.expect(formatDate(date)).to.contain("25 00 1990");
+        });
+    });
+
     describe("check it displays no dissolved results found if they have not been found", () => {
         it("should display No results found, if no search results have been found", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getDissolvedCompanies")
