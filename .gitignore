@@ -3,3 +3,6 @@ dist/
 
 coverage
 .scannerwork/
+.vscode/*
+coverage-report
+.nyc_output/ 
