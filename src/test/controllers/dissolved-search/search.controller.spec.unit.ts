@@ -2,7 +2,7 @@ import sinon from "sinon";
 import chai from "chai";
 import * as apiClient from "../../../client/apiclient";
 import { CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/dissolved-search/types";
-//import { route } from "../../../../src/controllers/dissolved-search/search.controller";
+import { formatPostCode, formatDate } from "../../../../src/controllers/dissolved-search/search.controller";
 
 const sandbox = sinon.createSandbox();
 let testApp = null;
@@ -102,12 +102,117 @@ describe("search.controller.spec.unit", () => {
         });
     });
 
-    // describe("check it returns a dissolved results page with a shortened postcode successfully", () => {
-    //     it.only("should return a results page with a shortened postcode successfully", async () => {
-    //         chai.expect( route.formatPostCode("CF5 6RB").to.equal("CF5"));
-    //     });
-    // });
+    describe("check it returns a dissolved results page with a shortened postcode successfully when the postcode has a space", () => {
+        it("should return a results page with a shortened postcode successfully", () => {
+            const postCode: string = "CF5 6RB";
 
+            chai.expect(formatPostCode(postCode)).to.contain("CF5");
+        });
+    });
+
+    describe("check it returns a dissolved results page with a shortened postcode successfully when the postcode has no space", () => {
+        it("should return a results page with a shortened postcode successfully", () => {
+            const postCode: string = "CF56RB";
+
+            chai.expect(formatPostCode(postCode)).to.contain("CF56");
+        });
+    });
+
+    describe("check it returns a dissolved results page with a the date in DD Jan YYYY format for both columns", () => {
+        it("should return a results page with a correct date format", () => {
+            const date: string = "19900125";
+
+            chai.expect(formatDate(date)).to.contain("25 Jan 1990");
+        });
+    });
+
+    describe("check it returns a dissolved results page with a the date in DD Feb YYYY format for both columns", () => {
+        it("should return a results page with a correct date format", () => {
+            const date: string = "19900225";
+
+            chai.expect(formatDate(date)).to.contain("25 Feb 1990");
+        });
+    });
+
+    describe("check it returns a dissolved results page with a the date in DD Mar YYYY format for both columns", () => {
+        it("should return a results page with a correct date format", () => {
+            const date: string = "19900325";
+
+            chai.expect(formatDate(date)).to.contain("25 Mar 1990");
+        });
+    });
+
+    describe("check it returns a dissolved results page with a the date in DD Apr YYYY format for both columns", () => {
+        it("should return a results page with a correct date format", () => {
+            const date: string = "19900425";
+
+            chai.expect(formatDate(date)).to.contain("25 Apr 1990");
+        });
+    });
+
+    describe("check it returns a dissolved results page with a the date in DD May YYYY format for both columns", () => {
+        it("should return a results page with a correct date format", () => {
+            const date: string = "19900525";
+
+            chai.expect(formatDate(date)).to.contain("25 May 1990");
+        });
+    });
+
+    describe("check it returns a dissolved results page with a the date in DD Jun YYYY format for both columns", () => {
+        it("should return a results page with a correct date format", () => {
+            const date: string = "19900625";
+
+            chai.expect(formatDate(date)).to.contain("25 Jun 1990");
+        });
+    });
+
+    describe("check it returns a dissolved results page with a the date in DD Jul YYYY format for both columns", () => {
+        it("should return a results page with a correct date format", () => {
+            const date: string = "19900725";
+
+            chai.expect(formatDate(date)).to.contain("25 Jul 1990");
+        });
+    });
+
+    describe("check it returns a dissolved results page with a the date in DD Aug YYYY format for both columns", () => {
+        it("should return a results page with a correct date format", () => {
+            const date: string = "19900825";
+
+            chai.expect(formatDate(date)).to.contain("25 Aug 1990");
+        });
+    });
+
+    describe("check it returns a dissolved results page with a the date in DD Sep YYYY format for both columns", () => {
+        it("should return a results page with a correct date format", () => {
+            const date: string = "19900925";
+
+            chai.expect(formatDate(date)).to.contain("25 Sep 1990");
+        });
+    });
+
+    describe("check it returns a dissolved results page with a the date in DD Oct YYYY format for both columns", () => {
+        it("should return a results page with a correct date format", () => {
+            const date: string = "19901025";
+
+            chai.expect(formatDate(date)).to.contain("25 Oct 1990");
+        });
+    });
+
+    describe("check it returns a dissolved results page with a the date in DD Nov YYYY format for both columns", () => {
+        it("should return a results page with a correct date format", () => {
+            const date: string = "19941125";
+
+            chai.expect(formatDate(date)).to.contain("25 Nov 1994");
+        });
+    });
+
+    describe("check it returns a dissolved results page with a the date in DD Dec YYYY format for both columns", () => {
+        it("should return a results page with a correct date format", () => {
+            const date: string = "19901225";
+
+            chai.expect(formatDate(date)).to.contain("25 Dec 1990");
+        });
+    });
 
     describe("check it displays no dissolved results found if they have not been found", () => {
         it("should display No results found, if no search results have been found", async () => {
