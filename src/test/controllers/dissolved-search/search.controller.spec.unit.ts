@@ -102,7 +102,6 @@ describe("search.controller.spec.unit", () => {
         });
     });
 
-    //COMMENT
     // describe("check it returns a dissolved results page with a shortened postcode successfully", () => {
     //     it.only("should return a results page with a shortened postcode successfully", async () => {
     //         chai.expect( route.formatPostCode("CF5 6RB").to.equal("CF5"));
