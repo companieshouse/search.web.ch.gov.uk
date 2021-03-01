@@ -3,3 +3,7 @@
 
 // the govuk frontend
 @import "../node_modules/govuk-frontend/govuk/all";
+
+.no-wrap {
+    white-space: nowrap;
+    }
