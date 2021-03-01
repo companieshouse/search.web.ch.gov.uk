@@ -1,6 +1,5 @@
 import escape from "escape-html";
 
-
 export const sanitiseCompanyName = (companyName) => {
     return escape(companyName);
 };
@@ -18,7 +17,6 @@ export const formatPostCode = (postCode) => {
 
     return trimmedPostCode;
 };
-
 
 export const formatDate = (unformattedDate) => {
     const date = unformattedDate.toString();
