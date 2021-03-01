@@ -9,8 +9,7 @@
     "build": "NODE_ENV=production tsc && cp -r src/views dist/ && gulp static",
     "lint": "eslint 'src/*.ts' 'src/**/*.ts' ./src/'test/*.ts' './src/test/**/*.ts'",
     "lint:fix": "eslint 'src/*.ts' 'src/**/*.ts' './src/test/*.ts' './src/test/**/*.ts' --fix",
-    "sonarqube": "sonar-scanner",
-    "test": "mocha",
+    "test": "NODE_ENV=test mocha '**/test/**/*.unit.ts'",
     "test:coverage": "nyc npm test",
     "analyse-code": "sonar-scanner"
   },
