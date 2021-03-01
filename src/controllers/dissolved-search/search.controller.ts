@@ -93,10 +93,12 @@ export const formatPostCode = (postCode) => {
     return trimmedPostCode;
 }
 
-export const formatDate = (date) => {
-    const year = date.slice(0, 4);
-    const month = date.slice(4, 6);
-    const day = date.slice(6, 8);
+export const formatDate = (unformattedDate) => {
+    const date = unformattedDate.toString();
+    const splitDate = date.split("-");
+    const year = splitDate[0];
+    const month = splitDate[1];
+    const day = splitDate[2];
     let monthWord;
 
     switch (month) {
