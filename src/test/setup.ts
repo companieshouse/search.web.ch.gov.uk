@@ -9,3 +9,4 @@ process.env.SEARCH_WEB_COOKIE_NAME = "search.web.user";
 process.env.PIWIK_URL = "test";
 process.env.PIWIK_SITE_ID = "test";
 process.env.API_URL = "http://apiurl.co";
+process.env.LAST_UPDATED_MESSAGE = "test updated message";

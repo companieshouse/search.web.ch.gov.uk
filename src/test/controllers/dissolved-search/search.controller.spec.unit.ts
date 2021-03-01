@@ -99,6 +99,7 @@ describe("search.controller.spec.unit", () => {
 
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain("0000789");
+            chai.expect(resp.text).to.contain("test updated message");
         });
     });
 
