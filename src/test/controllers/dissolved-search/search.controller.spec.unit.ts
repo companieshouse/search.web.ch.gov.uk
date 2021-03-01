@@ -27,6 +27,7 @@ describe("search.controller.spec.unit", () => {
                 .get("/dissolved-search/get-results?companyName=nab");
 
             chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("test updated message");
             chai.expect(resp.text).to.contain("00006400");
         });
     });
@@ -45,7 +46,7 @@ describe("search.controller.spec.unit", () => {
         });
     });
 
-    describe("check it displays not results found if they have not been found", () => {
+    describe("check it displays no results found if they have not been found", () => {
         it("should display No results found, if no search results have been found", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getCompanies")
                 .returns(Promise.resolve(mockUtils.getDummyCompanyResourceEmpty()));

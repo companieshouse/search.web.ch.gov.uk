@@ -3,7 +3,7 @@ import { check, validationResult } from "express-validator";
 import { createGovUkErrorData, GovUkErrorData } from "../../model/govuk.error.data";
 import { CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/alphabetical-search/types";
 import { createLogger } from "@companieshouse/structured-logging-node";
-import { SEARCH_WEB_COOKIE_NAME, API_KEY, APPLICATION_NAME } from "../../config/config";
+import { SEARCH_WEB_COOKIE_NAME, API_KEY, APPLICATION_NAME, LAST_UPDATED_MESSAGE } from "../../config/config";
 import { getCompanies } from "../../client/apiclient";
 import * as templatePaths from "../../model/template.paths";
 import * as errorMessages from "../../model/error.messages";
@@ -24,6 +24,8 @@ const route = async (req: Request, res: Response) => {
     if (errors.isEmpty()) {
         const companyNameRequestParam: string = req.query.companyName as string;
         const companyName: string = companyNameRequestParam;
+        const lastUpdatedMessage: string = LAST_UPDATED_MESSAGE;
+
         let searchResults;
 
         try {
@@ -65,7 +67,7 @@ const route = async (req: Request, res: Response) => {
         }
 
         res.render(templatePaths.DISSOLVED_SEARCH_RESULTS, {
-            searchResults, searchTerm: companyName, templateName: templatePaths.DISSOLVED_SEARCH_RESULTS
+            searchResults, searchTerm: companyName, templateName: templatePaths.DISSOLVED_SEARCH_RESULTS, lastUpdatedMessage
         });
     } else {
         const errorText = errors.array().map((err) => err.msg).pop() as string;
