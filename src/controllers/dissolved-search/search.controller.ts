@@ -24,9 +24,7 @@ const route = async (req: Request, res: Response) => {
     if (errors.isEmpty()) {
         const companyNameRequestParam: string = req.query.companyName as string;
         const companyName: string = companyNameRequestParam;
-
         Date();
-
         const lastUpdatedMessage: string = LAST_UPDATED_MESSAGE;
 
         let searchResults;
@@ -36,11 +34,9 @@ const route = async (req: Request, res: Response) => {
                 await getDissolvedCompanies(API_KEY, companyName, cookies.get(SEARCH_WEB_COOKIE_NAME));
 
             searchResults = companyResource.items.map((result) => {
-
-                const sanitisedCorporateName = escape(result.company_name);
                 return [
                     {
-                        text: sanitisedCorporateName
+                        text: sanitiseCompanyName(result.company_name)
                     },
                     {
                         text: result.company_number
@@ -75,6 +71,12 @@ const route = async (req: Request, res: Response) => {
     }
 
 };
+
+export const sanitiseCompanyName = (companyName) => {
+    const sanitisedName = escape(companyName);
+
+    return sanitisedName;
+}
 
 export const formatPostCode = (postCode) => {
     let halfPostCode;

@@ -2,7 +2,7 @@ import sinon from "sinon";
 import chai from "chai";
 import * as apiClient from "../../../client/apiclient";
 import { CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/dissolved-search/types";
-import { formatPostCode, formatDate } from "../../../../src/controllers/dissolved-search/search.controller";
+import { formatPostCode, formatDate, sanitiseCompanyName } from "../../../../src/controllers/dissolved-search/search.controller";
 
 const sandbox = sinon.createSandbox();
 let testApp = null;
@@ -99,7 +99,6 @@ describe("search.controller.spec.unit", () => {
 
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain("0000789");
-            chai.expect(resp.text).to.contain("test updated message");
         });
     });
 
@@ -236,19 +235,14 @@ describe("search.controller.spec.unit", () => {
         });
     });
 
-    // describe("check it escapes any HTML tags that are embeeded in the text", () => {
-    //     it.only("should escape any HTML tags that are embedded in the text", async () => {
-    //         getCompanyItemStub = sandbox.stub(apiClient, "getDissolvedCompanies")
-    //             .returns(Promise.resolve(mockResponseBody));
+    describe("check it escapes any HTML tags that are embeeded in the text", () => {
+        it("should escape any HTML tags that are embedded in the text", async () => {
 
-    //         const resp = await chai.request(testApp)
-    //             .get("/alphabetical-search/get-results?companyName=<I>company_name</I>");
+            const companyName = "<I>company_name</I>";
 
-    //         chai.expect(resp.status).to.equal(200);
-    //         chai.expect(resp.text).to.contain("0000789");
-    //         chai.expect(resp.text).to.contain("&lt;I&gt;company_name&lt;/I&gt;");
-    //     });
-    // });
+            chai.expect(sanitiseCompanyName(companyName)).to.contain("&lt;I&gt;company_name&lt;/I&gt;");
+        });
+    });
 
     describe("check it displays an error message if a company name hasn't been entered", () => {
         it("should display an error message if no company name is entered", async () => {
