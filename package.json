@@ -9,7 +9,7 @@
     "build": "NODE_ENV=production tsc && cp -r src/views dist/ && gulp static",
     "lint": "eslint 'src/*.ts' 'src/**/*.ts' ./src/'test/*.ts' './src/test/**/*.ts'",
     "lint:fix": "eslint 'src/*.ts' 'src/**/*.ts' './src/test/*.ts' './src/test/**/*.ts' --fix",
-    "test": "NODE_ENV=test mocha '**/test/**/*.unit.ts'",
+    "test": "nyc mocha",
     "test:coverage": "nyc npm test",
     "analyse-code": "sonar-scanner"
   },
@@ -60,7 +60,6 @@
     "nyc": "^15.1.0",
     "node-sass": "^4.13.1",
     "nodemon": "^1.19.3",
-    "nyc": "^15.1.0",
     "sinon": "~9.0.2",
     "sonarqube-scanner": "^2.8.0",
     "ts-node": "^8.4.1",
