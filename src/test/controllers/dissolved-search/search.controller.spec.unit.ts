@@ -7,8 +7,8 @@ import { formatPostCode, formatDate, sanitiseCompanyName } from "../../../../src
 const sandbox = sinon.createSandbox();
 let testApp = null;
 let getCompanyItemStub;
-const cessation_date = new Date(1991, 11, 12);
-const creation_date = new Date(1991, 11, 12);
+const cessationDate = new Date(1991, 11, 12);
+const creationDate = new Date(1991, 11, 12);
 const emptyDate = new Date();
 
 const mockResponseBody : CompaniesResource = ({
@@ -22,13 +22,13 @@ const mockResponseBody : CompaniesResource = ({
             company_name: "test company",
             company_number: "0000789",
             company_status: "dissolved",
-            date_of_cessation: cessation_date,
-            date_of_creation: creation_date,
+            date_of_cessation: cessationDate,
+            date_of_creation: creationDate,
             kind: "kind",
             previous_company_names: [
                 {
-                    ceased_on: cessation_date,
-                    effective_from: creation_date,
+                    ceased_on: cessationDate,
+                    effective_from: creationDate,
                     name: "old name"
                 }
             ]
@@ -43,13 +43,13 @@ const mockResponseBody : CompaniesResource = ({
         company_name: "test company",
         company_number: "0000789",
         company_status: "active",
-        date_of_cessation: cessation_date,
-        date_of_creation: creation_date,
+        date_of_cessation: cessationDate,
+        date_of_creation: creationDate,
         kind: "kind",
         previous_company_names: [
             {
-                ceased_on: cessation_date,
-                effective_from: creation_date,
+                ceased_on: cessationDate,
+                effective_from: creationDate,
                 name: "old name"
             }
         ]
@@ -131,7 +131,7 @@ describe("search.controller.spec.unit", () => {
 
     describe("check it returns a dissolved results page with a the date in DD Jan YYYY format for both columns", () => {
         it("should return a results page with a correct date format", () => {
-            const newDate = "1990-01-25"
+            const newDate = "1990-01-25";
 
             chai.expect(formatDate(newDate)).to.contain("25 Jan 1990");
         });
@@ -163,7 +163,7 @@ describe("search.controller.spec.unit", () => {
 
     describe("check it returns a dissolved results page with a the date in DD May YYYY format for both columns", () => {
         it("should return a results page with a correct date format", () => {
-            const date= "1990-05-25";
+            const date = "1990-05-25";
 
             chai.expect(formatDate(date)).to.contain("25 May 1990");
         });
@@ -171,7 +171,7 @@ describe("search.controller.spec.unit", () => {
 
     describe("check it returns a dissolved results page with a the date in DD Jun YYYY format for both columns", () => {
         it("should return a results page with a correct date format", () => {
-            const date= "1990-06-25";
+            const date = "1990-06-25";
 
             chai.expect(formatDate(date)).to.contain("25 Jun 1990");
         });
@@ -179,7 +179,7 @@ describe("search.controller.spec.unit", () => {
 
     describe("check it returns a dissolved results page with a the date in DD Jul YYYY format for both columns", () => {
         it("should return a results page with a correct date format", () => {
-            const date= "1990-07-25";
+            const date = "1990-07-25";
 
             chai.expect(formatDate(date)).to.contain("25 Jul 1990");
         });
@@ -248,7 +248,6 @@ describe("search.controller.spec.unit", () => {
 
     describe("check it escapes any HTML tags that are embeeded in the text", () => {
         it("should escape any HTML tags that are embedded in the text", async () => {
-
             const companyName = "<I>company_name</I>";
 
             chai.expect(sanitiseCompanyName(companyName)).to.contain("&lt;I&gt;company_name&lt;/I&gt;");

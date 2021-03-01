@@ -4,12 +4,12 @@ import { createGovUkErrorData, GovUkErrorData } from "../../model/govuk.error.da
 import { CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/dissolved-search/types";
 import { createLogger } from "@companieshouse/structured-logging-node";
 import { getDissolvedCompanies } from "../../client/apiclient";
+import escape from "escape-html";
 
 import { SEARCH_WEB_COOKIE_NAME, API_KEY, APPLICATION_NAME, LAST_UPDATED_MESSAGE } from "../../config/config";
 import * as templatePaths from "../../model/template.paths";
 import * as errorMessages from "../../model/error.messages";
 import Cookies = require("cookies");
-import escape from "escape-html";
 
 const logger = createLogger(APPLICATION_NAME);
 
@@ -70,28 +70,25 @@ const route = async (req: Request, res: Response) => {
             templateName: templatePaths.NO_RESULTS
         });
     }
-
 };
 
 export const sanitiseCompanyName = (companyName) => {
-    const sanitisedName = escape(companyName);
-
-    return sanitisedName;
-}
+    return escape(companyName);
+};
 
 export const formatPostCode = (postCode) => {
     let halfPostCode;
     let trimmedPostCode;
 
     if (postCode != null) {
-        const newPostCode = postCode.split(" "); 
+        const newPostCode = postCode.split(" ");
         halfPostCode = newPostCode[0];
 
         trimmedPostCode = halfPostCode.slice(0, 4);
     }
 
     return trimmedPostCode;
-}
+};
 
 export const formatDate = (unformattedDate) => {
     const date = unformattedDate.toString();
@@ -145,6 +142,6 @@ export const formatDate = (unformattedDate) => {
     const dateToReturn = [day, monthWord, year].join(" ");
 
     return dateToReturn;
-}
+};
 
 export default [...validators, route];
