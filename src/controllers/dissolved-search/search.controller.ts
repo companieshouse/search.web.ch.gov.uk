@@ -45,7 +45,8 @@ const route = async (req: Request, res: Response) => {
                         text: formatDate(result.date_of_creation)
                     },
                     {
-                        text: formatDate(result.date_of_cessation)
+                        text: formatDate(result.date_of_cessation),
+                        classes: "govuk-table__cell no-wrap"
                     },
                     {
                         text: formatPostCode(result.address.postal_code)
