@@ -2,7 +2,7 @@ import sinon from "sinon";
 import chai from "chai";
 import * as apiClient from "../../../client/apiclient";
 import { CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/dissolved-search/types";
-import { formatPostCode, formatDate, sanitiseCompanyName } from "../../../../src/controllers/dissolved-search/search.controller";
+import { formatPostCode, formatDate, sanitiseCompanyName } from "../../../controllers/utils";
 
 const sandbox = sinon.createSandbox();
 let testApp = null;
