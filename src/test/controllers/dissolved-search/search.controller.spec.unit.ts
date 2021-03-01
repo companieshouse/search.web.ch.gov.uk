@@ -235,6 +235,20 @@ describe("search.controller.spec.unit", () => {
         });
     });
 
+    describe("check it escapes any HTML tags that are embeeded in the text", () => {
+        it.only("should escape any HTML tags that are embedded in the text", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getDissolvedCompanies")
+                .returns(Promise.resolve(mockResponseBody));
+
+            const resp = await chai.request(testApp)
+                .get("/alphabetical-search/get-results?companyName=<I>company_name</I>");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("0000789");
+            chai.expect(resp.text).to.contain("&lt;I&gt;company_name&lt;/I&gt;");
+        });
+    });
+
     describe("check it displays an error message if a company name hasn't been entered", () => {
         it("should display an error message if no company name is entered", async () => {
             const resp = await chai.request(testApp)

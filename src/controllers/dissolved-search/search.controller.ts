@@ -8,6 +8,7 @@ import { getDissolvedCompanies } from "../../client/apiclient";
 import * as templatePaths from "../../model/template.paths";
 import * as errorMessages from "../../model/error.messages";
 import Cookies = require("cookies");
+import escape from "escape-html";
 
 const logger = createLogger(APPLICATION_NAME);
 
@@ -28,10 +29,13 @@ const route = async (req: Request, res: Response) => {
         try {
             const companyResource: CompaniesResource =
                 await getDissolvedCompanies(API_KEY, companyName, cookies.get(SEARCH_WEB_COOKIE_NAME));
+
             searchResults = companyResource.items.map((result) => {
+
+                const sanitisedCorporateName = escape(result.company_name);
                 return [
                     {
-                        text: result.company_name
+                        text: sanitisedCorporateName
                     },
                     {
                         text: result.company_number
