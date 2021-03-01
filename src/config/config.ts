@@ -21,3 +21,5 @@ export const API_KEY = getEnvironmentValue("CHS_API_KEY");
 export const ALPHABETICAL_SERVICE_NAME = "Alphabetical company search";
 export const DISSOLVED_SERVICE_NAME = "Dissolved company search";
 export const SERVICE_NAME_GENERIC = "";
+
+export const LAST_UPDATED_MESSAGE = getEnvironmentValue("LAST_UPDATED_MESSAGE");
