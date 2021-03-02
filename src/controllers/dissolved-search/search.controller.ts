@@ -36,7 +36,7 @@ const route = async (req: Request, res: Response) => {
             searchResults = companyResource.items.map((result) => {
                 return [
                     {
-                        text: sanitiseCompanyName(result.company_name)
+                        html: sanitiseCompanyName(result.company_name)
                     },
                     {
                         text: result.company_number
