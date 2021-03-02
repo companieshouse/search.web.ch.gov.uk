@@ -10,7 +10,6 @@ import { formatDate, formatPostCode, sanitiseCompanyName } from "../utils";
 import * as templatePaths from "../../model/template.paths";
 import * as errorMessages from "../../model/error.messages";
 import Cookies = require("cookies");
-import { createDummyItems } from "test/MockUtils/alphabetical-search/mock.utils";
 
 const logger = createLogger(APPLICATION_NAME);
 
@@ -39,7 +38,7 @@ const route = async (req: Request, res: Response) => {
             searchResults = companyResource.items.map((result) => {
                 let nearestClass: string = "";
 
-                if (result.company_name == topHit.company_name && noNearestMatch) {
+                if (result.company_name === topHit.company_name && noNearestMatch) {
                     nearestClass = "nearest";
                     noNearestMatch = false;
                 }
