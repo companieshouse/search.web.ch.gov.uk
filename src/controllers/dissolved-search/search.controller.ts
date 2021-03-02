@@ -33,9 +33,18 @@ const route = async (req: Request, res: Response) => {
             const companyResource: CompaniesResource =
                 await getDissolvedCompanies(API_KEY, companyName, cookies.get(SEARCH_WEB_COOKIE_NAME));
 
+            const topHit = companyResource.top_hit;
+            let noNearestMatch: boolean = true;
             searchResults = companyResource.items.map((result) => {
+                let nearestClass: string = "";
+
+                if (result.company_name === topHit.company_name && noNearestMatch) {
+                    nearestClass = "nearest";
+                    noNearestMatch = false;
+                }
                 return [
                     {
+                        classes: nearestClass,
                         html: sanitiseCompanyName(result.company_name)
                     },
                     {
