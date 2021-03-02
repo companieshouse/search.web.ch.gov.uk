@@ -24,6 +24,7 @@ const route = async (req: Request, res: Response) => {
     if (errors.isEmpty()) {
         const companyNameRequestParam: string = req.query.companyName as string;
         const companyName: string = companyNameRequestParam;
+        const encodedCompanyName: string = encodeURIComponent(companyName);
         Date();
         const lastUpdatedMessage: string = LAST_UPDATED_MESSAGE;
 
@@ -31,7 +32,7 @@ const route = async (req: Request, res: Response) => {
 
         try {
             const companyResource: CompaniesResource =
-                await getDissolvedCompanies(API_KEY, companyName, cookies.get(SEARCH_WEB_COOKIE_NAME));
+                await getDissolvedCompanies(API_KEY, encodedCompanyName, cookies.get(SEARCH_WEB_COOKIE_NAME));
 
             const topHit = companyResource.top_hit;
             let noNearestMatch: boolean = true;
