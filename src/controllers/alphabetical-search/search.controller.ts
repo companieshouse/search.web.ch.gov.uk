@@ -24,11 +24,12 @@ const route = async (req: Request, res: Response) => {
     if (errors.isEmpty()) {
         const companyNameRequestParam: string = req.query.companyName as string;
         const companyName: string = companyNameRequestParam;
+        const encodedCompanyName: string = encodeURIComponent(companyName);
         let searchResults;
 
         try {
             const companyResource: CompaniesResource =
-                await getCompanies(API_KEY, companyName, cookies.get(SEARCH_WEB_COOKIE_NAME));
+                await getCompanies(API_KEY, encodedCompanyName, cookies.get(SEARCH_WEB_COOKIE_NAME));
             const topHit: string = companyResource.topHit;
             let noNearestMatch: boolean = true;
             searchResults = companyResource.results.map((result) => {
