@@ -6,7 +6,7 @@ import alphabeticalRouter from "./routes/alphabetical-search/routes";
 import dissolvedRouter from "./routes/dissolved-search/routes";
 import { ERROR_SUMMARY_TITLE } from "./model/error.messages";
 import errorHandlers from "./controllers/error.controller";
-import { ALPHABETICAL_SERVICE_NAME, DISSOLVED_SERVICE_NAME, PIWIK_SITE_ID, PIWIK_URL, SERVICE_NAME_GENERIC } from "./config/config";
+import { ALPHABETICAL_SERVICE_NAME, CHS_URL, DISSOLVED_SERVICE_NAME, PIWIK_SITE_ID, PIWIK_URL, SERVICE_NAME_GENERIC } from "./config/config";
 import { ALPHABETICAL_ROOT, DISSOLVED_ROOT } from "./model/page.urls";
 
 const app = express();
@@ -30,6 +30,7 @@ app.set("views", viewPath);
 app.set("view engine", "html");
 
 // add global variables to all templates
+env.addGlobal("CHS_URL", CHS_URL);
 env.addGlobal("ERROR_SUMMARY_TITLE", ERROR_SUMMARY_TITLE);
 env.addGlobal("PIWIK_URL", PIWIK_URL);
 env.addGlobal("PIWIK_SITE_ID", PIWIK_SITE_ID);

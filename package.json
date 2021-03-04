@@ -24,7 +24,7 @@
     "escape-html": "^1.0.3",
     "express": "^4.17.1",
     "express-validator": "^6.3.1",
-    "govuk-frontend": "^3.2.0",
+    "govuk-frontend": "^3.11.0",
     "nunjucks": "^3.2.1",
     "nyc": "^15.1.0",
     "request": "^2.88.0",
