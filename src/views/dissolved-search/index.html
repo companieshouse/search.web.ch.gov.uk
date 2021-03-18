@@ -21,6 +21,22 @@
           text: "Company name"
         }
       }) }}
+      <div class="govuk-form-group">
+        <fieldset class="govuk-fieldset" aria-describedby="results-hint">
+          <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+          </legend>
+          <div id="results-hint" class="govuk-hint">
+          </div>
+          <div class="govuk-checkboxes">
+            <div class="govuk-checkboxes__item">
+              <input class="govuk-checkboxes__input" id="alphabetical" name="alphabetical" type="checkbox" value="yes">
+              <label class="govuk-label govuk-checkboxes__label" for="alphabetical">
+                Show results alphabetically
+              </label>
+            </div>
+          </div>
+        </fieldset>
+      </div>
       {{ govukButton({
         text: "Search",
         attributes: {
