@@ -76,8 +76,7 @@ const route = async (req: Request, res: Response) => {
         const companyNameErrorData: GovUkErrorData = createGovUkErrorData(errorText, "#companyName", true, "");
         res.render(templatePaths.DISSOLVED_INDEX, {
             companyNameErrorData,
-            errorList: [companyNameErrorData],
-            templateName: templatePaths.NO_RESULTS
+            errorList: [companyNameErrorData]
         });
     }
 };
