@@ -266,15 +266,15 @@ describe("search.controller.spec.unit", () => {
     describe("check it displays alphabetical search results when checkbox for alphabetical is ticked", () => {
         it("should return a results page successfully", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getDissolvedCompanies")
-            .returns(Promise.resolve(mockResponseBody));
+                .returns(Promise.resolve(mockResponseBody));
 
             const resp = await chai.request(testApp)
                 .get("/dissolved-search/get-results")
                 .type("form")
                 .send({
-                  "companyName": "company",
-                  'searchType': 'alphabetical',
-                })
+                    companyName: "company",
+                    searchType: "alphabetical"
+                });
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain("0000789");
         });

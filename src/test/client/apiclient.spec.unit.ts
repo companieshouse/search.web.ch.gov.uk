@@ -76,7 +76,7 @@ const mockDissolvedResponse: Resource<DissolvedCompanyResource> = {
             ]
         }
     }
-}
+};
 
 const mockRequestID: string = "ID";
 

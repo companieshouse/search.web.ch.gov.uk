@@ -34,9 +34,9 @@ const route = async (req: Request, res: Response) => {
 
         try {
             if (searchTypeRequestParam === "alphabetical") {
-                searchType = "alphabetical"
+                searchType = "alphabetical";
             } else {
-                searchType = "bestMatch"
+                searchType = "bestMatch";
             };
 
             const companyResource: CompaniesResource =
