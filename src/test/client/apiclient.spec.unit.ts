@@ -2,8 +2,10 @@ import sinon from "sinon";
 import chai from "chai";
 import Resource from "@companieshouse/api-sdk-node/dist/services/resource";
 import { CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/alphabetical-search/types";
-import { getCompanies } from "../../client/apiclient";
+import { CompaniesResource as DissolvedCompanyResource } from "@companieshouse/api-sdk-node/dist/services/search/dissolved-search/types";
+import { getCompanies, getDissolvedCompanies } from "../../client/apiclient";
 import AlphabeticalSearchService from "@companieshouse/api-sdk-node/dist/services/search/alphabetical-search/service";
+import DissolvedSearchService from "@companieshouse/api-sdk-node/dist/services/search/dissolved-search/service";
 
 const mockResponse: Resource<CompaniesResource> = {
     httpStatusCode: 200,
@@ -28,6 +30,54 @@ const mockResponse: Resource<CompaniesResource> = {
     }
 };
 
+const mockDissolvedResponse: Resource<DissolvedCompanyResource> = {
+    httpStatusCode: 200,
+    resource: {
+        etag: "etag",
+        items: [
+            {
+                address: {
+                    locality: "cardiff",
+                    postal_code: "cf5 6rb"
+                },
+                company_name: "test company",
+                company_number: "0000789",
+                company_status: "active",
+                date_of_cessation: (new Date("19910212")),
+                date_of_creation: (new Date("19910212")),
+                kind: "kind",
+                previous_company_names: [
+                    {
+                        ceased_on: (new Date("19910212")),
+                        effective_from: (new Date("19910212")),
+                        name: "old name"
+                    }
+                ]
+            }
+        ],
+        kind: "kind",
+        top_hit: {
+            address: {
+                locality: "cardiff",
+                postal_code: "cf5 6rb"
+            },
+            company_name: "test company",
+            company_number: "0000789",
+            company_status: "active",
+            date_of_cessation: (new Date("19910212")),
+            date_of_creation: (new Date("19910212")),
+            kind: "kind",
+            previous_company_names: [
+                {
+                    ceased_on: (new Date("19910212")),
+                    effective_from: (new Date("19910212")),
+                    name: "old name"
+                }
+            ]
+        }
+    }
+};
+
 const mockRequestID: string = "ID";
 
 const sandbox = sinon.createSandbox();
@@ -45,6 +95,24 @@ describe("api.client", () => {
 
             const alphabeticalSearchResults = await getCompanies("api key", "TEST COMPANY NAME", mockRequestID);
             chai.expect(alphabeticalSearchResults).to.equal(mockResponse.resource);
+        });
+    });
+
+    describe("dissolved search", () => {
+        it("GET returns alphabetical search results", async () => {
+            sandbox.stub(DissolvedSearchService.prototype, "getCompanies")
+                .returns(Promise.resolve(mockDissolvedResponse));
+
+            const dissolvedAlphabeticalSearchResults = await getDissolvedCompanies("api key", "test company", mockRequestID, "alphabetical");
+            chai.expect(dissolvedAlphabeticalSearchResults).to.equal(mockDissolvedResponse.resource);
+        });
+
+        it("GET returns best match search results, this is the default search option for dissolved", async () => {
+            sandbox.stub(DissolvedSearchService.prototype, "getCompanies")
+                .returns(Promise.resolve(mockDissolvedResponse));
+
+            const dissolvedAlphabeticalSearchResults = await getDissolvedCompanies("api key", "test company", mockRequestID, "");
+            chai.expect(dissolvedAlphabeticalSearchResults).to.equal(mockDissolvedResponse.resource);
         });
     });
 });
