@@ -92,8 +92,8 @@ describe("search.controller.spec.unit", () => {
         sandbox.restore();
     });
 
-    describe("check it returns a dissolved results page successfully", () => {
-        it("should return a results page successfully", async () => {
+    describe("best match search - check it returns a dissolved results page successfully", () => {
+        it("should return a results page successfully without the top hit having the css class 'nearest'", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getDissolvedCompanies")
                 .returns(Promise.resolve(mockResponseBody));
 
@@ -102,6 +102,7 @@ describe("search.controller.spec.unit", () => {
 
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain("0000789");
+            chai.expect(resp.text).to.not.contain("nearest");
         });
     });
 
@@ -243,6 +244,7 @@ describe("search.controller.spec.unit", () => {
 
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain("No results found");
+            chai.expect(resp.text).to.not.contain("nearest");
         });
     });
 
@@ -260,23 +262,21 @@ describe("search.controller.spec.unit", () => {
                 .get("/dissolved-search/get-results?companyName=");
 
             chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.not.contain("nearest");
         });
     });
 
     describe("check it displays alphabetical search results when checkbox for alphabetical is ticked", () => {
-        it("should return a results page successfully", async () => {
+        it("should return a results page successfully with the top hit having a css class 'nearest'", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getDissolvedCompanies")
                 .returns(Promise.resolve(mockResponseBody));
 
             const resp = await chai.request(testApp)
-                .get("/dissolved-search/get-results")
-                .type("form")
-                .send({
-                    companyName: "company",
-                    searchType: "alphabetical"
-                });
+                .get("/dissolved-search/get-results?companyName=company&searchType=alphabetical");
+
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain("0000789");
+            chai.expect(resp.text).to.contain("nearest");
         });
     });
 });
