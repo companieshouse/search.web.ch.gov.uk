@@ -17,6 +17,9 @@ const validators = [
     check("companyName").not().isEmpty().withMessage(errorMessages.COMPANY_NAME_EMPTY)
 ];
 
+const ALPHABETICAL_SEARCH_TYPE: string = "alphabetical";
+const BEST_MATCH_SEARCH_TYPE: string = "bestMatch";
+
 const route = async (req: Request, res: Response) => {
     const cookies = new Cookies(req, res);
     const errors = validationResult(req);
@@ -33,10 +36,10 @@ const route = async (req: Request, res: Response) => {
         let searchType: string;
 
         try {
-            if (searchTypeRequestParam === "alphabetical") {
-                searchType = "alphabetical";
+            if (searchTypeRequestParam === ALPHABETICAL_SEARCH_TYPE) {
+                searchType = ALPHABETICAL_SEARCH_TYPE;
             } else {
-                searchType = "bestMatch";
+                searchType = BEST_MATCH_SEARCH_TYPE;
             };
 
             const companyResource: CompaniesResource =
@@ -47,7 +50,7 @@ const route = async (req: Request, res: Response) => {
             searchResults = companyResource.items.map((result) => {
                 let nearestClass: string = "";
 
-                if (result.company_name === topHit.company_name && noNearestMatch) {
+                if (result.company_name === topHit.company_name && noNearestMatch && searchType === ALPHABETICAL_SEARCH_TYPE) {
                     nearestClass = "nearest";
                     noNearestMatch = false;
                 }
