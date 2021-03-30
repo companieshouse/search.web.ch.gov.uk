@@ -8,11 +8,6 @@
     </h1>
     <p class="govuk-body">Search by name for companies dissolved between 1/1/1989 and 31/12/2009. </p>
 
-    <div class="govuk-inset-text">
-      We will only show companies that had this name when they were dissolved. 
-      You cannot search previous names held by a company.
-    </div>
-
     <form action="/dissolved-search/get-results" method="GET">
       {{ govukInput({
         id: "companyName",
@@ -34,6 +29,9 @@
             name: "searchType",
             value: "alphabetical",
             text: "Show results alphabetically",
+            hint: {
+                text: "Previous names not currently available for Alphabetical Search"
+            },
             attributes: {
                 "data-event-id": "show-dissolved-results-alphabetically",
                 id: "show-dissolved-results-alphabetically"
@@ -41,6 +39,26 @@
           }
         ]
         }) }}
+        {{ govukRadios({
+            classes: "govuk-radios--inline",
+            idPrefix: "changed-name",
+            name: "changed-name",
+            fieldset: {
+              legend: {
+                text: "Which company names do you want to search?"
+              }
+            },
+            items: [
+              {
+                value: "name-at-dissolution",
+                text: "Company name when they were dissolved"
+              },
+              {
+                value: "previous-company-name",
+                text: "Previous company names"
+              }
+            ]
+          }) }}
       {{ govukButton({
         text: "Search",
         attributes: {
