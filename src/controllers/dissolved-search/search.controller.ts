@@ -40,7 +40,7 @@ const route = async (req: Request, res: Response) => {
             if (searchTypeRequestParam === ALPHABETICAL_SEARCH_TYPE) {
                 searchType = ALPHABETICAL_SEARCH_TYPE;
             } 
-            if (searchTypeRequestParam === PREVIOUS_NAME_SEARCH_TYPE) {
+            else if (searchTypeRequestParam === PREVIOUS_NAME_SEARCH_TYPE) {
                 searchType = PREVIOUS_NAME_SEARCH_TYPE;
             } else {
                 searchType = BEST_MATCH_SEARCH_TYPE;
@@ -61,11 +61,9 @@ const route = async (req: Request, res: Response) => {
                 if (searchType === PREVIOUS_NAME_SEARCH_TYPE) {
                     return [
                         {
-                            classes: nearestClass,
                             html: sanitiseCompanyName(result.previous_company_names)
                         },
                         {
-                            classes: nearestClass,
                             html: sanitiseCompanyName(result.company_name)
                         },
                         {
