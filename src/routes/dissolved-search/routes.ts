@@ -25,5 +25,6 @@ const renderTemplate = (template: string) => (req: Request, res: Response) => {
 
 router.get(pageUrls.DISSOLVED_ROOT, renderTemplate(templatePaths.DISSOLVED_INDEX));
 router.get(pageUrls.DISSOLVED_GET_RESULTS, searchController);
+router.get(pageUrls.DISSOLVED_PREVIOUS_NAME_GET_RESULTS, searchController);
 
 export default router;

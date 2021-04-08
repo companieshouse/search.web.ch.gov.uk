@@ -19,6 +19,7 @@ const validators = [
 
 const ALPHABETICAL_SEARCH_TYPE: string = "alphabetical";
 const BEST_MATCH_SEARCH_TYPE: string = "bestMatch";
+const PREVIOUS_NAME_SEARCH_TYPE: string = "previousName";
 
 const route = async (req: Request, res: Response) => {
     const cookies = new Cookies(req, res);
@@ -38,6 +39,9 @@ const route = async (req: Request, res: Response) => {
         try {
             if (searchTypeRequestParam === ALPHABETICAL_SEARCH_TYPE) {
                 searchType = ALPHABETICAL_SEARCH_TYPE;
+            } 
+            if (searchTypeRequestParam === PREVIOUS_NAME_SEARCH_TYPE) {
+                searchType = PREVIOUS_NAME_SEARCH_TYPE;
             } else {
                 searchType = BEST_MATCH_SEARCH_TYPE;
             };
@@ -53,6 +57,31 @@ const route = async (req: Request, res: Response) => {
                 if (result.company_name === topHit.company_name && noNearestMatch && searchType === ALPHABETICAL_SEARCH_TYPE) {
                     nearestClass = "nearest";
                     noNearestMatch = false;
+                }
+                if (searchType === PREVIOUS_NAME_SEARCH_TYPE) {
+                    return [
+                        {
+                            classes: nearestClass,
+                            html: sanitiseCompanyName(result.previous_company_names)
+                        },
+                        {
+                            classes: nearestClass,
+                            html: sanitiseCompanyName(result.company_name)
+                        },
+                        {
+                            text: result.company_number
+                        },
+                        {
+                            text: formatDate(result.date_of_creation)
+                        },
+                        {
+                            text: formatDate(result.date_of_cessation),
+                            classes: "govuk-table__cell no-wrap"
+                        },
+                        {
+                            text: formatPostCode(result.address.postal_code)
+                        }
+                    ];
                 }
                 return [
                     {
@@ -77,6 +106,12 @@ const route = async (req: Request, res: Response) => {
         } catch (err) {
             searchResults = [];
             logger.error(`${err}`);
+        }
+
+        if (searchTypeRequestParam === PREVIOUS_NAME_SEARCH_TYPE){
+            res.render(templatePaths.DISSOLVED_SEARCH_RESULTS_PREVIOUS_NAME, {
+                searchResults, searchTerm: companyName, templateName: templatePaths.DISSOLVED_SEARCH_RESULTS_PREVIOUS_NAME, lastUpdatedMessage
+            });
         }
 
         res.render(templatePaths.DISSOLVED_SEARCH_RESULTS, {
