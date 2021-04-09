@@ -80,26 +80,27 @@ const route = async (req: Request, res: Response) => {
                             text: formatPostCode(result.address.postal_code)
                         }
                     ];
+                } else {
+                    return [
+                        {
+                            classes: nearestClass,
+                            html: sanitiseCompanyName(result.company_name)
+                        },
+                        {
+                            text: result.company_number
+                        },
+                        {
+                            text: formatDate(result.date_of_creation)
+                        },
+                        {
+                            text: formatDate(result.date_of_cessation),
+                            classes: "govuk-table__cell no-wrap"
+                        },
+                        {
+                            text: formatPostCode(result.address.postal_code)
+                        }
+                    ];
                 }
-                return [
-                    {
-                        classes: nearestClass,
-                        html: sanitiseCompanyName(result.company_name)
-                    },
-                    {
-                        text: result.company_number
-                    },
-                    {
-                        text: formatDate(result.date_of_creation)
-                    },
-                    {
-                        text: formatDate(result.date_of_cessation),
-                        classes: "govuk-table__cell no-wrap"
-                    },
-                    {
-                        text: formatPostCode(result.address.postal_code)
-                    }
-                ];
             });
         } catch (err) {
             searchResults = [];

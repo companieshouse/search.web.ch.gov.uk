@@ -279,4 +279,33 @@ describe("search.controller.spec.unit", () => {
             chai.expect(resp.text).to.contain("nearest");
         });
     });
+
+    describe("check it displays best match search results when checkbox for alphabetical is not ticked", () => {
+        it("should return a results page with the results in best match order", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getDissolvedCompanies")
+                .returns(Promise.resolve(mockResponseBody));
+
+            const resp = await chai.request(testApp)
+                .get("/dissolved-search/get-results?companyName=company&searchType=bestMatch");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("0000789");
+            chai.expect(resp.text).to.not.contain("nearest");
+        });
+    });
+
+    //This test needs to be changed from bestMatch to previousName when the sdk is updated
+    describe("check it displays best match previous name search results when radio for previous names is selected", () => {
+        it("should return a results page with the results in best match order containing previous names", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getDissolvedCompanies")
+                .returns(Promise.resolve(mockResponseBody));
+
+            const resp = await chai.request(testApp)
+                .get("/dissolved-search/get-results?companyName=company&searchType=bestMatch");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("0000789");
+            chai.expect(resp.text).to.not.contain("nearest");
+        });
+    });
 });
