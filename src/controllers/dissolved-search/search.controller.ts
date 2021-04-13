@@ -19,7 +19,7 @@ const validators = [
 
 const ALPHABETICAL_SEARCH_TYPE: string = "alphabetical";
 const BEST_MATCH_SEARCH_TYPE: string = "bestMatch";
-const PREVIOUS_NAME_SEARCH_TYPE: string = "previousName";
+const PREVIOUS_NAME_SEARCH_TYPE: string = "previous-name-dissolved";
 
 const route = async (req: Request, res: Response) => {
     const cookies = new Cookies(req, res);
@@ -40,11 +40,11 @@ const route = async (req: Request, res: Response) => {
             if (searchTypeRequestParam === ALPHABETICAL_SEARCH_TYPE) {
                 searchType = ALPHABETICAL_SEARCH_TYPE;
             } 
-            else if (searchTypeRequestParam === PREVIOUS_NAME_SEARCH_TYPE) {
+            if (searchTypeRequestParam === PREVIOUS_NAME_SEARCH_TYPE) {
                 searchType = PREVIOUS_NAME_SEARCH_TYPE;
             } else {
                 searchType = BEST_MATCH_SEARCH_TYPE;
-            };
+            }
 
             const companyResource: CompaniesResource =
                 await getDissolvedCompanies(API_KEY, encodedCompanyName, cookies.get(SEARCH_WEB_COOKIE_NAME), searchType);

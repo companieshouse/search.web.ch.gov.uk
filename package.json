@@ -9,7 +9,7 @@
     "build": "NODE_ENV=production tsc && cp -r src/views dist/ && gulp static",
     "lint": "eslint 'src/*.ts' 'src/**/*.ts' ./src/'test/*.ts' './src/test/**/*.ts'",
     "lint:fix": "eslint 'src/*.ts' 'src/**/*.ts' './src/test/*.ts' './src/test/**/*.ts' --fix",
-    "test": "nyc --reporter=lcov --reporter=text-lcov mocha **/test/**/*.unit.ts",
+    "test": "nyc mocha **/test/**/*.unit.ts",
     "test:coverage": "nyc npm test",
     "analyse-code": "sonar-scanner"
   },
@@ -17,7 +17,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@companieshouse/api-sdk-node": "^1.0.23",
+    "@companieshouse/api-sdk-node": "^1.0.24",
     "@companieshouse/structured-logging-node": "1.0.4",
     "body-parser": "^1.19.0",
     "cookies": "^0.8.0",
