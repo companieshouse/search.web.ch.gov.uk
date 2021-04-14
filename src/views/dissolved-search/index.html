@@ -42,7 +42,7 @@
         {{ govukRadios({
             classes: "govuk-radios--inline",
             idPrefix: "changed-name",
-            name: "searchType",
+            name: "changedName",
             fieldset: {
               legend: {
                 text: "Which company names do you want to search?"
@@ -50,12 +50,11 @@
             },
             items: [
               {
-                value: "name-at-dissolution",
+                value: "bestMatch",
                 text: "Company name when they were dissolved"
               },
               {
-                name: "searchType",
-                value: "previous-name-dissolved",
+                value: "previousNameDissolved",
                 text: "Previous company names",
                 attributes: {
                     "data-event-id": "show-previous-company-name-dissolved",

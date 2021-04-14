@@ -19,7 +19,7 @@ const validators = [
 
 const ALPHABETICAL_SEARCH_TYPE: string = "alphabetical";
 const BEST_MATCH_SEARCH_TYPE: string = "bestMatch";
-const PREVIOUS_NAME_SEARCH_TYPE: string = "previous-name-dissolved";
+const PREVIOUS_NAME_SEARCH_TYPE: string = "previousNameDissolved";
 
 const route = async (req: Request, res: Response) => {
     const cookies = new Cookies(req, res);
@@ -28,6 +28,7 @@ const route = async (req: Request, res: Response) => {
     if (errors.isEmpty()) {
         const companyNameRequestParam: string = req.query.companyName as string;
         const searchTypeRequestParam: string = req.query.searchType as string;
+        const changeNameTypeParam: string = req.query.changedName as string;
         const companyName: string = companyNameRequestParam;
         const encodedCompanyName: string = encodeURIComponent(companyName);
         Date();
@@ -37,14 +38,14 @@ const route = async (req: Request, res: Response) => {
         let searchType: string;
 
         try {
-            if (searchTypeRequestParam === ALPHABETICAL_SEARCH_TYPE) {
+            if (searchTypeRequestParam === ALPHABETICAL_SEARCH_TYPE && changeNameTypeParam === BEST_MATCH_SEARCH_TYPE) {
                 searchType = ALPHABETICAL_SEARCH_TYPE;
             } 
-            if (searchTypeRequestParam === PREVIOUS_NAME_SEARCH_TYPE) {
+             else if (changeNameTypeParam === PREVIOUS_NAME_SEARCH_TYPE) {
                 searchType = PREVIOUS_NAME_SEARCH_TYPE;
             } else {
                 searchType = BEST_MATCH_SEARCH_TYPE;
-            }
+            };
 
             const companyResource: CompaniesResource =
                 await getDissolvedCompanies(API_KEY, encodedCompanyName, cookies.get(SEARCH_WEB_COOKIE_NAME), searchType);
@@ -107,14 +108,14 @@ const route = async (req: Request, res: Response) => {
             logger.error(`${err}`);
         }
 
-        if (searchTypeRequestParam === PREVIOUS_NAME_SEARCH_TYPE){
+        if (changeNameTypeParam === PREVIOUS_NAME_SEARCH_TYPE){
             res.render(templatePaths.DISSOLVED_SEARCH_RESULTS_PREVIOUS_NAME, {
-                searchResults, searchTerm: companyName, templateName: templatePaths.DISSOLVED_SEARCH_RESULTS_PREVIOUS_NAME, lastUpdatedMessage
+                searchResults, searchedName: companyName, templateName: templatePaths.DISSOLVED_SEARCH_RESULTS_PREVIOUS_NAME, lastUpdatedMessage
             });
-        }
+        };
 
         res.render(templatePaths.DISSOLVED_SEARCH_RESULTS, {
-            searchResults, searchTerm: companyName, templateName: templatePaths.DISSOLVED_SEARCH_RESULTS, lastUpdatedMessage
+            searchResults, searchedName: companyName, templateName: templatePaths.DISSOLVED_SEARCH_RESULTS, lastUpdatedMessage
         });
     } else {
         const errorText = errors.array().map((err) => err.msg).pop() as string;
