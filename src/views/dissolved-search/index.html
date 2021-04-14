@@ -34,15 +34,16 @@
             },
             attributes: {
                 "data-event-id": "show-dissolved-results-alphabetically",
-                id: "show-dissolved-results-alphabetically"
+                id: "show-dissolved-results-alphabetically",
+                onchange: "changeThis(this)"
               }
           }
         ]
         }) }}
         {{ govukRadios({
             classes: "govuk-radios--inline",
-            idPrefix: "changed-name",
-            name: "searchType",
+            idPrefix: "which-company-name-to-search",
+            name: "changed-name",
             fieldset: {
               legend: {
                 text: "Which company names do you want to search?"
@@ -51,7 +52,8 @@
             items: [
               {
                 value: "name-at-dissolution",
-                text: "Company name when they were dissolved"
+                text: "Company name when they were dissolved",
+                checked: true
               },
               {
                 name: "searchType",
