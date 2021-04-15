@@ -60,40 +60,28 @@ const route = async (req: Request, res: Response) => {
                     noNearestMatch = false;
                 }
                 if (searchType === PREVIOUS_NAME_SEARCH_TYPE) {
-                    for (var value in result.previous_company_names) {
-                        let previousCompanyName = result.previous_company_names[value].name;
-                        console.log("*************************");
-                        console.log(value);
-                        console.log(previousCompanyName);
-                        console.log(companyNameRequestParam);
-                        if (previousCompanyName.toLowerCase().includes(companyNameRequestParam.toLowerCase())) {
-                            console.log("AHAH! I have found a match.");
-                            console.log("The match is: " + previousCompanyName);
-                            //What if in here we append to a new array, and then print all the names in the array corresponding to a certain company?
-                            return [
-                                {
-                                    html: sanitiseCompanyName(previousCompanyName)
-                                },
-                                {
-                                    html: sanitiseCompanyName(result.company_name)
-                                },
-                                {
-                                    text: result.company_number
-                                },
-                                {
-                                    text: formatDate(result.date_of_creation)
-                                },
-                                {
-                                    text: formatDate(result.date_of_cessation),
-                                    classes: "govuk-table__cell no-wrap"
-                                },
-                                {
-                                    text: formatPostCode(result.address.postal_code)
-                                }
-                            ];
+                    var names: string[] = findPrevious(result, companyNameRequestParam);
+                    return [
+                        {
+                            html: sanitiseCompanyName(names)
+                        },
+                        {
+                            html: sanitiseCompanyName(result.company_name)
+                        },
+                        {
+                            text: result.company_number
+                        },
+                        {
+                            text: formatDate(result.date_of_creation)
+                        },
+                        {
+                            text: formatDate(result.date_of_cessation),
+                            classes: "govuk-table__cell no-wrap"
+                        },
+                        {
+                            text: formatPostCode(result.address.postal_code)
                         }
-                        continue;
-                    }
+                    ];
                 } else {
                     return [
                         {
@@ -139,5 +127,20 @@ const route = async (req: Request, res: Response) => {
         });
     }
 };
-
+const findPrevious = function(result, companyNameRequestParam) {
+    var names: string[] = [];
+    for (var value in result.previous_company_names) {
+        let previousCompanyName = result.previous_company_names[value].name;
+        console.log("*************************");
+        // console.log(value);
+        // console.log(previousCompanyName);
+        // console.log(companyNameRequestParam);
+        if (previousCompanyName.toLowerCase().includes(companyNameRequestParam.toLowerCase())) {
+            console.log("AHAH! I have found a match.");
+            console.log("The match is: " + previousCompanyName);
+            names.push(previousCompanyName);
+        }
+    }
+    return names;
+}
 export default [...validators, route];
