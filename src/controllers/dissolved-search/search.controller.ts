@@ -61,16 +61,15 @@ const route = async (req: Request, res: Response) => {
                 }
                 if (searchType === PREVIOUS_NAME_SEARCH_TYPE) {
                     for (var value in result.previous_company_names) {
-                        var previousCompanyName = result.previous_company_names[value].name;
+                        let previousCompanyName = result.previous_company_names[value].name;
                         console.log("*************************");
                         console.log(value);
                         console.log(previousCompanyName);
                         console.log(companyNameRequestParam);
-    
                         if (previousCompanyName.toLowerCase().includes(companyNameRequestParam.toLowerCase())) {
                             console.log("AHAH! I have found a match.");
                             console.log("The match is: " + previousCompanyName);
-
+                            //What if in here we append to a new array, and then print all the names in the array corresponding to a certain company?
                             return [
                                 {
                                     html: sanitiseCompanyName(previousCompanyName)
@@ -93,6 +92,7 @@ const route = async (req: Request, res: Response) => {
                                 }
                             ];
                         }
+                        continue;
                     }
                 } else {
                     return [
