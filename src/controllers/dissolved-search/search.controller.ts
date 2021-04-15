@@ -45,7 +45,7 @@ const route = async (req: Request, res: Response) => {
                 searchType = PREVIOUS_NAME_SEARCH_TYPE;
             } else {
                 searchType = BEST_MATCH_SEARCH_TYPE;
-            };
+            }
 
             const companyResource: CompaniesResource =
                 await getDissolvedCompanies(API_KEY, encodedCompanyName, cookies.get(SEARCH_WEB_COOKIE_NAME), searchType);
@@ -60,27 +60,40 @@ const route = async (req: Request, res: Response) => {
                     noNearestMatch = false;
                 }
                 if (searchType === PREVIOUS_NAME_SEARCH_TYPE) {
-                    return [
-                        {
-                            html: sanitiseCompanyName(result.previous_company_names)
-                        },
-                        {
-                            html: sanitiseCompanyName(result.company_name)
-                        },
-                        {
-                            text: result.company_number
-                        },
-                        {
-                            text: formatDate(result.date_of_creation)
-                        },
-                        {
-                            text: formatDate(result.date_of_cessation),
-                            classes: "govuk-table__cell no-wrap"
-                        },
-                        {
-                            text: formatPostCode(result.address.postal_code)
+                    for (var value in result.previous_company_names) {
+                        var previousCompanyName = result.previous_company_names[value].name;
+                        console.log("*************************");
+                        console.log(value);
+                        console.log(previousCompanyName);
+                        console.log(companyNameRequestParam);
+    
+                        if (previousCompanyName.toLowerCase().includes(companyNameRequestParam.toLowerCase())) {
+                            console.log("AHAH! I have found a match.");
+                            console.log("The match is: " + previousCompanyName);
+
+                            return [
+                                {
+                                    html: sanitiseCompanyName(previousCompanyName)
+                                },
+                                {
+                                    html: sanitiseCompanyName(result.company_name)
+                                },
+                                {
+                                    text: result.company_number
+                                },
+                                {
+                                    text: formatDate(result.date_of_creation)
+                                },
+                                {
+                                    text: formatDate(result.date_of_cessation),
+                                    classes: "govuk-table__cell no-wrap"
+                                },
+                                {
+                                    text: formatPostCode(result.address.postal_code)
+                                }
+                            ];
                         }
-                    ];
+                    }
                 } else {
                     return [
                         {
