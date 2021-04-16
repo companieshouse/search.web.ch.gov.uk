@@ -294,7 +294,7 @@ describe("search.controller.spec.unit", () => {
         });
     });
 
-    //This test needs to be changed from bestMatch to previousName when the sdk is updated
+    // This test needs changing
     describe("check it displays best match previous name search results when radio for previous names is selected", () => {
         it("should return a results page with the results in best match order containing previous names", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getDissolvedCompanies")

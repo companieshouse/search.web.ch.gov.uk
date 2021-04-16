@@ -36,12 +36,12 @@ const route = async (req: Request, res: Response) => {
 
         let searchResults;
         let searchType: string;
+        let previousNameSearchResults;
 
         try {
             if (searchTypeRequestParam === ALPHABETICAL_SEARCH_TYPE && changeNameTypeParam === BEST_MATCH_SEARCH_TYPE) {
                 searchType = ALPHABETICAL_SEARCH_TYPE;
-            } 
-             else if (changeNameTypeParam === PREVIOUS_NAME_SEARCH_TYPE) {
+            } else if (changeNameTypeParam === PREVIOUS_NAME_SEARCH_TYPE) {
                 searchType = PREVIOUS_NAME_SEARCH_TYPE;
             } else {
                 searchType = BEST_MATCH_SEARCH_TYPE;
@@ -52,6 +52,43 @@ const route = async (req: Request, res: Response) => {
 
             const topHit = companyResource.top_hit;
             let noNearestMatch: boolean = true;
+            var length = companyResource.items.length;
+            console.log("THis is how many things are in items." + length);
+
+            for (var i = 0; i<length;i++){
+                console.log("Just items");
+                console.log(companyResource.items[i]);
+                console.log("prev names");
+                console.log(companyResource.items[i].previous_company_names); //prints out all prev names
+            }
+
+            previousNameSearchResults = companyResource.items.map((result) => {
+                if (searchType === PREVIOUS_NAME_SEARCH_TYPE) {
+                    var names: string[] = findPrevious(result, companyNameRequestParam);
+                    return [
+                        {
+                            html: sanitiseCompanyName(names)
+                        },
+                        {
+                            html: sanitiseCompanyName(result.company_name)
+                        },
+                        {
+                            text: result.company_number
+                        },
+                        {
+                            text: formatDate(result.date_of_creation)
+                        },
+                        {
+                            text: formatDate(result.date_of_cessation),
+                            classes: "govuk-table__cell no-wrap"
+                        },
+                        {
+                            text: formatPostCode(result.address.postal_code)
+                        }
+                    ];
+                }
+            })
+
             searchResults = companyResource.items.map((result) => {
                 let nearestClass: string = "";
 
@@ -106,12 +143,13 @@ const route = async (req: Request, res: Response) => {
             });
         } catch (err) {
             searchResults = [];
+            previousNameSearchResults = [];
             logger.error(`${err}`);
         }
 
-        if (changeNameTypeParam === PREVIOUS_NAME_SEARCH_TYPE){
+        if (changeNameTypeParam === PREVIOUS_NAME_SEARCH_TYPE) {
             res.render(templatePaths.DISSOLVED_SEARCH_RESULTS_PREVIOUS_NAME, {
-                searchResults, searchedName: companyName, templateName: templatePaths.DISSOLVED_SEARCH_RESULTS_PREVIOUS_NAME, lastUpdatedMessage
+                previousNameSearchResults, searchedName: companyName, templateName: templatePaths.DISSOLVED_SEARCH_RESULTS_PREVIOUS_NAME, lastUpdatedMessage
             });
         };
 
@@ -127,20 +165,14 @@ const route = async (req: Request, res: Response) => {
         });
     }
 };
-const findPrevious = function(result, companyNameRequestParam) {
+const findPrevious = function (result, companyNameRequestParam) {
     var names: string[] = [];
     for (var value in result.previous_company_names) {
-        let previousCompanyName = result.previous_company_names[value].name;
-        console.log("*************************");
-        // console.log(value);
-        // console.log(previousCompanyName);
-        // console.log(companyNameRequestParam);
+        const previousCompanyName = result.previous_company_names[value].name;
         if (previousCompanyName.toLowerCase().includes(companyNameRequestParam.toLowerCase())) {
-            console.log("AHAH! I have found a match.");
-            console.log("The match is: " + previousCompanyName);
             names.push(previousCompanyName);
         }
     }
     return names;
-}
+};
 export default [...validators, route];

@@ -12,7 +12,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
     <h1 class="govuk-heading-xl">Search results</h1>
-    {% if searchResults.length > 0 %}
+    {% if previousNameSearchResults.length > 0 %}
       {{ govukTable({
         firstCellIsHeader: false,
           head: [
@@ -35,7 +35,7 @@
               text: "Postcode"
             }
           ],
-          rows: searchResults
+          rows: previousNameSearchResults
       }) }}
       <p class="govuk-body govuk-!-width-two-thirds">You can call the Contact Centre on 0303 123 4500 to find out if there is any more information available about a dissolved company.</p>
       <p class="govuk-body">{{ lastUpdatedMessage }}</p>
