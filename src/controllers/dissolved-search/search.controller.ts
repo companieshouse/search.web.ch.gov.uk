@@ -27,8 +27,8 @@ const route = async (req: Request, res: Response) => {
 
     if (errors.isEmpty()) {
         const companyNameRequestParam: string = req.query.companyName as string;
-        const searchTypeRequestParam: string = req.query.searchType as string;
-        const changeNameTypeParam: string = req.query.changedName as string;
+        let searchTypeRequestParam: string = req.query.searchType as string;
+        let changeNameTypeParam: string = req.query.changedName as string;
         const companyName: string = companyNameRequestParam;
         const encodedCompanyName: string = encodeURIComponent(companyName);
         Date();
@@ -37,30 +37,32 @@ const route = async (req: Request, res: Response) => {
         let searchResults;
         let searchType: string;
         let previousNameSearchResults;
+        let changedNameParam;
 
         try {
             if (searchTypeRequestParam === ALPHABETICAL_SEARCH_TYPE && changeNameTypeParam === BEST_MATCH_SEARCH_TYPE) {
                 searchType = ALPHABETICAL_SEARCH_TYPE;
+                changedNameParam = BEST_MATCH_SEARCH_TYPE;
             } else if (changeNameTypeParam === PREVIOUS_NAME_SEARCH_TYPE) {
                 searchType = PREVIOUS_NAME_SEARCH_TYPE;
+                changedNameParam = PREVIOUS_NAME_SEARCH_TYPE;
             } else {
                 searchType = BEST_MATCH_SEARCH_TYPE;
+                changedNameParam = BEST_MATCH_SEARCH_TYPE;
             }
 
             const companyResource: CompaniesResource =
-                await getDissolvedCompanies(API_KEY, encodedCompanyName, cookies.get(SEARCH_WEB_COOKIE_NAME), searchType);
+                await getDissolvedCompanies(API_KEY, encodedCompanyName, cookies.get(SEARCH_WEB_COOKIE_NAME), searchType, changedNameParam);
 
             const topHit = companyResource.top_hit;
             let noNearestMatch: boolean = true;
-            var length = companyResource.items.length;
-            console.log("THis is how many things are in items." + length);
 
-            for (var i = 0; i<length;i++){
-                console.log("Just items");
-                console.log(companyResource.items[i]);
-                console.log("prev names");
-                console.log(companyResource.items[i].previous_company_names); //prints out all prev names
-            }
+            // for (var i = 0; i<length;i++){
+            //     console.log("Just items");
+            //     console.log(companyResource.items[i]);
+            //     console.log("prev names");
+            //     console.log(companyResource.items[i].previous_company_names); //prints out all prev names
+            // }
 
             previousNameSearchResults = companyResource.items.map((result) => {
                 if (searchType === PREVIOUS_NAME_SEARCH_TYPE) {
@@ -91,6 +93,7 @@ const route = async (req: Request, res: Response) => {
 
             searchResults = companyResource.items.map((result) => {
                 let nearestClass: string = "";
+                searchTypeRequestParam = BEST_MATCH_SEARCH_TYPE;
 
                 if (result.company_name === topHit.company_name && noNearestMatch && searchType === ALPHABETICAL_SEARCH_TYPE) {
                     nearestClass = "nearest";
@@ -148,6 +151,9 @@ const route = async (req: Request, res: Response) => {
         }
 
         if (changeNameTypeParam === PREVIOUS_NAME_SEARCH_TYPE) {
+            if (searchTypeRequestParam === ALPHABETICAL_SEARCH_TYPE){
+                searchTypeRequestParam = BEST_MATCH_SEARCH_TYPE;
+            }
             res.render(templatePaths.DISSOLVED_SEARCH_RESULTS_PREVIOUS_NAME, {
                 previousNameSearchResults, searchedName: companyName, templateName: templatePaths.DISSOLVED_SEARCH_RESULTS_PREVIOUS_NAME, lastUpdatedMessage
             });

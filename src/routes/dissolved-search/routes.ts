@@ -26,4 +26,10 @@ const renderTemplate = (template: string) => (req: Request, res: Response) => {
 router.get(pageUrls.DISSOLVED_ROOT, renderTemplate(templatePaths.DISSOLVED_INDEX));
 router.get(pageUrls.DISSOLVED_GET_RESULTS, searchController);
 
+function hijackTheUrl(req: Request){
+    if (req.params.searchType === "alphabetical" && req.query.changedName === "previousNameDissolved") {
+        req.params.searchType = "bestMatch";
+    }
+}
+
 export default router;

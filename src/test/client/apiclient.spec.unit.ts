@@ -79,6 +79,7 @@ const mockDissolvedResponse: Resource<DissolvedCompanyResource> = {
 };
 
 const mockRequestID: string = "ID";
+const mockChangedNameID: string = "NAME";
 
 const sandbox = sinon.createSandbox();
 
@@ -103,7 +104,7 @@ describe("api.client", () => {
             sandbox.stub(DissolvedSearchService.prototype, "getCompanies")
                 .returns(Promise.resolve(mockDissolvedResponse));
 
-            const dissolvedAlphabeticalSearchResults = await getDissolvedCompanies("api key", "test company", mockRequestID, "alphabetical");
+            const dissolvedAlphabeticalSearchResults = await getDissolvedCompanies("api key", "test company", mockRequestID, "alphabetical", "bestMatch");
             chai.expect(dissolvedAlphabeticalSearchResults).to.equal(mockDissolvedResponse.resource);
         });
 
@@ -111,7 +112,7 @@ describe("api.client", () => {
             sandbox.stub(DissolvedSearchService.prototype, "getCompanies")
                 .returns(Promise.resolve(mockDissolvedResponse));
 
-            const dissolvedAlphabeticalSearchResults = await getDissolvedCompanies("api key", "test company", mockRequestID, "");
+            const dissolvedAlphabeticalSearchResults = await getDissolvedCompanies("api key", "test company", mockRequestID, "", "bestMatch");
             chai.expect(dissolvedAlphabeticalSearchResults).to.equal(mockDissolvedResponse.resource);
         });
     });
