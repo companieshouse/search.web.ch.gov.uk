@@ -266,6 +266,15 @@ describe("search.controller.spec.unit", () => {
         });
     });
 
+    describe("check it renders the previous name results page when previous names is selected", () => {
+        it("should render the previous name results page", async () => {
+            const resp = await chai.request(testApp)
+                .get("/dissolved-search/get-results?companyName=test&changedName=previousNameDissolved");
+
+            chai.expect(resp.status).to.equal(200);
+        });
+    });
+
     describe("check it displays alphabetical search results when checkbox for alphabetical is ticked", () => {
         it("should return a results page successfully with the top hit having a css class 'nearest'", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getDissolvedCompanies")
