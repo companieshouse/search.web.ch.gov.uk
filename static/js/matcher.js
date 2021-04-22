@@ -14,3 +14,9 @@ function changeThis(sender) {
         document.getElementById("which-company-name-to-search-2").removeAttribute('disabled');
     }
 };
+
+function onLoad() {
+    window.addEventListener('load', function() {
+        document.getElementById("alphabetical").checked = false;
+    })
+};
