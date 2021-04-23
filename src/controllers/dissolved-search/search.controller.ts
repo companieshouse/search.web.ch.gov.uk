@@ -108,18 +108,19 @@ const route = async (req: Request, res: Response) => {
         }
 
         if (changeNameTypeParam === PREVIOUS_NAME_SEARCH_TYPE) {
-            res.render(templatePaths.DISSOLVED_SEARCH_RESULTS_PREVIOUS_NAME, {
+            return res.render(templatePaths.DISSOLVED_SEARCH_RESULTS_PREVIOUS_NAME, {
                 searchResults, searchedName: companyName, templateName: templatePaths.DISSOLVED_SEARCH_RESULTS_PREVIOUS_NAME, lastUpdatedMessage
-        });
-    }
+            });
+        } 
 
-        res.render(templatePaths.DISSOLVED_SEARCH_RESULTS, {
+        return res.render(templatePaths.DISSOLVED_SEARCH_RESULTS, {
             searchResults, searchedName: companyName, templateName: templatePaths.DISSOLVED_SEARCH_RESULTS, lastUpdatedMessage
         });
+
     } else {
         const errorText = errors.array().map((err) => err.msg).pop() as string;
         const companyNameErrorData: GovUkErrorData = createGovUkErrorData(errorText, "#companyName", true, "");
-        res.render(templatePaths.DISSOLVED_INDEX, {
+        return res.render(templatePaths.DISSOLVED_INDEX, {
             companyNameErrorData,
             errorList: [companyNameErrorData]
         });
