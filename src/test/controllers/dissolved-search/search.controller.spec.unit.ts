@@ -272,6 +272,8 @@ describe("search.controller.spec.unit", () => {
                 .get("/dissolved-search/get-results?companyName=test&changedName=previousNameDissolved");
 
             chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.not.contain("nearest");
+            
         });
     });
 
