@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block pageTitle %}
-    Dissolved search - results
+    Dissolved search - previous name results
 {% endblock %}
 {% block beforeContent %}
     {{ govukBackLink({
@@ -16,6 +16,9 @@
       {{ govukTable({
         firstCellIsHeader: false,
           head: [
+            {
+              text: "Previous Company name"
+            },
             {
               text: "Company name"
             },

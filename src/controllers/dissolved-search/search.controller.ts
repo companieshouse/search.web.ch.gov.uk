@@ -19,6 +19,7 @@ const validators = [
 
 const ALPHABETICAL_SEARCH_TYPE: string = "alphabetical";
 const BEST_MATCH_SEARCH_TYPE: string = "bestMatch";
+const PREVIOUS_NAME_SEARCH_TYPE: string = "previousNameDissolved";
 
 const route = async (req: Request, res: Response) => {
     const cookies = new Cookies(req, res);
@@ -27,6 +28,7 @@ const route = async (req: Request, res: Response) => {
     if (errors.isEmpty()) {
         const companyNameRequestParam: string = req.query.companyName as string;
         const searchTypeRequestParam: string = req.query.searchType as string;
+        const changeNameTypeParam: string = req.query.changedName as string;
         const companyName: string = companyNameRequestParam;
         const encodedCompanyName: string = encodeURIComponent(companyName);
         Date();
@@ -38,9 +40,12 @@ const route = async (req: Request, res: Response) => {
         try {
             if (searchTypeRequestParam === ALPHABETICAL_SEARCH_TYPE) {
                 searchType = ALPHABETICAL_SEARCH_TYPE;
+            } 
+            else if (changeNameTypeParam === PREVIOUS_NAME_SEARCH_TYPE) {
+                searchType = PREVIOUS_NAME_SEARCH_TYPE;
             } else {
                 searchType = BEST_MATCH_SEARCH_TYPE;
-            };
+            }
 
             const companyResource: CompaniesResource =
                 await getDissolvedCompanies(API_KEY, encodedCompanyName, cookies.get(SEARCH_WEB_COOKIE_NAME), searchType);
@@ -49,43 +54,73 @@ const route = async (req: Request, res: Response) => {
             let noNearestMatch: boolean = true;
             searchResults = companyResource.items.map((result) => {
                 let nearestClass: string = "";
-
                 if (result.company_name === topHit.company_name && noNearestMatch && searchType === ALPHABETICAL_SEARCH_TYPE) {
                     nearestClass = "nearest";
                     noNearestMatch = false;
                 }
-                return [
-                    {
-                        classes: nearestClass,
-                        html: sanitiseCompanyName(result.company_name)
-                    },
-                    {
-                        text: result.company_number
-                    },
-                    {
-                        text: formatDate(result.date_of_creation)
-                    },
-                    {
-                        text: formatDate(result.date_of_cessation),
-                        classes: "govuk-table__cell no-wrap"
-                    },
-                    {
-                        text: formatPostCode(result.address.postal_code)
-                    }
-                ];
+                if (searchType === PREVIOUS_NAME_SEARCH_TYPE) {
+                    return [
+                        {
+                            html: sanitiseCompanyName(result.previous_company_names)
+                        },
+                        {
+                            html: sanitiseCompanyName(result.company_name)
+                        },
+                        {
+                            text: result.company_number
+                        },
+                        {
+                            text: formatDate(result.date_of_creation)
+                        },
+                        {
+                            text: formatDate(result.date_of_cessation),
+                            classes: "govuk-table__cell no-wrap"
+                        },
+                        {
+                            text: formatPostCode(result.address.postal_code)
+                        }
+                    ];
+                } else {
+                    return [
+                        {
+                            classes: nearestClass,
+                            html: sanitiseCompanyName(result.company_name)
+                        },
+                        {
+                            text: result.company_number
+                        },
+                        {
+                            text: formatDate(result.date_of_creation)
+                        },
+                        {
+                            text: formatDate(result.date_of_cessation),
+                            classes: "govuk-table__cell no-wrap"
+                        },
+                        {
+                            text: formatPostCode(result.address.postal_code)
+                        }
+                    ];
+                }
             });
         } catch (err) {
             searchResults = [];
             logger.error(`${err}`);
         }
 
-        res.render(templatePaths.DISSOLVED_SEARCH_RESULTS, {
-            searchResults, searchTerm: companyName, templateName: templatePaths.DISSOLVED_SEARCH_RESULTS, lastUpdatedMessage
+        if (changeNameTypeParam === PREVIOUS_NAME_SEARCH_TYPE) {
+            return res.render(templatePaths.DISSOLVED_SEARCH_RESULTS_PREVIOUS_NAME, {
+                searchResults, searchedName: companyName, templateName: templatePaths.DISSOLVED_SEARCH_RESULTS_PREVIOUS_NAME, lastUpdatedMessage
+            });
+        } 
+
+        return res.render(templatePaths.DISSOLVED_SEARCH_RESULTS, {
+            searchResults, searchedName: companyName, templateName: templatePaths.DISSOLVED_SEARCH_RESULTS, lastUpdatedMessage
         });
+
     } else {
         const errorText = errors.array().map((err) => err.msg).pop() as string;
         const companyNameErrorData: GovUkErrorData = createGovUkErrorData(errorText, "#companyName", true, "");
-        res.render(templatePaths.DISSOLVED_INDEX, {
+        return res.render(templatePaths.DISSOLVED_INDEX, {
             companyNameErrorData,
             errorList: [companyNameErrorData]
         });
