@@ -25,7 +25,7 @@ describe("index.spec.unit", () => {
 
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain("Search for a dissolved company");
-            chai.expect($("#which-company-name-to-search").prop("checked")).be.true;
+            chai.expect($("#changed-name").prop("checked")).be.true;
         });
     });
 });
