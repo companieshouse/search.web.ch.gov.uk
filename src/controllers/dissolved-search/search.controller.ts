@@ -121,10 +121,10 @@ const route = async (req: Request, res: Response) => {
         });
     } else {
         const errorText = errors.array().map((err) => err.msg).pop() as string;
-        const companyNameErrorData: GovUkErrorData = createGovUkErrorData(errorText, "#changed-name", true, "");
+        const dissolvedSearchOptionsErrorData: GovUkErrorData = createGovUkErrorData(errorText, "#changed-name", true, "");
         return res.render(templatePaths.DISSOLVED_INDEX, {
-            companyNameErrorData,
-            errorList: [companyNameErrorData]
+            dissolvedSearchOptionsErrorData,
+            errorList: [dissolvedSearchOptionsErrorData]
         });
     }
 };
