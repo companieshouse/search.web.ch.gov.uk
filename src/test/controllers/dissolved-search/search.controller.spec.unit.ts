@@ -273,7 +273,6 @@ describe("search.controller.spec.unit", () => {
 
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.not.contain("nearest");
-            
         });
     });
 
