@@ -28,4 +28,16 @@ describe("index.spec.unit", () => {
             chai.expect($("#changed-name").prop("checked")).be.true;
         });
     });
+
+    describe("display error message when previous company name and alphabetical options are selected for non JS users", () => {
+        it("should display error message", async () => {
+            const resp = await chai.request(testApp)
+                .get("/dissolved-search/get-results?companyName=telesa&searchType=alphabetical&changedName=previousNameDissolved");
+
+            const $ = cheerio.load(resp.text);
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("There is a problem");
+        });
+    });
 });

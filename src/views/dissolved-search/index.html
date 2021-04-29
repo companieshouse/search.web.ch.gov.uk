@@ -1,5 +1,12 @@
 {% extends "base.html" %}
 
+{% block pageTitle %}
+    {% if errorList.length > 0 %}
+        Error:
+    {% endif %}
+        Dissolved search
+{% endblock %}
+
 {% block content %}
 
 <div class="govuk-grid-row">
@@ -7,6 +14,20 @@
     <h1 class="govuk-heading-xl">
       Search for a dissolved company
     </h1>
+
+    {% if errorList.length > 0 %}
+      {{ govukErrorSummary({
+        titleText: ERROR_SUMMARY_TITLE,
+        errorList: errorList
+      }) }}
+    {% endif %}
+
+    {% if collectionErr.flag %}
+      {% set collectionErrorMessage = {
+        text: collectionErr.text
+      } %}
+    {% endif %}
+    
     <p class="govuk-body">Search by name for companies dissolved between 1/1/1989 and 31/12/2009. </p>
 
     <form action="/dissolved-search/get-results" method="GET">
@@ -51,6 +72,7 @@
                 text: "Which company names do you want to search?"
               }
             },
+            errorMessage: dissolvedSearchOptionsErrorData,
             items: [
               {
                 value: "name-at-dissolution",

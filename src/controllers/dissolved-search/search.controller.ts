@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { check, validationResult } from "express-validator";
+import { query, validationResult } from "express-validator";
 import { createGovUkErrorData, GovUkErrorData } from "../../model/govuk.error.data";
 import { CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/dissolved-search/types";
 import { createLogger } from "@companieshouse/structured-logging-node";
@@ -13,13 +13,18 @@ import Cookies = require("cookies");
 
 const logger = createLogger(APPLICATION_NAME);
 
-const validators = [
-    check("companyName").not().isEmpty().withMessage(errorMessages.COMPANY_NAME_EMPTY)
-];
-
 const ALPHABETICAL_SEARCH_TYPE: string = "alphabetical";
 const BEST_MATCH_SEARCH_TYPE: string = "bestMatch";
 const PREVIOUS_NAME_SEARCH_TYPE: string = "previousNameDissolved";
+
+const validators = [
+    query("alphabetical").custom((value, { req }) => {
+        if (req.query?.searchType === ALPHABETICAL_SEARCH_TYPE && req.query?.changedName === PREVIOUS_NAME_SEARCH_TYPE) {
+            throw new Error(errorMessages.ALPHABETICAL_PREVIOUS_NAMES_ERROR);
+        }
+        return true;
+    })
+];
 
 const route = async (req: Request, res: Response) => {
     const cookies = new Cookies(req, res);
@@ -40,8 +45,7 @@ const route = async (req: Request, res: Response) => {
         try {
             if (searchTypeRequestParam === ALPHABETICAL_SEARCH_TYPE) {
                 searchType = ALPHABETICAL_SEARCH_TYPE;
-            } 
-            else if (changeNameTypeParam === PREVIOUS_NAME_SEARCH_TYPE) {
+            } else if (changeNameTypeParam === PREVIOUS_NAME_SEARCH_TYPE) {
                 searchType = PREVIOUS_NAME_SEARCH_TYPE;
             } else {
                 searchType = BEST_MATCH_SEARCH_TYPE;
@@ -111,18 +115,16 @@ const route = async (req: Request, res: Response) => {
             return res.render(templatePaths.DISSOLVED_SEARCH_RESULTS_PREVIOUS_NAME, {
                 searchResults, searchedName: companyName, templateName: templatePaths.DISSOLVED_SEARCH_RESULTS_PREVIOUS_NAME, lastUpdatedMessage
             });
-        } 
-
+        }
         return res.render(templatePaths.DISSOLVED_SEARCH_RESULTS, {
             searchResults, searchedName: companyName, templateName: templatePaths.DISSOLVED_SEARCH_RESULTS, lastUpdatedMessage
         });
-
     } else {
         const errorText = errors.array().map((err) => err.msg).pop() as string;
-        const companyNameErrorData: GovUkErrorData = createGovUkErrorData(errorText, "#companyName", true, "");
+        const dissolvedSearchOptionsErrorData: GovUkErrorData = createGovUkErrorData(errorText, "#changed-name", true, "");
         return res.render(templatePaths.DISSOLVED_INDEX, {
-            companyNameErrorData,
-            errorList: [companyNameErrorData]
+            dissolvedSearchOptionsErrorData,
+            errorList: [dissolvedSearchOptionsErrorData]
         });
     }
 };
