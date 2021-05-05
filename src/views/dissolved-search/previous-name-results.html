@@ -12,6 +12,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
     <h1 class="govuk-heading-xl">Search results</h1>
+    <p class="govuk-body govuk-!-width-two-thirds">You can call the Contact Centre on 0303 123 4500, or email <a href="mailto:enquiries@companieshouse.gov.uk">enquiries@companieshouse.gov.uk</a>, to find out if there is any more information available about a dissolved company.</p>
     {% if searchResults.length > 0 %}
       {{ govukTable({
         firstCellIsHeader: false,
@@ -37,8 +38,7 @@
           ],
           rows: searchResults
       }) }}
-      <p class="govuk-body govuk-!-width-two-thirds">You can call the Contact Centre on 0303 123 4500 to find out if there is any more information available about a dissolved company.</p>
-      <p class="govuk-body">{{ lastUpdatedMessage }}</p>
+      <p class="govuk-body">Data is updated daily.</p>
     {% else %}
       <h2 class="govuk-heading-l" style="overflow-wrap: break-word;">No results found for "{{ searchedName }}"</h2>
       <p class="govuk-body">Please try searching again using a different search criteria.</p>
