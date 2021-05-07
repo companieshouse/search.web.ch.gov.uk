@@ -81,7 +81,7 @@ const route = async (req: Request, res: Response) => {
                             classes: "govuk-table__cell no-wrap"
                         },
                         {
-                            text: formatPostCode(result.address.postal_code)
+                            text: formatPostCode(result.address?.postal_code)
                         }
                     ];
                 } else {
