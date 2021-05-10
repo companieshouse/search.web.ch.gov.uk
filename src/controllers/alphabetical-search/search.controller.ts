@@ -39,23 +39,24 @@ const route = async (req: Request, res: Response) => {
             let noNearestMatch: boolean = true;
             const lastIndexPosition = companyResource.results.length -1;
 
-            const interimPreviousPageName = encodeURIComponent(companyResource.results[0].items.corporate_name);
-            const interimNextPageName = encodeURIComponent(companyResource.results[lastIndexPosition].items.corporate_name);
+            // const interimPreviousPageName = encodeURIComponent(companyResource.results[0]?.items.corporate_name);
+            // const interimNextPageName = encodeURIComponent(companyResource.results[lastIndexPosition]?.items.corporate_name);
             
-            const interimPrevCompanyResource: CompaniesResource = 
-                await getCompanies(API_KEY, interimPreviousPageName, cookies.get(SEARCH_WEB_COOKIE_NAME));
+            // const interimPrevCompanyResource: CompaniesResource = 
+            //     await getCompanies(API_KEY, interimPreviousPageName, cookies.get(SEARCH_WEB_COOKIE_NAME));
 
-            const interimNextCompanyResource: CompaniesResource =
-                await getCompanies(API_KEY, interimNextPageName, cookies.get(SEARCH_WEB_COOKIE_NAME));
+            // const interimNextCompanyResource: CompaniesResource =
+            //     await getCompanies(API_KEY, interimNextPageName, cookies.get(SEARCH_WEB_COOKIE_NAME));
 
-            previousUrl = "get-results?companyName=" + interimPrevCompanyResource.results[0].items.corporate_name.replace(/\s/g, '+');
-            nextUrl = "get-results?companyName=" + interimNextCompanyResource.results[lastIndexPosition].items.corporate_name.replace(/\s/g, '+');
+            previousUrl = "get-results?companyName=" + companyResource.results[0]?.items.corporate_name.replace(/\s/g, '+');
+            nextUrl = "get-results?companyName=" + companyResource.results[lastIndexPosition]?.items.corporate_name.replace(/\s/g, '+');
 
             showPrevLink =  req.url.includes(previousUrl) ? false: true;
             showNextLink = req.url.includes(nextUrl) ? false : true;
             
-            searchResults = companyResource.results.map((result) => {
-                const status = result.items.company_status;
+            const slicedCompanyResource = companyResource.results.slice(20, 61);
+            searchResults = slicedCompanyResource.map((result) => {
+                const status = result?.items.company_status;
                 let capitalisedStatus: string = "";
                 let nearestClass: string = "";
 
@@ -68,7 +69,7 @@ const route = async (req: Request, res: Response) => {
                     noNearestMatch = false;
                 }
 
-                const sanitisedCorporateName = escape(result.items.corporate_name);
+                const sanitisedCorporateName = escape(result?.items.corporate_name);
 
                 return [
                     {
@@ -76,7 +77,7 @@ const route = async (req: Request, res: Response) => {
                         html: `<a href="${result.links.self}">${sanitisedCorporateName}</a>`
                     },
                     {
-                        text: result.items.company_number
+                        text: result?.items.company_number
                     },
                     {
                         text: capitalisedStatus
