@@ -26,16 +26,39 @@ const route = async (req: Request, res: Response) => {
         const companyName: string = companyNameRequestParam;
         const encodedCompanyName: string = encodeURIComponent(companyName);
         let searchResults;
+        let previousUrl;
+        let nextUrl;
+        let showPrevLink;
+        let showNextLink;
 
         try {
             const companyResource: CompaniesResource =
                 await getCompanies(API_KEY, encodedCompanyName, cookies.get(SEARCH_WEB_COOKIE_NAME));
+
             const topHit: string = companyResource.topHit;
             let noNearestMatch: boolean = true;
+            const lastIndexPosition = companyResource.results.length -1;
+
+            const interimPreviousPageName = encodeURIComponent(companyResource.results[0].items.corporate_name);
+            const interimNextPageName = encodeURIComponent(companyResource.results[lastIndexPosition].items.corporate_name);
+            
+            const interimPrevCompanyResource: CompaniesResource = 
+                await getCompanies(API_KEY, interimPreviousPageName, cookies.get(SEARCH_WEB_COOKIE_NAME));
+
+            const interimNextCompanyResource: CompaniesResource =
+                await getCompanies(API_KEY, interimNextPageName, cookies.get(SEARCH_WEB_COOKIE_NAME));
+
+            previousUrl = "get-results?companyName=" + interimPrevCompanyResource.results[0].items.corporate_name.replace(/\s/g, '+');
+            nextUrl = "get-results?companyName=" + interimNextCompanyResource.results[lastIndexPosition].items.corporate_name.replace(/\s/g, '+');
+
+            showPrevLink =  req.url.includes(previousUrl) ? false: true;
+            showNextLink = req.url.includes(nextUrl) ? false : true;
+            
             searchResults = companyResource.results.map((result) => {
                 const status = result.items.company_status;
                 let capitalisedStatus: string = "";
                 let nearestClass: string = "";
+
                 if (status !== undefined) {
                     capitalisedStatus = status.charAt(0).toUpperCase() + status.slice(1);
                 }
@@ -64,9 +87,8 @@ const route = async (req: Request, res: Response) => {
             searchResults = [];
             logger.error(`${err}`);
         }
-
         res.render(templatePaths.ALPHABETICAL_SEARCH_RESULTS, {
-            searchResults, searchTerm: companyName, templateName: templatePaths.ALPHABETICAL_SEARCH_RESULTS
+            searchResults, previousUrl, nextUrl, showPrevLink, showNextLink, searchTerm: companyName, templateName: templatePaths.ALPHABETICAL_SEARCH_RESULTS
         });
     } else {
         const errorText = errors.array().map((err) => err.msg).pop() as string;
