@@ -32,6 +32,14 @@
           ],
           rows: searchResults
       }) }}
+      <div class="pagination">
+        {% if showPrevLink %}
+            <a class="govuk-link" id="previousLink" href={{previousUrl}}>Previous</a>
+        {% endif %}
+        {% if showNextLink %}
+            <a class="govuk-link" id="nextLink" href={{nextUrl}}>Next</a>
+        {% endif %}
+      </div>
     {% else %}
       <h2 class="govuk-heading-l" style="overflow-wrap: break-word;">No results found for "{{ searchTerm }}"</h2>
       <p class="govuk-body">Please try searching again using a different search criteria.</p>

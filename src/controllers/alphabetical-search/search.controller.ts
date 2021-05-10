@@ -26,16 +26,35 @@ const route = async (req: Request, res: Response) => {
         const companyName: string = companyNameRequestParam;
         const encodedCompanyName: string = encodeURIComponent(companyName);
         let searchResults;
+        let previousUrl;
+        let nextUrl;
+        let showPrevLink;
+        let showNextLink;
+        let slicedCompanyResource;
 
         try {
             const companyResource: CompaniesResource =
                 await getCompanies(API_KEY, encodedCompanyName, cookies.get(SEARCH_WEB_COOKIE_NAME));
+
             const topHit: string = companyResource.topHit;
+            const lastIndexPosition = companyResource.results.length - 1;
             let noNearestMatch: boolean = true;
-            searchResults = companyResource.results.map((result) => {
-                const status = result.items.company_status;
+
+            if (companyResource.results.length > 20) {
+                slicedCompanyResource = companyResource.results.slice(20, 61);
+            };
+
+            previousUrl = "get-results?companyName=" + companyResource.results[0]?.items.corporate_name.replace(/\s/g, "+");
+            nextUrl = "get-results?companyName=" + companyResource.results[lastIndexPosition]?.items.corporate_name.replace(/\s/g, "+");
+
+            showPrevLink = !req.url.includes(previousUrl);
+            showNextLink = !req.url.includes(nextUrl);
+
+            searchResults = slicedCompanyResource.map((result) => {
+                const status = result?.items.company_status;
                 let capitalisedStatus: string = "";
                 let nearestClass: string = "";
+
                 if (status !== undefined) {
                     capitalisedStatus = status.charAt(0).toUpperCase() + status.slice(1);
                 }
@@ -45,7 +64,7 @@ const route = async (req: Request, res: Response) => {
                     noNearestMatch = false;
                 }
 
-                const sanitisedCorporateName = escape(result.items.corporate_name);
+                const sanitisedCorporateName = escape(result?.items.corporate_name);
 
                 return [
                     {
@@ -53,7 +72,7 @@ const route = async (req: Request, res: Response) => {
                         html: `<a href="${result.links.self}">${sanitisedCorporateName}</a>`
                     },
                     {
-                        text: result.items.company_number
+                        text: result?.items.company_number
                     },
                     {
                         text: capitalisedStatus
@@ -64,9 +83,8 @@ const route = async (req: Request, res: Response) => {
             searchResults = [];
             logger.error(`${err}`);
         }
-
         res.render(templatePaths.ALPHABETICAL_SEARCH_RESULTS, {
-            searchResults, searchTerm: companyName, templateName: templatePaths.ALPHABETICAL_SEARCH_RESULTS
+            searchResults, previousUrl, nextUrl, showPrevLink, showNextLink, searchTerm: companyName, templateName: templatePaths.ALPHABETICAL_SEARCH_RESULTS
         });
     } else {
         const errorText = errors.array().map((err) => err.msg).pop() as string;
