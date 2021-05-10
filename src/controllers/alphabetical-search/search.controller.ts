@@ -30,6 +30,7 @@ const route = async (req: Request, res: Response) => {
         let nextUrl;
         let showPrevLink;
         let showNextLink;
+        let slicedCompanyResource;
 
         try {
             const companyResource: CompaniesResource =
@@ -37,8 +38,11 @@ const route = async (req: Request, res: Response) => {
 
             const topHit: string = companyResource.topHit;
             const lastIndexPosition = companyResource.results.length - 1;
-            const slicedCompanyResource = companyResource.results.slice(20, 61);
             let noNearestMatch: boolean = true;
+
+            if (companyResource.results.length > 20) {
+                slicedCompanyResource = companyResource.results.slice(20, 61);
+            };
 
             previousUrl = "get-results?companyName=" + companyResource.results[0]?.items.corporate_name.replace(/\s/g, "+");
             nextUrl = "get-results?companyName=" + companyResource.results[lastIndexPosition]?.items.corporate_name.replace(/\s/g, "+");
