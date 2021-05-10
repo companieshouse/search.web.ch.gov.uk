@@ -1,6 +1,6 @@
 import { CompaniesResource, Result, Items, Links } from "@companieshouse/api-sdk-node/dist/services/search/alphabetical-search/types";
 
-export const getDummyCompanyResource = (name?: string): CompaniesResource => {
+export const getDummyCompanyResource = (name: string): CompaniesResource => {
     return {
         searchType: "searchType",
         topHit: "topHit",
@@ -16,27 +16,27 @@ export const getDummyCompanyResourceEmpty = (): CompaniesResource => {
     };
 };
 
-export const createDummyResults = (name?: string): Result[] => {
-    const results: Result[] = [createDummyResult(name)];
+export const createDummyResults = (name: string): Result[] => {
+    const results: Result[] = createArrayDummyResults(name);
     return results;
 };
 
-export const createDummyResult = (name?: string): Result => {
-    return {
-        ID: "ID",
-        company_type: "company_type",
-        items: createDummyItems(name),
-        links: createDummyLinks()
-    };
-};
-
-export const createDummyItems = (name = "Test"): Items => {
-    return {
-        company_number: "00006400",
-        company_status: "active",
-        corporate_name: name,
-        record_type: "test"
-    };
+export const createArrayDummyResults = (name: string) : Result[] => {
+    const resultsArray: Result[] = [];
+    for (let i = 0; i < 81; i++) {
+        resultsArray.push({
+            ID: "id",
+            company_type: "company_type",
+            items: {
+                company_number: "00006400",
+                company_status: "active",
+                corporate_name: name + i,
+                record_type: "test"
+            },
+            links: createDummyLinks()
+        });
+    }
+    return resultsArray;
 };
 
 export const createDummyLinks = (): Links => {

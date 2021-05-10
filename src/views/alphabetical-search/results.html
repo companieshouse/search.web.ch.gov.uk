@@ -34,10 +34,10 @@
       }) }}
       <div class="pagination">
         {% if showPrevLink %}
-            <a class="govuk-link" href={{previousUrl}}>Previous</a>
+            <a class="govuk-link" id="previousLink" href={{previousUrl}}>Previous</a>
         {% endif %}
         {% if showNextLink %}
-            <a class="govuk-link" href={{nextUrl}}>Next</a>
+            <a class="govuk-link" id="nextLink" href={{nextUrl}}>Next</a>
         {% endif %}
       </div>
     {% else %}

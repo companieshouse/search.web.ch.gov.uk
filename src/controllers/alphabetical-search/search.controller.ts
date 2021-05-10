@@ -36,25 +36,16 @@ const route = async (req: Request, res: Response) => {
                 await getCompanies(API_KEY, encodedCompanyName, cookies.get(SEARCH_WEB_COOKIE_NAME));
 
             const topHit: string = companyResource.topHit;
-            let noNearestMatch: boolean = true;
-            const lastIndexPosition = companyResource.results.length -1;
-
-            // const interimPreviousPageName = encodeURIComponent(companyResource.results[0]?.items.corporate_name);
-            // const interimNextPageName = encodeURIComponent(companyResource.results[lastIndexPosition]?.items.corporate_name);
-            
-            // const interimPrevCompanyResource: CompaniesResource = 
-            //     await getCompanies(API_KEY, interimPreviousPageName, cookies.get(SEARCH_WEB_COOKIE_NAME));
-
-            // const interimNextCompanyResource: CompaniesResource =
-            //     await getCompanies(API_KEY, interimNextPageName, cookies.get(SEARCH_WEB_COOKIE_NAME));
-
-            previousUrl = "get-results?companyName=" + companyResource.results[0]?.items.corporate_name.replace(/\s/g, '+');
-            nextUrl = "get-results?companyName=" + companyResource.results[lastIndexPosition]?.items.corporate_name.replace(/\s/g, '+');
-
-            showPrevLink =  req.url.includes(previousUrl) ? false: true;
-            showNextLink = req.url.includes(nextUrl) ? false : true;
-            
+            const lastIndexPosition = companyResource.results.length - 1;
             const slicedCompanyResource = companyResource.results.slice(20, 61);
+            let noNearestMatch: boolean = true;
+
+            previousUrl = "get-results?companyName=" + companyResource.results[0]?.items.corporate_name.replace(/\s/g, "+");
+            nextUrl = "get-results?companyName=" + companyResource.results[lastIndexPosition]?.items.corporate_name.replace(/\s/g, "+");
+
+            showPrevLink = !req.url.includes(previousUrl);
+            showNextLink = !req.url.includes(nextUrl);
+
             searchResults = slicedCompanyResource.map((result) => {
                 const status = result?.items.company_status;
                 let capitalisedStatus: string = "";
