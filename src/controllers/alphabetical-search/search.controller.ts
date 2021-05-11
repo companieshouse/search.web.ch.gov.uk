@@ -39,16 +39,11 @@ const route = async (req: Request, res: Response) => {
             const topHit: string = companyResource.topHit;
             const lastIndexPosition = companyResource.results.length - 1;
             let noNearestMatch: boolean = true;
+            let originalCompanyNumber;
 
             if (companyResource.results.length > 20) {
                 slicedCompanyResource = companyResource.results.slice(20, 61);
             };
-
-            previousUrl = "get-results?companyName=" + companyResource.results[0]?.items.corporate_name.replace(/\s/g, "+");
-            nextUrl = "get-results?companyName=" + companyResource.results[lastIndexPosition]?.items.corporate_name.replace(/\s/g, "+");
-
-            showPrevLink = !req.url.includes(previousUrl);
-            showNextLink = !req.url.includes(nextUrl);
 
             searchResults = slicedCompanyResource.map((result) => {
                 const status = result?.items.company_status;
@@ -57,12 +52,19 @@ const route = async (req: Request, res: Response) => {
 
                 if (status !== undefined) {
                     capitalisedStatus = status.charAt(0).toUpperCase() + status.slice(1);
-                }
+                };
 
                 if (result.items.corporate_name === topHit && noNearestMatch) {
-                    nearestClass = "nearest";
-                    noNearestMatch = false;
-                }
+                    if (!req.query.originalCompanyNumber) {
+                        originalCompanyNumber = result?.items.company_number;
+                    } else {
+                        originalCompanyNumber = req.query.originalCompanyNumber;
+                    }
+                    if (result?.items.company_number === originalCompanyNumber) {
+                        nearestClass = "nearest";
+                        noNearestMatch = false;
+                    }
+                };
 
                 const sanitisedCorporateName = escape(result?.items.corporate_name);
 
@@ -79,6 +81,15 @@ const route = async (req: Request, res: Response) => {
                     }
                 ];
             });
+
+            if (req.query.originalCompanyNumber) {
+                originalCompanyNumber = req.query.originalCompanyNumber;
+            };
+            previousUrl = "get-results?companyName=" + companyResource.results[0]?.items.corporate_name.replace(/\s/g, "+") + "&originalCompanyNumber=" + originalCompanyNumber;
+            nextUrl = "get-results?companyName=" + companyResource.results[lastIndexPosition]?.items.corporate_name.replace(/\s/g, "+") + "&originalCompanyNumber=" + originalCompanyNumber;
+
+            showPrevLink = !req.url.includes(previousUrl);
+            showNextLink = !req.url.includes(nextUrl);
         } catch (err) {
             searchResults = [];
             logger.error(`${err}`);
