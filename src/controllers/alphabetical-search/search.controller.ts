@@ -84,7 +84,8 @@ const route = async (req: Request, res: Response) => {
 
             if (req.query.originalCompanyNumber) {
                 originalCompanyNumber = req.query.originalCompanyNumber;
-            };
+            }
+
             previousUrl = "get-results?companyName=" + companyResource.results[0]?.items.corporate_name.replace(/\s/g, "+") + "&originalCompanyNumber=" + originalCompanyNumber;
             nextUrl = "get-results?companyName=" + companyResource.results[lastIndexPosition]?.items.corporate_name.replace(/\s/g, "+") + "&originalCompanyNumber=" + originalCompanyNumber;
 
