@@ -58,7 +58,31 @@ describe("search.controller.spec.unit", () => {
 
             chai.expect(resp.status).to.equal(200);
             chai.expect($("#previousLink").attr("href")).to.include("nab0");
-            chai.expect($("#nextLink").attr("href")).to.include("nab80");
+            chai.expect($("#nextLink").attr("href")).to.include("nab81");
+        });
+    });
+
+    describe("check that the searched term result is only highlighted using pagination", () => {
+        it("check the search term is highlighted", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyCompanyResource("companyNameTest")));
+
+            const resp = await chai.request(testApp)
+                .get("/alphabetical-search/get-results?companyName=companyNameTest&originalCompanyNumber=0000640041");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("nearest");
+        });
+
+        it("check the no result is highlighted on screen", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyCompanyResource("companyNameTest")));
+
+            const resp = await chai.request(testApp)
+                .get("/alphabetical-search/get-results?companyName=companyNameTest&originalCompanyNumber=0000540041");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.not.contain("nearest");
         });
     });
 

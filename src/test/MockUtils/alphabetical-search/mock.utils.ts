@@ -3,7 +3,7 @@ import { CompaniesResource, Result, Items, Links } from "@companieshouse/api-sdk
 export const getDummyCompanyResource = (name: string): CompaniesResource => {
     return {
         searchType: "searchType",
-        topHit: "topHit",
+        topHit: "companyNameTest41",
         results: createDummyResults(name)
     };
 };
@@ -23,12 +23,12 @@ export const createDummyResults = (name: string): Result[] => {
 
 export const createArrayDummyResults = (name: string) : Result[] => {
     const resultsArray: Result[] = [];
-    for (let i = 0; i < 81; i++) {
+    for (let i = 0; i < 82; i++) {
         resultsArray.push({
             ID: "id",
             company_type: "company_type",
             items: {
-                company_number: "00006400",
+                company_number: "00006400" + i,
                 company_status: "active",
                 corporate_name: name + i,
                 record_type: "test"
