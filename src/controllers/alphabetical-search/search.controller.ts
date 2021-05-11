@@ -43,7 +43,7 @@ const route = async (req: Request, res: Response) => {
 
             if (companyResource.results.length > 20) {
                 slicedCompanyResource = companyResource.results.slice(20, 61);
-            };
+            }
 
             searchResults = slicedCompanyResource.map((result) => {
                 const status = result?.items.company_status;
@@ -52,7 +52,7 @@ const route = async (req: Request, res: Response) => {
 
                 if (status !== undefined) {
                     capitalisedStatus = status.charAt(0).toUpperCase() + status.slice(1);
-                };
+                }
 
                 if (result.items.corporate_name === topHit && noNearestMatch) {
                     if (!req.query.originalCompanyNumber) {
@@ -64,7 +64,7 @@ const route = async (req: Request, res: Response) => {
                         nearestClass = "nearest";
                         noNearestMatch = false;
                     }
-                };
+                }
 
                 const sanitisedCorporateName = escape(result?.items.corporate_name);
 
@@ -104,7 +104,7 @@ const route = async (req: Request, res: Response) => {
             companyNameErrorData,
             errorList: [companyNameErrorData]
         });
-    };
+    }
 };
 
 export default [...validators, route];
