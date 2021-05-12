@@ -40,8 +40,11 @@ const route = async (req: Request, res: Response) => {
             const lastIndexPosition = companyResource.results.length - 1;
             let noNearestMatch: boolean = true;
             let originalCompanyNumber;
+            let indexTopHitMatchCorpName = companyResource.results.findIndex(x => x.items.corporate_name === topHit);
 
-            if (companyResource.results.length > 20) {
+            if (companyResource.results[0].items.corporate_name === topHit || indexTopHitMatchCorpName < 20) {
+                slicedCompanyResource = companyResource.results.slice(0, 41);
+            } else if (companyResource.results.length > 20) {
                 slicedCompanyResource = companyResource.results.slice(20, 61);
             }
 
@@ -49,12 +52,15 @@ const route = async (req: Request, res: Response) => {
                 const status = result?.items.company_status;
                 let capitalisedStatus: string = "";
                 let nearestClass: string = "";
+                // console.log(result.items.corporate_name)
 
                 if (status !== undefined) {
                     capitalisedStatus = status.charAt(0).toUpperCase() + status.slice(1);
                 }
 
                 if (result.items.corporate_name === topHit && noNearestMatch) {
+                    console.log("companynumber",result.items.company_number);
+                    console.log("originalnumber",originalCompanyNumber);
                     if (!req.query.originalCompanyNumber) {
                         originalCompanyNumber = result?.items.company_number;
                     } else {
@@ -64,6 +70,7 @@ const route = async (req: Request, res: Response) => {
                         nearestClass = "nearest";
                         noNearestMatch = false;
                     }
+                    console.log("originalnumber",originalCompanyNumber);
                 }
 
                 const sanitisedCorporateName = escape(result?.items.corporate_name);
