@@ -43,6 +43,10 @@ const route = async (req: Request, res: Response) => {
         let searchType: string;
 
         try {
+            if (companyNameRequestParam === "") {
+                return res.render(templatePaths.DISSOLVED_INDEX);
+            }
+
             if (searchTypeRequestParam === ALPHABETICAL_SEARCH_TYPE) {
                 searchType = ALPHABETICAL_SEARCH_TYPE;
             } else if (changeNameTypeParam === PREVIOUS_NAME_SEARCH_TYPE) {

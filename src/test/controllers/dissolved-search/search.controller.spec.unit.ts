@@ -256,6 +256,32 @@ describe("search.controller.spec.unit", () => {
         });
     });
 
+    describe("check the index page refreshes if no search is entered", () => {
+        it("should refresh when no input and company name when it was dissolved is selected", async () => {
+            const resp = await chai.request(testApp)
+                .get("/dissolved-search/get-results?companyName=&changedName=name-at-dissolution");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("Search for a dissolved company");
+        });
+
+        it("should refresh when no input and previous company names is selected", async () => {
+            const resp = await chai.request(testApp)
+                .get("/dissolved-search/get-results?companyName=&changedName=previousNameDissolved");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("Search for a dissolved company");
+        });
+
+        it("should refresh when no input and company name when it was dissolved and show results alphabetically are selected ", async () => {
+            const resp = await chai.request(testApp)
+                .get("/dissolved-search/get-results?companyName=&searchType=alphabetical&changedName=name-at-dissolution");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("Search for a dissolved company");
+        });
+    });
+
     describe("check it displays an error message if a company name hasn't been entered", () => {
         it("should display an error message if no company name is entered", async () => {
             const resp = await chai.request(testApp)
