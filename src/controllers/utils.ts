@@ -71,3 +71,19 @@ export const formatDate = (unformattedDate) => {
 
     return dateToReturn;
 };
+
+export const getDisplayList = (list, topHit) => {
+    const counter = list.findIndex((name) => { return name.items.corporate_name === topHit });
+    const before = 20;
+    const after = 20;
+    let start;
+    let finish;
+    if ((counter - before) > 0) {
+        start = counter - before;
+        finish = 1 + counter + after;
+    } else {
+        start = 0;
+        finish = 1 + counter + after;
+    }
+    return list.slice(start, finish);
+};

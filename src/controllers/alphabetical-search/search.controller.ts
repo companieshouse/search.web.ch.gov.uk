@@ -5,6 +5,7 @@ import { CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/se
 import { createLogger } from "@companieshouse/structured-logging-node";
 import { SEARCH_WEB_COOKIE_NAME, API_KEY, APPLICATION_NAME } from "../../config/config";
 import { getCompanies } from "../../client/apiclient";
+import { getDisplayList } from "../utils";
 import * as templatePaths from "../../model/template.paths";
 import * as errorMessages from "../../model/error.messages";
 
@@ -41,9 +42,7 @@ const route = async (req: Request, res: Response) => {
             let noNearestMatch: boolean = true;
             let originalCompanyNumber;
 
-            if (companyResource.results.length > 20) {
-                slicedCompanyResource = companyResource.results.slice(20, 61);
-            }
+            slicedCompanyResource = getDisplayList(companyResource.results, topHit);
 
             searchResults = slicedCompanyResource.map((result) => {
                 const status = result?.items.company_status;
