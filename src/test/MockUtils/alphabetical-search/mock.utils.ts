@@ -1,9 +1,9 @@
 import { CompaniesResource, Result, Items, Links } from "@companieshouse/api-sdk-node/dist/services/search/alphabetical-search/types";
 
-export const getDummyCompanyResource = (name: string): CompaniesResource => {
+export const getDummyCompanyResource = (name: string, topHit: string): CompaniesResource => {
     return {
         searchType: "searchType",
-        topHit: "companyNameTest41",
+        topHit: topHit,
         results: createDummyResults(name)
     };
 };
