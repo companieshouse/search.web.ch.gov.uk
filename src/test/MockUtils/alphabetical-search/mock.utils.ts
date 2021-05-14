@@ -31,7 +31,8 @@ export const createArrayDummyResults = (name: string) : Result[] => {
                 company_number: "00006400" + i,
                 company_status: "active",
                 corporate_name: name + i,
-                record_type: "test"
+                record_type: "test",
+                ordered_alpha_key: name + i
             },
             links: createDummyLinks()
         });
