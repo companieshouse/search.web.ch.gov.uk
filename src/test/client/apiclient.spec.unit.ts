@@ -20,7 +20,8 @@ const mockResponse: Resource<CompaniesResource> = {
                     company_number: "00006400",
                     company_status: "active",
                     corporate_name: "TEST",
-                    record_type: "test"
+                    record_type: "test",
+                    ordered_alpha_key: "ordered alpha key"
                 },
                 links: {
                     self: "self"
