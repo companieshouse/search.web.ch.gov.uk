@@ -3,6 +3,7 @@ import sinon from "sinon";
 import chai from "chai";
 import cheerio from "cheerio";
 import * as apiClient from "../../../client/apiclient";
+import { CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/alphabetical-search/types";
 
 const sandbox = sinon.createSandbox();
 let testApp = null;
@@ -22,7 +23,7 @@ describe("search.controller.spec.unit", () => {
     describe("check it returns a results page successfully", () => {
         it("should return a results page successfully", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getCompanies")
-                .returns(Promise.resolve(mockUtils.getDummyCompanyResource("nab", "nab")));
+                .returns(Promise.resolve(mockUtils.getDummyCompanyResource("nab", "nab", "nabAlphaKey")));
 
             const resp = await chai.request(testApp)
                 .get("/alphabetical-search/get-results?companyName=nab");
@@ -35,7 +36,7 @@ describe("search.controller.spec.unit", () => {
     describe("check it escapes any HTML tags that are embeeded in the text", () => {
         it("should escape any HTML tags that are embedded in the text", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getCompanies")
-                .returns(Promise.resolve(mockUtils.getDummyCompanyResource("<I>company_name</I>", "nab")));
+                .returns(Promise.resolve(mockUtils.getDummyCompanyResource("<I>company_name</I>", "nab", "nabAlphaKey")));
 
             const resp = await chai.request(testApp)
                 .get("/alphabetical-search/get-results?companyName=nab");
@@ -49,7 +50,23 @@ describe("search.controller.spec.unit", () => {
     describe("check previous and next urls have the correct links being created from the results array", () => {
         it("check previous and next urls have the correct links being created from the results array", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getCompanies")
-                .returns(Promise.resolve(mockUtils.getDummyCompanyResource("nab", "nab")));
+                .returns(Promise.resolve(mockUtils.getDummyCompanyResource("nab", "nab41", "nabAlphaKey")));
+
+            const resp = await chai.request(testApp)
+                .get("/alphabetical-search/get-results?companyName=nab");
+
+            const $ = cheerio.load(resp.text);
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect($("#previousLink").attr("href")).to.include("nabAlphaKey");
+            chai.expect($("#nextLink").attr("href")).to.include("nabAlphaKey");
+        });
+    });
+
+    describe("check previous and next urls have the correct links being created from the results array when alpha key is null", () => {
+        it("check previous and next urls have the correct links being created from the results array using the company name", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyCompanyResource("nab", "nab41", "")));
 
             const resp = await chai.request(testApp)
                 .get("/alphabetical-search/get-results?companyName=nab");
@@ -65,7 +82,7 @@ describe("search.controller.spec.unit", () => {
     describe("check that the searched term result is only highlighted using pagination", () => {
         it("check the tophit search term is highlighted", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getCompanies")
-                .returns(Promise.resolve(mockUtils.getDummyCompanyResource("companyNameTest", "companyNameTest41")));
+                .returns(Promise.resolve(mockUtils.getDummyCompanyResource("companyNameTest", "companyNameTest41", "companyAlphaKey")));
 
             const resp = await chai.request(testApp)
                 .get("/alphabetical-search/get-results?companyName=companyNameTest&originalCompanyNumber=0000640041");
@@ -79,7 +96,7 @@ describe("search.controller.spec.unit", () => {
 
         it("check that no result is highlighted on screen when moving away from the tophit screen", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getCompanies")
-                .returns(Promise.resolve(mockUtils.getDummyCompanyResource("companyNameTest", "companyNameTest")));
+                .returns(Promise.resolve(mockUtils.getDummyCompanyResource("companyNameTest", "companyNameTest", "companyAlphaKey")));
 
             const resp = await chai.request(testApp)
                 .get("/alphabetical-search/get-results?companyName=companyNameTest&originalCompanyNumber=0000540041");
@@ -105,7 +122,7 @@ describe("search.controller.spec.unit", () => {
     describe("check it displays the top or bottom 20 + tophit if the search tophit is at the start or end of index and highlight correct element", () => {
         it("should display the first 20 companies + tophit  if at the start of index and highlight the 1st element", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getCompanies")
-                .returns(Promise.resolve(mockUtils.getDummyCompanyResource("nab", "nab0")));
+                .returns(Promise.resolve(mockUtils.getDummyCompanyResource("nab", "nab0", "nabAlphaKey")));
 
             const resp = await chai.request(testApp)
                 .get("/alphabetical-search/get-results?companyName=nab");
@@ -120,7 +137,7 @@ describe("search.controller.spec.unit", () => {
 
         it("should display the last 20 + the tophit companies if at the end of index and highlight the last element", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getCompanies")
-                .returns(Promise.resolve(mockUtils.getDummyCompanyResource("nab", "nab81")));
+                .returns(Promise.resolve(mockUtils.getDummyCompanyResource("nab", "nab81", "nabAlphaKey")));
 
             const resp = await chai.request(testApp)
                 .get("/alphabetical-search/get-results?companyName=nab81");
@@ -131,6 +148,36 @@ describe("search.controller.spec.unit", () => {
             chai.expect(resp.text).to.contain("nab61");
             chai.expect(resp.text).to.not.contain("nab60");
             chai.expect($(".nearest").text()).to.equal("nab81");
+        });
+    });
+
+    describe("checks the position of the top hit and will or won't show the previous or next links", () => {
+        it("should not display the previous link as the top hot is within the first 20 of the index", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyCompanyResource("nab", "nab3", "nabAlphaKey")));
+
+            const resp = await chai.request(testApp)
+                .get("/alphabetical-search/get-results?companyName=nab");
+
+            const $ = cheerio.load(resp.text);
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("nab20");
+            chai.expect(resp.text).to.not.contain("Previous");
+        });
+
+        it("should not display the next link as the top hot is within the last 20 of the index", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyCompanyResource("nab", "nab71", "nabAlphaKey")));
+
+            const resp = await chai.request(testApp)
+                .get("/alphabetical-search/get-results?companyName=nab81");
+
+            const $ = cheerio.load(resp.text);
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("nab61");
+            chai.expect(resp.text).to.not.contain("Next");
         });
     });
 
