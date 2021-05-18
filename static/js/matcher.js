@@ -16,7 +16,7 @@ function changeThis(sender) {
 };
 
 // Save data to sessionStorage
-function createItem(sender) {
+function createItem() {
     sessionStorage.setItem("enteredName", document.getElementById("companyName").value);
 }
 
