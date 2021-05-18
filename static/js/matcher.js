@@ -6,7 +6,7 @@ $(function() {
     }, 'slow');
 });
 
-function changeThis(sender) { 
+function changeThis() { 
     if (document.getElementById("alphabetical").checked){
         document.getElementById("changed-name").checked = true;
         document.getElementById("changed-name-2").disabled = true;
