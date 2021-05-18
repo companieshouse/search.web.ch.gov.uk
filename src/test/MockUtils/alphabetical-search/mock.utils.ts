@@ -1,10 +1,10 @@
 import { CompaniesResource, Result, Items, Links } from "@companieshouse/api-sdk-node/dist/services/search/alphabetical-search/types";
 
-export const getDummyCompanyResource = (name: string, topHit: string): CompaniesResource => {
+export const getDummyCompanyResource = (name: string, topHit: string, alphaKey: string): CompaniesResource => {
     return {
         searchType: "searchType",
         topHit: topHit,
-        results: createDummyResults(name)
+        results: createDummyResults(name, alphaKey)
     };
 };
 
@@ -16,12 +16,12 @@ export const getDummyCompanyResourceEmpty = (): CompaniesResource => {
     };
 };
 
-export const createDummyResults = (name: string): Result[] => {
-    const results: Result[] = createArrayDummyResults(name);
+export const createDummyResults = (name: string, alphaKey: string): Result[] => {
+    const results: Result[] = createArrayDummyResults(name, alphaKey);
     return results;
 };
 
-export const createArrayDummyResults = (name: string) : Result[] => {
+export const createArrayDummyResults = (name: string, alphaKey: string) : Result[] => {
     const resultsArray: Result[] = [];
     for (let i = 0; i < 82; i++) {
         resultsArray.push({
@@ -32,7 +32,7 @@ export const createArrayDummyResults = (name: string) : Result[] => {
                 company_status: "active",
                 corporate_name: name + i,
                 record_type: "test",
-                ordered_alpha_key: name + i
+                ordered_alpha_key: alphaKey
             },
             links: createDummyLinks()
         });

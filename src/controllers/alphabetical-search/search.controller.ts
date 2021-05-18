@@ -5,7 +5,7 @@ import { CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/se
 import { createLogger } from "@companieshouse/structured-logging-node";
 import { SEARCH_WEB_COOKIE_NAME, API_KEY, APPLICATION_NAME } from "../../config/config";
 import { getCompanies } from "../../client/apiclient";
-import { getDisplayList } from "../utils";
+import { getDisplayList, showPrevNextLinks } from "../utils";
 import * as templatePaths from "../../model/template.paths";
 import * as errorMessages from "../../model/error.messages";
 
@@ -32,6 +32,8 @@ const route = async (req: Request, res: Response) => {
         let showPrevLink;
         let showNextLink;
         let slicedCompanyResource;
+        let prevUrlSearchTerm;
+        let nextUrlSearchTerm;
 
         try {
             const companyResource: CompaniesResource =
@@ -39,6 +41,7 @@ const route = async (req: Request, res: Response) => {
 
             const topHit: string = companyResource.topHit;
             const lastIndexPosition = companyResource.results.length - 1;
+            const showLinks = showPrevNextLinks(companyResource.results, topHit);
             let noNearestMatch: boolean = true;
             let originalCompanyNumber;
 
@@ -85,10 +88,17 @@ const route = async (req: Request, res: Response) => {
                 originalCompanyNumber = req.query.originalCompanyNumber;
             }
 
-            previousUrl = "get-results?companyName=" + companyResource.results[0]?.items.ordered_alpha_key + "&originalCompanyNumber=" + originalCompanyNumber;
-            nextUrl = "get-results?companyName=" + companyResource.results[lastIndexPosition]?.items.ordered_alpha_key + "&originalCompanyNumber=" + originalCompanyNumber;
-            showPrevLink = !req.url.includes(previousUrl);
-            showNextLink = !req.url.includes(nextUrl);
+            showPrevLink = showLinks[0];
+            showNextLink = showLinks[1];
+
+            prevUrlSearchTerm = companyResource.results[0]?.items.ordered_alpha_key
+                ? companyResource.results[0]?.items.ordered_alpha_key : encodeURIComponent(companyResource.results[0].items.corporate_name);
+
+            nextUrlSearchTerm = companyResource.results[lastIndexPosition]?.items.ordered_alpha_key
+                ? companyResource.results[lastIndexPosition]?.items.ordered_alpha_key : encodeURIComponent(companyResource.results[lastIndexPosition].items.corporate_name);
+
+            previousUrl = "get-results?companyName=" + prevUrlSearchTerm + "&originalCompanyNumber=" + originalCompanyNumber;
+            nextUrl = "get-results?companyName=" + nextUrlSearchTerm + "&originalCompanyNumber=" + originalCompanyNumber;
         } catch (err) {
             searchResults = [];
             logger.error(`${err}`);
