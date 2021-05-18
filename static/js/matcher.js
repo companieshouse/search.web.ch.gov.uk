@@ -14,3 +14,13 @@ function changeThis(sender) {
         document.getElementById("changed-name-2").removeAttribute('disabled');
     }
 };
+
+// Save data to sessionStorage
+function createItem(sender) {
+    sessionStorage.setItem("enteredName", document.getElementById("companyName").value);
+}
+
+function readValue(){
+    var enteredName = sessionStorage.getItem("enteredName");
+    document.getElementById("companyName").value = enteredName;
+}

@@ -88,11 +88,13 @@
               }
             ]
           }) }}
+          <script>readValue();</script>
       {{ govukButton({
         text: "Search",
         attributes: {
           "data-event-id": "dissolved-search-button",
-          id: "dissolved-search-button"
+          id: "dissolved-search-button",
+          onclick: "createItem(this)"
         }
       }) }}
 
