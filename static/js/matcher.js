@@ -6,7 +6,7 @@ $(function() {
     }, 'slow');
 });
 
-function changeThis(sender) { 
+function changeThis() { 
     if (document.getElementById("alphabetical").checked){
         document.getElementById("changed-name").checked = true;
         document.getElementById("changed-name-2").disabled = true;
@@ -14,3 +14,13 @@ function changeThis(sender) {
         document.getElementById("changed-name-2").removeAttribute('disabled');
     }
 };
+
+// Save data to sessionStorage
+function createItem() {
+    sessionStorage.setItem("enteredName", document.getElementById("companyName").value);
+}
+
+function readValue(){
+    var enteredName = sessionStorage.getItem("enteredName");
+    document.getElementById("companyName").value = enteredName;
+}

@@ -58,7 +58,7 @@
                 "data-event-id": "show-dissolved-results-alphabetically",
                 id: "show-dissolved-results-alphabetically",
                 autocomplete: "off",
-                onchange: "changeThis(this)"
+                onchange: "changeThis()"
               }
           }
         ]
@@ -88,11 +88,13 @@
               }
             ]
           }) }}
+          <script>readValue();</script>
       {{ govukButton({
         text: "Search",
         attributes: {
           "data-event-id": "dissolved-search-button",
-          id: "dissolved-search-button"
+          id: "dissolved-search-button",
+          onclick: "createItem(this)"
         }
       }) }}
 
