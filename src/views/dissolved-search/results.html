@@ -13,6 +13,23 @@
   <div class="govuk-grid-column-full">
     <h1 class="govuk-heading-xl">Search results</h1>
     <p class="govuk-body govuk-!-width-two-thirds">You can call the Contact Centre on 0303 123 4500, or email <a href="mailto:enquiries@companieshouse.gov.uk">enquiries@companieshouse.gov.uk</a>, to find out if there is any more information available about a dissolved company.</p>
+    <style>
+      .pagination a {
+        color: black;
+        float: left;
+        padding: 8px 16px;
+        text-decoration: none;
+        transition: background-color .3s;
+      }
+      
+      .pagination a.active {
+        background-color: dodgerblue;
+        color: white;
+      }
+      
+      .pagination a:hover:not(.active) {background-color: #ddd;}
+      </style>
+    
     {% if searchResults.length > 0 %}
       {{ govukTable({
         firstCellIsHeader: false,
@@ -35,6 +52,18 @@
           ],
           rows: searchResults
       }) }}
+
+<div class="pagination">
+  <a href="">Previous</a>
+  <a href="get-results?companyName=tesco&changedName=name-at-dissolution&startIndex=0">1</a>
+  <a href="get-results?companyName=tesco&changedName=name-at-dissolution&startIndex=20">2</a>
+  <a href="#">3</a>
+  <a href="#">4</a>
+  <a href="#">5</a>
+  <a href="#">6</a>
+  <a href="#">Next</a>
+</div>
+
       <p class="govuk-body">Data is updated daily.</p>
     {% else %}
       <h2 class="govuk-heading-l" style="overflow-wrap: break-word;">No results found for "{{ searchedName }}"</h2>

@@ -21,10 +21,10 @@ export const getCompanies =
     };
 
 export const getDissolvedCompanies =
-async (apiKey: string, companyName: string, requestId, searchType: string): Promise<DissolvedCompaniesResource> => {
+async (apiKey: string, companyName: string, requestId, searchType: string, startIndex: string): Promise<DissolvedCompaniesResource> => {
     const api = createApiClient(apiKey, undefined, API_URL);
     const companiesResource: Resource<DissolvedCompaniesResource> =
-        await api.dissolvedSearch.getCompanies(companyName, requestId, searchType);
+        await api.dissolvedSearch.getCompanies(companyName, requestId, searchType, startIndex);
     if (companiesResource.httpStatusCode !== 200 && companiesResource.httpStatusCode !== 201) {
         throw createError(companiesResource.httpStatusCode, companiesResource.httpStatusCode.toString());
     }

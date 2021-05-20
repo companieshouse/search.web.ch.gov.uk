@@ -35,6 +35,7 @@ const route = async (req: Request, res: Response) => {
         const searchTypeRequestParam: string = req.query.searchType as string;
         const changeNameTypeParam: string = req.query.changedName as string;
         const companyName: string = companyNameRequestParam;
+        let startIndexParam;
         const encodedCompanyName: string = encodeURIComponent(companyName);
         Date();
         const lastUpdatedMessage: string = LAST_UPDATED_MESSAGE;
@@ -55,8 +56,15 @@ const route = async (req: Request, res: Response) => {
                 searchType = BEST_MATCH_SEARCH_TYPE;
             }
 
+            if (!req.query.startIndex) {
+                startIndexParam = 0
+            } else {
+                startIndexParam = req.query.startIndex
+            }
+
             const companyResource: CompaniesResource =
-                await getDissolvedCompanies(API_KEY, encodedCompanyName, cookies.get(SEARCH_WEB_COOKIE_NAME), searchType);
+                await getDissolvedCompanies(API_KEY, encodedCompanyName, cookies.get(SEARCH_WEB_COOKIE_NAME), searchType, startIndexParam);
+                console.log("*****", companyResource.hits)
 
             const topHit = companyResource.top_hit;
             let noNearestMatch: boolean = true;
@@ -110,6 +118,16 @@ const route = async (req: Request, res: Response) => {
                     ];
                 }
             });
+
+            const numberOfPages: number = Math.ceil(companyResource.hits / 20);
+            console.log("page numbers", numberOfPages)
+
+            // for ( var i = 1; i < numberOfPages; i ++) {
+
+            // }
+
+
+
         } catch (err) {
             searchResults = [];
             logger.error(`${err}`);
