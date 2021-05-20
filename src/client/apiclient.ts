@@ -21,7 +21,7 @@ export const getCompanies =
     };
 
 export const getDissolvedCompanies =
-async (apiKey: string, companyName: string, requestId, searchType: string, startIndex: string): Promise<DissolvedCompaniesResource> => {
+async (apiKey: string, companyName: string, requestId, searchType: string, startIndex: number): Promise<DissolvedCompaniesResource> => {
     const api = createApiClient(apiKey, undefined, API_URL);
     const companiesResource: Resource<DissolvedCompaniesResource> =
         await api.dissolvedSearch.getCompanies(companyName, requestId, searchType, startIndex);

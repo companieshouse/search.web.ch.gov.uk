@@ -13,6 +13,7 @@ const emptyDate = new Date();
 
 const mockResponseBody : CompaniesResource = ({
     etag: "etag",
+    hits: 20,
     items: [
         {
             address: {
@@ -60,6 +61,7 @@ const emptyMockResponseBody : CompaniesResource = ({
     etag: "etag",
     items: [],
     kind: "kind",
+    hits: 20,
     top_hit: {
         address: {
             locality: "",
