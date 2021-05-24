@@ -36,7 +36,6 @@ const route = async (req: Request, res: Response) => {
         const changeNameTypeParam: string = req.query.changedName as string;
         const companyName: string = companyNameRequestParam;
         const encodedCompanyName: string = encodeURIComponent(companyName);
-        Date();
         const lastUpdatedMessage: string = LAST_UPDATED_MESSAGE;
 
         let searchResults;
