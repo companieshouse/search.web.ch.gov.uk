@@ -56,7 +56,7 @@ const route = async (req: Request, res: Response) => {
                 searchType = BEST_MATCH_SEARCH_TYPE;
             }
 
-            const page = req.query.page ? Number(req.query.page) : 0;
+            const page = req.query.page ? Number(req.query.page) : 1;
 
             const companyResource: CompaniesResource =
                 await getDissolvedCompanies(API_KEY, encodedCompanyName, cookies.get(SEARCH_WEB_COOKIE_NAME), searchType, page);

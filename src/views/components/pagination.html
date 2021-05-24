@@ -1,6 +1,6 @@
 <div class="search-meta" id="search-meta">
     <ul class="pager" id="pager">
-        {% if page > 0 %}
+        {% if page > 1 %}
         <li>
             <a class="page" id="previous-page" href="{{partialHref}}&page={{page - 1}}">
                 Previous
@@ -8,28 +8,28 @@
         </li>
         {% endif %}
         {% if numberOfPages < 10 %}
-            {% for i in range(0, numberOfPages) -%}
+            {% for i in range(1, numberOfPages + 1) -%}
                 {% if (i == page) %}
                     <li>
-                        <a id="page-{{ i }}" class="active" href="{{partialHref}}&page={{i + 1}}">{{ i+1 }}</a>
+                        <a id="page-{{ i }}" class="active" href="{{partialHref}}&page={{i}}">{{ i }}</a>
                     </li>
                 {% else %}
                     <li>
-                        <a id="page-{{ i }}" class="page" href="{{partialHref}}&page={{i + 1}}">{{ i+1 }}</a>
+                        <a id="page-{{ i }}" class="page" href="{{partialHref}}&page={{i}}">{{ i }}</a>
                     </li>
                 {% endif %}
             {%- endfor %}
         {% endif %}
 
         {% if numberOfPages >= 10 and page < 5 %}
-            {% for i in range( 0, 10) -%}
+            {% for i in range(1, 11) -%}
                 {% if (i == page) %}
                     <li>
-                        <a id="page-{{ i }}" class="active" href="{{partialHref}}&page={{i}}">{{ i+1 }}</a>
+                        <a id="page-{{ i }}" class="active" href="{{partialHref}}&page={{i}}">{{ i }}</a>
                     </li>
                 {% else %}
                     <li>
-                        <a id="page-{{ i }}" class="page" href="{{partialHref}}&page={{i}}">{{ i+1 }}</a>
+                        <a id="page-{{ i }}" class="page" href="{{partialHref}}&page={{i}}">{{ i }}</a>
                     </li>
                 {% endif %}
             {%- endfor %}
@@ -39,25 +39,25 @@
             {% for i in range( page -4, page + 6) -%}
                 {% if (i == page) %}
                     <li>
-                        <a id="page-{{ i }}" class="active" href="{{partialHref}}&page={{i}}">{{ i+1 }}</a>
+                        <a id="page-{{ i }}" class="active" href="{{partialHref}}&page={{i}}">{{ i }}</a>
                     </li>
                 {% else %}
                     <li>
-                        <a id="page-{{ i }}" class="page" href="{{partialHref}}&page={{i}}">{{ i+1 }}</a>
+                        <a id="page-{{ i }}" class="page" href="{{partialHref}}&page={{i}}">{{ i }}</a>
                     </li>
                 {% endif %}
             {%- endfor %}
         {% endif %}
 
         {% if page > 10 and page >= numberOfPages - 6 %}
-            {% for i in range(numberOfPages -10 , numberOfPages) -%}
+            {% for i in range(numberOfPages -9 , numberOfPages + 1) -%}
                 {% if (i == page) %}
                 <li>
-                    <a id="page-{{ i }}" class="active" href="{{partialHref}}&page={{i}}">{{ i+1 }}</a>
+                    <a id="page-{{ i }}" class="active" href="{{partialHref}}&page={{i}}">{{ i }}</a>
                 </li>
                 {% else %}
                     <li>
-                        <a id="page-{{ i }}" class="page" href="{{partialHref}}&page={{i}}">{{ i+1 }}</a>
+                        <a id="page-{{ i }}" class="page" href="{{partialHref}}&page={{i}}">{{ i }}</a>
                     </li>
                 {% endif %}
             {%- endfor %}
@@ -67,17 +67,17 @@
             {% for i in range(numberOfPages, numberOfPages - 10) -%}
                 {% if (i == page) %}
                 <li>
-                    <a id="page-{{ i }}" class="active" href="{{partialHref}}&page={{i}}">{{ i+1 }}</a>
+                    <a id="page-{{ i }}" class="active" href="{{partialHref}}&page={{i}}">{{ i }}</a>
                 </li>
                 {% else %}
                     <li>
-                        <a id="page-{{ i }}" class="page" href="{{partialHref}}&page={{i}}">{{ i+1 }}</a>
+                        <a id="page-{{ i }}" class="page" href="{{partialHref}}&page={{i}}">{{ i }}</a>
                     </li>
                 {% endif %}
             {%- endfor %}
         {% endif %}
 
-        {% if page < numberOfPages -1 %}
+        {% if page < numberOfPages %}
         <li>
             <a class="page" id="next-page" href="{{partialHref}}&page={{page + 1}}">
                 Next
