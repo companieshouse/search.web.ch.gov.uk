@@ -1,0 +1,197 @@
+<style>
+ul.pager {
+  background: transparent;
+  width: auto;
+  margin-top: 2em;
+  padding-left: 0;
+  font-family: "proxima_nova", Arial, sans-serif;
+  text-transform: none;
+ -webkit-font-smoothing: antialiased;
+}
+@media (max-width: 640px) {
+  /* line 7, ../../../app/assets/stylesheets/ch_helpers/pager.scss */
+  ul.pager {
+    margin-left: 0;
+    width: 100%;
+  }
+}
+/* line 17, ../../../app/assets/stylesheets/ch_helpers/pager.scss */
+ul.pager li {
+  display: inline;
+  padding: 0 1.4em 0 0;
+  margin: 0;
+  float: left;
+}
+/* line 22, ../../../app/assets/stylesheets/ch_helpers/pager.scss */
+ul.pager li.next {
+  float: right;
+}
+/* line 25, ../../../app/assets/stylesheets/ch_helpers/pager.scss */
+ul.pager li a {
+  color: #005ea5;
+}
+/* line 27, ../../../app/assets/stylesheets/ch_helpers/pager.scss */
+ul.pager li a:active {
+  background: transparent;
+}
+/* line 30, ../../../app/assets/stylesheets/ch_helpers/pager.scss */
+ul.pager li a.next, ul.pager li a.previous {
+  font-family: "proxima_nova", Arial, sans-serif;
+  font-weight: 400;
+  text-transform: none;
+  font-size: 20px;
+  line-height: 1.11111;
+}
+@media (min-width: 641px) {
+  /* line 30, ../../../app/assets/stylesheets/ch_helpers/pager.scss */
+  ul.pager li a.next, ul.pager li a.previous {
+    font-size: 27px;
+    line-height: 1.11111;
+  }
+}
+/* line 34, ../../../app/assets/stylesheets/ch_helpers/pager.scss */
+ul.pager li a.next {
+  padding-right: 45px;
+  margin-right: -90px;
+  float: right;
+}
+/* line 38, ../../../app/assets/stylesheets/ch_helpers/pager.scss */
+ul.pager li a.next:after {
+  background-attachment: scroll;
+  background-clip: border-box;
+  background-image: url("https://assets.digital.cabinet-office.gov.uk/government/assets/arrow-sprite-2B8CC4-93afeb702f53a20045ad9f4ab8170825.png");
+  background-origin: padding-box;
+  background-position: -102px -11px;
+  background-repeat: no-repeat;
+  background-size: auto auto;
+  content: " ";
+  display: block;
+  float: right;
+  height: 38px;
+  margin-bottom: 0;
+  margin-left: 0;
+  margin-right: -32px;
+  margin-top: -4px;
+  width: 30px;
+}
+/* line 57, ../../../app/assets/stylesheets/ch_helpers/pager.scss */
+ul.pager li a.previous {
+  padding-left: 45px;
+  margin-left: -45px;
+}
+/* line 60, ../../../app/assets/stylesheets/ch_helpers/pager.scss */
+ul.pager li a.previous:before {
+  background-attachment: scroll;
+  background-clip: border-box;
+  background-image: url("https://assets.digital.cabinet-office.gov.uk/government/assets/arrow-sprite-2B8CC4-93afeb702f53a20045ad9f4ab8170825.png");
+  background-origin: padding-box;
+  background-position: -20px -11px;
+  background-repeat: no-repeat;
+  background-size: auto auto;
+  content: " ";
+  display: block;
+  float: left;
+  height: 38px;
+  margin-bottom: 0;
+  margin-left: -32px;
+  margin-right: 0;
+  margin-top: -4px;
+  width: 30px;
+}
+
+.active {
+  background: transparent;
+  font-size: 12px;
+  text-decoration: none;
+  color: black;
+}
+</style>
+
+<div class="search-meta" id="search-meta">
+    <ul class="pager" id="pager">
+        {% if page > 0 %}
+        <li>
+            <a class="page" id="previous-page" href="{{partialHref}}&page={{page - 1}}">
+                Previous
+            </a>
+        </li>
+        {% endif %}
+        {% if numberOfPages < 10 %}
+            {% for i in range(0, numberOfPages) -%}
+                {% if (i == page) %}
+                    <li>
+                        <a id="page-{{ i }}" class="active" href="{{partialHref}}&page={{i + 1}}">{{ i+1 }}</a>
+                    </li>
+                {% else %}
+                    <li>
+                        <a id="page-{{ i }}" class="page" href="{{partialHref}}&page={{i + 1}}">{{ i+1 }}</a>
+                    </li>
+                {% endif %}
+            {%- endfor %}
+        {% endif %}
+
+        {% if numberOfPages >= 10 and page < 5 %}
+            {% for i in range( 0, 10) -%}
+                {% if (i == page) %}
+                    <li>
+                        <a id="page-{{ i }}" class="active" href="{{partialHref}}&page={{i}}">{{ i+1 }}</a>
+                    </li>
+                {% else %}
+                    <li>
+                        <a id="page-{{ i }}" class="page" href="{{partialHref}}&page={{i}}">{{ i+1 }}</a>
+                    </li>
+                {% endif %}
+            {%- endfor %}
+        {% endif %}
+
+        {% if (numberOfPages > 10 and page >= 5) and (numberOfPages > 10 and page < numberOfPages - 6) %}
+            {% for i in range( page -4, page + 6) -%}
+                {% if (i == page) %}
+                    <li>
+                        <a id="page-{{ i }}" class="active" href="{{partialHref}}&page={{i}}">{{ i+1 }}</a>
+                    </li>
+                {% else %}
+                    <li>
+                        <a id="page-{{ i }}" class="page" href="{{partialHref}}&page={{i}}">{{ i+1 }}</a>
+                    </li>
+                {% endif %}
+            {%- endfor %}
+        {% endif %}
+
+        {% if page > 10 and page >= numberOfPages - 6 %}
+            {% for i in range(numberOfPages -10 , numberOfPages) -%}
+                {% if (i == page) %}
+                <li>
+                    <a id="page-{{ i }}" class="active" href="{{partialHref}}&page={{i}}">{{ i+1 }}</a>
+                </li>
+                {% else %}
+                    <li>
+                        <a id="page-{{ i }}" class="page" href="{{partialHref}}&page={{i}}">{{ i+1 }}</a>
+                    </li>
+                {% endif %}
+            {%- endfor %}
+        {% endif %}
+
+        {% if (numberOfPages - page)  <= 10 %}
+            {% for i in range(numberOfPages, numberOfPages - 10) -%}
+                {% if (i == page) %}
+                <li>
+                    <a id="page-{{ i }}" class="active" href="{{partialHref}}&page={{i}}">{{ i+1 }}</a>
+                </li>
+                {% else %}
+                    <li>
+                        <a id="page-{{ i }}" class="page" href="{{partialHref}}&page={{i}}">{{ i+1 }}</a>
+                    </li>
+                {% endif %}
+            {%- endfor %}
+        {% endif %}
+
+        {% if page < numberOfPages -1 %}
+        <li>
+            <a class="page" id="next-page" href="{{partialHref}}&page={{page + 1}}">
+                Next
+            </a>
+        </li>
+        {% endif %}
+    </ul>
+</div>

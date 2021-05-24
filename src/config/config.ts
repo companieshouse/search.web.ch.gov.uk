@@ -26,3 +26,4 @@ export const PIWIK_DISSOLVED_SERVICE_NAME = "dissolved-search";
 export const SERVICE_NAME_GENERIC = "";
 
 export const LAST_UPDATED_MESSAGE = getEnvironmentValue("LAST_UPDATED_MESSAGE");
+export const DISSOLVED_SEARCH_NUMBER_OF_RESULTS = Number(getEnvironmentValue("DISSOLVED_SEARCH_NUMBER_OF_RESULTS"));
