@@ -11,3 +11,4 @@ process.env.PIWIK_URL = "test";
 process.env.PIWIK_SITE_ID = "test";
 process.env.API_URL = "http://apiurl.co";
 process.env.LAST_UPDATED_MESSAGE = "test updated message";
+process.env.DISSOLVED_SEARCH_NUMBER_OF_RESULTS = "20";

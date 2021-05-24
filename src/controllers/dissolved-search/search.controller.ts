@@ -10,7 +10,6 @@ import { formatDate, formatPostCode, sanitiseCompanyName } from "../utils";
 import * as templatePaths from "../../model/template.paths";
 import * as errorMessages from "../../model/error.messages";
 import Cookies = require("cookies");
-import { link } from "fs";
 
 const logger = createLogger(APPLICATION_NAME);
 
@@ -60,7 +59,6 @@ const route = async (req: Request, res: Response) => {
 
             const companyResource: CompaniesResource =
                 await getDissolvedCompanies(API_KEY, encodedCompanyName, cookies.get(SEARCH_WEB_COOKIE_NAME), searchType, page);
-                console.log("*****", companyResource.hits)
 
             const topHit = companyResource.top_hit;
             let noNearestMatch: boolean = true;
@@ -116,7 +114,6 @@ const route = async (req: Request, res: Response) => {
             });
 
             const numberOfPages: number = Math.ceil(companyResource.hits / DISSOLVED_SEARCH_NUMBER_OF_RESULTS);
-            console.log("number pages", numberOfPages)
 
             const partialHref: string = "get-results?companyName=" + companyNameRequestParam + "&changedName=" + changeNameTypeParam;
 
@@ -126,10 +123,8 @@ const route = async (req: Request, res: Response) => {
                 });
             }
             return res.render(templatePaths.DISSOLVED_SEARCH_RESULTS, {
-                searchResults, searchedName: companyName, templateName: templatePaths.DISSOLVED_SEARCH_RESULTS, 
-                lastUpdatedMessage, partialHref, numberOfPages, page
+                searchResults, searchedName: companyName, templateName: templatePaths.DISSOLVED_SEARCH_RESULTS, lastUpdatedMessage, partialHref, numberOfPages, page
             });
-
         } catch (err) {
             searchResults = [];
             logger.error(`${err}`);
