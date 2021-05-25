@@ -11,7 +11,7 @@
             {% for i in range(1, numberOfPages + 1) -%}
                 {% if (i == page) %}
                     <li>
-                        <a id="page-{{ i }}" class="active" href="{{partialHref}}&page={{i}}">{{ i }}</a>
+                        <span class="active">{{ i }}</span>
                     </li>
                 {% else %}
                     <li>
@@ -25,7 +25,7 @@
             {% for i in range(1, 11) -%}
                 {% if (i == page) %}
                     <li>
-                        <a id="page-{{ i }}" class="active" href="{{partialHref}}&page={{i}}">{{ i }}</a>
+                        <span class="active">{{ i }}</span>
                     </li>
                 {% else %}
                     <li>
@@ -39,7 +39,7 @@
             {% for i in range( page -4, page + 6) -%}
                 {% if (i == page) %}
                     <li>
-                        <a id="page-{{ i }}" class="active" href="{{partialHref}}&page={{i}}">{{ i }}</a>
+                        <span class="active">{{ i }}</span>
                     </li>
                 {% else %}
                     <li>
@@ -53,7 +53,7 @@
             {% for i in range(numberOfPages -9 , numberOfPages + 1) -%}
                 {% if (i == page) %}
                 <li>
-                    <a id="page-{{ i }}" class="active" href="{{partialHref}}&page={{i}}">{{ i }}</a>
+                    <span class="active">{{ i }}</span>
                 </li>
                 {% else %}
                     <li>
@@ -67,7 +67,7 @@
             {% for i in range(numberOfPages, numberOfPages - 10) -%}
                 {% if (i == page) %}
                 <li>
-                    <a id="page-{{ i }}" class="active" href="{{partialHref}}&page={{i}}">{{ i }}</a>
+                    <span class="active">{{ i }}</span>
                 </li>
                 {% else %}
                     <li>
