@@ -32,7 +32,8 @@ export const createArrayDummyResults = (name: string, alphaKey: string) : Result
                 company_status: "active",
                 corporate_name: name + i,
                 record_type: "test",
-                ordered_alpha_key: alphaKey
+                ordered_alpha_key: alphaKey,
+                ordered_alpha_key_with_id: `${alphaKey}:00006400`
             },
             links: createDummyLinks()
         });

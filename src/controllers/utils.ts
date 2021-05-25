@@ -72,20 +72,18 @@ export const formatDate = (unformattedDate) => {
     return dateToReturn;
 };
 
-export const getDisplayList = (list, topHit) => {
-    const counter = list.findIndex((name) => { return name.items.corporate_name === topHit });
-    const before = 20;
-    const after = 20;
-    let start;
-    let finish;
-    if ((counter - before) > 0) {
-        start = counter - before;
-        finish = 1 + counter + after;
-    } else {
-        start = 0;
-        finish = 1 + counter + after;
+export const toTitleCase = (string: string): string => {
+    if (typeof string !== "string") {
+        return "";
     }
-    return list.slice(start, finish);
+    return string.charAt(0).toUpperCase() + string.slice(1);
+};
+
+export const detectNearestMatch = (companyName: string, topHit: string, noNearestMatch: boolean): string => {
+    if (!noNearestMatch && companyName === topHit) {
+        return "nearest";
+    }
+    return "";
 };
 
 export const showPrevNextLinks = (list, topHit) => {

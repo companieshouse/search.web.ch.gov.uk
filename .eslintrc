@@ -19,7 +19,8 @@
         "indent": ["error", 4],
         "no-unused-vars": "off",
         "quotes": ["error", "double", { "allowTemplateLiterals": true }],
-        "semi": [2, "always"]
+        "semi": [2, "always"],
+        "camelcase": "off"
     },
     "plugins": [
         "@typescript-eslint"
