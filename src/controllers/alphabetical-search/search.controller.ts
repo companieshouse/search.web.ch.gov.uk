@@ -26,7 +26,6 @@ const route = async (req: Request, res: Response) => {
         const companyNameRequestParam = req.query.companyName as string;
         const searchBefore = req.query.searchBefore as string || null;
         const searchAfter = req.query.searchAfter as string || null;
-        console.log(searchBefore, searchAfter);
         const size = Number(req.query.size) || null;
         const companyName = companyNameRequestParam;
         const encodedCompanyName = encodeURIComponent(companyName);
@@ -39,8 +38,6 @@ const route = async (req: Request, res: Response) => {
         const searchAfterAlphaKey = results[results.length - 1]?.items?.ordered_alpha_key_with_id;
         const previousUrl = searchBeforeAlphaKey ? `get-results?companyName=${encodedCompanyName}&searchBefore=${encodeURIComponent(searchBeforeAlphaKey)}` : "";
         const nextUrl = searchAfterAlphaKey ? `get-results?companyName=${encodedCompanyName}&searchAfter=${encodeURIComponent(searchAfterAlphaKey)}` : "";
-
-        console.log(previousUrl, nextUrl);
 
         return res.render(templatePaths.ALPHABETICAL_SEARCH_RESULTS, {
             searchResults,
