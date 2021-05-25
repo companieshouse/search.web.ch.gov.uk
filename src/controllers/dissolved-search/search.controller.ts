@@ -5,7 +5,7 @@ import { CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/se
 import { createLogger } from "@companieshouse/structured-logging-node";
 import { getDissolvedCompanies } from "../../client/apiclient";
 
-import { SEARCH_WEB_COOKIE_NAME, API_KEY, APPLICATION_NAME, LAST_UPDATED_MESSAGE } from "../../config/config";
+import { SEARCH_WEB_COOKIE_NAME, API_KEY, APPLICATION_NAME, LAST_UPDATED_MESSAGE, DISSOLVED_SEARCH_NUMBER_OF_RESULTS } from "../../config/config";
 import { formatDate, formatPostCode, sanitiseCompanyName } from "../utils";
 import * as templatePaths from "../../model/template.paths";
 import * as errorMessages from "../../model/error.messages";
@@ -36,7 +36,6 @@ const route = async (req: Request, res: Response) => {
         const changeNameTypeParam: string = req.query.changedName as string;
         const companyName: string = companyNameRequestParam;
         const encodedCompanyName: string = encodeURIComponent(companyName);
-        Date();
         const lastUpdatedMessage: string = LAST_UPDATED_MESSAGE;
 
         let searchResults;
@@ -55,8 +54,10 @@ const route = async (req: Request, res: Response) => {
                 searchType = BEST_MATCH_SEARCH_TYPE;
             }
 
+            const page = req.query.page ? Number(req.query.page) : 1;
+
             const companyResource: CompaniesResource =
-                await getDissolvedCompanies(API_KEY, encodedCompanyName, cookies.get(SEARCH_WEB_COOKIE_NAME), searchType);
+                await getDissolvedCompanies(API_KEY, encodedCompanyName, cookies.get(SEARCH_WEB_COOKIE_NAME), searchType, page);
 
             const topHit = companyResource.top_hit;
             let noNearestMatch: boolean = true;
@@ -110,19 +111,23 @@ const route = async (req: Request, res: Response) => {
                     ];
                 }
             });
+
+            const numberOfPages: number = Math.ceil(companyResource.hits / DISSOLVED_SEARCH_NUMBER_OF_RESULTS);
+
+            const partialHref: string = "get-results?companyName=" + companyNameRequestParam + "&changedName=" + changeNameTypeParam;
+
+            if (changeNameTypeParam === PREVIOUS_NAME_SEARCH_TYPE) {
+                return res.render(templatePaths.DISSOLVED_SEARCH_RESULTS_PREVIOUS_NAME, {
+                    searchResults, searchedName: companyName, templateName: templatePaths.DISSOLVED_SEARCH_RESULTS_PREVIOUS_NAME, lastUpdatedMessage
+                });
+            }
+            return res.render(templatePaths.DISSOLVED_SEARCH_RESULTS, {
+                searchResults, searchedName: companyName, templateName: templatePaths.DISSOLVED_SEARCH_RESULTS, lastUpdatedMessage, partialHref, numberOfPages, page
+            });
         } catch (err) {
             searchResults = [];
             logger.error(`${err}`);
         }
-
-        if (changeNameTypeParam === PREVIOUS_NAME_SEARCH_TYPE) {
-            return res.render(templatePaths.DISSOLVED_SEARCH_RESULTS_PREVIOUS_NAME, {
-                searchResults, searchedName: companyName, templateName: templatePaths.DISSOLVED_SEARCH_RESULTS_PREVIOUS_NAME, lastUpdatedMessage
-            });
-        }
-        return res.render(templatePaths.DISSOLVED_SEARCH_RESULTS, {
-            searchResults, searchedName: companyName, templateName: templatePaths.DISSOLVED_SEARCH_RESULTS, lastUpdatedMessage
-        });
     } else {
         const errorText = errors.array().map((err) => err.msg).pop() as string;
         const dissolvedSearchOptionsErrorData: GovUkErrorData = createGovUkErrorData(errorText, "#changed-name", true, "");

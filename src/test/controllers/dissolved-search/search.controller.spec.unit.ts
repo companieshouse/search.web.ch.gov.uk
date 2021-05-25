@@ -1,5 +1,7 @@
+import * as mockUtils from "../../MockUtils/dissolved-search/mock.util";
 import sinon from "sinon";
 import chai from "chai";
+import cheerio from "cheerio";
 import * as apiClient from "../../../client/apiclient";
 import { CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/dissolved-search/types";
 import { formatPostCode, formatDate, sanitiseCompanyName } from "../../../controllers/utils";
@@ -13,6 +15,7 @@ const emptyDate = new Date();
 
 const mockResponseBody : CompaniesResource = ({
     etag: "etag",
+    hits: 20,
     items: [
         {
             address: {
@@ -60,6 +63,7 @@ const emptyMockResponseBody : CompaniesResource = ({
     etag: "etag",
     items: [],
     kind: "kind",
+    hits: 20,
     top_hit: {
         address: {
             locality: "",
@@ -282,6 +286,67 @@ describe("search.controller.spec.unit", () => {
         });
     });
 
+    describe("check best match name at dissolution pagination ", () => {
+        it("should display the correct number of page links - 50 results = 3 pages", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getDissolvedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyDissolvedCompanyResource("tetso", 50, 2)));
+
+            const resp = await chai.request(testApp)
+                .get("/dissolved-search/get-results?companyName=testo&changedName=name-at-dissolution&page=0");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("page-3");
+            chai.expect(resp.text).to.not.contain("page-4");
+        });
+
+        it("should check that the correct css class is assigned to the current page", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getDissolvedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyDissolvedCompanyResource("tetso", 50, 2)));
+
+            const resp = await chai.request(testApp)
+                .get("/dissolved-search/get-results?companyName=testo&changedName=name-at-dissolution&page=1");
+
+            const $ = cheerio.load(resp.text);
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain('<span class="active">1</span>');
+        });
+
+        it("should show the previous and next links if on any middle page", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getDissolvedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyDissolvedCompanyResource("tetso", 80, 2)));
+
+            const resp = await chai.request(testApp)
+                .get("/dissolved-search/get-results?companyName=testo&changedName=name-at-dissolution&page=2");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("Previous");
+            chai.expect(resp.text).to.contain("Next");
+        });
+
+        it("should not show the previous link if on the 1st page", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getDissolvedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyDissolvedCompanyResource("tetso", 50, 2)));
+
+            const resp = await chai.request(testApp)
+                .get("/dissolved-search/get-results?companyName=testo&changedName=name-at-dissolution&page=0");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.not.contain("Previous");
+        });
+
+        it("should not show the next link if on the last page", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getDissolvedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyDissolvedCompanyResource("tetso", 50, 2)));
+
+            const resp = await chai.request(testApp)
+                .get("/dissolved-search/get-results?companyName=testo&changedName=name-at-dissolution&page=3");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.not.contain("Next");
+        });
+    });
+
     describe("check it displays an error message if a company name hasn't been entered", () => {
         it("should display an error message if no company name is entered", async () => {
             const resp = await chai.request(testApp)
@@ -294,8 +359,11 @@ describe("search.controller.spec.unit", () => {
 
     describe("check it renders the previous name results page when previous names is selected", () => {
         it("should render the previous name results page", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getDissolvedCompanies")
+                .returns(Promise.resolve(mockResponseBody));
+
             const resp = await chai.request(testApp)
-                .get("/dissolved-search/get-results?companyName=test&changedName=previousNameDissolved");
+                .get("/dissolved-search/get-results?companyName=company&changedName=previousNameDissolved");
 
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.not.contain("nearest");

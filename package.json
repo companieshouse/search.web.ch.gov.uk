@@ -17,7 +17,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@companieshouse/api-sdk-node": "^1.0.28",
+    "@companieshouse/api-sdk-node": "^1.0.33",
     "@companieshouse/structured-logging-node": "1.0.4",
     "body-parser": "^1.19.0",
     "cookies": "^0.8.0",
