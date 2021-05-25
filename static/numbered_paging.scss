@@ -104,9 +104,9 @@ ul.pager li a.previous:before {
   width: 30px;
 }
 
-ul.pager li a.active {
+ul.pager li span.active {
   background: transparent;
-  text-decoration: none;
+  font-size: larger;
   font-weight: 700;
   color: #0b0c0c;
 }
