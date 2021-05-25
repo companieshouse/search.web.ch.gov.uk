@@ -38,6 +38,9 @@
           ],
           rows: searchResults
       }) }}
+      {% if numberOfPages > 1 %}
+        {% include "../components/pagination.html" %}
+      {% endif %}
       <p class="govuk-body">Data is updated daily.</p>
     {% else %}
       <h2 class="govuk-heading-l" style="overflow-wrap: break-word;">No results found for "{{ searchedName }}"</h2>

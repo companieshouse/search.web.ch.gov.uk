@@ -118,7 +118,7 @@ const route = async (req: Request, res: Response) => {
 
             if (changeNameTypeParam === PREVIOUS_NAME_SEARCH_TYPE) {
                 return res.render(templatePaths.DISSOLVED_SEARCH_RESULTS_PREVIOUS_NAME, {
-                    searchResults, searchedName: companyName, templateName: templatePaths.DISSOLVED_SEARCH_RESULTS_PREVIOUS_NAME, lastUpdatedMessage
+                    searchResults, searchedName: companyName, templateName: templatePaths.DISSOLVED_SEARCH_RESULTS_PREVIOUS_NAME, lastUpdatedMessage, partialHref, numberOfPages, page
                 });
             }
             return res.render(templatePaths.DISSOLVED_SEARCH_RESULTS, {
