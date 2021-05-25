@@ -370,7 +370,7 @@ describe("search.controller.spec.unit", () => {
             const $ = cheerio.load(resp.text);
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect($(".active").attr("href")).to.include("get-results?companyName=testo&changedName=previousNameDissolved&page=1");
+            chai.expect(resp.text).to.contain('<span class="active">1</span>');
         });
 
         it("should show the previous and next links if on any middle page", async () => {
