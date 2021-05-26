@@ -3,7 +3,6 @@ import sinon from "sinon";
 import chai from "chai";
 import cheerio from "cheerio";
 import * as apiClient from "../../../client/apiclient";
-import { CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/alphabetical-search/types";
 
 const sandbox = sinon.createSandbox();
 let testApp = null;
@@ -58,8 +57,8 @@ describe("search.controller.spec.unit", () => {
             const $ = cheerio.load(resp.text);
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect($("#previousLink").attr("href")).to.include("nabAlphaKey");
-            chai.expect($("#nextLink").attr("href")).to.include("nabAlphaKey");
+            chai.expect($("#previousLink").attr("href")).to.include("searchBefore=nabAlphaKey%3A0");
+            chai.expect($("#nextLink").attr("href")).to.include("searchAfter=nabAlphaKey%3A81");
         });
     });
 
@@ -74,8 +73,8 @@ describe("search.controller.spec.unit", () => {
             const $ = cheerio.load(resp.text);
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect($("#previousLink").attr("href")).to.include("nab0");
-            chai.expect($("#nextLink").attr("href")).to.include("nab81");
+            chai.expect($("#previousLink").attr("href")).to.include("searchBefore=%3A0");
+            chai.expect($("#nextLink").attr("href")).to.include("searchAfter=%3A81");
         });
     });
 
@@ -85,7 +84,7 @@ describe("search.controller.spec.unit", () => {
                 .returns(Promise.resolve(mockUtils.getDummyCompanyResource("companyNameTest", "companyNameTest41", "companyAlphaKey")));
 
             const resp = await chai.request(testApp)
-                .get("/alphabetical-search/get-results?companyName=companyNameTest&originalCompanyNumber=0000640041");
+                .get("/alphabetical-search/get-results?companyName=companyNameTest");
 
             const $ = cheerio.load(resp.text);
 
@@ -119,8 +118,8 @@ describe("search.controller.spec.unit", () => {
         });
     });
 
-    describe("check it displays the top or bottom 20 + tophit if the search tophit is at the start or end of index and highlight correct element", () => {
-        it("should display the first 20 companies + tophit  if at the start of index and highlight the 1st element", async () => {
+    describe("check it displays the tophit if the search tophit is at the start or end of index and highlight correct element", () => {
+        it("should display the tophit  if at the start of index and highlight the 1st element", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getCompanies")
                 .returns(Promise.resolve(mockUtils.getDummyCompanyResource("nab", "nab0", "nabAlphaKey")));
 
@@ -131,11 +130,10 @@ describe("search.controller.spec.unit", () => {
 
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain("nab20");
-            chai.expect(resp.text).to.not.contain("nab21");
             chai.expect($(".nearest").text()).to.equal("nab0");
         });
 
-        it("should display the last 20 + the tophit companies if at the end of index and highlight the last element", async () => {
+        it("should display the tophit companies if at the end of index and highlight the last element", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getCompanies")
                 .returns(Promise.resolve(mockUtils.getDummyCompanyResource("nab", "nab81", "nabAlphaKey")));
 
@@ -146,38 +144,7 @@ describe("search.controller.spec.unit", () => {
 
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain("nab61");
-            chai.expect(resp.text).to.not.contain("nab60");
             chai.expect($(".nearest").text()).to.equal("nab81");
-        });
-    });
-
-    describe("checks the position of the top hit and will or won't show the previous or next links", () => {
-        it("should not display the previous link as the top hot is within the first 20 of the index", async () => {
-            getCompanyItemStub = sandbox.stub(apiClient, "getCompanies")
-                .returns(Promise.resolve(mockUtils.getDummyCompanyResource("nab", "nab3", "nabAlphaKey")));
-
-            const resp = await chai.request(testApp)
-                .get("/alphabetical-search/get-results?companyName=nab");
-
-            const $ = cheerio.load(resp.text);
-
-            chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain("nab20");
-            chai.expect(resp.text).to.not.contain("Previous");
-        });
-
-        it("should not display the next link as the top hot is within the last 20 of the index", async () => {
-            getCompanyItemStub = sandbox.stub(apiClient, "getCompanies")
-                .returns(Promise.resolve(mockUtils.getDummyCompanyResource("nab", "nab71", "nabAlphaKey")));
-
-            const resp = await chai.request(testApp)
-                .get("/alphabetical-search/get-results?companyName=nab81");
-
-            const $ = cheerio.load(resp.text);
-
-            chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain("nab61");
-            chai.expect(resp.text).to.not.contain("Next");
         });
     });
 

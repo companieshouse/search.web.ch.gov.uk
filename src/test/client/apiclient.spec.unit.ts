@@ -21,7 +21,8 @@ const mockResponse: Resource<CompaniesResource> = {
                     company_status: "active",
                     corporate_name: "TEST",
                     record_type: "test",
-                    ordered_alpha_key: "ordered alpha key"
+                    ordered_alpha_key: "ordered alpha key",
+                    ordered_alpha_key_with_id: "ordered alpha key:00006400"
                 },
                 links: {
                     self: "self"
@@ -96,7 +97,7 @@ describe("api.client", () => {
             sandbox.stub(AlphabeticalSearchService.prototype, "getCompanies")
                 .returns(Promise.resolve(mockResponse));
 
-            const alphabeticalSearchResults = await getCompanies("api key", "TEST COMPANY NAME", mockRequestID);
+            const alphabeticalSearchResults = await getCompanies("api key", "TEST COMPANY NAME", mockRequestID, null, null, null);
             chai.expect(alphabeticalSearchResults).to.equal(mockResponse.resource);
         });
     });

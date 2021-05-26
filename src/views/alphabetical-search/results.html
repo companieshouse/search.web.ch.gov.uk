@@ -33,10 +33,10 @@
           rows: searchResults
       }) }}
       <div class="pagination">
-        {% if showPrevLink %}
+        {% if prevLink !== "" %}
             <a class="govuk-link" id="previousLink" href={{previousUrl}}>Previous</a>
         {% endif %}
-        {% if showNextLink %}
+        {% if nextLink !== "" %}
             <a class="govuk-link" id="nextLink" href={{nextUrl}}>Next</a>
         {% endif %}
       </div>

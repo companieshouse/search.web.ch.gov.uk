@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
 import { check, validationResult } from "express-validator";
-import { createGovUkErrorData, GovUkErrorData } from "../../model/govuk.error.data";
-import { CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/alphabetical-search/types";
+import { createGovUkErrorData } from "../../model/govuk.error.data";
 import { createLogger } from "@companieshouse/structured-logging-node";
 import { SEARCH_WEB_COOKIE_NAME, API_KEY, APPLICATION_NAME } from "../../config/config";
 import { getCompanies } from "../../client/apiclient";
-import { getDisplayList, showPrevNextLinks } from "../utils";
+import { CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/alphabetical-search/types";
+import { detectNearestMatch, toTitleCase } from "../../controllers/utils";
 import * as templatePaths from "../../model/template.paths";
 import * as errorMessages from "../../model/error.messages";
 
@@ -18,101 +18,112 @@ const validators = [
     check("companyName").not().isEmpty().withMessage(errorMessages.COMPANY_NAME_EMPTY)
 ];
 
+const generateSize = (size: string | null, searchBefore: string | null, searchAfter: string | null): number | null => {
+    if (searchBefore === null && searchAfter === null && size === null) {
+        return null;
+    }
+
+    const sizeAsNumber = Number(size);
+
+    if (sizeAsNumber < 1 || sizeAsNumber > 100) {
+        return 40;
+    } else if (size === null && (searchBefore !== null || searchAfter !== null)) {
+        return 40;
+    }
+
+    return Number(size);
+};
+
 const route = async (req: Request, res: Response) => {
     const cookies = new Cookies(req, res);
     const errors = validationResult(req);
 
     if (errors.isEmpty()) {
-        const companyNameRequestParam: string = req.query.companyName as string;
-        const companyName: string = companyNameRequestParam;
-        const encodedCompanyName: string = encodeURIComponent(companyName);
-        let searchResults;
-        let previousUrl;
-        let nextUrl;
-        let showPrevLink;
-        let showNextLink;
-        let slicedCompanyResource;
-        let prevUrlSearchTerm;
-        let nextUrlSearchTerm;
+        const companyNameRequestParam = req.query.companyName as string;
+        const searchBefore = req.query.searchBefore as string || null;
+        const searchAfter = req.query.searchAfter as string || null;
+        const size = generateSize(req.query.size as string || null, searchBefore, searchAfter);
 
-        try {
-            const companyResource: CompaniesResource =
-                await getCompanies(API_KEY, encodedCompanyName, cookies.get(SEARCH_WEB_COOKIE_NAME));
+        const companyName = companyNameRequestParam;
+        const encodedCompanyName = encodeURIComponent(companyName);
 
-            const topHit: string = companyResource.topHit;
-            const lastIndexPosition = companyResource.results.length - 1;
-            const showLinks = showPrevNextLinks(companyResource.results, topHit);
-            let noNearestMatch: boolean = true;
-            let originalCompanyNumber;
+        const { companyResource, searchResults } = await getSearchResults(encodedCompanyName, cookies, searchBefore, searchAfter, size);
 
-            slicedCompanyResource = getDisplayList(companyResource.results, topHit);
+        const { results } = companyResource;
 
-            searchResults = slicedCompanyResource.map((result) => {
-                const status = result?.items.company_status;
-                let capitalisedStatus: string = "";
-                let nearestClass: string = "";
+        const searchBeforeAlphaKey = results[0]?.items?.ordered_alpha_key_with_id;
+        const searchAfterAlphaKey = results[results.length - 1]?.items?.ordered_alpha_key_with_id;
+        const previousUrl = searchBeforeAlphaKey ? `get-results?companyName=${encodedCompanyName}&searchBefore=${encodeURIComponent(searchBeforeAlphaKey)}` : "";
+        const nextUrl = searchAfterAlphaKey ? `get-results?companyName=${encodedCompanyName}&searchAfter=${encodeURIComponent(searchAfterAlphaKey)}` : "";
 
-                if (status !== undefined) {
-                    capitalisedStatus = status.charAt(0).toUpperCase() + status.slice(1);
-                }
-
-                if (result.items.corporate_name === topHit && noNearestMatch) {
-                    if (!req.query.originalCompanyNumber) {
-                        originalCompanyNumber = result?.items.company_number;
-                    } else {
-                        originalCompanyNumber = req.query.originalCompanyNumber;
-                    }
-                    if (result?.items.company_number === originalCompanyNumber) {
-                        nearestClass = "nearest";
-                        noNearestMatch = false;
-                    }
-                }
-
-                const sanitisedCorporateName = escape(result?.items.corporate_name);
-
-                return [
-                    {
-                        classes: nearestClass,
-                        html: `<a href="${result.links.self}">${sanitisedCorporateName}</a>`
-                    },
-                    {
-                        text: result?.items.company_number
-                    },
-                    {
-                        text: capitalisedStatus
-                    }
-                ];
-            });
-
-            if (req.query.originalCompanyNumber) {
-                originalCompanyNumber = req.query.originalCompanyNumber;
-            }
-
-            showPrevLink = showLinks[0];
-            showNextLink = showLinks[1];
-
-            prevUrlSearchTerm = companyResource.results[0]?.items.ordered_alpha_key
-                ? companyResource.results[0]?.items.ordered_alpha_key : encodeURIComponent(companyResource.results[0].items.corporate_name);
-
-            nextUrlSearchTerm = companyResource.results[lastIndexPosition]?.items.ordered_alpha_key
-                ? companyResource.results[lastIndexPosition]?.items.ordered_alpha_key : encodeURIComponent(companyResource.results[lastIndexPosition].items.corporate_name);
-
-            previousUrl = "get-results?companyName=" + prevUrlSearchTerm + "&originalCompanyNumber=" + originalCompanyNumber;
-            nextUrl = "get-results?companyName=" + nextUrlSearchTerm + "&originalCompanyNumber=" + originalCompanyNumber;
-        } catch (err) {
-            searchResults = [];
-            logger.error(`${err}`);
-        }
-        res.render(templatePaths.ALPHABETICAL_SEARCH_RESULTS, {
-            searchResults, previousUrl, nextUrl, showPrevLink, showNextLink, searchTerm: companyName, templateName: templatePaths.ALPHABETICAL_SEARCH_RESULTS
+        return res.render(templatePaths.ALPHABETICAL_SEARCH_RESULTS, {
+            searchResults,
+            previousUrl,
+            nextUrl,
+            searchTerm: companyName,
+            templateName: templatePaths.ALPHABETICAL_SEARCH_RESULTS
         });
     } else {
-        const errorText = errors.array().map((err) => err.msg).pop() as string;
-        const companyNameErrorData: GovUkErrorData = createGovUkErrorData(errorText, "#companyName", true, "");
-        res.render(templatePaths.ALPHABETICAL_INDEX, {
+        const errorArray = errors.array();
+        const errorText = errorArray[errorArray.length - 1].msg as string;
+        const companyNameErrorData = createGovUkErrorData(errorText, "#companyName", true, "");
+        return res.render(templatePaths.ALPHABETICAL_INDEX, {
             companyNameErrorData,
             errorList: [companyNameErrorData]
         });
+    }
+};
+
+const getSearchResults = async (encodedCompanyName: string, cookies: Cookies, searchBefore: string | null, searchAfter: string | null, size: number | null): Promise<{
+    companyResource: CompaniesResource,
+    searchResults: any[]
+}> => {
+    try {
+        const companyResource = await getCompanies(API_KEY, encodedCompanyName, (cookies.get(SEARCH_WEB_COOKIE_NAME) as string), searchBefore, searchAfter, size);
+        const { topHit, results } = companyResource;
+
+        let noNearestMatch = false;
+
+        const searchResults = results.map(({ items, links }) => {
+            const {
+                company_status: status,
+                corporate_name: corporateName,
+                company_number: companyNumber
+            } = items;
+
+            const nearestClass = detectNearestMatch(corporateName, topHit, noNearestMatch);
+            noNearestMatch = nearestClass === "nearest";
+
+            const sanitisedCorporateName = escape(corporateName);
+
+            return [
+                {
+                    classes: nearestClass,
+                    html: `<a href="${links.self}">${sanitisedCorporateName}</a>`
+                },
+                {
+                    text: companyNumber
+                },
+                {
+                    text: toTitleCase(status)
+                }
+            ];
+        });
+
+        return {
+            companyResource,
+            searchResults
+        };
+    } catch (err) {
+        logger.error(`${err}`);
+        return {
+            companyResource: {
+                searchType: "",
+                topHit: "",
+                results: []
+            },
+            searchResults: []
+        };
     }
 };
 
