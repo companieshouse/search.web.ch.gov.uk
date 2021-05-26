@@ -3,10 +3,10 @@ import { query, validationResult } from "express-validator";
 import { createGovUkErrorData, GovUkErrorData } from "../../model/govuk.error.data";
 import { CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/dissolved-search/types";
 import { createLogger } from "@companieshouse/structured-logging-node";
-import { getDissolvedCompanies } from "../../client/apiclient";
+import { getCompanies, getDissolvedCompanies } from "../../client/apiclient";
 
 import { SEARCH_WEB_COOKIE_NAME, API_KEY, APPLICATION_NAME, LAST_UPDATED_MESSAGE, DISSOLVED_SEARCH_NUMBER_OF_RESULTS } from "../../config/config";
-import { formatDate, formatPostCode, sanitiseCompanyName } from "../utils";
+import { detectNearestMatch, formatDate, formatPostCode, generateSize, sanitiseCompanyName } from "../utils";
 import * as templatePaths from "../../model/template.paths";
 import * as errorMessages from "../../model/error.messages";
 import Cookies = require("cookies");
@@ -34,100 +34,46 @@ const route = async (req: Request, res: Response) => {
         const companyNameRequestParam: string = req.query.companyName as string;
         const searchTypeRequestParam: string = req.query.searchType as string;
         const changeNameTypeParam: string = req.query.changedName as string;
+        const searchBefore = req.query.searchBefore as string || null;
+        const searchAfter = req.query.searchAfter as string || null;
+        const size = generateSize(req.query.size as string || null, searchBefore, searchAfter);
         const companyName: string = companyNameRequestParam;
         const encodedCompanyName: string = encodeURIComponent(companyName);
         const lastUpdatedMessage: string = LAST_UPDATED_MESSAGE;
+        
+        const page = req.query.page ? Number(req.query.page) : 1;
 
-        let searchResults;
         let searchType: string;
 
-        try {
-            if (companyNameRequestParam === "") {
-                return res.render(templatePaths.DISSOLVED_INDEX);
-            }
+        if (companyNameRequestParam === "") {
+            return res.render(templatePaths.DISSOLVED_INDEX);
+        }
 
-            if (searchTypeRequestParam === ALPHABETICAL_SEARCH_TYPE) {
-                searchType = ALPHABETICAL_SEARCH_TYPE;
-            } else if (changeNameTypeParam === PREVIOUS_NAME_SEARCH_TYPE) {
-                searchType = PREVIOUS_NAME_SEARCH_TYPE;
-            } else {
-                searchType = BEST_MATCH_SEARCH_TYPE;
-            }
+        if (searchTypeRequestParam === ALPHABETICAL_SEARCH_TYPE) {
+            searchType = ALPHABETICAL_SEARCH_TYPE;
+        } else if (changeNameTypeParam === PREVIOUS_NAME_SEARCH_TYPE) {
+            searchType = PREVIOUS_NAME_SEARCH_TYPE;
+        } else {
+            searchType = BEST_MATCH_SEARCH_TYPE;
+        };
 
-            const page = req.query.page ? Number(req.query.page) : 1;
+        const { companyResource, searchResults } = await getSearchResults(encodedCompanyName, cookies, searchType, page, searchBefore, searchAfter, size);
 
-            const companyResource: CompaniesResource =
-                await getDissolvedCompanies(API_KEY, encodedCompanyName, cookies.get(SEARCH_WEB_COOKIE_NAME), searchType, page);
+        // const { items } = companyResource;
 
-            const topHit = companyResource.top_hit;
-            let noNearestMatch: boolean = true;
-            searchResults = companyResource.items.map((result) => {
-                let nearestClass: string = "";
-                if (result.company_name === topHit.company_name && noNearestMatch && searchType === ALPHABETICAL_SEARCH_TYPE) {
-                    nearestClass = "nearest";
-                    noNearestMatch = false;
-                }
-                if (searchType === PREVIOUS_NAME_SEARCH_TYPE) {
-                    return [
-                        {
-                            html: sanitiseCompanyName(result.previous_company_names)
-                        },
-                        {
-                            html: sanitiseCompanyName(result.company_name)
-                        },
-                        {
-                            text: result.company_number
-                        },
-                        {
-                            text: formatDate(result.date_of_creation)
-                        },
-                        {
-                            text: formatDate(result.date_of_cessation),
-                            classes: "govuk-table__cell no-wrap"
-                        },
-                        {
-                            text: formatPostCode(result.address?.postal_code)
-                        }
-                    ];
-                } else {
-                    return [
-                        {
-                            classes: nearestClass,
-                            html: sanitiseCompanyName(result.company_name)
-                        },
-                        {
-                            text: result.company_number
-                        },
-                        {
-                            text: formatDate(result.date_of_creation)
-                        },
-                        {
-                            text: formatDate(result.date_of_cessation),
-                            classes: "govuk-table__cell no-wrap"
-                        },
-                        {
-                            text: formatPostCode(result.address.postal_code)
-                        }
-                    ];
-                }
+        const numberOfPages: number = Math.ceil(companyResource.hits / DISSOLVED_SEARCH_NUMBER_OF_RESULTS);
+
+        const partialHref: string = "get-results?companyName=" + companyNameRequestParam + "&changedName=" + changeNameTypeParam;
+
+        if (changeNameTypeParam === PREVIOUS_NAME_SEARCH_TYPE) {
+            return res.render(templatePaths.DISSOLVED_SEARCH_RESULTS_PREVIOUS_NAME, {
+                searchResults, searchedName: companyName, templateName: templatePaths.DISSOLVED_SEARCH_RESULTS_PREVIOUS_NAME, lastUpdatedMessage, partialHref, numberOfPages, page
             });
-
-            const numberOfPages: number = Math.ceil(companyResource.hits / DISSOLVED_SEARCH_NUMBER_OF_RESULTS);
-
-            const partialHref: string = "get-results?companyName=" + companyNameRequestParam + "&changedName=" + changeNameTypeParam;
-
-            if (changeNameTypeParam === PREVIOUS_NAME_SEARCH_TYPE) {
-                return res.render(templatePaths.DISSOLVED_SEARCH_RESULTS_PREVIOUS_NAME, {
-                    searchResults, searchedName: companyName, templateName: templatePaths.DISSOLVED_SEARCH_RESULTS_PREVIOUS_NAME, lastUpdatedMessage, partialHref, numberOfPages, page
-                });
-            }
+        }
             return res.render(templatePaths.DISSOLVED_SEARCH_RESULTS, {
                 searchResults, searchedName: companyName, templateName: templatePaths.DISSOLVED_SEARCH_RESULTS, lastUpdatedMessage, partialHref, numberOfPages, page
-            });
-        } catch (err) {
-            searchResults = [];
-            logger.error(`${err}`);
-        }
+        });
+
     } else {
         const errorText = errors.array().map((err) => err.msg).pop() as string;
         const dissolvedSearchOptionsErrorData: GovUkErrorData = createGovUkErrorData(errorText, "#changed-name", true, "");
@@ -137,5 +83,110 @@ const route = async (req: Request, res: Response) => {
         });
     }
 };
+
+const getSearchResults = async (encodedCompanyName: string, cookies: Cookies, searchType: string, page: number | null, searchBefore: string | null, searchAfter: string | null, size: number | null): Promise<{
+    companyResource: CompaniesResource,
+    searchResults: any[]
+}> => {
+    try {
+        console.log(encodedCompanyName, searchType, page, searchBefore, searchAfter, size);
+        const companyResource = await getDissolvedCompanies(API_KEY, encodedCompanyName, (cookies.get(SEARCH_WEB_COOKIE_NAME) as string), searchType, page, searchBefore, searchAfter, size);
+        const { top_hit, items } = companyResource;
+
+        console.log(companyResource.hits)
+
+        let noNearestMatch = false;
+
+        const searchResults = items.map(({ company_name, company_number, date_of_cessation, date_of_creation }) => {
+
+            const nearestClass = detectNearestMatch(company_name, top_hit.company_name, noNearestMatch);
+            noNearestMatch = nearestClass === "nearest";
+
+            const sanitisedCorporateName = escape(company_name);
+
+            if (searchType === ALPHABETICAL_SEARCH_TYPE) {
+                return previousNameResults(sanitisedCorporateName, company_number, date_of_cessation, date_of_creation);
+            } else {
+                return bestMatchMapping(nearestClass, sanitisedCorporateName, company_number, date_of_cessation, date_of_creation);
+            }
+        });
+
+        return {
+            companyResource,
+            searchResults
+        };
+    } catch (err) {
+        logger.error(`${err}`);
+        return {
+            companyResource: {
+                hits: 0,
+                etag: "",
+                kind: "",
+                top_hit: {
+                    address: {
+                        locality: "",
+                        postal_code: ""
+                    },
+                    company_name: "",
+                    company_number: "",
+                    company_status: "",
+                    date_of_cessation: new Date(),
+                    date_of_creation: new Date(),
+                    kind: "",
+                    ordered_alpha_key_with_id: "",
+                    previous_company_names: []
+                },
+                items: []
+            },
+            searchResults: []
+        };
+    }
+};
+
+const previousNameResults = (company_name, company_number, date_of_cessation, date_of_creation) => {
+    return [
+        // {
+        //     html: sanitiseCompanyName(result.previous_company_names)
+        // },
+        {
+            html: sanitiseCompanyName(company_name)
+        },
+        {
+            text: company_number
+        },
+        {
+            text: formatDate(date_of_creation)
+        },
+        {
+            text: formatDate(date_of_cessation),
+            classes: "govuk-table__cell no-wrap"
+        }
+        // {
+        //     text: formatPostCode(address?.postal_code)
+        // }
+    ];
+};
+
+const bestMatchMapping = (nearestClass, company_name, company_number, date_of_cessation, date_of_creation) => {
+    return [
+        {
+            classes: nearestClass,
+            html: sanitiseCompanyName(company_name)
+        },
+        {
+            text: company_number
+        },
+        {
+            text: formatDate(date_of_creation)
+        },
+        {
+            text: formatDate(date_of_cessation),
+            classes: "govuk-table__cell no-wrap"
+        }
+        // {
+        //     text: formatPostCode(result.address.postal_code)
+        // }
+    ];
+}
 
 export default [...validators, route];

@@ -98,3 +98,19 @@ export const showPrevNextLinks = (list, topHit) => {
     }
     return [showPrevLink, showNextLink];
 };
+
+export const generateSize = (size: string | null, searchBefore: string | null, searchAfter: string | null): number | null => {
+    if (searchBefore === null && searchAfter === null && size === null) {
+        return null;
+    }
+
+    const sizeAsNumber = Number(size);
+
+    if (sizeAsNumber < 1 || sizeAsNumber > 100) {
+        return 40;
+    } else if (size === null && (searchBefore !== null || searchAfter !== null)) {
+        return 40;
+    }
+
+    return Number(size);
+};
