@@ -18,6 +18,22 @@ const validators = [
     check("companyName").not().isEmpty().withMessage(errorMessages.COMPANY_NAME_EMPTY)
 ];
 
+const generateSize = (size: string | null, searchBefore: string | null, searchAfter: string | null): number | null => {
+    if (searchBefore === null && searchAfter === null && size === null) {
+        return null;
+    }
+
+    const sizeAsNumber = Number(size);
+
+    if (sizeAsNumber < 1 || sizeAsNumber > 100) {
+        return 40;
+    } else if (size === null && (searchBefore !== null || searchAfter !== null)) {
+        return 40;
+    }
+
+    return Number(size);
+};
+
 const route = async (req: Request, res: Response) => {
     const cookies = new Cookies(req, res);
     const errors = validationResult(req);
@@ -26,7 +42,8 @@ const route = async (req: Request, res: Response) => {
         const companyNameRequestParam = req.query.companyName as string;
         const searchBefore = req.query.searchBefore as string || null;
         const searchAfter = req.query.searchAfter as string || null;
-        const size = Number(req.query.size) || null;
+        const size = generateSize(req.query.size as string || null, searchBefore, searchAfter);
+
         const companyName = companyNameRequestParam;
         const encodedCompanyName = encodeURIComponent(companyName);
 
