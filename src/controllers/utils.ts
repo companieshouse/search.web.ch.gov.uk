@@ -86,15 +86,18 @@ export const detectNearestMatch = (companyName: string, topHit: string, noNeares
     return "";
 };
 
-export const showPrevNextLinks = (list, topHit) => {
-    const indexPosition = list.findIndex((name) => { return name.items.corporate_name === topHit });
-    let showPrevLink = true;
-    let showNextLink = true;
-    if (indexPosition < 20) {
-        showPrevLink = false;
+export const generateSize = (size: string | null, searchBefore: string | null, searchAfter: string | null): number | null => {
+    if (searchBefore === null && searchAfter === null && size === null) {
+        return null;
     }
-    if (indexPosition > list.length - 20) {
-        showNextLink = false;
+
+    const sizeAsNumber = Number(size);
+
+    if (sizeAsNumber < 1 || sizeAsNumber > 100) {
+        return 40;
+    } else if (size === null && (searchBefore !== null || searchAfter !== null)) {
+        return 40;
     }
-    return [showPrevLink, showNextLink];
+
+    return Number(size);
 };

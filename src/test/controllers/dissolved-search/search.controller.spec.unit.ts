@@ -28,6 +28,7 @@ const mockResponseBody : CompaniesResource = ({
             date_of_cessation: cessationDate,
             date_of_creation: creationDate,
             kind: "kind",
+            ordered_alpha_key_with_id: "testcompany:1234",
             previous_company_names: [
                 {
                     ceased_on: cessationDate,
@@ -49,6 +50,7 @@ const mockResponseBody : CompaniesResource = ({
         date_of_cessation: cessationDate,
         date_of_creation: creationDate,
         kind: "kind",
+        ordered_alpha_key_with_id: "testcompany:1234",
         previous_company_names: [
             {
                 ceased_on: cessationDate,
@@ -75,6 +77,7 @@ const emptyMockResponseBody : CompaniesResource = ({
         date_of_cessation: emptyDate,
         date_of_creation: emptyDate,
         kind: "kind",
+        ordered_alpha_key_with_id: "",
         previous_company_names: [
             {
                 ceased_on: emptyDate,
@@ -309,7 +312,7 @@ describe("search.controller.spec.unit", () => {
             const $ = cheerio.load(resp.text);
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain('<span class="active">1</span>');
+            chai.expect(resp.text).to.contain("<span class=\"active\">1</span>");
         });
 
         it("should show the previous and next links if on any middle page", async () => {
@@ -370,7 +373,7 @@ describe("search.controller.spec.unit", () => {
             const $ = cheerio.load(resp.text);
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain('<span class="active">1</span>');
+            chai.expect(resp.text).to.contain("<span class=\"active\">1</span>");
         });
 
         it("should show the previous and next links if on any middle page", async () => {
@@ -379,7 +382,7 @@ describe("search.controller.spec.unit", () => {
 
             const resp = await chai.request(testApp)
                 .get("/dissolved-search/get-results?companyName=testo&changedName=previousNameDissolved&page=2");
-            
+
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain("Previous");
             chai.expect(resp.text).to.contain("Next");
@@ -442,6 +445,20 @@ describe("search.controller.spec.unit", () => {
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain("0000789");
             chai.expect(resp.text).to.contain("nearest");
+        });
+    });
+
+    describe("check it displays paging when the search type is alphabetical and the changed name is name-at-dissolution", () => {
+        it("should return previous and next links if the search type is alphabetical and the changed name is name-at-dissolution", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getDissolvedCompanies")
+                .returns(Promise.resolve(mockResponseBody));
+
+            const resp = await chai.request(testApp)
+                .get("/dissolved-search/get-results?companyName=company&searchType=alphabetical&changedName=name-at-dissolution");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("previousLink");
+            chai.expect(resp.text).to.contain("nextLink");
         });
     });
 });

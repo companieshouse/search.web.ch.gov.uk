@@ -5,7 +5,7 @@ import { createLogger } from "@companieshouse/structured-logging-node";
 import { SEARCH_WEB_COOKIE_NAME, API_KEY, APPLICATION_NAME } from "../../config/config";
 import { getCompanies } from "../../client/apiclient";
 import { CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/alphabetical-search/types";
-import { detectNearestMatch, toTitleCase } from "../../controllers/utils";
+import { detectNearestMatch, generateSize, toTitleCase } from "../../controllers/utils";
 import * as templatePaths from "../../model/template.paths";
 import * as errorMessages from "../../model/error.messages";
 
@@ -17,22 +17,6 @@ const logger = createLogger(APPLICATION_NAME);
 const validators = [
     check("companyName").not().isEmpty().withMessage(errorMessages.COMPANY_NAME_EMPTY)
 ];
-
-const generateSize = (size: string | null, searchBefore: string | null, searchAfter: string | null): number | null => {
-    if (searchBefore === null && searchAfter === null && size === null) {
-        return null;
-    }
-
-    const sizeAsNumber = Number(size);
-
-    if (sizeAsNumber < 1 || sizeAsNumber > 100) {
-        return 40;
-    } else if (size === null && (searchBefore !== null || searchAfter !== null)) {
-        return 40;
-    }
-
-    return Number(size);
-};
 
 const route = async (req: Request, res: Response) => {
     const cookies = new Cookies(req, res);
