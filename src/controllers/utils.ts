@@ -86,19 +86,6 @@ export const detectNearestMatch = (companyName: string, topHit: string, noNeares
     return "";
 };
 
-export const showPrevNextLinks = (list, topHit) => {
-    const indexPosition = list.findIndex((name) => { return name.items.corporate_name === topHit });
-    let showPrevLink = true;
-    let showNextLink = true;
-    if (indexPosition < 20) {
-        showPrevLink = false;
-    }
-    if (indexPosition > list.length - 20) {
-        showNextLink = false;
-    }
-    return [showPrevLink, showNextLink];
-};
-
 export const generateSize = (size: string | null, searchBefore: string | null, searchAfter: string | null): number | null => {
     if (searchBefore === null && searchAfter === null && size === null) {
         return null;

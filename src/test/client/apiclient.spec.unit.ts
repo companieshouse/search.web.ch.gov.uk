@@ -48,6 +48,7 @@ const mockDissolvedResponse: Resource<DissolvedCompanyResource> = {
                 date_of_cessation: (new Date("19910212")),
                 date_of_creation: (new Date("19910212")),
                 kind: "kind",
+                ordered_alpha_key_with_id: "testcompany:1234",
                 previous_company_names: [
                     {
                         ceased_on: (new Date("19910212")),
@@ -69,6 +70,7 @@ const mockDissolvedResponse: Resource<DissolvedCompanyResource> = {
             date_of_cessation: (new Date("19910212")),
             date_of_creation: (new Date("19910212")),
             kind: "kind",
+            ordered_alpha_key_with_id: "testcompany:1234",
             previous_company_names: [
                 {
                     ceased_on: (new Date("19910212")),
@@ -107,7 +109,7 @@ describe("api.client", () => {
             sandbox.stub(DissolvedSearchService.prototype, "getCompanies")
                 .returns(Promise.resolve(mockDissolvedResponse));
 
-            const dissolvedAlphabeticalSearchResults = await getDissolvedCompanies("api key", "test company", mockRequestID, "alphabetical", hits);
+            const dissolvedAlphabeticalSearchResults = await getDissolvedCompanies("api key", "test company", mockRequestID, "alphabetical", 1, "testcompany:1234", null, 20);
             chai.expect(dissolvedAlphabeticalSearchResults).to.equal(mockDissolvedResponse.resource);
         });
 
@@ -115,7 +117,7 @@ describe("api.client", () => {
             sandbox.stub(DissolvedSearchService.prototype, "getCompanies")
                 .returns(Promise.resolve(mockDissolvedResponse));
 
-            const dissolvedAlphabeticalSearchResults = await getDissolvedCompanies("api key", "test company", mockRequestID, "", hits);
+            const dissolvedAlphabeticalSearchResults = await getDissolvedCompanies("api key", "test company", mockRequestID, "", 1, "testcompany:1234", null, 20);
             chai.expect(dissolvedAlphabeticalSearchResults).to.equal(mockDissolvedResponse.resource);
         });
     });
