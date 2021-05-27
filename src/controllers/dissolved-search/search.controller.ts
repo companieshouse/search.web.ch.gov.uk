@@ -3,7 +3,7 @@ import { query, validationResult } from "express-validator";
 import { createGovUkErrorData, GovUkErrorData } from "../../model/govuk.error.data";
 import { CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/dissolved-search/types";
 import { createLogger } from "@companieshouse/structured-logging-node";
-import { getCompanies, getDissolvedCompanies } from "../../client/apiclient";
+import { getDissolvedCompanies } from "../../client/apiclient";
 
 import { SEARCH_WEB_COOKIE_NAME, API_KEY, APPLICATION_NAME, LAST_UPDATED_MESSAGE, DISSOLVED_SEARCH_NUMBER_OF_RESULTS } from "../../config/config";
 import { detectNearestMatch, formatDate, formatPostCode, generateSize, sanitiseCompanyName } from "../utils";
@@ -40,8 +40,7 @@ const route = async (req: Request, res: Response) => {
         const companyName: string = companyNameRequestParam;
         const encodedCompanyName: string = encodeURIComponent(companyName);
         const lastUpdatedMessage: string = LAST_UPDATED_MESSAGE;
-        
-        const page = req.query.page ? Number(req.query.page) : 1;
+        const page = searchTypeRequestParam === ALPHABETICAL_SEARCH_TYPE ? 0 : req.query.page ? Number(req.query.page) : 1;
 
         let searchType: string;
 
@@ -59,21 +58,27 @@ const route = async (req: Request, res: Response) => {
 
         const { companyResource, searchResults } = await getSearchResults(encodedCompanyName, cookies, searchType, page, searchBefore, searchAfter, size);
 
-        // const { items } = companyResource;
+        const { items } = companyResource;
 
         const numberOfPages: number = Math.ceil(companyResource.hits / DISSOLVED_SEARCH_NUMBER_OF_RESULTS);
 
         const partialHref: string = "get-results?companyName=" + companyNameRequestParam + "&changedName=" + changeNameTypeParam;
+
+        const searchBeforeAlphaKey = items[0]?.ordered_alpha_key_with_id;
+        const searchAfterAlphaKey = items[items.length - 1]?.ordered_alpha_key_with_id;
+        const previousUrl = searchBeforeAlphaKey ? `get-results?companyName=${encodedCompanyName}&searchType=${ALPHABETICAL_SEARCH_TYPE}&searchBefore=${encodeURIComponent(searchBeforeAlphaKey)}` : "";
+        const nextUrl = searchAfterAlphaKey ? `get-results?companyName=${encodedCompanyName}&searchType=${ALPHABETICAL_SEARCH_TYPE}&searchAfter=${encodeURIComponent(searchAfterAlphaKey)}` : "";
+        const searchTypeFlag = searchType === ALPHABETICAL_SEARCH_TYPE ? true : false;
 
         if (changeNameTypeParam === PREVIOUS_NAME_SEARCH_TYPE) {
             return res.render(templatePaths.DISSOLVED_SEARCH_RESULTS_PREVIOUS_NAME, {
                 searchResults, searchedName: companyName, templateName: templatePaths.DISSOLVED_SEARCH_RESULTS_PREVIOUS_NAME, lastUpdatedMessage, partialHref, numberOfPages, page
             });
         }
-            return res.render(templatePaths.DISSOLVED_SEARCH_RESULTS, {
-                searchResults, searchedName: companyName, templateName: templatePaths.DISSOLVED_SEARCH_RESULTS, lastUpdatedMessage, partialHref, numberOfPages, page
-        });
 
+        return res.render(templatePaths.DISSOLVED_SEARCH_RESULTS, {
+            searchResults, searchedName: companyName, templateName: templatePaths.DISSOLVED_SEARCH_RESULTS, lastUpdatedMessage, partialHref, numberOfPages, page, previousUrl, nextUrl, searchTypeFlag
+        });
     } else {
         const errorText = errors.array().map((err) => err.msg).pop() as string;
         const dissolvedSearchOptionsErrorData: GovUkErrorData = createGovUkErrorData(errorText, "#changed-name", true, "");
@@ -84,31 +89,27 @@ const route = async (req: Request, res: Response) => {
     }
 };
 
-const getSearchResults = async (encodedCompanyName: string, cookies: Cookies, searchType: string, page: number | null, searchBefore: string | null, searchAfter: string | null, size: number | null): Promise<{
+const getSearchResults = async (encodedCompanyName: string, cookies: Cookies, searchType: string, page: number, searchBefore: string | null, searchAfter: string | null, size: number | null): Promise<{
     companyResource: CompaniesResource,
     searchResults: any[]
 }> => {
     try {
-        console.log(encodedCompanyName, searchType, page, searchBefore, searchAfter, size);
         const companyResource = await getDissolvedCompanies(API_KEY, encodedCompanyName, (cookies.get(SEARCH_WEB_COOKIE_NAME) as string), searchType, page, searchBefore, searchAfter, size);
         const { top_hit, items } = companyResource;
 
-        console.log(companyResource.hits)
-
         let noNearestMatch = false;
 
-        const searchResults = items.map(({ company_name, company_number, date_of_cessation, date_of_creation }) => {
-
+        const searchResults = items.map(({ company_name, company_number, date_of_cessation, date_of_creation, address, previous_company_names }) => {
             const nearestClass = detectNearestMatch(company_name, top_hit.company_name, noNearestMatch);
             noNearestMatch = nearestClass === "nearest";
 
-            const sanitisedCorporateName = escape(company_name);
-
             if (searchType === ALPHABETICAL_SEARCH_TYPE) {
-                return previousNameResults(sanitisedCorporateName, company_number, date_of_cessation, date_of_creation);
+                return alphabeticalMapping(nearestClass, company_name, company_number, date_of_cessation, date_of_creation, address);
+            } else if (searchType === BEST_MATCH_SEARCH_TYPE) {
+                return bestMatchMapping(company_name, company_number, date_of_cessation, date_of_creation, address);
             } else {
-                return bestMatchMapping(nearestClass, sanitisedCorporateName, company_number, date_of_cessation, date_of_creation);
-            }
+                return previousNameResults(company_name, company_number, date_of_cessation, date_of_creation, address, previous_company_names);
+            };
         });
 
         return {
@@ -143,11 +144,11 @@ const getSearchResults = async (encodedCompanyName: string, cookies: Cookies, se
     }
 };
 
-const previousNameResults = (company_name, company_number, date_of_cessation, date_of_creation) => {
+const previousNameResults = (company_name, company_number, date_of_cessation, date_of_creation, address, previous_company_names) => {
     return [
-        // {
-        //     html: sanitiseCompanyName(result.previous_company_names)
-        // },
+        {
+            html: sanitiseCompanyName(previous_company_names)
+        },
         {
             html: sanitiseCompanyName(company_name)
         },
@@ -160,14 +161,14 @@ const previousNameResults = (company_name, company_number, date_of_cessation, da
         {
             text: formatDate(date_of_cessation),
             classes: "govuk-table__cell no-wrap"
+        },
+        {
+            text: formatPostCode(address?.postal_code)
         }
-        // {
-        //     text: formatPostCode(address?.postal_code)
-        // }
     ];
 };
 
-const bestMatchMapping = (nearestClass, company_name, company_number, date_of_cessation, date_of_creation) => {
+const alphabeticalMapping = (nearestClass, company_name, company_number, date_of_cessation, date_of_creation, address) => {
     return [
         {
             classes: nearestClass,
@@ -182,11 +183,32 @@ const bestMatchMapping = (nearestClass, company_name, company_number, date_of_ce
         {
             text: formatDate(date_of_cessation),
             classes: "govuk-table__cell no-wrap"
+        },
+        {
+            text: formatPostCode(address?.postal_code)
         }
-        // {
-        //     text: formatPostCode(result.address.postal_code)
-        // }
     ];
-}
+};
+
+const bestMatchMapping = (company_name, company_number, date_of_cessation, date_of_creation, address) => {
+    return [
+        {
+            html: sanitiseCompanyName(company_name)
+        },
+        {
+            text: company_number
+        },
+        {
+            text: formatDate(date_of_creation)
+        },
+        {
+            text: formatDate(date_of_cessation),
+            classes: "govuk-table__cell no-wrap"
+        },
+        {
+            text: formatPostCode(address?.postal_code)
+        }
+    ];
+};
 
 export default [...validators, route];

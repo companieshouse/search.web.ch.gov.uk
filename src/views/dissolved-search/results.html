@@ -38,17 +38,19 @@
           rows: searchResults
       }) }}
 
-      <div class="pagination">
-        {% if prevLink !== "" %}
-            <a class="govuk-link" id="previousLink" href={{previousUrl}}>Previous</a>
+      {% if searchTypeFlag %}
+        <div class="pagination">
+          {% if prevLink !== "" %}
+              <a class="govuk-link" id="previousLink" href={{previousUrl}}>Previous</a>
+          {% endif %}
+          {% if nextLink !== "" %}
+              <a class="govuk-link" id="nextLink" href={{nextUrl}}>Next</a>
+          {% endif %}
+        </div>
+      {% else %}
+        {% if numberOfPages > 1 %}
+          {% include "../components/pagination.html" %}
         {% endif %}
-        {% if nextLink !== "" %}
-            <a class="govuk-link" id="nextLink" href={{nextUrl}}>Next</a>
-        {% endif %}
-      </div>
-      
-      {% if numberOfPages > 1 %}
-        {% include "../components/pagination.html" %}
       {% endif %}
       <div>
         <p class="govuk-body">Data is updated daily.</p>

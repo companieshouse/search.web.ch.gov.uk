@@ -21,9 +21,9 @@ export const getCompanies =
     };
 
 export const getDissolvedCompanies =
-async (apiKey: string, companyName: string, requestId, searchType: string, page: number | null, searchBefore: string | null, searchAfter: string | null, size: number | null): Promise<DissolvedCompaniesResource> => {
+async (apiKey: string, companyName: string, requestId, searchType: string, page: number, searchBefore: string | null, searchAfter: string | null, size: number | null): Promise<DissolvedCompaniesResource> => {
     const api = createApiClient(apiKey, undefined, API_URL);
-    const startIndexOffset = page ?  page * DISSOLVED_SEARCH_NUMBER_OF_RESULTS - DISSOLVED_SEARCH_NUMBER_OF_RESULTS: null;
+    const startIndexOffset = page * DISSOLVED_SEARCH_NUMBER_OF_RESULTS - DISSOLVED_SEARCH_NUMBER_OF_RESULTS;
     const companiesResource: Resource<DissolvedCompaniesResource> =
         await api.dissolvedSearch.getCompanies(companyName, requestId, searchType, startIndexOffset, searchBefore, searchAfter, size);
     if (companiesResource.httpStatusCode !== 200 && companiesResource.httpStatusCode !== 201) {
