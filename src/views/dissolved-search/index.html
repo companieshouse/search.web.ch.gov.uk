@@ -28,14 +28,14 @@
       } %}
     {% endif %}
     
-    <p class="govuk-body">Search by name for companies dissolved between 1/1/1989 and 31/12/2009. </p>
+    <p class="govuk-body">Search by name or number for companies dissolved between 1/1/1989 and 31/12/2009. </p>
 
     <form action="/dissolved-search/get-results" method="GET">
       {{ govukInput({
         id: "companyName",
         name: "companyName",
         label: {
-          text: "Company name"
+          text: "Enter company name or number"
         }
       }) }}
       {{ govukCheckboxes({
@@ -52,7 +52,7 @@
             value: "alphabetical",
             text: "Show results alphabetically",
             hint: {
-                text: "Previous company names are currently not available for alphabetical search"
+                text: "Company numbers and previous company names are currently not available for alphabetical search"
             },
             attributes: {
                 "data-event-id": "show-dissolved-results-alphabetically",
