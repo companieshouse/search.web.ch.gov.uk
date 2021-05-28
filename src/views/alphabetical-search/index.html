@@ -14,11 +14,13 @@
           text: "Company name"
         }
       }) }}
+      <script>readValue();</script>
       {{ govukButton({
         text: "Search",
         attributes: {
           "data-event-id": "alphabetical-search-button",
-          id: "alphabetical-search-button"
+          id: "alphabetical-search-button",
+          onclick: "createItem(this)"
         }
       }) }}
     </form>
