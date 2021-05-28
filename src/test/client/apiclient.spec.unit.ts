@@ -10,23 +10,27 @@ import DissolvedSearchService from "@companieshouse/api-sdk-node/dist/services/s
 const mockResponse: Resource<CompaniesResource> = {
     httpStatusCode: 200,
     resource: {
-        searchType: "searchType",
-        topHit: "topHit",
-        results: [
+        etag: "etag",
+        kind: "searchType",
+        top_hit: {
+            company_name: "company name",
+            company_number: "0000876",
+            company_status: "active",
+            ordered_alpha_key_with_id: "companyName:0000876",
+            kind: "kind"
+        },
+        items: [
             {
-                ID: "ID",
                 company_type: "company_type",
-                items: {
-                    company_number: "00006400",
-                    company_status: "active",
-                    corporate_name: "TEST",
-                    record_type: "test",
-                    ordered_alpha_key: "ordered alpha key",
-                    ordered_alpha_key_with_id: "ordered alpha key:00006400"
-                },
+                company_number: "00006400",
+                company_status: "active",
+                company_name: "TEST",
+                ordered_alpha_key: "ordered alpha key",
+                ordered_alpha_key_with_id: "ordered alpha key:00006400",
                 links: {
                     self: "self"
-                }
+                },
+                kind: "kind"
             }
         ]
     }

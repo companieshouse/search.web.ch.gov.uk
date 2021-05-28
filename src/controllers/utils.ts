@@ -79,8 +79,8 @@ export const toTitleCase = (string: string): string => {
     return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
-export const detectNearestMatch = (companyName: string, topHit: string, noNearestMatch: boolean): string => {
-    if (!noNearestMatch && companyName === topHit) {
+export const detectNearestMatch = (orderedAlphaKeyWithId: string, topHitOrderedAlphaKeyWithId: string, noNearestMatch: boolean): string => {
+    if (!noNearestMatch && orderedAlphaKeyWithId === topHitOrderedAlphaKeyWithId) {
         return "nearest";
     }
     return "";

@@ -99,9 +99,12 @@ const getSearchResults = async (encodedCompanyName: string, cookies: Cookies, se
 
         let noNearestMatch = false;
 
-        const searchResults = items.map(({ company_name, company_number, date_of_cessation, date_of_creation, address, previous_company_names }) => {
-            const nearestClass = detectNearestMatch(company_name, top_hit.company_name, noNearestMatch);
-            noNearestMatch = nearestClass === "nearest";
+        const searchResults = items.map(({ company_name, company_number, date_of_cessation, date_of_creation, address, previous_company_names, ordered_alpha_key_with_id }) => {
+            const nearestClass = detectNearestMatch(ordered_alpha_key_with_id, top_hit.ordered_alpha_key_with_id, noNearestMatch);
+
+            if (!noNearestMatch) {
+                noNearestMatch = nearestClass === "nearest";
+            };
 
             if (searchType === ALPHABETICAL_SEARCH_TYPE) {
                 return alphabeticalMapping(nearestClass, company_name, company_number, date_of_cessation, date_of_creation, address);
