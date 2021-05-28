@@ -23,9 +23,9 @@ export const getCompanies =
 export const getDissolvedCompanies =
 async (apiKey: string, companyName: string, requestId, searchType: string, page: number, searchBefore: string | null, searchAfter: string | null, size: number | null): Promise<DissolvedCompaniesResource> => {
     const api = createApiClient(apiKey, undefined, API_URL);
-    const index = (page * DISSOLVED_SEARCH_NUMBER_OF_RESULTS) - DISSOLVED_SEARCH_NUMBER_OF_RESULTS;
+    const startIndexOffset = (page * DISSOLVED_SEARCH_NUMBER_OF_RESULTS) - DISSOLVED_SEARCH_NUMBER_OF_RESULTS;
     const companiesResource: Resource<DissolvedCompaniesResource> =
-        await api.dissolvedSearch.getCompanies(companyName, requestId, searchType, index, searchBefore, searchAfter, size);
+        await api.dissolvedSearch.getCompanies(companyName, requestId, searchType, startIndexOffset, searchBefore, searchAfter, size);
     if (companiesResource.httpStatusCode !== 200 && companiesResource.httpStatusCode !== 201) {
         throw createError(companiesResource.httpStatusCode, companiesResource.httpStatusCode.toString());
     }
