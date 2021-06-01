@@ -33,10 +33,10 @@ const route = async (req: Request, res: Response) => {
 
         const { companyResource, searchResults } = await getSearchResults(encodedCompanyName, cookies, searchBefore, searchAfter, size);
 
-        const { results } = companyResource;
+        const { items } = companyResource;
 
-        const searchBeforeAlphaKey = results[0]?.items?.ordered_alpha_key_with_id;
-        const searchAfterAlphaKey = results[results.length - 1]?.items?.ordered_alpha_key_with_id;
+        const searchBeforeAlphaKey = items[0]?.ordered_alpha_key_with_id;
+        const searchAfterAlphaKey = items[items.length - 1]?.ordered_alpha_key_with_id;
         const previousUrl = searchBeforeAlphaKey ? `get-results?companyName=${encodedCompanyName}&searchBefore=${encodeURIComponent(searchBeforeAlphaKey)}` : "";
         const nextUrl = searchAfterAlphaKey ? `get-results?companyName=${encodedCompanyName}&searchAfter=${encodeURIComponent(searchAfterAlphaKey)}` : "";
 
@@ -64,32 +64,29 @@ const getSearchResults = async (encodedCompanyName: string, cookies: Cookies, se
 }> => {
     try {
         const companyResource = await getCompanies(API_KEY, encodedCompanyName, (cookies.get(SEARCH_WEB_COOKIE_NAME) as string), searchBefore, searchAfter, size);
-        const { topHit, results } = companyResource;
+        const { top_hit, items } = companyResource;
 
         let noNearestMatch = false;
 
-        const searchResults = results.map(({ items, links }) => {
-            const {
-                company_status: status,
-                corporate_name: corporateName,
-                company_number: companyNumber
-            } = items;
+        const searchResults = items.map(({ company_number, company_name, company_status, ordered_alpha_key_with_id, links }) => {
+            const nearestClass = detectNearestMatch(ordered_alpha_key_with_id, top_hit.ordered_alpha_key_with_id, noNearestMatch);
 
-            const nearestClass = detectNearestMatch(corporateName, topHit, noNearestMatch);
-            noNearestMatch = nearestClass === "nearest";
+            if (!noNearestMatch) {
+                noNearestMatch = nearestClass === "nearest";
+            };
 
-            const sanitisedCorporateName = escape(corporateName);
+            const sanitisedCompanyName = escape(company_name);
 
             return [
                 {
                     classes: nearestClass,
-                    html: `<a href="${links.self}">${sanitisedCorporateName}</a>`
+                    html: `<a href="${links.self}">${sanitisedCompanyName}</a>`
                 },
                 {
-                    text: companyNumber
+                    text: company_number
                 },
                 {
-                    text: toTitleCase(status)
+                    text: toTitleCase(company_status)
                 }
             ];
         });
@@ -102,9 +99,16 @@ const getSearchResults = async (encodedCompanyName: string, cookies: Cookies, se
         logger.error(`${err}`);
         return {
             companyResource: {
-                searchType: "",
-                topHit: "",
-                results: []
+                etag: "",
+                kind: "",
+                top_hit: {
+                    company_name: "",
+                    company_number: "",
+                    company_status: "",
+                    ordered_alpha_key_with_id: "",
+                    kind: ""
+                },
+                items: []
             },
             searchResults: []
         };
