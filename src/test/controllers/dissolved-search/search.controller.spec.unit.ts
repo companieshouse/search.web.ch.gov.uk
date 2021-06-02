@@ -153,6 +153,12 @@ describe("search.controller.spec.unit", () => {
         });
     });
 
+    describe("check it returns a dissolved results page with a blank date field when date is not present", () => {
+        it("should return a results page with a correct date format", () => {
+            chai.expect(formatDate(undefined)).to.contain("");
+        });
+    });
+
     describe("check it returns a dissolved results page with a the date in DD Mar YYYY format for both columns", () => {
         it("should return a results page with a correct date format", () => {
             const date = "1990-03-25";
