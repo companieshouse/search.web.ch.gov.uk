@@ -19,6 +19,11 @@ export const formatPostCode = (postCode) => {
 };
 
 export const formatDate = (unformattedDate) => {
+
+    if (unformattedDate === undefined) {
+        return "";
+    }
+
     const date = unformattedDate.toString();
     const splitDate = date.split("-");
     const year = splitDate[0];
