@@ -41,6 +41,8 @@ const route = async (req: Request, res: Response) => {
         const encodedCompanyName: string = encodeURIComponent(companyName);
         const lastUpdatedMessage: string = LAST_UPDATED_MESSAGE;
         const page = searchTypeRequestParam === ALPHABETICAL_SEARCH_TYPE ? 0 : req.query.page ? Number(req.query.page) : 1;
+        let prevLink = "";
+        let nextLink = "";
 
         let searchType: string;
 
@@ -76,8 +78,18 @@ const route = async (req: Request, res: Response) => {
             });
         }
 
+        const searchResultsPreviousLink = await getSearchResults(encodedCompanyName, cookies, searchType, page, searchBeforeAlphaKey, searchAfter, size);
+        const searchResultsNextLink = await getSearchResults(encodedCompanyName, cookies, searchType, page, searchBefore, searchAfterAlphaKey, size);
+
+        if ( searchResultsPreviousLink.searchResults.length > 0 ) {
+            prevLink = "resultsPresent";
+        }
+        if (searchResultsNextLink.searchResults.length > 0 ) {
+            nextLink = "resultsPresent";
+        }
+
         return res.render(templatePaths.DISSOLVED_SEARCH_RESULTS, {
-            searchResults, searchedName: companyName, templateName: templatePaths.DISSOLVED_SEARCH_RESULTS, lastUpdatedMessage, partialHref, numberOfPages, page, previousUrl, nextUrl, searchTypeFlag
+            searchResults, searchedName: companyName, templateName: templatePaths.DISSOLVED_SEARCH_RESULTS, lastUpdatedMessage, partialHref, numberOfPages, page, previousUrl, nextUrl, prevLink, nextLink, searchTypeFlag
         });
     } else {
         const errorText = errors.array().map((err) => err.msg).pop() as string;
