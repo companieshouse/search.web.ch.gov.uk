@@ -137,6 +137,12 @@ describe("search.controller.spec.unit", () => {
         });
     });
 
+    describe("check it returns a dissolved results page with a blank date field when date is not present", () => {
+        it("should return a results page with a correct date format", () => {
+            chai.expect(formatDate(undefined)).to.contain("");
+        });
+    });
+
     describe("check it returns a dissolved results page with a the date in DD Jan YYYY format for both columns", () => {
         it("should return a results page with a correct date format", () => {
             const newDate = "1990-01-25";
@@ -150,12 +156,6 @@ describe("search.controller.spec.unit", () => {
             const date = "1990-02-25";
 
             chai.expect(formatDate(date)).to.contain("25 Feb 1990");
-        });
-    });
-
-    describe("check it returns a dissolved results page with a blank date field when date is not present", () => {
-        it("should return a results page with a correct date format", () => {
-            chai.expect(formatDate(undefined)).to.contain("");
         });
     });
 
