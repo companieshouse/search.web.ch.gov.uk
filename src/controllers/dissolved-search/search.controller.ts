@@ -81,10 +81,10 @@ const route = async (req: Request, res: Response) => {
         const searchResultsPreviousLink = await getSearchResults(encodedCompanyName, cookies, searchType, page, searchBeforeAlphaKey, searchAfter, size);
         const searchResultsNextLink = await getSearchResults(encodedCompanyName, cookies, searchType, page, searchBefore, searchAfterAlphaKey, size);
 
-        if ( searchResultsPreviousLink.searchResults.length > 0 ) {
+        if (searchResultsPreviousLink.searchResults.length > 0) {
             prevLink = "resultsPresent";
         }
-        if (searchResultsNextLink.searchResults.length > 0 ) {
+        if (searchResultsNextLink.searchResults.length > 0) {
             nextLink = "resultsPresent";
         }
 
