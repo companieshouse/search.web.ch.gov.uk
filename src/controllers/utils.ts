@@ -19,7 +19,6 @@ export const formatPostCode = (postCode) => {
 };
 
 export const formatDate = (unformattedDate) => {
-
     if (unformattedDate === undefined) {
         return "";
     }
