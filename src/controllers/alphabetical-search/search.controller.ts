@@ -27,6 +27,8 @@ const route = async (req: Request, res: Response) => {
         const searchBefore = req.query.searchBefore as string || null;
         const searchAfter = req.query.searchAfter as string || null;
         const size = generateSize(req.query.size as string || null, searchBefore, searchAfter);
+        let prevLink = "";
+        let nextLink = "";
 
         const companyName = companyNameRequestParam;
         const encodedCompanyName = encodeURIComponent(companyName);
@@ -40,11 +42,23 @@ const route = async (req: Request, res: Response) => {
         const previousUrl = searchBeforeAlphaKey ? `get-results?companyName=${encodedCompanyName}&searchBefore=${encodeURIComponent(searchBeforeAlphaKey)}` : "";
         const nextUrl = searchAfterAlphaKey ? `get-results?companyName=${encodedCompanyName}&searchAfter=${encodeURIComponent(searchAfterAlphaKey)}` : "";
 
+        const searchResultsPreviousLink = await getSearchResults(encodedCompanyName, cookies, searchBeforeAlphaKey, searchAfter, size);
+        const searchResultsNextLink = await getSearchResults(encodedCompanyName, cookies, searchBefore, searchAfterAlphaKey, size);
+
+        if (searchResultsPreviousLink.searchResults.length > 0) {
+            prevLink = "resultsPresent";
+        }
+        if (searchResultsNextLink.searchResults.length > 0) {
+            nextLink = "resultsPresent";
+        }
+
         return res.render(templatePaths.ALPHABETICAL_SEARCH_RESULTS, {
             searchResults,
             previousUrl,
             nextUrl,
             searchTerm: companyName,
+            prevLink,
+            nextLink,
             templateName: templatePaths.ALPHABETICAL_SEARCH_RESULTS
         });
     } else {
