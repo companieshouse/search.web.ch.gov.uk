@@ -64,7 +64,7 @@ const route = async (req: Request, res: Response) => {
 
         const numberOfPages: number = Math.ceil(companyResource.hits / DISSOLVED_SEARCH_NUMBER_OF_RESULTS);
 
-        const partialHref: string = "get-results?companyName=" + companyNameRequestParam + "&changedName=" + changeNameTypeParam;
+        const partialHref: string = "get-results?companyName=" + encodeURIComponent(companyNameRequestParam) + "&changedName=" + changeNameTypeParam;
 
         const searchBeforeAlphaKey = items[0]?.ordered_alpha_key_with_id;
         const searchAfterAlphaKey = items[items.length - 1]?.ordered_alpha_key_with_id;
