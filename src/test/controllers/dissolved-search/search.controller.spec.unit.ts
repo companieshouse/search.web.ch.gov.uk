@@ -18,7 +18,9 @@ const mockResponseBody : CompaniesResource = ({
     hits: 20,
     items: [
         {
-            address: {
+            registered_office_address: {
+                address_line_1: "test house",
+                address_line_2: "test street",
                 locality: "cardiff",
                 postal_code: "cf5 6rb"
             },
@@ -40,7 +42,9 @@ const mockResponseBody : CompaniesResource = ({
     ],
     kind: "kind",
     top_hit: {
-        address: {
+        registered_office_address: {
+            address_line_1: "test house",
+            address_line_2: "test street",
             locality: "cardiff",
             postal_code: "cf5 6rb"
         },
@@ -67,7 +71,9 @@ const emptyMockResponseBody : CompaniesResource = ({
     kind: "kind",
     hits: 20,
     top_hit: {
-        address: {
+        registered_office_address: {
+            address_line_1: "",
+            address_line_2: "",
             locality: "",
             postal_code: ""
         },

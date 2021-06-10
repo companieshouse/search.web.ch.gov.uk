@@ -111,7 +111,7 @@ const getSearchResults = async (encodedCompanyName: string, cookies: Cookies, se
 
         let noNearestMatch = false;
 
-        const searchResults = items.map(({ company_name, company_number, date_of_cessation, date_of_creation, address, previous_company_names, ordered_alpha_key_with_id }) => {
+        const searchResults = items.map(({ company_name, company_number, date_of_cessation, date_of_creation, registered_office_address, previous_company_names, ordered_alpha_key_with_id }) => {
             const nearestClass = detectNearestMatch(ordered_alpha_key_with_id, top_hit.ordered_alpha_key_with_id, noNearestMatch);
 
             if (!noNearestMatch) {
@@ -119,11 +119,11 @@ const getSearchResults = async (encodedCompanyName: string, cookies: Cookies, se
             };
 
             if (searchType === ALPHABETICAL_SEARCH_TYPE) {
-                return alphabeticalMapping(nearestClass, company_name, company_number, date_of_cessation, date_of_creation, address);
+                return alphabeticalMapping(nearestClass, company_name, company_number, date_of_cessation, date_of_creation, registered_office_address);
             } else if (searchType === BEST_MATCH_SEARCH_TYPE) {
-                return bestMatchMapping(company_name, company_number, date_of_cessation, date_of_creation, address);
+                return bestMatchMapping(company_name, company_number, date_of_cessation, date_of_creation, registered_office_address);
             } else {
-                return previousNameResults(company_name, company_number, date_of_cessation, date_of_creation, address, previous_company_names);
+                return previousNameResults(company_name, company_number, date_of_cessation, date_of_creation, registered_office_address, previous_company_names);
             };
         });
 
@@ -139,7 +139,9 @@ const getSearchResults = async (encodedCompanyName: string, cookies: Cookies, se
                 etag: "",
                 kind: "",
                 top_hit: {
-                    address: {
+                    registered_office_address: {
+                        address_line_1: "",
+                        address_line_2: "",
                         locality: "",
                         postal_code: ""
                     },
@@ -159,7 +161,7 @@ const getSearchResults = async (encodedCompanyName: string, cookies: Cookies, se
     }
 };
 
-const previousNameResults = (company_name, company_number, date_of_cessation, date_of_creation, address, previous_company_names) => {
+const previousNameResults = (company_name, company_number, date_of_cessation, date_of_creation, registered_office_address, previous_company_names) => {
     return [
         {
             html: sanitiseCompanyName(previous_company_names)
@@ -178,12 +180,12 @@ const previousNameResults = (company_name, company_number, date_of_cessation, da
             classes: "govuk-table__cell no-wrap"
         },
         {
-            text: formatPostCode(address?.postal_code)
+            text: formatPostCode(registered_office_address?.postal_code)
         }
     ];
 };
 
-const alphabeticalMapping = (nearestClass, company_name, company_number, date_of_cessation, date_of_creation, address) => {
+const alphabeticalMapping = (nearestClass, company_name, company_number, date_of_cessation, date_of_creation, registered_office_address) => {
     return [
         {
             classes: nearestClass,
@@ -200,12 +202,12 @@ const alphabeticalMapping = (nearestClass, company_name, company_number, date_of
             classes: "govuk-table__cell no-wrap"
         },
         {
-            text: formatPostCode(address?.postal_code)
+            text: formatPostCode(registered_office_address?.postal_code)
         }
     ];
 };
 
-const bestMatchMapping = (company_name, company_number, date_of_cessation, date_of_creation, address) => {
+const bestMatchMapping = (company_name, company_number, date_of_cessation, date_of_creation, registered_office_address) => {
     return [
         {
             html: sanitiseCompanyName(company_name)
@@ -221,7 +223,7 @@ const bestMatchMapping = (company_name, company_number, date_of_cessation, date_
             classes: "govuk-table__cell no-wrap"
         },
         {
-            text: formatPostCode(address?.postal_code)
+            text: formatPostCode(registered_office_address?.postal_code)
         }
     ];
 };

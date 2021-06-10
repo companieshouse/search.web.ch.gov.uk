@@ -42,7 +42,9 @@ const mockDissolvedResponse: Resource<DissolvedCompanyResource> = {
         etag: "etag",
         items: [
             {
-                address: {
+                registered_office_address: {
+                    address_line_1: "test house",
+                    address_line_2: "test street",
                     locality: "cardiff",
                     postal_code: "cf5 6rb"
                 },
@@ -64,7 +66,9 @@ const mockDissolvedResponse: Resource<DissolvedCompanyResource> = {
         ],
         kind: "kind",
         top_hit: {
-            address: {
+            registered_office_address: {
+                address_line_1: "test house",
+                address_line_2: "test street",
                 locality: "cardiff",
                 postal_code: "cf5 6rb"
             },

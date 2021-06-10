@@ -14,7 +14,7 @@ export const createDummyItemsArray = (name: string, numberOfCompanies: number, n
     const itemsArray: Items[] = [];
     for (let i = 0; i < numberOfCompanies; i++) {
         itemsArray.push({
-            address: createAddress(),
+            registered_office_address: createAddress(),
             company_name: name + i,
             company_number: "0650000" + i,
             company_status: "company status",
@@ -30,6 +30,8 @@ export const createDummyItemsArray = (name: string, numberOfCompanies: number, n
 
 export const createAddress = (): Address => {
     return {
+        address_line_1: "test house",
+        address_line_2: "test street",
         locality: "locality",
         postal_code: "post code"
     };
@@ -49,7 +51,7 @@ export const createPreviousCompanyNameArray = (numberOfPreviousCompanyNames) => 
 
 export const createTopHit = (name, numberOfPreviousCompanyNames): TopHit => {
     return {
-        address: createAddress(),
+        registered_office_address: createAddress(),
         company_name: name,
         company_number: "0650000",
         company_status: "company status",
