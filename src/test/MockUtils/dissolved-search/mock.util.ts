@@ -21,7 +21,7 @@ export const createDummyItemsArray = (name: string, numberOfCompanies: number, n
             date_of_cessation: new Date(1991, 11, 12),
             date_of_creation: new Date(1980, 13, 8),
             kind: "kind",
-            ordered_alpha_key_with_id: "testcompany:1234",
+            ordered_alpha_key_with_id: `${name}:${i}`,
             previous_company_names: createPreviousCompanyNameArray(numberOfPreviousCompanyNames)
         });
     }

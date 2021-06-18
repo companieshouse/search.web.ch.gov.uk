@@ -25,7 +25,7 @@ export const createDummyResults = (name: string, alphaKeyWithId: string): Items[
 
 export const createArrayDummyResults = (name: string, alphaKeyWithId: string) : Items[] => {
     const itemsArray: Items[] = [];
-    for (let i = 0; i < 82; i++) {
+    for (let i = 0; i < 41; i++) {
         itemsArray.push({
 
             company_type: "company_type",

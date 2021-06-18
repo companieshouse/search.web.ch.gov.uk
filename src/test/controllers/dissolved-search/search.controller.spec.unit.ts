@@ -321,8 +321,6 @@ describe("search.controller.spec.unit", () => {
             const resp = await chai.request(testApp)
                 .get("/dissolved-search/get-results?companyName=testo&changedName=name-at-dissolution&page=1");
 
-            const $ = cheerio.load(resp.text);
-
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain("<span class=\"active\">1</span>");
         });
@@ -381,8 +379,6 @@ describe("search.controller.spec.unit", () => {
 
             const resp = await chai.request(testApp)
                 .get("/dissolved-search/get-results?companyName=testo&changedName=previousNameDissolved&page=1");
-
-            const $ = cheerio.load(resp.text);
 
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain("<span class=\"active\">1</span>");
@@ -473,4 +469,44 @@ describe("search.controller.spec.unit", () => {
             chai.expect(resp.text).to.contain("nextLink");
         });
     });
+
+    describe("check that a size parameter has no effect on the results being returned for dissolved searches", () => {
+        it("check that a size parameter has no effect on the results being returned for alphabetical name at dissolution", async () => {
+
+            getCompanyItemStub = sandbox.stub(apiClient, "getDissolvedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyDissolvedCompanyResource("tetso", 50, 50)));
+
+            const resp = await chai.request(testApp)
+                .get("/dissolved-search/get-results?companyName=testo&searchType=alphabetical&changedName=name-at-dissolution&size=400");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("065000030");
+            chai.expect(resp.text).to.not.contain("0650000350");
+        });
+
+        it("check that a size parameter has no effect on the results being returned for previous names", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getDissolvedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyDissolvedCompanyResource("tetso", 50, 50)));
+
+            const resp = await chai.request(testApp)
+                .get("/dissolved-search/get-results?companyName=company&changedName=previousNameDissolved&size=200");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("065000030");
+            chai.expect(resp.text).to.not.contain("0650000199");
+        });
+
+        it("check that a size parameter has no effect on the results being returned for name at dissolution", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getDissolvedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyDissolvedCompanyResource("tetso", 50, 50)));
+
+            const resp = await chai.request(testApp)
+                .get("/dissolved-search/get-results?companyName=company&changedName=name-at-dissolution&size=200");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("065000030");
+            chai.expect(resp.text).to.not.contain("0650000199");
+        });
+    });
+
 });
