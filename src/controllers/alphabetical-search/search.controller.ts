@@ -26,7 +26,9 @@ const route = async (req: Request, res: Response) => {
         const companyNameRequestParam = req.query.companyName as string;
         const searchBefore = req.query.searchBefore as string || null;
         const searchAfter = req.query.searchAfter as string || null;
-        const size = generateSize(req.query.size as string || null, searchBefore, searchAfter);
+        // Currently not allowing users to specify a size parameter, will leave this here for possible future implementation
+        // const size = generateSize(req.query.size as string || null, searchBefore, searchAfter);
+        const size = null;
         let prevLink = "";
         let nextLink = "";
 

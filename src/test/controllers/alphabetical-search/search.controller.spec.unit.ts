@@ -58,14 +58,14 @@ describe("search.controller.spec.unit", () => {
 
             chai.expect(resp.status).to.equal(200);
             chai.expect($("#previousLink").attr("href")).to.include("get-results?companyName=nab&searchBefore=nabAlphaKey0");
-            chai.expect($("#nextLink").attr("href")).to.include("get-results?companyName=nab&searchAfter=nabAlphaKey81");
+            chai.expect($("#nextLink").attr("href")).to.include("get-results?companyName=nab&searchAfter=nabAlphaKey40");
         });
     });
 
     describe("check that the searched term result is only highlighted using pagination", () => {
         it("check the top_hit search term is highlighted", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getCompanies")
-                .returns(Promise.resolve(mockUtils.getDummyCompanyResource("companyNameTest", "testcompany:0650019", "testcompany:065001941")));
+                .returns(Promise.resolve(mockUtils.getDummyCompanyResource("companyNameTest", "testcompany:0650019", "testcompany:065001920")));
 
             const resp = await chai.request(testApp)
                 .get("/alphabetical-search/get-results?companyName=companyNameTest");
@@ -74,7 +74,7 @@ describe("search.controller.spec.unit", () => {
 
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain("nearest");
-            chai.expect($(".nearest").text()).to.equal("companyNameTest41");
+            chai.expect($(".nearest").text()).to.equal("companyNameTest20");
         });
 
         it("check that no result is highlighted on screen when moving away from the top_hit screen", async () => {
@@ -119,16 +119,16 @@ describe("search.controller.spec.unit", () => {
 
         it("should display the top_hit companies if at the end of index and highlight the last element", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getCompanies")
-                .returns(Promise.resolve(mockUtils.getDummyCompanyResource("nab", "nabAlphaKeyWithId", "nabAlphaKeyWithId81")));
+                .returns(Promise.resolve(mockUtils.getDummyCompanyResource("nab", "nabAlphaKeyWithId", "nabAlphaKeyWithId40")));
 
             const resp = await chai.request(testApp)
-                .get("/alphabetical-search/get-results?companyName=nab81");
+                .get("/alphabetical-search/get-results?companyName=nab40");
 
             const $ = cheerio.load(resp.text);
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain("nab61");
-            chai.expect($(".nearest").text()).to.equal("nab81");
+            chai.expect(resp.text).to.contain("nab20");
+            chai.expect($(".nearest").text()).to.equal("nab40");
         });
     });
 
@@ -138,6 +138,22 @@ describe("search.controller.spec.unit", () => {
                 .get("/alphabetical-search/get-results?companyName=");
 
             chai.expect(resp.status).to.equal(200);
+        });
+    });
+
+    describe("check that a size parameter has no effect on the results being returned", () => {
+        it("check that a size parameter has no effect on the results being returned", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyCompanyResource("nab", "nabAlphaKey", "topHitNabAlphaKey")));
+
+            const resp = await chai.request(testApp)
+                .get("/alphabetical-search/get-results?companyName=nab&size=155");
+
+            const $ = cheerio.load(resp.text);
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect($("#previousLink").attr("href")).to.include("get-results?companyName=nab&searchBefore=nabAlphaKey0");
+            chai.expect($("#nextLink").attr("href")).to.include("get-results?companyName=nab&searchAfter=nabAlphaKey40");
         });
     });
 });
