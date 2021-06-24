@@ -182,7 +182,7 @@ const previousNameResults = (company_name, company_number, date_of_cessation, da
             classes: "govuk-table__cell no-wrap"
         },
         {
-            text: registered_office_address?.address_line_1 + " " + registered_office_address?.address_line_2 + " " + registered_office_address?.locality + " " + registered_office_address?.postal_code
+            text: formatPostCode(registered_office_address?.postal_code)
         }
     ];
 };
@@ -204,7 +204,7 @@ const alphabeticalMapping = (nearestClass, company_name, company_number, date_of
             classes: "govuk-table__cell no-wrap"
         },
         {
-            text: registered_office_address?.address_line_1 + " " + registered_office_address?.address_line_2 + " " + registered_office_address?.locality + " " + registered_office_address?.postal_code
+            text: formatPostCode(registered_office_address?.postal_code)
         }
     ];
 };
@@ -225,7 +225,7 @@ const bestMatchMapping = (company_name, company_number, date_of_cessation, date_
             classes: "govuk-table__cell no-wrap"
         },
         {
-            text: registered_office_address?.address_line_1 + " " + registered_office_address?.address_line_2 + " " + registered_office_address?.locality + " " + registered_office_address?.postal_code
+            text: formatPostCode(registered_office_address?.postal_code)
         }
     ];
 };
