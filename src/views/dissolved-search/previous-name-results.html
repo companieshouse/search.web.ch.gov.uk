@@ -12,31 +12,38 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
     <h1 class="govuk-heading-xl">Search results</h1>
-    <p class="govuk-body govuk-!-width-two-thirds">You can call the Contact Centre on 0303 123 4500, or email <a href="mailto:enquiries@companieshouse.gov.uk">enquiries@companieshouse.gov.uk</a>, to find out if there is any more information available about a dissolved company.</p>
+    <p class="govuk-body govuk-!-width-full">You can call the Contact Centre on 0303 123 4500, or email <a href="mailto:enquiries@companieshouse.gov.uk">enquiries@companieshouse.gov.uk</a>, to find out if there is any more information available about a dissolved company.</p>
     {% if searchResults.length > 0 %}
       {{ govukTable({
         firstCellIsHeader: false,
           head: [
             {
-              text: "Previous Company name"
+              text: "Previous company name",
+              classes: 'govuk-!-font-size-16'
             },
             {
-              text: "Company name"
+              text: "Company name",
+              classes: 'govuk-!-font-size-16'
             },
             {
-              text: "Company number"
+              text: "Company number",
+              classes: 'govuk-!-font-size-16'
             },
             {
-              text: "Incorporated on"
+              text: "Incorporated on",
+              classes: 'govuk-!-font-size-16'
             },
             {
-              text: "Dissolved on"
+              text: "Dissolved on",
+              classes: 'govuk-!-font-size-16'
             },
             {
-              text: "Postcode"
+              text: "Registered office address at dissolution",
+              classes: 'govuk-!-font-size-16'
             }
           ],
-          rows: searchResults
+          rows: searchResults,
+          classes: 'govuk-!-font-size-16'
       }) }}
       {% if numberOfPages > 1 %}
         {% include "../components/pagination.html" %}
