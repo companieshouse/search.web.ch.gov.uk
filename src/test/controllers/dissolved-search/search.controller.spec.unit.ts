@@ -472,7 +472,6 @@ describe("search.controller.spec.unit", () => {
 
     describe("check that a size parameter has no effect on the results being returned for dissolved searches", () => {
         it("check that a size parameter has no effect on the results being returned for alphabetical name at dissolution", async () => {
-
             getCompanyItemStub = sandbox.stub(apiClient, "getDissolvedCompanies")
                 .returns(Promise.resolve(mockUtils.getDummyDissolvedCompanyResource("tetso", 50, 50)));
 
@@ -508,5 +507,4 @@ describe("search.controller.spec.unit", () => {
             chai.expect(resp.text).to.not.contain("0650000199");
         });
     });
-
 });
