@@ -5,33 +5,29 @@ export const sanitiseCompanyName = (companyName) => {
 };
 
 export const generateROAddress = (registered_office_address) => {
-    
     let addressLine1 = "";
     let addressLine2 = "";
     let town = "";
     let postCode = "";
-    let fullAddressToBeDisplayed
 
-    if (registered_office_address?.address_line_1 != null || registered_office_address?.address_line_1 != undefined) {
-        addressLine1 = registered_office_address.address_line_1 + ", ";
+    if (registered_office_address?.address_line_1 != undefined) {
+        addressLine1 = registered_office_address?.address_line_1 + ", ";
     }
 
-    if (registered_office_address?.address_line_2 != null || registered_office_address?.address_line_2 != undefined) {
-        addressLine2 = registered_office_address.address_line_2 + ", ";
+    if (registered_office_address?.address_line_2 != undefined) {
+        addressLine2 = registered_office_address?.address_line_2 + ", ";
     }
 
-    if (registered_office_address?.locality != null || registered_office_address?.locality != undefined) {
-        town = registered_office_address.locality + ", ";
+    if (registered_office_address?.locality != undefined) {
+        town = registered_office_address?.locality + ", ";
     }
 
-    if (registered_office_address?.postal_code != null || registered_office_address?.postal_code != undefined) {
-        town = registered_office_address.postal_code;
+    if (registered_office_address?.postal_code != undefined) {
+        postCode = registered_office_address?.postal_code;
     }
 
-    fullAddressToBeDisplayed = addressLine1 + addressLine2 + town + postCode;
-
-    return fullAddressToBeDisplayed;
-}
+    return addressLine1 + addressLine2 + town + postCode;
+};
 
 export const formatDate = (unformattedDate) => {
     if (unformattedDate === undefined) {
