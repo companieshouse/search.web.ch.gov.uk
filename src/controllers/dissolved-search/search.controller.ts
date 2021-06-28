@@ -6,7 +6,7 @@ import { createLogger } from "@companieshouse/structured-logging-node";
 import { getDissolvedCompanies } from "../../client/apiclient";
 
 import { SEARCH_WEB_COOKIE_NAME, API_KEY, APPLICATION_NAME, LAST_UPDATED_MESSAGE, DISSOLVED_SEARCH_NUMBER_OF_RESULTS } from "../../config/config";
-import { detectNearestMatch, formatDate, formatPostCode, generateSize, sanitiseCompanyName } from "../utils";
+import { detectNearestMatch, formatDate, generateSize, sanitiseCompanyName, generateROAddress } from "../utils";
 import * as templatePaths from "../../model/template.paths";
 import * as errorMessages from "../../model/error.messages";
 import Cookies = require("cookies");
@@ -182,7 +182,7 @@ const previousNameResults = (company_name, company_number, date_of_cessation, da
             classes: "govuk-table__cell no-wrap"
         },
         {
-            text: formatPostCode(registered_office_address?.postal_code)
+            text: generateROAddress(registered_office_address)
         }
     ];
 };
@@ -204,7 +204,7 @@ const alphabeticalMapping = (nearestClass, company_name, company_number, date_of
             classes: "govuk-table__cell no-wrap"
         },
         {
-            text: formatPostCode(registered_office_address?.postal_code)
+            text: generateROAddress(registered_office_address)
         }
     ];
 };
@@ -225,7 +225,7 @@ const bestMatchMapping = (company_name, company_number, date_of_cessation, date_
             classes: "govuk-table__cell no-wrap"
         },
         {
-            text: formatPostCode(registered_office_address?.postal_code)
+            text: generateROAddress(registered_office_address)
         }
     ];
 };
