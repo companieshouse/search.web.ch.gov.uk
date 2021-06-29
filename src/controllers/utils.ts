@@ -4,18 +4,29 @@ export const sanitiseCompanyName = (companyName) => {
     return escape(companyName);
 };
 
-export const formatPostCode = (postCode) => {
-    let halfPostCode;
-    let trimmedPostCode;
+export const generateROAddress = (registered_office_address) => {
+    let addressLine1 = "";
+    let addressLine2 = "";
+    let town = "";
+    let postCode = "";
 
-    if (postCode != null) {
-        const newPostCode = postCode.split(" ");
-        halfPostCode = newPostCode[0];
-
-        trimmedPostCode = halfPostCode.slice(0, 4);
+    if (registered_office_address?.address_line_1 !== undefined) {
+        addressLine1 = registered_office_address?.address_line_1 + " ";
     }
 
-    return trimmedPostCode;
+    if (registered_office_address?.address_line_2 !== undefined) {
+        addressLine2 = registered_office_address?.address_line_2 + " ";
+    }
+
+    if (registered_office_address?.locality !== undefined) {
+        town = registered_office_address?.locality + " ";
+    }
+
+    if (registered_office_address?.postal_code !== undefined) {
+        postCode = registered_office_address?.postal_code;
+    }
+
+    return addressLine1 + addressLine2 + town + postCode;
 };
 
 export const formatDate = (unformattedDate) => {

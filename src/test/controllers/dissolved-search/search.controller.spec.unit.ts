@@ -1,10 +1,9 @@
 import * as mockUtils from "../../MockUtils/dissolved-search/mock.util";
 import sinon from "sinon";
 import chai from "chai";
-import cheerio from "cheerio";
 import * as apiClient from "../../../client/apiclient";
 import { CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/dissolved-search/types";
-import { formatPostCode, formatDate, sanitiseCompanyName } from "../../../controllers/utils";
+import { formatDate, sanitiseCompanyName, generateROAddress } from "../../../controllers/utils";
 
 const sandbox = sinon.createSandbox();
 let testApp = null;
@@ -119,27 +118,15 @@ describe("search.controller.spec.unit", () => {
         });
     });
 
-    describe("check it returns a dissolved results page with a shortened postcode successfully when the postcode has a space", () => {
-        it("should return a results page with a shortened postcode successfully", () => {
-            const postCode: string = "CF5 6RB";
-
-            chai.expect(formatPostCode(postCode)).to.contain("CF5");
+    describe("check it returns a dissolved results page with an address if available", () => {
+        it("should return a results page with the RO address", () => {
+            chai.expect(generateROAddress(mockResponseBody.top_hit.registered_office_address)).to.contain("test house");
         });
     });
 
-    describe("check it returns a dissolved results page with a shortened postcode successfully when the postcode has no space", () => {
-        it("should return a results page with a shortened postcode successfully", () => {
-            const postCode: string = "CF56RB";
-
-            chai.expect(formatPostCode(postCode)).to.contain("CF56");
-        });
-    });
-
-    describe("check it returns a dissolved results page with a shortened postcode successfully when the postcode has a space in an odd place space", () => {
-        it("should return a results page with a shortened postcode successfully", () => {
-            const postCode: string = "CF56R B";
-
-            chai.expect(formatPostCode(postCode)).to.contain("CF56");
+    describe("check it returns a dissolved results page without an address if not available", () => {
+        it("should return a results page without the RO address", () => {
+            chai.expect(generateROAddress(emptyMockResponseBody.top_hit.registered_office_address)).to.not.contain("test house");
         });
     });
 
