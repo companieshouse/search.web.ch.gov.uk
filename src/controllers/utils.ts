@@ -10,19 +10,19 @@ export const generateROAddress = (registered_office_address) => {
     let town = "";
     let postCode = "";
 
-    if (registered_office_address?.address_line_1 != undefined) {
-        addressLine1 = registered_office_address?.address_line_1 + ", ";
+    if (registered_office_address?.address_line_1 !== undefined) {
+        addressLine1 = registered_office_address?.address_line_1 + " ";
     }
 
-    if (registered_office_address?.address_line_2 != undefined) {
-        addressLine2 = registered_office_address?.address_line_2 + ", ";
+    if (registered_office_address?.address_line_2 !== undefined) {
+        addressLine2 = registered_office_address?.address_line_2 + " ";
     }
 
-    if (registered_office_address?.locality != undefined) {
-        town = registered_office_address?.locality + ", ";
+    if (registered_office_address?.locality !== undefined) {
+        town = registered_office_address?.locality + " ";
     }
 
-    if (registered_office_address?.postal_code != undefined) {
+    if (registered_office_address?.postal_code !== undefined) {
         postCode = registered_office_address?.postal_code;
     }
 
