@@ -113,7 +113,7 @@ const getSearchResults = async (encodedCompanyName: string, cookies: Cookies, se
 
         let noNearestMatch = false;
 
-        const searchResults = items.map(({ company_name, company_number, date_of_cessation, date_of_creation, registered_office_address, previous_company_names, ordered_alpha_key_with_id }) => {
+        const searchResults = items.map(({ company_name, company_number, date_of_cessation, date_of_creation, registered_office_address, previous_company_names, ordered_alpha_key_with_id, matched_previous_company_name }) => {
             const nearestClass = detectNearestMatch(ordered_alpha_key_with_id, top_hit.ordered_alpha_key_with_id, noNearestMatch);
 
             if (!noNearestMatch) {
@@ -125,7 +125,7 @@ const getSearchResults = async (encodedCompanyName: string, cookies: Cookies, se
             } else if (searchType === BEST_MATCH_SEARCH_TYPE) {
                 return bestMatchMapping(company_name, company_number, date_of_cessation, date_of_creation, registered_office_address);
             } else {
-                return previousNameResults(company_name, company_number, date_of_cessation, date_of_creation, registered_office_address, previous_company_names);
+                return previousNameResults(company_name, company_number, date_of_cessation, date_of_creation, registered_office_address, previous_company_names, matched_previous_company_name);
             };
         });
 
@@ -154,7 +154,12 @@ const getSearchResults = async (encodedCompanyName: string, cookies: Cookies, se
                     date_of_creation: new Date(),
                     kind: "",
                     ordered_alpha_key_with_id: "",
-                    previous_company_names: []
+                    previous_company_names: [],
+                    matched_previous_company_name: {
+                        ceased_on: new Date,
+                        effective_from: new Date,
+                        name: ""
+                    }
                 },
                 items: []
             },
@@ -163,10 +168,10 @@ const getSearchResults = async (encodedCompanyName: string, cookies: Cookies, se
     }
 };
 
-const previousNameResults = (company_name, company_number, date_of_cessation, date_of_creation, registered_office_address, previous_company_names) => {
+const previousNameResults = (company_name, company_number, date_of_cessation, date_of_creation, registered_office_address, previous_company_names, matched_previous_company_name) => {
     return [
         {
-            html: sanitiseCompanyName(previous_company_names)
+            html: sanitiseCompanyName(matched_previous_company_name.name)
         },
         {
             html: sanitiseCompanyName(company_name)
