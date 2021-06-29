@@ -1,4 +1,4 @@
-import { Address, CompaniesResource, Items, PreviousCompanyNames, TopHit } from "@companieshouse/api-sdk-node/dist/services/search/dissolved-search/types";
+import { Address, CompaniesResource, Items, MatchedPreviousCompanyName, PreviousCompanyNames, TopHit } from "@companieshouse/api-sdk-node/dist/services/search/dissolved-search/types";
 
 export const getDummyDissolvedCompanyResource = (name: string, numberOfCompanies: number, numberOfPreviousCompanyNames: number): CompaniesResource => {
     return {
@@ -22,7 +22,8 @@ export const createDummyItemsArray = (name: string, numberOfCompanies: number, n
             date_of_creation: new Date(1980, 13, 8),
             kind: "kind",
             ordered_alpha_key_with_id: `${name}:${i}`,
-            previous_company_names: createPreviousCompanyNameArray(numberOfPreviousCompanyNames)
+            previous_company_names: createPreviousCompanyNameArray(numberOfPreviousCompanyNames),
+            matched_previous_company_name: createMatchedPreviousName()
         });
     }
     return itemsArray;
@@ -49,6 +50,14 @@ export const createPreviousCompanyNameArray = (numberOfPreviousCompanyNames) => 
     return previousNamesArray;
 };
 
+export const createMatchedPreviousName = (): MatchedPreviousCompanyName => {
+    return {
+        ceased_on: new Date(1999, 11, 12),
+        effective_from: new Date(1981, 11, 12),
+        name: "name"
+    };
+};
+
 export const createTopHit = (name, numberOfPreviousCompanyNames): TopHit => {
     return {
         registered_office_address: createAddress(),
@@ -59,6 +68,7 @@ export const createTopHit = (name, numberOfPreviousCompanyNames): TopHit => {
         date_of_creation: new Date(1980, 13, 8),
         kind: "kind",
         ordered_alpha_key_with_id: "testcompany:1234",
-        previous_company_names: createPreviousCompanyNameArray(numberOfPreviousCompanyNames)
+        previous_company_names: createPreviousCompanyNameArray(numberOfPreviousCompanyNames),
+        matched_previous_company_name: createMatchedPreviousName()
     };
 };

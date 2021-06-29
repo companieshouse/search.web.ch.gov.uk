@@ -61,7 +61,13 @@ const mockDissolvedResponse: Resource<DissolvedCompanyResource> = {
                         effective_from: (new Date("19910212")),
                         name: "old name"
                     }
-                ]
+                ],
+                matched_previous_company_name:
+                    {
+                        ceased_on: (new Date("19910212")),
+                        effective_from: (new Date("19910212")),
+                        name: "old name"
+                    }
             }
         ],
         kind: "kind",
@@ -85,7 +91,13 @@ const mockDissolvedResponse: Resource<DissolvedCompanyResource> = {
                     effective_from: (new Date("19910212")),
                     name: "old name"
                 }
-            ]
+            ],
+            matched_previous_company_name:
+            {
+                ceased_on: (new Date("19910212")),
+                effective_from: (new Date("19910212")),
+                name: "old name"
+            }
         },
         hits: 20
     }

@@ -36,7 +36,12 @@ const mockResponseBody : CompaniesResource = ({
                     effective_from: creationDate,
                     name: "old name"
                 }
-            ]
+            ],
+            matched_previous_company_name: {
+                ceased_on: cessationDate,
+                effective_from: creationDate,
+                name: "old name"
+            }
         }
     ],
     kind: "kind",
@@ -60,7 +65,12 @@ const mockResponseBody : CompaniesResource = ({
                 effective_from: creationDate,
                 name: "old name"
             }
-        ]
+        ],
+        matched_previous_company_name: {
+            ceased_on: cessationDate,
+            effective_from: creationDate,
+            name: "old name"
+        }
     }
 });
 
@@ -89,7 +99,12 @@ const emptyMockResponseBody : CompaniesResource = ({
                 effective_from: emptyDate,
                 name: ""
             }
-        ]
+        ],
+        matched_previous_company_name: {
+            ceased_on: emptyDate,
+            effective_from: emptyDate,
+            name: ""
+        }
     }
 });
 
