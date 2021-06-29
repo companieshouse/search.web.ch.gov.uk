@@ -156,8 +156,8 @@ const getSearchResults = async (encodedCompanyName: string, cookies: Cookies, se
                     ordered_alpha_key_with_id: "",
                     previous_company_names: [],
                     matched_previous_company_name: {
-                        ceased_on: new Date,
-                        effective_from: new Date,
+                        ceased_on: new Date(),
+                        effective_from: new Date(),
                         name: ""
                     }
                 },

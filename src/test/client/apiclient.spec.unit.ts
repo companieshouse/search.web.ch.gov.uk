@@ -62,7 +62,7 @@ const mockDissolvedResponse: Resource<DissolvedCompanyResource> = {
                         name: "old name"
                     }
                 ],
-                matched_previous_company_name: 
+                matched_previous_company_name:
                     {
                         ceased_on: (new Date("19910212")),
                         effective_from: (new Date("19910212")),
@@ -92,7 +92,7 @@ const mockDissolvedResponse: Resource<DissolvedCompanyResource> = {
                     name: "old name"
                 }
             ],
-            matched_previous_company_name: 
+            matched_previous_company_name:
             {
                 ceased_on: (new Date("19910212")),
                 effective_from: (new Date("19910212")),

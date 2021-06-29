@@ -52,8 +52,8 @@ export const createPreviousCompanyNameArray = (numberOfPreviousCompanyNames) => 
 
 export const createMatchedPreviousName = (): MatchedPreviousCompanyName => {
     return {
-        ceased_on: new Date (1999, 11, 12),
-        effective_from: new Date (1981, 11, 12),
+        ceased_on: new Date(1999, 11, 12),
+        effective_from: new Date(1981, 11, 12),
         name: "name"
     };
 };
