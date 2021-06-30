@@ -22,13 +22,13 @@ const mockResponse: Resource<CompaniesResource> = {
         items: [
             {
                 company_type: "company_type",
-                company_number: "00006400",
+                company_number: "00000000",
                 company_status: "active",
                 company_name: "TEST",
                 ordered_alpha_key: "ordered alpha key",
-                ordered_alpha_key_with_id: "ordered alpha key:00006400",
+                ordered_alpha_key_with_id: "ordered alpha key:00000000",
                 links: {
-                    company_profile: "self"
+                    company_profile: "/company_profile/00000000"
                 },
                 kind: "kind"
             }

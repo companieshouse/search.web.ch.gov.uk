@@ -29,7 +29,7 @@ export const createArrayDummyResults = (name: string, alphaKeyWithId: string) : 
         itemsArray.push({
 
             company_type: "company_type",
-            company_number: "00006400" + i,
+            company_number: "00000000" + i,
             company_status: "active",
             company_name: name + i,
             ordered_alpha_key: "alpha key",
@@ -43,7 +43,7 @@ export const createArrayDummyResults = (name: string, alphaKeyWithId: string) : 
 
 export const createDummyLinks = (): Links => {
     return {
-        company_profile: "self"
+        company_profile: "/company_profile/00000000"
     };
 };
 
