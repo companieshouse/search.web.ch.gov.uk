@@ -28,7 +28,7 @@ describe("search.controller.spec.unit", () => {
                 .get("/alphabetical-search/get-results?companyName=nab");
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain("00006400");
+            chai.expect(resp.text).to.contain("00000000");
         });
     });
 
@@ -41,7 +41,7 @@ describe("search.controller.spec.unit", () => {
                 .get("/alphabetical-search/get-results?companyName=nab");
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain("00006400");
+            chai.expect(resp.text).to.contain("00000000");
             chai.expect(resp.text).to.contain("&lt;I&gt;company_name&lt;/I&gt;");
         });
     });
