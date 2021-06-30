@@ -43,7 +43,7 @@ export const createArrayDummyResults = (name: string, alphaKeyWithId: string) : 
 
 export const createDummyLinks = (): Links => {
     return {
-        self: "self"
+        company_profile: "self"
     };
 };
 
