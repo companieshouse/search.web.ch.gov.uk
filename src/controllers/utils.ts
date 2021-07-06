@@ -26,7 +26,7 @@ export const generateROAddress = (registered_office_address) => {
         postCode = registered_office_address?.postal_code;
     }
 
-    if (registered_office_address?.address_line_1 === undefined && registered_office_address?.address_line_2 === undefined && 
+    if (registered_office_address?.address_line_1 === undefined && registered_office_address?.address_line_2 === undefined &&
         registered_office_address?.locality === undefined && registered_office_address?.postal_code === undefined) {
         addressLine1 = "Not available";
     }
