@@ -81,7 +81,7 @@ const emptyMockResponseBody : CompaniesResource = ({
     hits: 20,
     top_hit: {
         registered_office_address: {
-            address_line_1: "",
+            address_line_1: "Not available",
             address_line_2: "",
             locality: "",
             postal_code: ""
@@ -141,7 +141,7 @@ describe("search.controller.spec.unit", () => {
 
     describe("check it returns a dissolved results page without an address if not available", () => {
         it("should return a results page without the RO address", () => {
-            chai.expect(generateROAddress(emptyMockResponseBody.top_hit.registered_office_address)).to.not.contain("test house");
+            chai.expect(generateROAddress(emptyMockResponseBody.top_hit.registered_office_address)).to.contain("Not available");
         });
     });
 
