@@ -13,7 +13,8 @@
   <div class="govuk-grid-column-full">
     <h1 class="govuk-heading-xl">Search results</h1>
     <p class="govuk-body govuk-!-width-full">You can call the Contact Centre on 0303 123 4500, or email <a href="mailto:enquiries@companieshouse.gov.uk">enquiries@companieshouse.gov.uk</a>, to find out if there is any more information available about a dissolved company.</p>
-    
+    <p class="govuk-body govuk-!-width-full">We cannot show the registered office address if this information is missing from our records, or for companies dissolved more than 20 years ago.</p>
+
     {% if searchResults.length > 0 %}
       {{ govukTable ({
         firstCellIsHeader: false,

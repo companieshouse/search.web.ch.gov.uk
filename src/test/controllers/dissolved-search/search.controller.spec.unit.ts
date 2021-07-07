@@ -139,9 +139,9 @@ describe("search.controller.spec.unit", () => {
         });
     });
 
-    describe("check it returns a dissolved results page without an address if not available", () => {
-        it("should return a results page without the RO address", () => {
-            chai.expect(generateROAddress(emptyMockResponseBody.top_hit.registered_office_address)).to.not.contain("test house");
+    describe("check it returns a dissolved results page with the address showing not available", () => {
+        it("should return a results page with the RO address showing Not available", () => {
+            chai.expect(generateROAddress(undefined)).to.contain("Not available");
         });
     });
 
