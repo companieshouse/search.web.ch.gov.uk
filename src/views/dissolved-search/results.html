@@ -1,7 +1,13 @@
 {% extends "base.html" %}
+
 {% block pageTitle %}
-    Dissolved search - results
+{% if searchResults.length > 0 %}
+    {{searchedName}} - Search for a dissolved company - Find and update company information - GOV.UK
+{% else %}
+    {{searchedName}} - No results found - Find and update company information - GOV.UK
+{% endif %}
 {% endblock %}
+
 {% block beforeContent %}
     {{ govukBackLink({
         text: "Search again",

@@ -1,7 +1,11 @@
 {% extends "base.html" %}
 
 {% block pageTitle %}
-    Alphabetical search - results
+{% if searchResults.length > 0 %}
+    {{searchTerm}} - Search results - Find and update company information - GOV.UK
+{% else %}
+    {{searchTerm}} - No results found - Find and update company information - GOV.UK
+{% endif %}
 {% endblock %}
 
 {% block beforeContent %}
