@@ -18,7 +18,6 @@ html, body {
 
 #footer {
   border-top: 10px solid #005ea5;
-  height: 60px;
 }
 
 .push {
@@ -30,7 +29,7 @@ html, body {
 }
 
 .govuk-footer.ch {
-  padding-bottom: 0px;
+  padding-bottom: 20px;
   padding-top: 20px;
 }
 
@@ -83,10 +82,6 @@ html, body {
     max-width: none;
     width: auto;
   }
-}
-
-#content.content-override {
-  padding-bottom: 0px;
 }
 
 .near {

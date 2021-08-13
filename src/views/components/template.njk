@@ -14,7 +14,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
     {% block headIcons %}
-      <link rel="shortcut icon" sizes="16x16 32x32 48x48" href="{{ assetPath | default('/assets') }}/images/favicon.ico" type="image/x-icon" />
+      <link rel="SHORTCUT ICON" href="//{{CDN_URL}}/images/govuk-frontend/v3.5.0/images/favicon.ico" />
+      <link rel="icon" href="//{{CDN_URL}}/images/govuk-frontend/v3.5.0/images/favicon.ico" type="image/x-icon" />
       <link rel="mask-icon" href="{{ assetPath | default('/assets') }}/images/govuk-mask-icon.svg" color="{{ themeColor | default('#0b0c0c') }}"> {# Hardcoded value of $govuk-black #}
       <link rel="apple-touch-icon" sizes="180x180" href="{{ assetPath | default('/assets') }}/images/govuk-apple-touch-icon-180x180.png">
       <link rel="apple-touch-icon" sizes="167x167" href="{{ assetPath | default('/assets') }}/images/govuk-apple-touch-icon-167x167.png">

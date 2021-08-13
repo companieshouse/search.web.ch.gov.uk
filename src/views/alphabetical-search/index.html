@@ -1,5 +1,12 @@
 {% extends "base.html" %}
 
+{% block pageTitle %}
+    {% if errorList.length > 0 %}
+        Error:
+    {% endif %}
+        Alphabetical company search - Find and update company information - GOV.UK
+{% endblock %}
+
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
