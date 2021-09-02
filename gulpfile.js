@@ -10,6 +10,13 @@ gulp.task("govuk-frontend-copy", function() {
   ]).pipe(gulp.dest("./dist/static"));
 });
 
+// copies the all js from the govuk-frontend package to the dist directory
+gulp.task("govuk-frontend-copy-js", function() {
+  return gulp.src([
+    "./node_modules/govuk-frontend/govuk/all.js"
+  ]).pipe(gulp.dest("./dist/static/js"));
+});
+
 // compiles the sass down to css
 gulp.task('sass', function() {
   return gulp.src('./static/**/*.scss')
@@ -34,5 +41,6 @@ exports.static = gulp.parallel(
   gulp.task("sass"),
   gulp.task("images"),
   gulp.task("js"),
-  gulp.task("govuk-frontend-copy")
+  gulp.task("govuk-frontend-copy"),
+  gulp.task("govuk-frontend-copy-js")
 );
