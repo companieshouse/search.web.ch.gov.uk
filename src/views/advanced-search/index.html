@@ -54,25 +54,15 @@
                 text: "Registered office address"
               },
               content: {
-                html: '<fieldset class="govuk-fieldset">
-                    
-                          <div class="govuk-form-group">
-
-                            <h1 class="govuk-label-wrapper"><label class="accordion-label govuk-label--s" for="incorporation-date-from">
-                                Enter a full or partial address
-                              </label>
-                            </h1>
-                
-
-                            <select class="location" style="border: 20px; width: 100%" multiple="multiple">
-                              <option value="eng">Powys</option>
-                              <option value="irl">Swansea</option>
-                              <option value="scot">Cardiff</option>
-                              <option value="wal">Newport</option>
-                            </select>
-                          </div>
-
-                        </fieldset>'
+                html: "
+                  <fieldset class='govuk-fieldset'>
+                    <div class='govuk-form-group'>  
+                      <label class='accordion-label' for='registered-office-address'>
+                        Enter a full or partial address
+                      </label>
+                      <input class='govuk-input govuk-!-width-width-full' id='registered-office-address' name='registered-office-address' type='text'>
+                    </div>
+                  </fieldset>"
               }
             },
               {
