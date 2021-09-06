@@ -7,5 +7,5 @@ routes:
   2: ^/alphabetical-search/.*
   3: ^/dissolved-search
   4: ^/dissolved-search/.*
-  5: ^/enhanced-search
-  6: ^/enhanced-search/.*
+  5: ^/advanced-search
+  6: ^/advanced-search/.*

@@ -4,6 +4,7 @@ import path from "path";
 
 import alphabeticalRouter from "./routes/alphabetical-search/routes";
 import dissolvedRouter from "./routes/dissolved-search/routes";
+import advancedRouter from "./routes/advanced-search/routes";
 import { ERROR_SUMMARY_TITLE } from "./model/error.messages";
 import errorHandlers from "./controllers/error.controller";
 import { ALPHABETICAL_ROOT, DISSOLVED_ROOT } from "./model/page.urls";
@@ -68,16 +69,19 @@ if (process.env.NODE_ENV !== "production") {
     env.addGlobal("ALPHABETICAL_SEARCH", "/alphabetical-search/static/alphabetical_search.css");
     env.addGlobal("NUMBERED_PAGING", "/alphabetical-search/static/numbered_paging.css");
     env.addGlobal("MATCHER", "/alphabetical-search/static/js/matcher.js");
+    env.addGlobal("ALL", "/alphabetical-search/static/js/all.js");
 } else {
     app.use("/alphabetical-search/static", express.static("static"));
     env.addGlobal("CSS_URL", "/alphabetical-search/static/app.css");
     env.addGlobal("ALPHABETICAL_SEARCH", "/alphabetical-search/static/alphabetical_search.css");
     env.addGlobal("NUMBERED_PAGING", "/alphabetical-search/static/numbered_paging.css");
     env.addGlobal("MATCHER", "/alphabetical-search/static/js/matcher.js");
+    env.addGlobal("ALL", "/alphabetical-search/static/js/all.js");
 }
 // apply our default router to /
 app.use("/", alphabeticalRouter);
 app.use("/", dissolvedRouter);
+app.use("/", advancedRouter);
 app.use(...errorHandlers);
 
 export default app;

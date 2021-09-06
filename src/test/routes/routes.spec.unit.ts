@@ -28,6 +28,12 @@ describe("routes.spec.unit", () => {
             chai.expect(resp.status).to.equal(200);
         });
 
+        it("should find the advanced search page url", async () => {
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/");
+            chai.expect(resp.status).to.equal(200);
+        });
+
         it("should return 404 if page doesnt exist", async () => {
             const response = await chai.request(testApp)
                 .get("/gibberish");
