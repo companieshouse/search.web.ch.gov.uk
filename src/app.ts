@@ -81,7 +81,7 @@ if (process.env.NODE_ENV !== "production") {
 // apply our default router to /
 app.use("/", alphabeticalRouter);
 app.use("/", dissolvedRouter);
-app.use("/", advancedRouter)
+app.use("/", advancedRouter);
 app.use(...errorHandlers);
 
 export default app;

@@ -1,7 +1,17 @@
 {% extends "base.html" %}
 
+{% block pageTitle %}
+    {% if errorList.length > 0 %}
+        Error:
+    {% endif %}
+        Advanced company search - Find and update company information - GOV.UK
+{% endblock %}
+
 {% block beforeContent %}
-  <a class="govuk-back-link" href="https://beta.companieshouse.gov.uk/">Back to Companies House service</a>
+  {{ govukBackLink({
+  text: "Back to Companies House service",
+  href: "/"
+}) }}
 {% endblock %}
 
 {% block content %}
@@ -499,8 +509,6 @@
             }
           ]
         }) }}
-        
-        {% from "govuk/components/button/macro.njk" import govukButton %}
 
         <div class="govuk-button-group">
           {{ govukButton({
