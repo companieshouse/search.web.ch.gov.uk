@@ -10,7 +10,7 @@ gulp.task("govuk-frontend-copy", function() {
   ]).pipe(gulp.dest("./dist/static"));
 });
 
-// copies the all js from the govuk-frontend package to the dist directory
+// copies the all.js file from the govuk-frontend package to the dist directory
 gulp.task("govuk-frontend-copy-js", function() {
   return gulp.src([
     "./node_modules/govuk-frontend/govuk/all.js"
