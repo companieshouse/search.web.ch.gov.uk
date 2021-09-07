@@ -1,1 +1,122 @@
-<h1>test</h1>
+{% extends "base.html" %}
+
+{% block pageTitle %}
+    {% if errorList.length > 0 %}
+        Error:
+    {% endif %}
+        SEARCH TERM - Search results - Find and update company information - GOV.UK
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+  text: "Back to Companies House service",
+  href: "/"
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-width-container">
+
+    <div class="govuk-grid-row">
+
+      <div class="govuk-grid-column-full">
+
+        <h1 class="govuk-heading-l">Advanced company search</h1>
+
+        <p class="govuk-body">Fill in one or more fields to search the Companies House register.</p>
+
+      </div>
+    </div>
+
+    <div class="govuk-grid-row">
+
+        <div class="govuk-grid-column-one-third" style="margin-right: 15px;">
+
+
+        <div class="govuk-button-group">
+            <button class="govuk-button" data-module="govuk-button">
+              Update results
+            </button>
+
+            <button class="govuk-button govuk-button--secondary" data-module="govuk-button">
+              Clear search
+            </button>
+        </div>
+
+      
+        {{ govukAccordion({
+          id: "accordion-default",
+
+          items: [
+            {
+              heading: {
+                text: "Company name"
+              },
+              content: {
+                html: "
+                <fieldset class='govuk-fieldset'>
+
+                  <div class='govuk-form-group'>  
+                    <label class='accordion-label' for='contains-company-name'>
+                      Company names that contain
+                    </label>
+                    <input class='govuk-input govuk-!-width-width-full' id='contains-company-name' name='contains-company-name' type='text'>
+                  </div>
+
+                  <hr class='govuk-section-break govuk-section-break--m govuk-section-break--visible'>
+
+                  <div class='govuk-form-group'>
+                    <label class='accordion-label' for='excludes-company-name'>
+                      Exclude company names that contain
+                    </label>
+                    <input class='govuk-input govuk-!-width-width-full' id='excludes-company-name' name='excludes-company-name' type='text'>
+                  </div>
+
+                </fieldset>"
+
+              }
+            }
+          ]
+        }) }}
+        
+        <div class="govuk-button-group">
+            <button class="govuk-button" data-module="govuk-button">
+              Update results
+            </button>
+
+            <button class="govuk-button govuk-button--secondary" data-module="govuk-button">
+              Clear search
+            </button>
+        </div>
+
+        <p> <a href="#" class="govuk-link">Download as CSV</a></p>
+
+    </div>
+
+    <div class="govuk-grid-two-thirds" style="padding-top: 45px;">
+
+        <h2 class="govuk-heading-s">1 results</h2> 
+
+
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+        
+        <h2 class="govuk-heading-m" style="margin-bottom: 3px;"><a href="#" class="govuk-link govuk-link--no-underline"> FLOWERS LIMITED</a></h2>
+        <p class="govuk-body" style="padding-bottom: 10px; margin-top:0px;">
+        <span class="govuk-body govuk-!-font-weight-bold"> Active</span><br>
+        Private limited company <br>
+        18882777 - Incorporated on 31 December 1998 <br>
+        2nd Floor Red House, 17 London Road, London SA73 8PH<br>
+        SIC codes - 46220, 47760</p>
+
+    </div> 
+
+</div>
+
+</div>
+
+
+
+
+{% endblock %}

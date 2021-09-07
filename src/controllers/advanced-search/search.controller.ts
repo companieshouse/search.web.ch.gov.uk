@@ -8,8 +8,7 @@ import Cookies = require("cookies");
 const logger = createLogger(APPLICATION_NAME);
 
 const route = async (req: Request, res: Response) => {
-
-    return res.render(templatePaths.ADVANCED_SEARCH_RESULTS)
+    return res.render(templatePaths.ADVANCED_SEARCH_RESULTS);
 };
 
 export default [route];
