@@ -1,5 +1,6 @@
 import { Router, Request, Response } from "express";
 import { SEARCH_WEB_COOKIE_NAME } from "../../config/config";
+import { searchController } from "../../controllers/advanced-search/index.controller";
 import * as pageUrls from "../../model/page.urls";
 import * as templatePaths from "../../model/template.paths";
 import uuid = require("uuid/v4");
@@ -23,5 +24,6 @@ const renderTemplate = (template: string) => (req: Request, res: Response) => {
 };
 
 router.get(pageUrls.ADVANCED_ROOT, renderTemplate(templatePaths.ADVANCED_INDEX));
+router.get(pageUrls.ADVANCED_GET_RESULTS, searchController);
 
 export default router;

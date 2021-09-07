@@ -11,7 +11,7 @@
   {{ govukBackLink({
   text: "Back to Companies House service",
   href: "/"
-}) }}
+  }) }}
 {% endblock %}
 
 {% block content %}
@@ -26,59 +26,52 @@
 
         <p class="govuk-body"> Fill in one or more fields to search the Companies House register.</p>
 
-      
-        {{ govukAccordion({
-          id: "accordion-default",
+        <form action="/advanced-search/get-results" method="GET">
+          {{ govukAccordion({
+            id: "accordion-default",
 
-          items: [
-            {
-              heading: {
-                text: "Company name"
-              },
-              content: {
-                html: "
-                  <fieldset class='govuk-fieldset'>
+            items: [
+              {
+                heading: {
+                  text: "Company name"
+                },
+                content: {
+                  html: "
+                    <fieldset class='govuk-fieldset'>
 
-                  <div class='govuk-form-group'>  
-                    <label class='accordion-label' for='contains-company-name'>
-                      Company names that contain
-                    </label>
-                    <input class='govuk-input govuk-!-width-width-full' id='contains-company-name' name='contains-company-name' type='text'>
-                  </div>
+                      <div class='govuk-form-group'>  
+                        <label class='accordion-label' for='containsCompanyName'>
+                          Company names that contain
+                        </label>
+                        <input class='govuk-input govuk-!-width-width-full' id='containsCompanyName' name='containsCompanyName' type='text'>
+                      </div>
 
-                  <hr class='govuk-section-break govuk-section-break--m govuk-section-break--visible'>
+                      <hr class='govuk-section-break govuk-section-break--m govuk-section-break--visible'>
 
-                  <div class='govuk-form-group'>
-                    <label class='accordion-label' for='excludes-company-name'>
-                      Exclude company names that contain
-                    </label>
-                    <input class='govuk-input govuk-!-width-width-full' id='excludes-company-name' name='excludes-company-name' type='text'>
-                  </div>
+                      <div class='govuk-form-group'>
+                        <label class='accordion-label' for='excludesCompanyName'>
+                          Exclude company names that contain
+                        </label>
+                        <input class='govuk-input govuk-!-width-width-full' id='excludesCompanyName' name='excludesCompanyName' type='text'>
+                      </div>
 
-                </fieldset>"
+                    </fieldset>"
+                }
               }
-            }
-          ]
-        }) }}
-
-        <div class="govuk-button-group">
-          {{ govukButton({
-            text: "Search",
-            href:"advanced-search-scrollable"
+            ]
           }) }}
 
-          {{ govukButton({
-            text: "Clear search",
-            classes: "govuk-button--secondary"
-          }) }}
-        </div>
+          <div class="govuk-button-group">
+            {{ govukButton({
+              text: "Search"
+            }) }}
 
+            {{ govukButton({
+              text: "Clear search",
+              classes: "govuk-button--secondary"
+            }) }}
+          </div>
+        </form>
     </div>
   </div>
-
-  <script>
-    window.GOVUKFrontend.initAll()
-  </script>
-
-
 {% endblock %}
