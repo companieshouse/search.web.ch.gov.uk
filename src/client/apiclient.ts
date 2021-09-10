@@ -1,6 +1,7 @@
 import { createApiClient } from "@companieshouse/api-sdk-node";
 import { CompaniesResource as AlphabeticalCompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/alphabetical-search/types";
 import { CompaniesResource as DissolvedCompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/dissolved-search/types";
+import { CompaniesResource as AdvancedCompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/advanced-search/types";
 import { API_URL, APPLICATION_NAME, DISSOLVED_SEARCH_NUMBER_OF_RESULTS } from "../config/config";
 import { createLogger } from "@companieshouse/structured-logging-node";
 import Resource from "@companieshouse/api-sdk-node/dist/services/resource";
@@ -21,14 +22,29 @@ export const getCompanies =
     };
 
 export const getDissolvedCompanies =
-async (apiKey: string, companyName: string, requestId, searchType: string, page: number, searchBefore: string | null, searchAfter: string | null, size: number | null): Promise<DissolvedCompaniesResource> => {
-    const api = createApiClient(apiKey, undefined, API_URL);
-    const startIndexOffset = (page * DISSOLVED_SEARCH_NUMBER_OF_RESULTS) - DISSOLVED_SEARCH_NUMBER_OF_RESULTS;
-    const companiesResource: Resource<DissolvedCompaniesResource> =
-        await api.dissolvedSearch.getCompanies(companyName, requestId, searchType, startIndexOffset, searchBefore, searchAfter, size);
-    if (companiesResource.httpStatusCode !== 200 && companiesResource.httpStatusCode !== 201) {
-        throw createError(companiesResource.httpStatusCode, companiesResource.httpStatusCode.toString());
-    }
-    logger.info(`Get company name dissolved search results, company_name=${companyName}, status_code=${companiesResource.httpStatusCode}`);
-    return companiesResource.resource as DissolvedCompaniesResource;
-};
+    async (apiKey: string, companyName: string, requestId, searchType: string, page: number, searchBefore: string | null, searchAfter: string | null, size: number | null): Promise<DissolvedCompaniesResource> => {
+        const api = createApiClient(apiKey, undefined, API_URL);
+        const startIndexOffset = (page * DISSOLVED_SEARCH_NUMBER_OF_RESULTS) - DISSOLVED_SEARCH_NUMBER_OF_RESULTS;
+        const companiesResource: Resource<DissolvedCompaniesResource> =
+            await api.dissolvedSearch.getCompanies(companyName, requestId, searchType, startIndexOffset, searchBefore, searchAfter, size);
+        if (companiesResource.httpStatusCode !== 200 && companiesResource.httpStatusCode !== 201) {
+            throw createError(companiesResource.httpStatusCode, companiesResource.httpStatusCode.toString());
+        }
+        logger.info(`Get company name dissolved search results, company_name=${companyName}, status_code=${companiesResource.httpStatusCode}`);
+        return companiesResource.resource as DissolvedCompaniesResource;
+    };
+
+export const getAdvancedCompanies =
+    async (apiKey: string, companyNameIncludes: string | null, companyNameExcludes: string | null, location: string | null, incorporatedFrom: string | null,
+        incorporatedTo: string | null, sicCodes: string | null, companyStatus: string | null, companyType: string | null, dissolvedFrom: string | null,
+        dissolvedTo: string | null, requestId: string): Promise<AdvancedCompaniesResource> => {
+        const api = createApiClient(apiKey, undefined, API_URL);
+        const companiesResource: Resource<AdvancedCompaniesResource> =
+            await api.advancedSearch.getCompanies(companyNameIncludes, companyNameExcludes, location, incorporatedFrom, incorporatedTo, sicCodes, companyStatus,
+                companyType, dissolvedFrom, dissolvedTo, requestId);
+        if (companiesResource.httpStatusCode !== 200 && companiesResource.httpStatusCode !== 201) {
+            throw createError(companiesResource.httpStatusCode, companiesResource.httpStatusCode.toString());
+        }
+        logger.info(`Get advanced search results, company_name_includes=${companyNameIncludes},company_name_excludes=${companyNameExcludes}, status_code=${companiesResource.httpStatusCode}`);
+        return companiesResource.resource as AdvancedCompaniesResource;
+    };

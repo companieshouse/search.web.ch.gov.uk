@@ -3,9 +3,11 @@ import chai from "chai";
 import Resource from "@companieshouse/api-sdk-node/dist/services/resource";
 import { CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/alphabetical-search/types";
 import { CompaniesResource as DissolvedCompanyResource } from "@companieshouse/api-sdk-node/dist/services/search/dissolved-search/types";
-import { getCompanies, getDissolvedCompanies } from "../../client/apiclient";
+import { CompaniesResource as AdvancedCompanyResource } from "@companieshouse/api-sdk-node/dist/services/search/advanced-search/types";
+import { getCompanies, getDissolvedCompanies, getAdvancedCompanies } from "../../client/apiclient";
 import AlphabeticalSearchService from "@companieshouse/api-sdk-node/dist/services/search/alphabetical-search/service";
 import DissolvedSearchService from "@companieshouse/api-sdk-node/dist/services/search/dissolved-search/service";
+import AdvancedSearchService from "@companieshouse/api-sdk-node/dist/services/search/advanced-search/service";
 
 const mockResponse: Resource<CompaniesResource> = {
     httpStatusCode: 200,
@@ -103,6 +105,61 @@ const mockDissolvedResponse: Resource<DissolvedCompanyResource> = {
     }
 };
 
+const mockAdvancedResponse: Resource<AdvancedCompanyResource> = {
+    httpStatusCode: 200,
+    resource: {
+        etag: "etag",
+        items: [
+            {
+                registered_office_address: {
+                    address_line_1: "test house",
+                    address_line_2: "test street",
+                    locality: "cardiff",
+                    postal_code: "cf5 6rb",
+                    premises: "premises",
+                    region: "region",
+                    country: "country"
+                },
+                company_name: "test company",
+                company_number: "0000789",
+                company_status: "active",
+                company_type: "ltd",
+                links: {
+                    company_profile: "/company_profile/0000789"
+                },
+                sic_codes: ["00000"],
+                date_of_cessation: (new Date("19910212")),
+                date_of_creation: (new Date("19910212")),
+                kind: "kind"
+            }
+        ],
+        kind: "kind",
+        top_hit: {
+            registered_office_address: {
+                address_line_1: "test house",
+                address_line_2: "test street",
+                locality: "cardiff",
+                postal_code: "cf5 6rb",
+                premises: "premises",
+                region: "region",
+                country: "country"
+            },
+            company_name: "test company",
+            company_number: "0000789",
+            company_status: "active",
+            company_type: "ltd",
+            links: {
+                company_profile: "/company_profile/0000789"
+            },
+            sic_codes: ["00000"],
+            date_of_cessation: (new Date("19910212")),
+            date_of_creation: (new Date("19910212")),
+            kind: "kind"
+        },
+        hits: 20
+    }
+};
+
 const mockRequestID: string = "ID";
 const hits: number = 20;
 
@@ -139,6 +196,16 @@ describe("api.client", () => {
 
             const dissolvedAlphabeticalSearchResults = await getDissolvedCompanies("api key", "test company", mockRequestID, "", 1, "testcompany:1234", null, 20);
             chai.expect(dissolvedAlphabeticalSearchResults).to.equal(mockDissolvedResponse.resource);
+        });
+    });
+
+    describe("advanced search", () => {
+        it("GET returns advanced search results", async () => {
+            sandbox.stub(AdvancedSearchService.prototype, "getCompanies")
+                .returns(Promise.resolve(mockAdvancedResponse));
+
+            const advancedSearchResults = await getAdvancedCompanies("api key", "test", null, null, null, null, null, null, null, null, null, "request id");
+            chai.expect(advancedSearchResults).to.equal(mockAdvancedResponse.resource);
         });
     });
 });
