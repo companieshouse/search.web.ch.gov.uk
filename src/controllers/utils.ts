@@ -16,8 +16,6 @@ export const determineReportAvailableBool = (dateOfDissolution) => {
 
     if ((todayYear - year) < 20)
     {
-        //Check if someone is signed in. 
-        //If signed in then blah. If not signed in then x
         return true;
     }
     else 
