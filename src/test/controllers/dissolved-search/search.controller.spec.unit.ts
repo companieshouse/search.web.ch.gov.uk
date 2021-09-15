@@ -516,11 +516,11 @@ describe("search.controller.spec.unit", () => {
                 chai.expect(determineReportAvailableBool(date)).to.equal(true);
             });
         });
-    
+
         describe("check it does not return a url is the company has been dissolved more than 20 years", () => {
             it("should not return a url for companies more than 20 years", () => {
                 const date = "1990";
-                
+
                 chai.expect(determineReportAvailableBool(date)).to.equal(false);
             });
         });

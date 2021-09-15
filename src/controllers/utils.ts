@@ -6,23 +6,18 @@ export const sanitiseCompanyName = (companyName) => {
 };
 
 export const determineReportAvailableBool = (dateOfDissolution) => {
-
     const dissolutionDate = dateOfDissolution.toString();
     const splitDate = dissolutionDate.split("-");
     const year = splitDate[0];
 
-    let todayYear = new Date().getFullYear();
+    const todayYear = new Date().getFullYear();
 
-
-    if ((todayYear - year) < 20)
-    {
+    if ((todayYear - year) < 20) {
         return true;
-    }
-    else 
-    {
+    } else {
         return false;
     }
-}
+};
 
 export const generateROAddress = (registered_office_address) => {
     let addressLine1 = "";

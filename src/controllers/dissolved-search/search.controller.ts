@@ -10,7 +10,6 @@ import { detectNearestMatch, formatDate, generateSize, sanitiseCompanyName, gene
 import * as templatePaths from "../../model/template.paths";
 import * as errorMessages from "../../model/error.messages";
 import Cookies = require("cookies");
-import { html } from "cheerio";
 
 const logger = createLogger(APPLICATION_NAME);
 
@@ -120,10 +119,9 @@ const getSearchResults = async (encodedCompanyName: string, cookies: Cookies, se
             let reportAvailable = "Download report";
             var url = "https://google.com";
 
-            if(determineReportAvailableBool(date_of_cessation)) {
+            if (determineReportAvailableBool(date_of_cessation)) {
                 reportAvailable = reportAvailable.link(url);
-            }
-            else {
+            } else {
                 reportAvailable = "Not available";
             }
 
