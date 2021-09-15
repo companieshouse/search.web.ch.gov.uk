@@ -3,7 +3,7 @@ import sinon from "sinon";
 import chai from "chai";
 import * as apiClient from "../../../client/apiclient";
 import { CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/dissolved-search/types";
-import { formatDate, sanitiseCompanyName, generateROAddress } from "../../../controllers/utils";
+import { formatDate, sanitiseCompanyName, generateROAddress, determineReportAvailableBool } from "../../../controllers/utils";
 
 const sandbox = sinon.createSandbox();
 let testApp = null;
@@ -507,6 +507,22 @@ describe("search.controller.spec.unit", () => {
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain("065000030");
             chai.expect(resp.text).to.not.contain("0650000199");
+        });
+
+        describe("check it returns a url is the company has been dissolved less than 20 years", () => {
+            it("should return a url for companies less than 20 years", () => {
+                const date = "2010";
+
+                chai.expect(determineReportAvailableBool(date)).to.equal(true);
+            });
+        });
+    
+        describe("check it does not return a url is the company has been dissolved more than 20 years", () => {
+            it("should not return a url for companies more than 20 years", () => {
+                const date = "1990";
+                
+                chai.expect(determineReportAvailableBool(date)).to.equal(false);
+            });
         });
     });
 });
