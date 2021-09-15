@@ -39,10 +39,10 @@ const getSearchResults = async (companyNameIncludes: string | null, companyNameE
             sicCodes, companyStatus, companyType, dissolvedFrom, dissolvedTo, (cookies.get(SEARCH_WEB_COOKIE_NAME) as string));
         const { items } = companyResource;
 
-        const searchResults = items.map(({ company_name }) => {
+        const searchResults = items.map(({ company_name, links }) => {
             return [
                 {
-                    html: `<h2 class="govuk-heading-m" style="margin-bottom: 3px;"><a href="#" class="govuk-link govuk-link--no-underline"> ${company_name}</a></h2>`
+                    html: `<h2 class="govuk-heading-m" style="margin-bottom: 3px;"><a class="govuk-link" href=${links.company_profile} target="_blank">${company_name}<span class="govuk-visually-hidden">(link opens a new window)</span></a></h2>`
                 }
             ];
         });

@@ -57,4 +57,17 @@ describe("search.controller.spec.unit", () => {
             chai.expect(resp.text).to.contain("No results found");
         });
     });
+
+    describe("check the company name functionality", () => {
+        it("company name link should link to the company profile", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test")));
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?containsCompanyName=test&excludesCompanyName=");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("<a class=\"govuk-link\" href=/065000 target=\"_blank\">test1<span class=\"govuk-visually-hidden\">(link opens a new window)</span></a>");
+        });
+    });
 });
