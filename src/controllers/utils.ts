@@ -1,7 +1,22 @@
+import { html } from "cheerio";
 import escape from "escape-html";
 
 export const sanitiseCompanyName = (companyName) => {
     return escape(companyName);
+};
+
+export const determineReportAvailableBool = (dateOfDissolution) => {
+    const dissolutionDate = dateOfDissolution.toString();
+    const splitDate = dissolutionDate.split("-");
+    const year = splitDate[0];
+
+    const todayYear = new Date().getFullYear();
+
+    if ((todayYear - year) < 20) {
+        return true;
+    } else {
+        return false;
+    }
 };
 
 export const generateROAddress = (registered_office_address) => {

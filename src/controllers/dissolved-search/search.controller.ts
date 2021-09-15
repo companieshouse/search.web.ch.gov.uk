@@ -6,7 +6,7 @@ import { createLogger } from "@companieshouse/structured-logging-node";
 import { getDissolvedCompanies } from "../../client/apiclient";
 
 import { SEARCH_WEB_COOKIE_NAME, API_KEY, APPLICATION_NAME, LAST_UPDATED_MESSAGE, DISSOLVED_SEARCH_NUMBER_OF_RESULTS } from "../../config/config";
-import { detectNearestMatch, formatDate, generateSize, sanitiseCompanyName, generateROAddress } from "../utils";
+import { detectNearestMatch, formatDate, generateSize, sanitiseCompanyName, generateROAddress, determineReportAvailableBool } from "../utils";
 import * as templatePaths from "../../model/template.paths";
 import * as errorMessages from "../../model/error.messages";
 import Cookies = require("cookies");
@@ -116,16 +116,25 @@ const getSearchResults = async (encodedCompanyName: string, cookies: Cookies, se
         const searchResults = items.map(({ company_name, company_number, date_of_cessation, date_of_creation, registered_office_address, previous_company_names, ordered_alpha_key_with_id, matched_previous_company_name }) => {
             const nearestClass = detectNearestMatch(ordered_alpha_key_with_id, top_hit.ordered_alpha_key_with_id, noNearestMatch);
 
+            let reportAvailable = "Download report";
+            var url = "https://google.com";
+
+            if (determineReportAvailableBool(date_of_cessation)) {
+                reportAvailable = reportAvailable.link(url);
+            } else {
+                reportAvailable = "Not available";
+            }
+
             if (!noNearestMatch) {
                 noNearestMatch = nearestClass === "nearest";
             };
 
             if (searchType === ALPHABETICAL_SEARCH_TYPE) {
-                return alphabeticalMapping(nearestClass, company_name, company_number, date_of_cessation, date_of_creation, registered_office_address);
+                return alphabeticalMapping(nearestClass, company_name, company_number, date_of_cessation, date_of_creation, registered_office_address, reportAvailable);
             } else if (searchType === BEST_MATCH_SEARCH_TYPE) {
-                return bestMatchMapping(company_name, company_number, date_of_cessation, date_of_creation, registered_office_address);
+                return bestMatchMapping(company_name, company_number, date_of_cessation, date_of_creation, registered_office_address, reportAvailable);
             } else {
-                return previousNameResults(company_name, company_number, date_of_cessation, date_of_creation, registered_office_address, previous_company_names, matched_previous_company_name);
+                return previousNameResults(company_name, company_number, date_of_cessation, date_of_creation, registered_office_address, previous_company_names, matched_previous_company_name, reportAvailable);
             };
         });
 
@@ -168,7 +177,7 @@ const getSearchResults = async (encodedCompanyName: string, cookies: Cookies, se
     }
 };
 
-const previousNameResults = (company_name, company_number, date_of_cessation, date_of_creation, registered_office_address, previous_company_names, matched_previous_company_name) => {
+const previousNameResults = (company_name, company_number, date_of_cessation, date_of_creation, registered_office_address, previous_company_names, matched_previous_company_name, reportAvailable) => {
     return [
         {
             html: sanitiseCompanyName(matched_previous_company_name.name)
@@ -188,11 +197,14 @@ const previousNameResults = (company_name, company_number, date_of_cessation, da
         },
         {
             text: generateROAddress(registered_office_address)
+        },
+        {
+            html: reportAvailable
         }
     ];
 };
 
-const alphabeticalMapping = (nearestClass, company_name, company_number, date_of_cessation, date_of_creation, registered_office_address) => {
+const alphabeticalMapping = (nearestClass, company_name, company_number, date_of_cessation, date_of_creation, registered_office_address, reportAvailable) => {
     return [
         {
             classes: nearestClass,
@@ -210,11 +222,14 @@ const alphabeticalMapping = (nearestClass, company_name, company_number, date_of
         },
         {
             text: generateROAddress(registered_office_address)
+        },
+        {
+            html: reportAvailable
         }
     ];
 };
 
-const bestMatchMapping = (company_name, company_number, date_of_cessation, date_of_creation, registered_office_address) => {
+const bestMatchMapping = (company_name, company_number, date_of_cessation, date_of_creation, registered_office_address, reportAvailable) => {
     return [
         {
             html: sanitiseCompanyName(company_name)
@@ -231,6 +246,9 @@ const bestMatchMapping = (company_name, company_number, date_of_cessation, date_
         },
         {
             text: generateROAddress(registered_office_address)
+        },
+        {
+            html: reportAvailable
         }
     ];
 };
