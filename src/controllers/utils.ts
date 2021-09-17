@@ -1,4 +1,5 @@
 import escape from "escape-html";
+import moment from "moment";
 
 export const getDownloadReportText = (signedIn: boolean, reportAvailable: boolean, returnUrl: string): string => {
     const reportAvailableText = "Download report";
@@ -25,26 +26,10 @@ export const sanitiseCompanyName = (companyName) => {
 
 export const determineReportAvailableBool = (dateOfDissolution) => {
     const dissolutionDate = dateOfDissolution.toString();
-    const dissolvedYear = dissolutionDate.split("-")[0];
-    const dissolvedMonth = dissolutionDate.split("-")[1];
-    const dissolvedDay = dissolutionDate.split("-")[2];
+    const now = moment();
+    const nowMinus20years = now.subtract(20, "years").format('YYYY-MM-DD')
 
-    const todayDate = new Date();
-   
-    
-
-    if ((todayDate.getFullYear() - dissolvedYear) <= 20 && (dissolvedMonth >= (todayDate.getMonth() +1))) {
-        if (dissolvedMonth == todayDate.getMonth() +1) {
-            if (dissolvedDay >= todayDate.getDate()) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-        return true;
-    } else {
-        return false;
-    }
+    return dissolutionDate > nowMinus20years ? true : false
 };
 
 export const determineReturnToUrl = (req): string => {
