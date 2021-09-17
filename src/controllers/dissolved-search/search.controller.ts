@@ -4,9 +4,12 @@ import { createGovUkErrorData, GovUkErrorData } from "../../model/govuk.error.da
 import { CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/dissolved-search/types";
 import { createLogger } from "@companieshouse/structured-logging-node";
 import { getDissolvedCompanies } from "../../client/apiclient";
+import { Session } from "@companieshouse/node-session-handler";
+import { SessionKey } from "@companieshouse/node-session-handler/lib/session/keys/SessionKey";
+import { SignInInfoKeys } from "@companieshouse/node-session-handler/lib/session/keys/SignInInfoKeys";
 
 import { SEARCH_WEB_COOKIE_NAME, API_KEY, APPLICATION_NAME, LAST_UPDATED_MESSAGE, DISSOLVED_SEARCH_NUMBER_OF_RESULTS } from "../../config/config";
-import { detectNearestMatch, formatDate, generateSize, sanitiseCompanyName, generateROAddress, determineReportAvailableBool } from "../utils";
+import { detectNearestMatch, formatDate, generateSize, sanitiseCompanyName, generateROAddress, determineReturnToUrl, getDownloadReportText, determineReportAvailableBool } from "../utils";
 import * as templatePaths from "../../model/template.paths";
 import * as errorMessages from "../../model/error.messages";
 import Cookies = require("cookies");
@@ -43,6 +46,9 @@ const route = async (req: Request, res: Response) => {
         const encodedCompanyName: string = encodeURIComponent(companyName);
         const lastUpdatedMessage: string = LAST_UPDATED_MESSAGE;
         const page = searchTypeRequestParam === ALPHABETICAL_SEARCH_TYPE ? 0 : req.query.page ? Number(req.query.page) : 1;
+        const signedIn = req.session?.data?.[SessionKey.SignInInfo]?.[SignInInfoKeys.SignedIn] === 1;
+        const returnToUrl = determineReturnToUrl(req);
+
         let prevLink = "";
         let nextLink = "";
 
@@ -60,7 +66,7 @@ const route = async (req: Request, res: Response) => {
             searchType = BEST_MATCH_SEARCH_TYPE;
         };
 
-        const { companyResource, searchResults } = await getSearchResults(encodedCompanyName, cookies, searchType, page, searchBefore, searchAfter, size);
+        const { companyResource, searchResults } = await getSearchResults(encodedCompanyName, cookies, searchType, page, searchBefore, searchAfter, size, signedIn, returnToUrl);
 
         const { items } = companyResource;
 
@@ -80,8 +86,8 @@ const route = async (req: Request, res: Response) => {
             });
         }
 
-        const searchResultsPreviousLink = await getSearchResults(encodedCompanyName, cookies, searchType, page, searchBeforeAlphaKey, searchAfter, size);
-        const searchResultsNextLink = await getSearchResults(encodedCompanyName, cookies, searchType, page, searchBefore, searchAfterAlphaKey, size);
+        const searchResultsPreviousLink = await getSearchResults(encodedCompanyName, cookies, searchType, page, searchBeforeAlphaKey, searchAfter, size, signedIn, returnToUrl);
+        const searchResultsNextLink = await getSearchResults(encodedCompanyName, cookies, searchType, page, searchBefore, searchAfterAlphaKey, size, signedIn, returnToUrl);
 
         if (searchResultsPreviousLink.searchResults.length > 0) {
             prevLink = "resultsPresent";
@@ -103,7 +109,7 @@ const route = async (req: Request, res: Response) => {
     }
 };
 
-const getSearchResults = async (encodedCompanyName: string, cookies: Cookies, searchType: string, page: number, searchBefore: string | null, searchAfter: string | null, size: number | null): Promise<{
+const getSearchResults = async (encodedCompanyName: string, cookies: Cookies, searchType: string, page: number, searchBefore: string | null, searchAfter: string | null, size: number | null, signedIn: boolean, returnToUrl: string): Promise<{
     companyResource: CompaniesResource,
     searchResults: any[]
 }> => {
@@ -115,26 +121,19 @@ const getSearchResults = async (encodedCompanyName: string, cookies: Cookies, se
 
         const searchResults = items.map(({ company_name, company_number, date_of_cessation, date_of_creation, registered_office_address, previous_company_names, ordered_alpha_key_with_id, matched_previous_company_name }) => {
             const nearestClass = detectNearestMatch(ordered_alpha_key_with_id, top_hit.ordered_alpha_key_with_id, noNearestMatch);
-
-            let reportAvailable = "Download report";
-            var url = "https://google.com";
-
-            if (determineReportAvailableBool(date_of_cessation)) {
-                reportAvailable = reportAvailable.link(url);
-            } else {
-                reportAvailable = "Not available";
-            }
+            const reportAvailable: boolean = determineReportAvailableBool(date_of_cessation);
+            const downloadReportText: string = getDownloadReportText(signedIn, reportAvailable, returnToUrl);
 
             if (!noNearestMatch) {
                 noNearestMatch = nearestClass === "nearest";
             };
 
             if (searchType === ALPHABETICAL_SEARCH_TYPE) {
-                return alphabeticalMapping(nearestClass, company_name, company_number, date_of_cessation, date_of_creation, registered_office_address, reportAvailable);
+                return alphabeticalMapping(nearestClass, company_name, company_number, date_of_cessation, date_of_creation, registered_office_address, downloadReportText);
             } else if (searchType === BEST_MATCH_SEARCH_TYPE) {
-                return bestMatchMapping(company_name, company_number, date_of_cessation, date_of_creation, registered_office_address, reportAvailable);
+                return bestMatchMapping(company_name, company_number, date_of_cessation, date_of_creation, registered_office_address, downloadReportText);
             } else {
-                return previousNameResults(company_name, company_number, date_of_cessation, date_of_creation, registered_office_address, previous_company_names, matched_previous_company_name, reportAvailable);
+                return previousNameResults(company_name, company_number, date_of_cessation, date_of_creation, registered_office_address, previous_company_names, matched_previous_company_name, downloadReportText);
             };
         });
 
@@ -177,7 +176,7 @@ const getSearchResults = async (encodedCompanyName: string, cookies: Cookies, se
     }
 };
 
-const previousNameResults = (company_name, company_number, date_of_cessation, date_of_creation, registered_office_address, previous_company_names, matched_previous_company_name, reportAvailable) => {
+const previousNameResults = (company_name, company_number, date_of_cessation, date_of_creation, registered_office_address, previous_company_names, matched_previous_company_name, downloadReportText) => {
     return [
         {
             html: sanitiseCompanyName(matched_previous_company_name.name)
@@ -199,12 +198,12 @@ const previousNameResults = (company_name, company_number, date_of_cessation, da
             text: generateROAddress(registered_office_address)
         },
         {
-            html: reportAvailable
+            html: downloadReportText
         }
     ];
 };
 
-const alphabeticalMapping = (nearestClass, company_name, company_number, date_of_cessation, date_of_creation, registered_office_address, reportAvailable) => {
+const alphabeticalMapping = (nearestClass, company_name, company_number, date_of_cessation, date_of_creation, registered_office_address, downloadReportText) => {
     return [
         {
             classes: nearestClass,
@@ -224,12 +223,12 @@ const alphabeticalMapping = (nearestClass, company_name, company_number, date_of
             text: generateROAddress(registered_office_address)
         },
         {
-            html: reportAvailable
+            html: downloadReportText
         }
     ];
 };
 
-const bestMatchMapping = (company_name, company_number, date_of_cessation, date_of_creation, registered_office_address, reportAvailable) => {
+const bestMatchMapping = (company_name, company_number, date_of_cessation, date_of_creation, registered_office_address, downloadReportText) => {
     return [
         {
             html: sanitiseCompanyName(company_name)
@@ -248,7 +247,7 @@ const bestMatchMapping = (company_name, company_number, date_of_cessation, date_
             text: generateROAddress(registered_office_address)
         },
         {
-            html: reportAvailable
+            html: downloadReportText
         }
     ];
 };

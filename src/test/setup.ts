@@ -12,3 +12,6 @@ process.env.PIWIK_SITE_ID = "test";
 process.env.API_URL = "http://apiurl.co";
 process.env.LAST_UPDATED_MESSAGE = "test updated message";
 process.env.DISSOLVED_SEARCH_NUMBER_OF_RESULTS = "20";
+process.env.COOKIE_SECRET = "Xy6onkjQWF0TkRn0hfdqUw==";
+process.env.COOKIE_DOMAIN = "cookie domain";
+process.env.CACHE_SERVER = "secret";

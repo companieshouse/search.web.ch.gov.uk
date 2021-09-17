@@ -1,5 +1,23 @@
-import { html } from "cheerio";
 import escape from "escape-html";
+
+export const getDownloadReportText = (signedIn: boolean, reportAvailable: boolean, returnUrl: string): string => {
+    const reportAvailableText = "Download report";
+    const signIn = "Sign in to download report";
+    const signInLink = "/signin?return_to=";
+    let downloadReportText = "";
+
+    if (reportAvailable) {
+        if (signedIn === true) {
+            downloadReportText = reportAvailableText.link("");
+        } else {
+            downloadReportText = signIn.link(signInLink + returnUrl);
+        }
+    } else {
+        downloadReportText = "Not available";
+    }
+
+    return downloadReportText;
+};
 
 export const sanitiseCompanyName = (companyName) => {
     return escape(companyName);
@@ -17,6 +35,38 @@ export const determineReportAvailableBool = (dateOfDissolution) => {
     } else {
         return false;
     }
+};
+
+export const determineReturnToUrl = (req): string => {
+    const companyNameRequestParam: string = req.query.companyName as string;
+    const searchTypeRequestParam: string = req.query.searchType as string;
+    const changeNameTypeParam: string = req.query.changedName as string;
+    const searchBefore = req.query.searchBefore as string || null;
+    const searchAfter = req.query.searchAfter as string || null;
+    const CHANGED_NAME_QUERY = `&changedName=${changeNameTypeParam}`;
+    const SEARCH_TYPE_QUERY = `&searchType=${searchTypeRequestParam}`;
+    const SEARCH_BEFORE_QUERY = `&searchBefore=${searchBefore}`;
+    const SEARCH_AFTER_QUERY = `&searchAfter=${searchAfter}`;
+
+    let url = `/dissolved-search/get-results?companyName=${companyNameRequestParam}`;
+
+    if (searchTypeRequestParam != null) {
+        url += SEARCH_TYPE_QUERY;
+    };
+
+    if (changeNameTypeParam != null) {
+        url += CHANGED_NAME_QUERY;
+    }
+
+    if (searchBefore != null) {
+        url += SEARCH_BEFORE_QUERY;
+    }
+
+    if (searchAfter != null) {
+        url += SEARCH_AFTER_QUERY;
+    }
+
+    return encodeURIComponent(url);
 };
 
 export const generateROAddress = (registered_office_address) => {
