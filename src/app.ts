@@ -1,6 +1,8 @@
 import express from "express";
 import nunjucks from "nunjucks";
 import path from "path";
+import Redis from "ioredis";
+import cookieParser from "cookie-parser";
 
 import alphabeticalRouter from "./routes/alphabetical-search/routes";
 import dissolvedRouter from "./routes/dissolved-search/routes";
@@ -8,6 +10,8 @@ import advancedRouter from "./routes/advanced-search/routes";
 import { ERROR_SUMMARY_TITLE } from "./model/error.messages";
 import errorHandlers from "./controllers/error.controller";
 import { ALPHABETICAL_ROOT, DISSOLVED_ROOT } from "./model/page.urls";
+import { CookieConfig } from "@companieshouse/node-session-handler/lib/config/CookieConfig";
+import { SessionMiddleware, SessionStore } from "@companieshouse/node-session-handler";
 import {
     ALPHABETICAL_SERVICE_NAME, CHS_URL,
     DISSOLVED_SERVICE_NAME,
@@ -15,12 +19,16 @@ import {
     PIWIK_SITE_ID,
     PIWIK_URL,
     SERVICE_NAME_GENERIC,
-    PIWIK_DISSOLVED_SERVICE_NAME
+    PIWIK_DISSOLVED_SERVICE_NAME,
+    COOKIE_SECRET,
+    COOKIE_DOMAIN,
+    CACHE_SERVER
 } from "./config/config";
 
 const app = express();
 
 app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
 
 // where nunjucks templates should resolve to
 const viewPath = path.join(__dirname, "views");
@@ -34,6 +42,11 @@ const env = nunjucks.configure([
     autoescape: true,
     express: app
 });
+
+const cookieConfig: CookieConfig = { cookieName: "__SID", cookieSecret: COOKIE_SECRET, cookieDomain: COOKIE_DOMAIN };
+const sessionStore = new SessionStore(new Redis(`redis://${CACHE_SERVER}`));
+
+app.use(DISSOLVED_ROOT, SessionMiddleware(cookieConfig, sessionStore));
 
 app.set("views", viewPath);
 app.set("view engine", "html");
