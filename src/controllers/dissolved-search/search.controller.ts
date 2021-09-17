@@ -9,7 +9,7 @@ import { SessionKey } from "@companieshouse/node-session-handler/lib/session/key
 import { SignInInfoKeys } from "@companieshouse/node-session-handler/lib/session/keys/SignInInfoKeys";
 
 import { SEARCH_WEB_COOKIE_NAME, API_KEY, APPLICATION_NAME, LAST_UPDATED_MESSAGE, DISSOLVED_SEARCH_NUMBER_OF_RESULTS } from "../../config/config";
-import { detectNearestMatch, formatDate, generateSize, sanitiseCompanyName, generateROAddress, determineReturnToUrl, getDownloadReportText, determineReportAvailableBool } from "../utils";
+import { detectNearestMatch, formatDate, sanitiseCompanyName, generateROAddress, determineReturnToUrl, getDownloadReportText, determineReportAvailableBool, mapResponsiveHeaders } from "../utils";
 import * as templatePaths from "../../model/template.paths";
 import * as errorMessages from "../../model/error.messages";
 import Cookies = require("cookies");
@@ -231,23 +231,23 @@ const alphabeticalMapping = (nearestClass, company_name, company_number, date_of
 const bestMatchMapping = (company_name, company_number, date_of_cessation, date_of_creation, registered_office_address, downloadReportText) => {
     return [
         {
-            html: sanitiseCompanyName(company_name)
+            html: mapResponsiveHeaders("Company name", sanitiseCompanyName(company_name))
         },
         {
-            text: company_number
+            html: mapResponsiveHeaders("Company number", company_number)
         },
         {
-            text: formatDate(date_of_creation)
+            html: mapResponsiveHeaders("Incorporated on", formatDate(date_of_creation))
         },
         {
-            text: formatDate(date_of_cessation),
+            html: mapResponsiveHeaders("Dissolved on", formatDate(date_of_cessation)),
             classes: "govuk-table__cell no-wrap"
         },
         {
-            text: generateROAddress(registered_office_address)
+            html: mapResponsiveHeaders("Registered office address at dissolution", generateROAddress(registered_office_address)),
         },
         {
-            html: downloadReportText
+            html: mapResponsiveHeaders("Download Report", downloadReportText)
         }
     ];
 };
