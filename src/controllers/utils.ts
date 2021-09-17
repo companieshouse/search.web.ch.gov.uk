@@ -25,12 +25,22 @@ export const sanitiseCompanyName = (companyName) => {
 
 export const determineReportAvailableBool = (dateOfDissolution) => {
     const dissolutionDate = dateOfDissolution.toString();
-    const splitDate = dissolutionDate.split("-");
-    const year = splitDate[0];
+    const dissolvedYear = dissolutionDate.split("-")[0];
+    const dissolvedMonth = dissolutionDate.split("-")[1];
+    const dissolvedDay = dissolutionDate.split("-")[2];
 
-    const todayYear = new Date().getFullYear();
+    const todayDate = new Date();
+   
+    
 
-    if ((todayYear - year) < 20) {
+    if ((todayDate.getFullYear() - dissolvedYear) <= 20 && (dissolvedMonth >= (todayDate.getMonth() +1))) {
+        if (dissolvedMonth == todayDate.getMonth() +1) {
+            if (dissolvedDay >= todayDate.getDate()) {
+                return true;
+            } else {
+                return false;
+            }
+        }
         return true;
     } else {
         return false;
