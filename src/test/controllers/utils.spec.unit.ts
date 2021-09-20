@@ -1,6 +1,6 @@
 
 import chai from "chai";
-import { determineReportAvailableBool, getDownloadReportText } from "../../controllers/utils";
+import { determineReportAvailableBool, getDownloadReportText, mapResponsiveHeaders } from "../../controllers/utils";
 
 describe("utils.spec.unit", () => {
     describe("check that reports are only available if within the last 20 years", () => {
@@ -40,6 +40,18 @@ describe("utils.spec.unit", () => {
             const returnUrl = "/dissolved-search/get-results?companyName=test";
 
             chai.expect(getDownloadReportText(true, false, returnUrl)).to.equal("Not available");
+        });
+    });
+
+
+    describe("check that the mapResponsiveHeaders returns the correct string of html", () => {
+        it("should return a html string which includes the field name and field value", () => {
+
+            const expectedString = "<span class=\"responsive-table__heading no-wrap\" aria-hidden=\"true\">Company name</span>" +
+            "<span class=\"responsive-table__cell\" aria-hidden=\"true\">Test Company</span>";
+
+            chai.expect(mapResponsiveHeaders("Company name", "Test Company")).to.equal(expectedString);
+
         });
     });
 });

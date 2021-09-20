@@ -62,10 +62,12 @@ app.use((req, res, next) => {
     if (req.path.includes("/alphabetical-search")) {
         env.addGlobal("SERVICE_NAME", ALPHABETICAL_SERVICE_NAME);
         env.addGlobal("PIWIK_SERVICE_NAME", PIWIK_ALPHABETICAL_SERVICE_NAME);
+        env.addGlobal("RESPONSIVE_TABLE", "");
         env.addGlobal("BACK_LINK", ALPHABETICAL_ROOT);
     } else if (req.path.includes("/dissolved-search")) {
         env.addGlobal("SERVICE_NAME", DISSOLVED_SERVICE_NAME);
         env.addGlobal("PIWIK_SERVICE_NAME", PIWIK_DISSOLVED_SERVICE_NAME);
+        env.addGlobal("RESPONSIVE_TABLE", "/alphabetical-search/static/responsive-table.css");
         env.addGlobal("BACK_LINK", DISSOLVED_ROOT);
     } else {
         env.addGlobal("SERVICE_NAME", SERVICE_NAME_GENERIC);

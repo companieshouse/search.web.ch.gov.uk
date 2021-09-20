@@ -5,7 +5,7 @@ import { createLogger } from "@companieshouse/structured-logging-node";
 import { SEARCH_WEB_COOKIE_NAME, API_KEY, APPLICATION_NAME } from "../../config/config";
 import { getCompanies } from "../../client/apiclient";
 import { CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/alphabetical-search/types";
-import { detectNearestMatch, toTitleCase, mapResponsiveHeaders } from "../../controllers/utils";
+import { detectNearestMatch, toTitleCase } from "../../controllers/utils";
 import * as templatePaths from "../../model/template.paths";
 import * as errorMessages from "../../model/error.messages";
 
@@ -13,10 +13,6 @@ import escape from "escape-html";
 import Cookies = require("cookies");
 
 const logger = createLogger(APPLICATION_NAME);
-
-const COMPANY_NAME_TABLE_HEADING: string = "Company name";
-const COMPANY_NUMBER_TABLE_HEADING: string = "Company number";
-const STATUS_TABLE_HEADING: string = "Status";
 
 const validators = [
     check("companyName").not().isEmpty().withMessage(errorMessages.COMPANY_NAME_EMPTY)
@@ -100,13 +96,13 @@ const getSearchResults = async (encodedCompanyName: string, cookies: Cookies, se
             return [
                 {
                     classes: nearestClass,
-                    html: mapResponsiveHeaders(COMPANY_NAME_TABLE_HEADING, `<a href="${links.company_profile}">${sanitisedCompanyName}</a>`)
+                    html: `<a href="${links.company_profile}">${sanitisedCompanyName}</a>`
                 },
                 {
-                    html: mapResponsiveHeaders(COMPANY_NUMBER_TABLE_HEADING, company_number)
+                    text: company_number
                 },
                 {
-                    html: mapResponsiveHeaders(STATUS_TABLE_HEADING,  toTitleCase(company_status))
+                    text: toTitleCase(company_status)
                 }
             ];
         });
