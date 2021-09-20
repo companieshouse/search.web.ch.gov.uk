@@ -9,7 +9,7 @@ import { SessionKey } from "@companieshouse/node-session-handler/lib/session/key
 import { SignInInfoKeys } from "@companieshouse/node-session-handler/lib/session/keys/SignInInfoKeys";
 
 import { SEARCH_WEB_COOKIE_NAME, API_KEY, APPLICATION_NAME, LAST_UPDATED_MESSAGE, DISSOLVED_SEARCH_NUMBER_OF_RESULTS } from "../../config/config";
-import { detectNearestMatch, formatDate, generateSize, sanitiseCompanyName, generateROAddress, determineReturnToUrl, getDownloadReportText, determineReportAvailableBool } from "../utils";
+import { detectNearestMatch, formatDate, sanitiseCompanyName, generateROAddress, determineReturnToUrl, getDownloadReportText, determineReportAvailableBool, mapResponsiveHeaders } from "../utils";
 import * as templatePaths from "../../model/template.paths";
 import * as errorMessages from "../../model/error.messages";
 import Cookies = require("cookies");
@@ -19,6 +19,13 @@ const logger = createLogger(APPLICATION_NAME);
 const ALPHABETICAL_SEARCH_TYPE: string = "alphabetical";
 const BEST_MATCH_SEARCH_TYPE: string = "bestMatch";
 const PREVIOUS_NAME_SEARCH_TYPE: string = "previousNameDissolved";
+const COMPANY_NAME_TABLE_HEADING: string = "Company name";
+const COMPANY_NUMBER_TABLE_HEADING: string = "Company number";
+const INCORPORATED_ON_TABLE_HEADING: string = "Incorporated on";
+const DISSOLVED_ON_TABLE_HEADING: string = "Dissolved on";
+const ROA_TABLE_HEADING: string = "Registered office address at dissolution";
+const DOWNLOAD_REPORT_TABLE_HEADING: string = "Download Report";
+const PREVIOUS_COMPANY_NAME_TABLE_HEADING: string = "Previous company name";
 
 const validators = [
     query("alphabetical").custom((value, { req }) => {
@@ -179,26 +186,26 @@ const getSearchResults = async (encodedCompanyName: string, cookies: Cookies, se
 const previousNameResults = (company_name, company_number, date_of_cessation, date_of_creation, registered_office_address, previous_company_names, matched_previous_company_name, downloadReportText) => {
     return [
         {
-            html: sanitiseCompanyName(matched_previous_company_name.name)
+            html: mapResponsiveHeaders(PREVIOUS_COMPANY_NAME_TABLE_HEADING, sanitiseCompanyName(matched_previous_company_name.name))
         },
         {
-            html: sanitiseCompanyName(company_name)
+            html: mapResponsiveHeaders(COMPANY_NAME_TABLE_HEADING, sanitiseCompanyName(company_name))
         },
         {
-            text: company_number
+            html: mapResponsiveHeaders(COMPANY_NUMBER_TABLE_HEADING, company_number)
         },
         {
-            text: formatDate(date_of_creation)
+            html: mapResponsiveHeaders(INCORPORATED_ON_TABLE_HEADING, formatDate(date_of_creation))
         },
         {
-            text: formatDate(date_of_cessation),
+            html: mapResponsiveHeaders(DISSOLVED_ON_TABLE_HEADING, formatDate(date_of_cessation)),
             classes: "govuk-table__cell no-wrap"
         },
         {
-            text: generateROAddress(registered_office_address)
+            html: mapResponsiveHeaders(ROA_TABLE_HEADING, generateROAddress(registered_office_address)),
         },
         {
-            html: downloadReportText
+            html: mapResponsiveHeaders(DOWNLOAD_REPORT_TABLE_HEADING, downloadReportText)
         }
     ];
 };
@@ -207,23 +214,23 @@ const alphabeticalMapping = (nearestClass, company_name, company_number, date_of
     return [
         {
             classes: nearestClass,
-            html: sanitiseCompanyName(company_name)
+            html: mapResponsiveHeaders(COMPANY_NAME_TABLE_HEADING, sanitiseCompanyName(company_name))
         },
         {
-            text: company_number
+            html: mapResponsiveHeaders(COMPANY_NUMBER_TABLE_HEADING, company_number)
         },
         {
-            text: formatDate(date_of_creation)
+            html: mapResponsiveHeaders(INCORPORATED_ON_TABLE_HEADING, formatDate(date_of_creation))
         },
         {
-            text: formatDate(date_of_cessation),
+            html: mapResponsiveHeaders(DISSOLVED_ON_TABLE_HEADING, formatDate(date_of_cessation)),
             classes: "govuk-table__cell no-wrap"
         },
         {
-            text: generateROAddress(registered_office_address)
+            html: mapResponsiveHeaders(ROA_TABLE_HEADING, generateROAddress(registered_office_address)),
         },
         {
-            html: downloadReportText
+            html: mapResponsiveHeaders(DOWNLOAD_REPORT_TABLE_HEADING, downloadReportText)
         }
     ];
 };
@@ -231,23 +238,23 @@ const alphabeticalMapping = (nearestClass, company_name, company_number, date_of
 const bestMatchMapping = (company_name, company_number, date_of_cessation, date_of_creation, registered_office_address, downloadReportText) => {
     return [
         {
-            html: sanitiseCompanyName(company_name)
+            html: mapResponsiveHeaders(COMPANY_NAME_TABLE_HEADING, sanitiseCompanyName(company_name))
         },
         {
-            text: company_number
+            html: mapResponsiveHeaders(COMPANY_NUMBER_TABLE_HEADING, company_number)
         },
         {
-            text: formatDate(date_of_creation)
+            html: mapResponsiveHeaders(INCORPORATED_ON_TABLE_HEADING, formatDate(date_of_creation))
         },
         {
-            text: formatDate(date_of_cessation),
+            html: mapResponsiveHeaders(DISSOLVED_ON_TABLE_HEADING, formatDate(date_of_cessation)),
             classes: "govuk-table__cell no-wrap"
         },
         {
-            text: generateROAddress(registered_office_address)
+            html: mapResponsiveHeaders(ROA_TABLE_HEADING, generateROAddress(registered_office_address)),
         },
         {
-            html: downloadReportText
+            html: mapResponsiveHeaders(DOWNLOAD_REPORT_TABLE_HEADING, downloadReportText)
         }
     ];
 };
