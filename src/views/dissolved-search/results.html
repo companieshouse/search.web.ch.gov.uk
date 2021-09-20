@@ -17,6 +17,19 @@
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
+    <noscript>
+      {% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
+
+      {% set html %}      
+        <p class="govuk-notification-banner__heading">
+          To download reports, turn on JavaScript in your browser settings and reload this page.
+        </p>           
+      {% endset %}
+
+      {{ govukNotificationBanner({
+        html: html
+      }) }}
+    </noscript>
     <h1 class="govuk-heading-xl">Search results</h1>
     <p class="govuk-body govuk-!-width-full">Reports currently include a company overview and a list of filings from the company’s filing history.</p>
     <p class="govuk-body govuk-!-width-full">You can <a href="https://find-and-update.company-information.service.gov.uk/help/contact-us">contact Companies House</a> to find out if there is any more information available about a company. </p>
