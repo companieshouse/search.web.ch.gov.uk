@@ -184,6 +184,6 @@ export const generateSize = (size: string | null, searchBefore: string | null, s
 
 export const mapResponsiveHeaders = (fieldHeading : string, fieldValue : string): string => {
 
-    return "<span class=\"responsive-table__heading no-wrap\" aria-hidden=\"true\">" + fieldHeading + "</span>" +
+    return "<span class=\"responsive-table__heading\" aria-hidden=\"true\">" + fieldHeading + "</span>" +
     "<span class=\"responsive-table__cell\" aria-hidden=\"true\">" + fieldValue + "</span>"
 };
