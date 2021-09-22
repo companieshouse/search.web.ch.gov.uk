@@ -17,11 +17,11 @@ describe("utils.spec.unit", () => {
     });
 
     describe("check that the download report section is displaying the correct links", () => {
-        it("should display Download report if the user is signed in", () => {
+        it("should display Download report if the user is signed in with the correct company number", () => {
             const returnUrl = "/dissolved-search/get-results?companyName=test";
 
-            chai.expect(getDownloadReportText(true, true, returnUrl, "00000000")).to.include(`data-resource-url="/dissolved-company-number/00000000"`);
-            });
+            chai.expect(getDownloadReportText(true, true, returnUrl, "00000008")).to.include(`data-resource-url="/dissolved-company-number/00000008"`);
+        });
 
         it("should display Sign in to download report and provide the correct return url if the user is not signed in", () => {
             const returnUrl = "/dissolved-search/get-results?companyName=test";
@@ -43,15 +43,12 @@ describe("utils.spec.unit", () => {
         });
     });
 
-
     describe("check that the mapResponsiveHeaders returns the correct string of html", () => {
         it("should return a html string which includes the field name and field value", () => {
-
             const expectedString = "<span class=\"responsive-table__heading\" aria-hidden=\"true\">Company name</span>" +
             "<span class=\"responsive-table__cell\" aria-hidden=\"true\">Test Company</span>";
 
             chai.expect(mapResponsiveHeaders("Company name", "Test Company")).to.equal(expectedString);
-
         });
     });
 });

@@ -202,7 +202,7 @@ const previousNameResults = (company_name, company_number, date_of_cessation, da
             classes: "govuk-table__cell no-wrap"
         },
         {
-            html: mapResponsiveHeaders(ROA_TABLE_HEADING, generateROAddress(registered_office_address)),
+            html: mapResponsiveHeaders(ROA_TABLE_HEADING, generateROAddress(registered_office_address))
         },
         {
             html: mapResponsiveHeaders(DOWNLOAD_REPORT_TABLE_HEADING, downloadReportText)
@@ -227,7 +227,7 @@ const alphabeticalMapping = (nearestClass, company_name, company_number, date_of
             classes: "govuk-table__cell no-wrap"
         },
         {
-            html: mapResponsiveHeaders(ROA_TABLE_HEADING, generateROAddress(registered_office_address)),
+            html: mapResponsiveHeaders(ROA_TABLE_HEADING, generateROAddress(registered_office_address))
         },
         {
             html: mapResponsiveHeaders(DOWNLOAD_REPORT_TABLE_HEADING, downloadReportText)
@@ -251,7 +251,7 @@ const bestMatchMapping = (company_name, company_number, date_of_cessation, date_
             classes: "govuk-table__cell no-wrap"
         },
         {
-            html: mapResponsiveHeaders(ROA_TABLE_HEADING, generateROAddress(registered_office_address)),
+            html: mapResponsiveHeaders(ROA_TABLE_HEADING, generateROAddress(registered_office_address))
         },
         {
             html: mapResponsiveHeaders(DOWNLOAD_REPORT_TABLE_HEADING, downloadReportText)

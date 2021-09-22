@@ -16,7 +16,7 @@ export const getDownloadReportText = (signedIn: boolean, reportAvailable: boolea
                                     </div>
                                 </div>
                             </div>
-                            <div id="download-button"></div>`
+                            <div id="download-button"></div>`;
 
     if (reportAvailable) {
         if (signedIn === true) {
@@ -38,9 +38,9 @@ export const sanitiseCompanyName = (companyName) => {
 export const determineReportAvailableBool = (dateOfDissolution) => {
     const dissolutionDate = dateOfDissolution.toString();
     const now = moment();
-    const nowMinus20years = now.subtract(20, "years").format('YYYY-MM-DD')
+    const nowMinus20years = now.subtract(20, "years").format("YYYY-MM-DD");
 
-    return dissolutionDate > nowMinus20years ? true : false
+    return dissolutionDate > nowMinus20years ? true : false;
 };
 
 export const determineReturnToUrl = (req): string => {
@@ -196,5 +196,5 @@ export const generateSize = (size: string | null, searchBefore: string | null, s
 export const mapResponsiveHeaders = (fieldHeading : string, fieldValue : string): string => {
 
     return "<span class=\"responsive-table__heading\" aria-hidden=\"true\">" + fieldHeading + "</span>" +
-    "<span class=\"responsive-table__cell\" aria-hidden=\"true\">" + fieldValue + "</span>"
+    "<span class=\"responsive-table__cell\" aria-hidden=\"true\">" + fieldValue + "</span>";
 };
