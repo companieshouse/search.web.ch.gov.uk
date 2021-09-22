@@ -5,7 +5,7 @@ import ioredis from "ioredis";
 import * as apiClient from "../../../client/apiclient";
 import { CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/dissolved-search/types";
 import { formatDate, sanitiseCompanyName, generateROAddress, determineReportAvailableBool } from "../../../controllers/utils";
-import { signedInSession } from "../../MockUtils/dissolved-search/redis.mocks";
+import { signedInSession, SIGNED_IN_COOKIE } from "../../MockUtils/dissolved-search/redis.mocks";
 
 const sandbox = sinon.createSandbox();
 let testApp = null;
@@ -527,6 +527,22 @@ describe("search.controller.spec.unit", () => {
 
                 chai.expect(determineReportAvailableBool(date)).to.equal(false);
             });
+        });
+    });
+
+    describe("check the download reports uris match the company number of the selected company", () => {
+        it("should return the correct company number in download uri for 5 company results being returned", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getDissolvedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyDissolvedCompanyResource("tetso", 5, 0)));
+
+            const resp = await chai.request(testApp)
+                .get("/dissolved-search/get-results?companyName=company&searchType=alphabetical&changedName=name-at-dissolution")
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain(`data-resource-url="/dissolved-company-number/06500000`);
+            chai.expect(resp.text).to.contain(`data-resource-url="/dissolved-company-number/06500004`);
+            chai.expect(resp.text).to.not.contain(`data-resource-url="/dissolved-company-number/06500005`);
         });
     });
 });
