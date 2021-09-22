@@ -1,15 +1,25 @@
 import escape from "escape-html";
 import moment from "moment";
 
-export const getDownloadReportText = (signedIn: boolean, reportAvailable: boolean, returnUrl: string): string => {
-    const reportAvailableText = "Download report";
+export const getDownloadReportText = (signedIn: boolean, reportAvailable: boolean, returnUrl: string, companyNumber: string): string => {
     const signIn = "Sign in to download report";
     const signInLink = "/signin?return_to=";
-    let downloadReportText = "";
+    let downloadReportText = `<div class="onlyJS">
+                                <div id="widget">
+                                <a class="render-document" href="#">Download report
+                                    <span class="govuk-visually-hidden">link opens in new tab/window</span></a>
+                                    <div class="widget-footer visually-hidden">
+                                        <input type="hidden" id="document-data"
+                                            data-resource-url="/dissolved-company-number/${companyNumber}"
+                                            data-content-type="text/html" data-document-type="text/html">
+                                        </input>
+                                    </div>
+                                </div>
+                            </div>`
 
     if (reportAvailable) {
         if (signedIn === true) {
-            downloadReportText = reportAvailableText.link("");
+            return downloadReportText;
         } else {
             downloadReportText = signIn.link(signInLink + returnUrl);
         }
