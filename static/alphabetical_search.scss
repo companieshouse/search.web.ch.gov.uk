@@ -6,6 +6,13 @@ html, body {
   background-color: #FFF;
 }
 
+.entire-wrapper {
+	min-height: 95%;
+	height: auto !important;
+	height: 100%;
+	margin: 0 auto -71px; /* the bottom margin is the negative value of the footer's height - plus 11px for border */
+}
+
 .govuk-footer__inline-list .govuk-footer__link, .govuk-footer__list .govuk-footer__link {
   text-decoration: underline;
 }
