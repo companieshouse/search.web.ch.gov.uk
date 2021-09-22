@@ -20,26 +20,26 @@ describe("utils.spec.unit", () => {
         it("should display Download report if the user is signed in", () => {
             const returnUrl = "/dissolved-search/get-results?companyName=test";
 
-            chai.expect(getDownloadReportText(true, true, returnUrl)).to.equal("<a href=\"\">Download report</a>");
-        });
+            chai.expect(getDownloadReportText(true, true, returnUrl, "00000000")).to.include(`data-resource-url="/dissolved-company-number/00000000"`);
+            });
 
         it("should display Sign in to download report and provide the correct return url if the user is not signed in", () => {
             const returnUrl = "/dissolved-search/get-results?companyName=test";
 
-            chai.expect(getDownloadReportText(false, true, returnUrl)).to.equal("<a href=\"/signin?return_to=/dissolved-search/get-results?companyName=test\">Sign in to download report</a>");
+            chai.expect(getDownloadReportText(false, true, returnUrl, "00000000")).to.equal("<a href=\"/signin?return_to=/dissolved-search/get-results?companyName=test\">Sign in to download report</a>");
         });
 
         it("should have a the full return to url concatenated to the sign in page link", () => {
             const returnUrl = "/dissolved-search/get-results?companyName=test&searchType=alphabetical&searchAfter=testNUK%3A06336551";
 
-            chai.expect(getDownloadReportText(false, true, returnUrl))
+            chai.expect(getDownloadReportText(false, true, returnUrl, "00000000"))
                 .to.equal("<a href=\"/signin?return_to=/dissolved-search/get-results?companyName=test&searchType=alphabetical&searchAfter=testNUK%3A06336551\">Sign in to download report</a>");
         });
 
         it("should display Not available if the company was dissolved greater than 20 years ago", () => {
             const returnUrl = "/dissolved-search/get-results?companyName=test";
 
-            chai.expect(getDownloadReportText(true, false, returnUrl)).to.equal("Not available");
+            chai.expect(getDownloadReportText(true, false, returnUrl, "00000000")).to.equal("Not available");
         });
     });
 
