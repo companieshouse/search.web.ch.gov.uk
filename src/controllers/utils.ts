@@ -15,7 +15,8 @@ export const getDownloadReportText = (signedIn: boolean, reportAvailable: boolea
                                         </input>
                                     </div>
                                 </div>
-                            </div>`
+                            </div>
+                            <div id="download-button"></div>`
 
     if (reportAvailable) {
         if (signedIn === true) {
