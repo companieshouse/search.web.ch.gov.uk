@@ -35,12 +35,12 @@ export const sanitiseCompanyName = (companyName) => {
     return escape(companyName);
 };
 
-export const determineReportAvailableBool = (dateOfDissolution) => {
+export const determineReportAvailableBool = (dateOfDissolution): boolean => {
     const dissolutionDate = dateOfDissolution.toString();
     const now = moment();
     const nowMinus20years = now.subtract(20, "years").format("YYYY-MM-DD");
 
-    return dissolutionDate > nowMinus20years ? true : false;
+    return dissolutionDate > nowMinus20years;
 };
 
 export const determineReturnToUrl = (req): string => {
@@ -194,7 +194,6 @@ export const generateSize = (size: string | null, searchBefore: string | null, s
 };
 
 export const mapResponsiveHeaders = (fieldHeading : string, fieldValue : string): string => {
-
     return "<span class=\"responsive-table__heading\" aria-hidden=\"true\">" + fieldHeading + "</span>" +
     "<span class=\"responsive-table__cell\" aria-hidden=\"true\">" + fieldValue + "</span>";
 };
