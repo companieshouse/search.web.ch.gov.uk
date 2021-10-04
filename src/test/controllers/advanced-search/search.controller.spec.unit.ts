@@ -45,7 +45,7 @@ describe("search.controller.spec.unit", () => {
         });
     });
 
-    describe("check it displays not results found if they have not been found", () => {
+    describe("check it displays no results found if they have not been found", () => {
         it("should display No results found, if no search results have been found", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
                 .returns(Promise.resolve(mockUtils.getEmptyAdvancedDummyCompanyResource()));
@@ -68,6 +68,20 @@ describe("search.controller.spec.unit", () => {
 
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain("<a class=\"govuk-link\" href=/065000 target=\"_blank\">test1<span class=\"govuk-visually-hidden\">(link opens a new window)</span></a>");
+        });
+    });
+
+    describe("check form values on results page", () => {
+        it("should display the search terms in the relevant search fields", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test")));
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?containsCompanyName=testCompanyNameContains&excludesCompanyName=testCompanyNameExcludes");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("<input class='govuk-input govuk-!-width-width-full' id='companyNameIncludes' name='companyNameIncludes'");
+            chai.expect(resp.text).to.contain("<input class='govuk-input govuk-!-width-width-full' id='companyNameExcludes' name='companyNameExcludes'");
         });
     });
 });
