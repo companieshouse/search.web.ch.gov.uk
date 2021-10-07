@@ -25,7 +25,7 @@ const route = async (req: Request, res: Response) => {
 
     const { searchResults } = await getSearchResults(companyNameIncludes, companyNameExcludes, location, incorporatedFrom, incorporatedTo,
         sicCodes, companyStatus, companyType, dissolvedFrom, dissolvedTo, cookies);
-    return res.render(templatePaths.ADVANCED_SEARCH_RESULTS, { searchResults });
+    return res.render(templatePaths.ADVANCED_SEARCH_RESULTS, { searchResults, companyNameIncludes, companyNameExcludes });
 };
 
 const getSearchResults = async (companyNameIncludes: string | null, companyNameExcludes: string | null, location: string | null, incorporatedFrom: string | null,
