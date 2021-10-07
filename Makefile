@@ -1,7 +1,12 @@
 artifact_name       := search.web.ch.gov.uk
 
 .PHONY: build
-build: clean init build-app
+build: clean init submodules build-app
+
+.PHONY: submodules
+submodules:
+	git submodule init
+	git submodule update
 
 .PHONY: build-app
 build-app:
