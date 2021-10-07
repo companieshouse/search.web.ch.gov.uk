@@ -3,7 +3,7 @@ import { createLogger } from "@companieshouse/structured-logging-node";
 import { SEARCH_WEB_COOKIE_NAME, API_KEY, APPLICATION_NAME } from "../../config/config";
 import { getAdvancedCompanies } from "../../client/apiclient";
 import { CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/advanced-search/types";
-import { getCompanyStatusConstant } from "../../config/api.enumerations";
+import { getCompanyConstant, COMPANY_STATUS_CONSTANT, COMPANY_TYPE_CONSTANT } from "../../config/api.enumerations";
 import * as templatePaths from "../../model/template.paths";
 
 import Cookies = require("cookies");
@@ -39,13 +39,15 @@ const getSearchResults = async (companyNameIncludes: string | null, companyNameE
             sicCodes, companyStatus, companyType, dissolvedFrom, dissolvedTo, (cookies.get(SEARCH_WEB_COOKIE_NAME) as string));
         const { items } = companyResource;
 
-        const searchResults = items.map(({ company_name, links, company_status }) => {
-            const mappedCompanyStatus = getCompanyStatusConstant(company_status);
+        const searchResults = items.map(({ company_name, links, company_status, company_type }) => {
+            const mappedCompanyStatus = getCompanyConstant(COMPANY_STATUS_CONSTANT, company_status);
+            const mappedCompanyType = getCompanyConstant(COMPANY_TYPE_CONSTANT, company_type);
             return [
                 {
                     html: `<h2 class="govuk-heading-m" style="margin-bottom: 3px;"><a class="govuk-link" href=${links.company_profile} target="_blank">${company_name}<span class="govuk-visually-hidden">(link opens a new window)</span></a></h2>
                             <p style="padding-bottom: 10px; margin-top:0px;">
-                            <span class="govuk-body govuk-!-font-weight-bold">${mappedCompanyStatus}</span><br></p>`
+                            <span class="govuk-body govuk-!-font-weight-bold">${mappedCompanyStatus}</span><br>
+                            ${mappedCompanyType}<br></p>`
                 }
             ];
         });

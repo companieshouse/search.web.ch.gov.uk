@@ -1,15 +1,16 @@
 import fs from "fs";
 import yaml from "js-yaml";
 
-const COMPANY_STATUS_CONSTANTS_PATH: string = "api-enumerations/constants.yml";
-const COMPANY_STATUS_CONSTANT: string = "company_status";
+const COMPANY_CONSTANTS_PATH: string = "api-enumerations/constants.yml";
+export const COMPANY_STATUS_CONSTANT: string = "company_status";
+export const COMPANY_TYPE_CONSTANT: string = "company_type";
 
-const companyStatusConstants = yaml.safeLoad(fs.readFileSync(COMPANY_STATUS_CONSTANTS_PATH, "utf8"));
+const companyConstants = yaml.safeLoad(fs.readFileSync(COMPANY_CONSTANTS_PATH, "utf8"));
 
-export const getCompanyStatusConstant = (descriptionKey: string): string => {
-    if (companyStatusConstants === undefined) {
+export const getCompanyConstant = (enumerationCategory: string, descriptionKey: string): string => {
+    if (companyConstants === undefined) {
         return descriptionKey;
     } else {
-        return companyStatusConstants[COMPANY_STATUS_CONSTANT][descriptionKey] || descriptionKey;
+        return companyConstants[enumerationCategory][descriptionKey] || descriptionKey;
     }
-};
+}

@@ -80,6 +80,17 @@ describe("search.controller.spec.unit", () => {
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain("Active");
         });
+
+        it("should show the company type", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test")));
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?containsCompanyName=test&excludesCompanyName=");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("Private limited company");
+        });
     });
 
     describe("check form values on results page", () => {
