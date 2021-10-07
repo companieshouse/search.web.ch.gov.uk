@@ -1,11 +1,16 @@
 import chai from "chai";
 import sinon from "sinon";
+import ioredis from "ioredis";
+import { signedInSession } from "../MockUtils/redis.mocks";
 
 let testApp = null;
 const sandbox = sinon.createSandbox();
 
 describe("routes.spec.unit", () => {
     beforeEach((done) => {
+        sandbox.stub(ioredis.prototype, "connect").returns(Promise.resolve());
+        sandbox.stub(ioredis.prototype, "get").returns(Promise.resolve(signedInSession));
+
         testApp = require("../../../src/app").default;
         done();
     });
