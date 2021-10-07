@@ -19,7 +19,7 @@ export const createDummyItemsArray = (name: string): Items[] => {
             registered_office_address: createAddress(),
             company_name: name + i,
             company_number: "0650000" + i,
-            company_status: "company status",
+            company_status: "Active",
             date_of_cessation: new Date(1991, 11, 12),
             date_of_creation: new Date(1980, 13, 8),
             kind: "kind",
