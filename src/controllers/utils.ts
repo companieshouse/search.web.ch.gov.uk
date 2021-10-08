@@ -199,9 +199,9 @@ export const mapResponsiveHeaders = (fieldHeading : string, fieldValue : string)
 };
 
 export const formatLongDate = (date: Date | null): string => {
-    if(date === null) {
+    if (date === null) {
         return "";
     }
     const dateWithTime = new Date(date);
-    return new Intl.DateTimeFormat('en-GB', { day : 'numeric', month : 'long', year : 'numeric'}).format(dateWithTime);
+    return new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "long", year: "numeric" }).format(dateWithTime);
 };

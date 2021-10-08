@@ -57,7 +57,7 @@ describe("utils.spec.unit", () => {
             chai.expect(formatLongDate(null)).to.equal("");
         });
         it("should return a formatted date if a date is provided", () => {
-            let date = new Date(1975, 2, 23);
+            const date = new Date(1975, 2, 23);
             chai.expect(formatLongDate(date)).to.equal("23 March 1975");
         });
     });

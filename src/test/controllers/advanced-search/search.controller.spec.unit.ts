@@ -109,13 +109,13 @@ describe("search.controller.spec.unit", () => {
 
         it("should show the incorporation date", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
-            .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test")));
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test")));
 
-        const resp = await chai.request(testApp)
-            .get("/advanced-search/get-results?containsCompanyName=test&excludesCompanyName=");
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?containsCompanyName=test&excludesCompanyName=");
 
-        chai.expect(resp.status).to.equal(200);
-        chai.expect(resp.text).to.contain("- Incorporated on 8 February 1981"); 
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("- Incorporated on 8 February 1981");
         });
     });
 

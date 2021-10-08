@@ -13,4 +13,4 @@ export const getCompanyConstant = (enumerationCategory: string, descriptionKey: 
     } else {
         return companyConstants[enumerationCategory][descriptionKey] || descriptionKey;
     }
-}
+};
