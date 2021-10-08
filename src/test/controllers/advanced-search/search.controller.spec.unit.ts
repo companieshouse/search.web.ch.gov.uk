@@ -114,11 +114,11 @@ describe("search.controller.spec.unit", () => {
                 .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test")));
 
             const resp = await chai.request(testApp)
-                .get("/advanced-search/get-results?containsCompanyName=testCompanyNameContains&excludesCompanyName=testCompanyNameExcludes");
+                .get("/advanced-search/get-results?companyNameIncludes=test1+test2&companyNameExcludes=test3+test4");
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain("<input class='govuk-input govuk-!-width-width-full' id='companyNameIncludes' name='companyNameIncludes'");
-            chai.expect(resp.text).to.contain("<input class='govuk-input govuk-!-width-width-full' id='companyNameExcludes' name='companyNameExcludes'");
+            chai.expect(resp.text).to.contain("<input class='govuk-input govuk-!-width-width-full' id='companyNameIncludes' name='companyNameIncludes' type='text' value='test1 test2'");
+            chai.expect(resp.text).to.contain("<input class='govuk-input govuk-!-width-width-full' id='companyNameExcludes' name='companyNameExcludes' type='text' value='test3 test4'");
         });
     });
 });
