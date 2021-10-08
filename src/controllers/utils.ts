@@ -197,3 +197,11 @@ export const mapResponsiveHeaders = (fieldHeading : string, fieldValue : string)
     return "<span class=\"responsive-table__heading\" aria-hidden=\"true\">" + fieldHeading + "</span>" +
     "<span class=\"responsive-table__cell\" aria-hidden=\"true\">" + fieldValue + "</span>";
 };
+
+export const formatLongDate = (date: Date | null): string => {
+    if(date === null) {
+        return "";
+    }
+    const dateWithTime = new Date(date);
+    return new Intl.DateTimeFormat('en-GB', { day : 'numeric', month : 'long', year : 'numeric'}).format(dateWithTime);
+};
