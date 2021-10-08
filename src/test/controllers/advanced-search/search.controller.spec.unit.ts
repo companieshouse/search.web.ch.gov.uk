@@ -1,7 +1,9 @@
 import sinon, { mock } from "sinon";
 import chai from "chai";
+import ioredis from "ioredis";
 import * as mockUtils from "../../MockUtils/advanced-search/mock.util";
 import * as apiClient from "../../../client/apiclient";
+import { signedInSession } from "../../MockUtils/redis.mocks";
 
 const sandbox = sinon.createSandbox();
 let testApp = null;
@@ -9,6 +11,8 @@ let getCompanyItemStub;
 
 describe("search.controller.spec.unit", () => {
     beforeEach((done) => {
+        sandbox.stub(ioredis.prototype, "connect").returns(Promise.resolve());
+        sandbox.stub(ioredis.prototype, "get").returns(Promise.resolve(signedInSession));
         testApp = require("../../../../src/app").default;
         done();
     });
@@ -90,6 +94,17 @@ describe("search.controller.spec.unit", () => {
 
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain("Private limited company");
+        });
+
+        it("should show the company number", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test")));
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?containsCompanyName=test&excludesCompanyName=");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("0650000");
         });
     });
 
