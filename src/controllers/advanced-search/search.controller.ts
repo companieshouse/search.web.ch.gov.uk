@@ -4,7 +4,7 @@ import { SEARCH_WEB_COOKIE_NAME, API_KEY, APPLICATION_NAME } from "../../config/
 import { getAdvancedCompanies } from "../../client/apiclient";
 import { CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/advanced-search/types";
 import { getCompanyConstant, COMPANY_STATUS_CONSTANT, COMPANY_TYPE_CONSTANT } from "../../config/api.enumerations";
-import { formatLongDate, formatCompactAddress } from "../../controllers/utils";
+import { checkLineBreakRequired, formatLongDate, formatCompactAddress } from "../../controllers/utils";
 import * as templatePaths from "../../model/template.paths";
 
 import Cookies = require("cookies");
@@ -40,10 +40,11 @@ const getSearchResults = async (companyNameIncludes: string | null, companyNameE
             sicCodes, companyStatus, companyType, dissolvedFrom, dissolvedTo, (cookies.get(SEARCH_WEB_COOKIE_NAME) as string));
         const { items } = companyResource;
 
-        const searchResults = items.map(({ company_name, links, company_status, company_type, company_number, date_of_creation, registered_office_address, sic_codes }) => {
+        const searchResults = items.map(({ company_name, links, company_status, company_type, company_number, date_of_creation, date_of_cessation, registered_office_address, sic_codes }) => {
             const mappedCompanyStatus = getCompanyConstant(COMPANY_STATUS_CONSTANT, company_status);
             const mappedCompanyType = getCompanyConstant(COMPANY_TYPE_CONSTANT, company_type);
-            const formattedIncorporationDate = formatLongDate(date_of_creation);
+            const formattedIncorporationDate = formatLongDate("- Incorporated on",date_of_creation);
+            const formattedDissolvedDate = checkLineBreakRequired(formatLongDate("Dissolved on", date_of_cessation));
             const addressString = formatCompactAddress(registered_office_address);
             const sicCodeString = (sic_codes === undefined) ? "" : "SIC codes - " + sic_codes.join(", ");
             return [
@@ -52,7 +53,8 @@ const getSearchResults = async (companyNameIncludes: string | null, companyNameE
                             <p style="padding-bottom: 10px; margin-top:0px;">
                             <span class="govuk-body govuk-!-font-weight-bold">${mappedCompanyStatus}</span><br>
                             ${mappedCompanyType}<br>
-                            ${company_number} - Incorporated on ${formattedIncorporationDate}<br>
+                            ${company_number} ${formattedIncorporationDate}<br>
+                            ${formattedDissolvedDate}
                             ${addressString}<br>
                             ${sicCodeString}</p>`
                 }
