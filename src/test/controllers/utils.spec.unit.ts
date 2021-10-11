@@ -53,12 +53,15 @@ describe("utils.spec.unit", () => {
     });
 
     describe("check that the formatLongDate returns the correct string", () => {
+        it("should return an empty string if the date is null", () => {
+            chai.expect(formatLongDate("Test", null)).to.equal("");
+        });
         it("should return an empty string if the date is undefined", () => {
-            chai.expect(formatLongDate(null)).to.equal("");
+            chai.expect(formatLongDate("Test", undefined)).to.equal("");
         });
         it("should return a formatted date if a date is provided", () => {
             const date = new Date(1975, 2, 23);
-            chai.expect(formatLongDate(date)).to.equal("23 March 1975");
+            chai.expect(formatLongDate(" - Incorporated on", date)).to.equal(" - Incorporated on 23 March 1975");
         });
     });
 });

@@ -198,7 +198,7 @@ export const mapResponsiveHeaders = (fieldHeading : string, fieldValue : string)
     "<span class=\"responsive-table__cell\" aria-hidden=\"true\">" + fieldValue + "</span>";
 };
 
-export const formatLongDate = (message: string, date: Date | null): string => {
+export const formatLongDate = (message: string, date: Date | null | undefined): string => {
     if (date === undefined || date === null) {
         return "";
     }
