@@ -198,8 +198,8 @@ export const mapResponsiveHeaders = (fieldHeading : string, fieldValue : string)
     "<span class=\"responsive-table__cell\" aria-hidden=\"true\">" + fieldValue + "</span>";
 };
 
-export const formatLongDate = (date: Date | null): string => {
-    if (date === null) {
+export const formatLongDate = (message: string, date: Date | null): string => {
+    if (date === undefined || date === null) {
         return "";
     }
     const dateWithTime = new Date(date);
@@ -207,5 +207,5 @@ export const formatLongDate = (date: Date | null): string => {
     const day = new Intl.DateTimeFormat("en", { day: "numeric" }).format(dateWithTime);
     const month = new Intl.DateTimeFormat("en", { month: "long" }).format(dateWithTime);
     const year = new Intl.DateTimeFormat("en", { year: "numeric" }).format(dateWithTime);
-    return `${day} ${month} ${year}`;
+    return `${message} ${day} ${month} ${year}`;
 };
