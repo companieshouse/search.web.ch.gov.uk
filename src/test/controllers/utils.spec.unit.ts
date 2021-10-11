@@ -1,18 +1,18 @@
 
 import chai from "chai";
-import { determineReportAvailableBool, getDownloadReportText, mapResponsiveHeaders } from "../../controllers/utils";
+import { determineReportAvailableBool, getDownloadReportText, mapResponsiveHeaders, formatLongDate } from "../../controllers/utils";
 
 describe("utils.spec.unit", () => {
     describe("check that reports are only available if within the last 20 years", () => {
         it("should return false if date is > 20 years old", () => {
             const date: string = "1990-00-25";
 
-            chai.expect(determineReportAvailableBool(date)).to.be.false;
+            chai.expect(determineReportAvailableBool(date)).to.equal(false);
         });
         it("should return true if date is < 20 years old", () => {
             const date: string = "2009-00-25";
 
-            chai.expect(determineReportAvailableBool(date)).to.be.true;
+            chai.expect(determineReportAvailableBool(date)).to.equal(true);
         });
     });
 
@@ -49,6 +49,16 @@ describe("utils.spec.unit", () => {
             "<span class=\"responsive-table__cell\" aria-hidden=\"true\">Test Company</span>";
 
             chai.expect(mapResponsiveHeaders("Company name", "Test Company")).to.equal(expectedString);
+        });
+    });
+
+    describe("check that the formatLongDate returns the correct string", () => {
+        it("should return an empty string if the date is undefined", () => {
+            chai.expect(formatLongDate(null)).to.equal("");
+        });
+        it("should return a formatted date if a date is provided", () => {
+            const date = new Date(1975, 2, 23);
+            chai.expect(formatLongDate(date)).to.equal("23 March 1975");
         });
     });
 });

@@ -197,3 +197,15 @@ export const mapResponsiveHeaders = (fieldHeading : string, fieldValue : string)
     return "<span class=\"responsive-table__heading\" aria-hidden=\"true\">" + fieldHeading + "</span>" +
     "<span class=\"responsive-table__cell\" aria-hidden=\"true\">" + fieldValue + "</span>";
 };
+
+export const formatLongDate = (date: Date | null): string => {
+    if (date === null) {
+        return "";
+    }
+    const dateWithTime = new Date(date);
+
+    const day = new Intl.DateTimeFormat("en", { day: "numeric" }).format(dateWithTime);
+    const month = new Intl.DateTimeFormat("en", { month: "long" }).format(dateWithTime);
+    const year = new Intl.DateTimeFormat("en", { year: "numeric" }).format(dateWithTime);
+    return `${day} ${month} ${year}`;
+};
