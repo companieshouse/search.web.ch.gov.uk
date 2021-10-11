@@ -210,7 +210,6 @@ export const formatLongDate = (date: Date | null): string => {
     return `${day} ${month} ${year}`;
 };
 
-
 export const formatCompactAddress = (registered_office_address) : string => {
     let addressString = "";
     addressString = addCommaString(addressString, registered_office_address.premises);
@@ -219,14 +218,14 @@ export const formatCompactAddress = (registered_office_address) : string => {
     addressString = addCommaString(addressString, registered_office_address.locality);
     addressString = addCommaString(addressString, registered_office_address.region);
     addressString = addCommaString(addressString, registered_office_address.country);
-    return (registered_office_address.postal_code === undefined)? addressString : addressString + " " + registered_office_address.postal_code;
+    return (registered_office_address.postal_code === undefined) ? addressString : addressString + " " + registered_office_address.postal_code;
 };
 
-function addCommaString(baseString : string, additionalString : string) : string {
-    if(baseString.length == 0 && additionalString !== undefined){
+function addCommaString (baseString : string, additionalString : string) : string {
+    if (baseString.length === 0 && additionalString !== undefined) {
         return additionalString;
     }
-    if(additionalString !== undefined && additionalString.length > 0){
+    if (additionalString !== undefined && additionalString.length > 0) {
         return baseString + ", " + additionalString;
     }
     return baseString;

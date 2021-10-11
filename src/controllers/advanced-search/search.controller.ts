@@ -45,7 +45,7 @@ const getSearchResults = async (companyNameIncludes: string | null, companyNameE
             const mappedCompanyType = getCompanyConstant(COMPANY_TYPE_CONSTANT, company_type);
             const formattedIncorporationDate = formatLongDate(date_of_creation);
             const addressString = formatCompactAddress(registered_office_address);
-            const sicCodeString = (sic_codes === undefined)? "" : "SIC codes - " + sic_codes.join(", ");
+            const sicCodeString = (sic_codes === undefined) ? "" : "SIC codes - " + sic_codes.join(", ");
             return [
                 {
                     html: `<h2 class="govuk-heading-m" style="margin-bottom: 3px;"><a class="govuk-link" href=${links.company_profile} target="_blank">${company_name}<span class="govuk-visually-hidden">(link opens a new window)</span></a></h2>
