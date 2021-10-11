@@ -203,5 +203,9 @@ export const formatLongDate = (date: Date | null): string => {
         return "";
     }
     const dateWithTime = new Date(date);
-    return new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "long", year: "numeric" }).format(dateWithTime);
+
+    const day = new Intl.DateTimeFormat("en", { day: "numeric" }).format(dateWithTime);
+    const month = new Intl.DateTimeFormat("en", { month: "long" }).format(dateWithTime);
+    const year = new Intl.DateTimeFormat("en", { year: "numeric" }).format(dateWithTime);
+    return `${day} ${month} ${year}`;
 };

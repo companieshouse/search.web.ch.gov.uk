@@ -7,12 +7,12 @@ describe("utils.spec.unit", () => {
         it("should return false if date is > 20 years old", () => {
             const date: string = "1990-00-25";
 
-            chai.expect(determineReportAvailableBool(date)).to.be.false;
+            chai.expect(determineReportAvailableBool(date)).to.equal(false);
         });
         it("should return true if date is < 20 years old", () => {
             const date: string = "2009-00-25";
 
-            chai.expect(determineReportAvailableBool(date)).to.be.true;
+            chai.expect(determineReportAvailableBool(date)).to.equal(true);
         });
     });
 
