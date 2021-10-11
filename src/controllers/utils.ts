@@ -209,3 +209,31 @@ export const formatLongDate = (message: string, date: Date | null | undefined): 
     const year = new Intl.DateTimeFormat("en", { year: "numeric" }).format(dateWithTime);
     return `${message} ${day} ${month} ${year}`;
 };
+
+export const formatCompactAddress = (registered_office_address) : string => {
+    let addressString = "";
+    addressString = addCommaString(addressString, registered_office_address.premises);
+    addressString = addCommaString(addressString, registered_office_address.address_line_1);
+    addressString = addCommaString(addressString, registered_office_address.address_line_2);
+    addressString = addCommaString(addressString, registered_office_address.locality);
+    addressString = addCommaString(addressString, registered_office_address.region);
+    addressString = addCommaString(addressString, registered_office_address.country);
+    return (registered_office_address.postal_code === undefined) ? addressString : addressString + " " + registered_office_address.postal_code;
+};
+
+export const checkLineBreakRequired = (text: string) : string => {
+    if (text === "") {
+        return text;
+    }
+    return text + "<br>";
+};
+
+function addCommaString (baseString : string, additionalString : string) : string {
+    if (baseString.length === 0 && additionalString !== undefined) {
+        return additionalString;
+    }
+    if (additionalString !== undefined && additionalString.length > 0) {
+        return baseString + ", " + additionalString;
+    }
+    return baseString;
+}

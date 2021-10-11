@@ -1,6 +1,6 @@
 
 import chai from "chai";
-import { determineReportAvailableBool, getDownloadReportText, mapResponsiveHeaders, formatLongDate } from "../../controllers/utils";
+import { checkLineBreakRequired, determineReportAvailableBool, getDownloadReportText, mapResponsiveHeaders, formatLongDate, formatCompactAddress } from "../../controllers/utils";
 
 describe("utils.spec.unit", () => {
     describe("check that reports are only available if within the last 20 years", () => {
@@ -62,6 +62,30 @@ describe("utils.spec.unit", () => {
         it("should return a formatted date if a date is provided", () => {
             const date = new Date(1975, 2, 23);
             chai.expect(formatLongDate(" - Incorporated on", date)).to.equal(" - Incorporated on 23 March 1975");
+        });
+    });
+
+    describe("check that formatCompactAddress returns the correct string", () => {
+        const registeredOfficeAddress = {
+            address_line_1: undefined,
+            address_line_2: "test street",
+            locality: "cardiff",
+            postal_code: "cf5 6rb",
+            premises: undefined,
+            region: "region",
+            country: "country"
+        };
+        it("should return a formatted string if data is present", () => {
+            chai.expect(formatCompactAddress(registeredOfficeAddress)).to.equal("test street, cardiff, region, country cf5 6rb");
+        });
+    });
+
+    describe("check that checkLineBreakRequired returns the correct string", () => {
+        it("should return a string with a line break if text available", () => {
+            chai.expect(checkLineBreakRequired("test")).to.equal("test<br>");
+        });
+        it("should return a blank string when no text available", () => {
+            chai.expect(checkLineBreakRequired("")).to.equal("");
         });
     });
 });
