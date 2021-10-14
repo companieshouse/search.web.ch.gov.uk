@@ -43,7 +43,7 @@ const getSearchResults = async (companyNameIncludes: string | null, companyNameE
         const searchResults = items.map(({ company_name, links, company_status, company_type, company_number, date_of_creation, date_of_cessation, registered_office_address, sic_codes }) => {
             const mappedCompanyStatus = getCompanyConstant(COMPANY_STATUS_CONSTANT, company_status);
             const mappedCompanyType = getCompanyConstant(COMPANY_TYPE_CONSTANT, company_type);
-            const formattedIncorporationDate = formatLongDate("- Incorporated on",date_of_creation);
+            const formattedIncorporationDate = formatLongDate("- Incorporated on", date_of_creation);
             const formattedDissolvedDate = checkLineBreakRequired(formatLongDate("Dissolved on", date_of_cessation));
             const addressString = formatCompactAddress(registered_office_address);
             const sicCodeString = (sic_codes === undefined) ? "" : "SIC codes - " + sic_codes.join(", ");
