@@ -53,13 +53,15 @@
 
     <div class="govuk-grid-row">
 
-        <div class="govuk-grid-column-one-third" style="margin-right: 15px;">
+      <div class="govuk-grid-column-one-third" style="margin-right: 15px;">
 
+      <form action="/advanced-search/get-results" method="GET">
 
         <div class="govuk-button-group">
             <button class="govuk-button" data-module="govuk-button">
               Update results
             </button>
+            <input type="button" class="govuk-button govuk-button--secondary" value="Clear search" onclick="clearForm(this.form)"></input>
         </div>
 
         {{ govukAccordion({
@@ -82,8 +84,9 @@
             <button class="govuk-button" data-module="govuk-button">
               Update results
             </button>
+            <input type="button" class="govuk-button govuk-button--secondary" value="Clear search" onclick="clearForm(this.form)"></input>
         </div>
-
+      </form>
     </div>
 
     <div class="govuk-grid-two-thirds" style="padding-top: 45px;">
