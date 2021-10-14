@@ -18,9 +18,18 @@ function changeThis() {
 // Save data to sessionStorage
 function createItem() {
     sessionStorage.setItem("enteredName", document.getElementById("companyName").value);
-}
+};
 
 function readValue(){
     var enteredName = sessionStorage.getItem("enteredName");
     document.getElementById("companyName").value = enteredName;
-}
+};
+
+function clearForm(form) {
+  var formElements = form.elements;
+  for(i=0; i<formElements.length; i++) {
+    if(formElements[i].type.toLowerCase() === "text") {
+    formElements[i].value ="";
+    };
+  };
+};
