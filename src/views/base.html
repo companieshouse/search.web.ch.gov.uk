@@ -83,7 +83,7 @@
 {% block bodyEnd %}
   {# Run JavaScript at end of the <body>, to avoid blocking the initial render. #}
 
-  <script>var global = global || {}; global.CDN_ROOT = '//{{CDN_URL}}>'</script>
+  <script>var global = global || {}; global.CDN_ROOT = '//{{CDN_URL}}'</script>
   <script src="//{{CDN_URL}}/javascripts/vendor/require.js"></script>
   <script type="text/javascript">
     require(['//{{CDN_URL}}/javascripts/require-global-config.js'], function () {
