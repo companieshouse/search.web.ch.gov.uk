@@ -16,7 +16,7 @@
 
 {% block content %}
 
-  {% set formHtml %}      
+  {% set companyFormHtml %}      
     <fieldset class='govuk-fieldset'>
 
       <div class='govuk-form-group'>  
@@ -36,6 +36,15 @@
       </div>
 
     </fieldset>          
+  {% endset %}
+
+  {% set roaFormHtml %}      
+    <div class="govuk-form-group">  
+      <label class="accordion-label" for="registeredOfficeAddress">
+        Enter a full or partial address
+      </label>
+      <input class="govuk-input govuk-!-width-width-full" id="registeredOfficeAddress" name="registeredOfficeAddress" type="text">
+    </div>         
   {% endset %}
 
 <div class="govuk-width-container">
@@ -74,8 +83,15 @@
                 text: "Company name"
               },
               content: {
-                html: formHtml
-
+                html: companyFormHtml
+              }
+            },
+             {
+              heading: {
+                text: "Registered office address"
+              },
+              content: {
+                html: roaFormHtml
               }
             }
           ]
