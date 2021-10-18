@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { createLogger } from "@companieshouse/structured-logging-node";
-import { SEARCH_WEB_COOKIE_NAME, API_KEY, APPLICATION_NAME, ADVANCED_SEARCH_LAST_UPDATED } from "../../config/config";
+import { SEARCH_WEB_COOKIE_NAME, API_KEY, APPLICATION_NAME } from "../../config/config";
 import { getAdvancedCompanies } from "../../client/apiclient";
 import { CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/advanced-search/types";
 import { getCompanyConstant, COMPANY_STATUS_CONSTANT, COMPANY_TYPE_CONSTANT } from "../../config/api.enumerations";
@@ -23,11 +23,10 @@ const route = async (req: Request, res: Response) => {
     const companyType = null;
     const dissolvedFrom = null;
     const dissolvedTo = null;
-    const lastUpdatedMessage = ADVANCED_SEARCH_LAST_UPDATED;
 
     const { searchResults } = await getSearchResults(companyNameIncludes, companyNameExcludes, location, incorporatedFrom, incorporatedTo,
         sicCodes, companyStatus, companyType, dissolvedFrom, dissolvedTo, cookies);
-    return res.render(templatePaths.ADVANCED_SEARCH_RESULTS, { searchResults, companyNameIncludes, companyNameExcludes, lastUpdatedMessage });
+    return res.render(templatePaths.ADVANCED_SEARCH_RESULTS, { searchResults, companyNameIncludes, companyNameExcludes });
 };
 
 const getSearchResults = async (companyNameIncludes: string | null, companyNameExcludes: string | null, location: string | null, incorporatedFrom: string | null,
