@@ -40,65 +40,62 @@
 
 <div class="govuk-width-container">
 
-    <div class="govuk-grid-row">
+  <div class="govuk-grid-row">
 
-      <div class="govuk-grid-column-full">
+    <div class="govuk-grid-column-full">
 
         <h1 class="govuk-heading-l">Advanced company search</h1>
 
         <p class="govuk-body">Fill in one or more fields to search the Companies House register.</p>
 
+    </div>
+  </div>
+
+  <div class="govuk-grid-row">
+
+    <div class="govuk-grid-column-one-third one-third-div">
+      <div class="govuk-button-group">
+        <button class="govuk-button" data-module="govuk-button">
+          Update results
+        </button>
+      </div>
+
+      {{ govukAccordion({
+        id: "accordion-default",
+
+        items: [
+          {
+            heading: {
+              text: "Company name"
+            },
+            content: {
+              html: formHtml
+
+            }
+          }
+        ]
+      }) }}
+      
+      <div class="govuk-button-group">
+          <button class="govuk-button" data-module="govuk-button">
+            Update results
+          </button>
       </div>
     </div>
-
-    <div class="govuk-grid-row">
-
-        <div class="govuk-grid-column-one-third" style="margin-right: 15px;">
-
-
-        <div class="govuk-button-group">
-            <button class="govuk-button" data-module="govuk-button">
-              Update results
-            </button>
-        </div>
-
-        {{ govukAccordion({
-          id: "accordion-default",
-
-          items: [
-            {
-              heading: {
-                text: "Company name"
-              },
-              content: {
-                html: formHtml
-
-              }
-            }
-          ]
-        }) }}
-        
-        <div class="govuk-button-group">
-            <button class="govuk-button" data-module="govuk-button">
-              Update results
-            </button>
-        </div>
-
+    <div class="govuk-grid-two-thirds two-thirds-div" style="padding-top: 45px;">
+      <div>
+        {% if searchResults.length > 0 %}
+          {{ govukTable ({
+              rows: searchResults,
+              classes: 'govuk-!-font-size-16 govuk-!-width-one-half'
+          }) }}   
+          <p class="govuk-body">{{ lastUpdatedMessage }}</p>  
+        {% else %}
+          <h2 class="govuk-heading-l" style="overflow-wrap: break-word;">No results found</h2>
+          <p class="govuk-body">Please try searching again using a different search criteria.</p>
+        {% endif %}
+      </div>
     </div>
-
-    <div class="govuk-grid-two-thirds" style="padding-top: 45px;">
-
-      {% if searchResults.length > 0 %}
-        {{ govukTable ({
-            rows: searchResults,
-            classes: 'govuk-!-font-size-16 govuk-!-width-one-half'
-        }) }}
-      {% else %}
-        <h2 class="govuk-heading-l" style="overflow-wrap: break-word;">No results found</h2>
-        <p class="govuk-body">Please try searching again using a different search criteria.</p>
-      {% endif %}
-
-    </div>
-
+  </div>   
 </div>
 {% endblock %}

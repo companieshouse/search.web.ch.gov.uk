@@ -13,7 +13,7 @@ import { ALPHABETICAL_ROOT, DISSOLVED_ROOT } from "./model/page.urls";
 import { CookieConfig } from "@companieshouse/node-session-handler/lib/config/CookieConfig";
 import { SessionMiddleware, SessionStore } from "@companieshouse/node-session-handler";
 import {
-    ALPHABETICAL_SERVICE_NAME, CHS_URL,
+    ALPHABETICAL_SERVICE_NAME, ADVANCED_SEARCH_LAST_UPDATED, CHS_URL,
     DISSOLVED_SERVICE_NAME,
     PIWIK_ALPHABETICAL_SERVICE_NAME,
     PIWIK_SITE_ID,
@@ -57,6 +57,7 @@ env.addGlobal("ERROR_SUMMARY_TITLE", ERROR_SUMMARY_TITLE);
 env.addGlobal("PIWIK_URL", PIWIK_URL);
 env.addGlobal("PIWIK_SITE_ID", PIWIK_SITE_ID);
 env.addGlobal("CDN_URL", process.env.CDN_HOST);
+env.addGlobal("ADVANCED_SEARCH_LAST_UPDATED", ADVANCED_SEARCH_LAST_UPDATED);
 
 app.use((req, res, next) => {
     if (req.path.includes("/alphabetical-search")) {

@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { createLogger } from "@companieshouse/structured-logging-node";
-import { SEARCH_WEB_COOKIE_NAME, API_KEY, APPLICATION_NAME } from "../../config/config";
+import { SEARCH_WEB_COOKIE_NAME, API_KEY, APPLICATION_NAME, ADVANCED_SEARCH_LAST_UPDATED } from "../../config/config";
 import { getAdvancedCompanies } from "../../client/apiclient";
 import { CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/advanced-search/types";
 import { getCompanyConstant, COMPANY_STATUS_CONSTANT, COMPANY_TYPE_CONSTANT } from "../../config/api.enumerations";
@@ -23,10 +23,11 @@ const route = async (req: Request, res: Response) => {
     const companyType = null;
     const dissolvedFrom = null;
     const dissolvedTo = null;
+    const lastUpdatedMessage = ADVANCED_SEARCH_LAST_UPDATED;
 
     const { searchResults } = await getSearchResults(companyNameIncludes, companyNameExcludes, location, incorporatedFrom, incorporatedTo,
         sicCodes, companyStatus, companyType, dissolvedFrom, dissolvedTo, cookies);
-    return res.render(templatePaths.ADVANCED_SEARCH_RESULTS, { searchResults, companyNameIncludes, companyNameExcludes });
+    return res.render(templatePaths.ADVANCED_SEARCH_RESULTS, { searchResults, companyNameIncludes, companyNameExcludes, lastUpdatedMessage });
 };
 
 const getSearchResults = async (companyNameIncludes: string | null, companyNameExcludes: string | null, location: string | null, incorporatedFrom: string | null,
@@ -43,7 +44,7 @@ const getSearchResults = async (companyNameIncludes: string | null, companyNameE
         const searchResults = items.map(({ company_name, links, company_status, company_type, company_number, date_of_creation, date_of_cessation, registered_office_address, sic_codes }) => {
             const mappedCompanyStatus = getCompanyConstant(COMPANY_STATUS_CONSTANT, company_status);
             const mappedCompanyType = getCompanyConstant(COMPANY_TYPE_CONSTANT, company_type);
-            const formattedIncorporationDate = formatLongDate("- Incorporated on",date_of_creation);
+            const formattedIncorporationDate = formatLongDate("- Incorporated on", date_of_creation);
             const formattedDissolvedDate = checkLineBreakRequired(formatLongDate("Dissolved on", date_of_cessation));
             const addressString = formatCompactAddress(registered_office_address);
             const sicCodeString = (sic_codes === undefined) ? "" : "SIC codes - " + sic_codes.join(", ");
