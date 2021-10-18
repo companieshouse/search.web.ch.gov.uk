@@ -51,36 +51,44 @@
     </div>
   </div>
 
+
   <div class="govuk-grid-row">
 
-    <div class="govuk-grid-column-one-third one-third-div">
-      <div class="govuk-button-group">
-        <button class="govuk-button" data-module="govuk-button">
-          Update results
-        </button>
-      </div>
+    <div class="govuk-grid-column-one-third" style="margin-right: 15px;">
 
-      {{ govukAccordion({
-        id: "accordion-default",
+      <form action="/advanced-search/get-results" method="GET">
 
-        items: [
-          {
-            heading: {
-              text: "Company name"
-            },
-            content: {
-              html: formHtml
+        <div class="govuk-button-group">
+            <button class="govuk-button" data-module="govuk-button">
+              Update results
+            </button>
+            <input type="button" class="govuk-button govuk-button--secondary" value="Clear search" onclick="clearForm(this.form)"></input>
+        </div>
 
+        {{ govukAccordion({
+          id: "accordion-default",
+
+          items: [
+            {
+              heading: {
+                text: "Company name"
+              },
+              content: {
+                html: formHtml
+
+              }
             }
-          }
-        ]
-      }) }}
-      
-      <div class="govuk-button-group">
-          <button class="govuk-button" data-module="govuk-button">
-            Update results
-          </button>
-      </div>
+          ]
+        }) }}
+        
+        <div class="govuk-button-group">
+            <button class="govuk-button" data-module="govuk-button">
+              Update results
+            </button>
+            <input type="button" class="govuk-button govuk-button--secondary" value="Clear search" onclick="clearForm(this.form)"></input>
+        </div>
+      </form>
+
     </div>
     <div class="govuk-grid-two-thirds two-thirds-div" style="padding-top: 45px;">
       <div>
