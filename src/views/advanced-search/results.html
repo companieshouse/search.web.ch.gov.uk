@@ -8,6 +8,7 @@
 {% endblock %}
 
 {% block beforeContent %}
+
   {{ govukBackLink({
   text: "Back to Companies House service",
   href: "/"
@@ -15,7 +16,7 @@
 {% endblock %}
 
 {% block content %}
-
+  
   {% set companyFormHtml %}      
     <fieldset class='govuk-fieldset'>
 
@@ -43,7 +44,7 @@
       <label class="accordion-label" for="registeredOfficeAddress">
         Enter a full or partial address
       </label>
-      <input class="govuk-input govuk-!-width-width-full" id="registeredOfficeAddress" name="registeredOfficeAddress" type="text">
+      <input class='govuk-input govuk-!-width-width-full' id='registeredOfficeAddress' name='registeredOfficeAddress' type='text' value='{{ location }}'>
     </div>         
   {% endset %}
 

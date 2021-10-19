@@ -15,7 +15,7 @@ const route = async (req: Request, res: Response) => {
     const cookies = new Cookies(req, res);
     const companyNameIncludes = req.query.companyNameIncludes as string || null;
     const companyNameExcludes = req.query.companyNameExcludes as string || null;
-    const location = null;
+    const location = req.query.registeredOfficeAddress as string || null;
     const incorporatedFrom = null;
     const incorporatedTo = null;
     const sicCodes = null;
@@ -26,7 +26,7 @@ const route = async (req: Request, res: Response) => {
 
     const { searchResults } = await getSearchResults(companyNameIncludes, companyNameExcludes, location, incorporatedFrom, incorporatedTo,
         sicCodes, companyStatus, companyType, dissolvedFrom, dissolvedTo, cookies);
-    return res.render(templatePaths.ADVANCED_SEARCH_RESULTS, { searchResults, companyNameIncludes, companyNameExcludes });
+    return res.render(templatePaths.ADVANCED_SEARCH_RESULTS, { searchResults, companyNameIncludes, companyNameExcludes, location });
 };
 
 const getSearchResults = async (companyNameIncludes: string | null, companyNameExcludes: string | null, location: string | null, incorporatedFrom: string | null,
