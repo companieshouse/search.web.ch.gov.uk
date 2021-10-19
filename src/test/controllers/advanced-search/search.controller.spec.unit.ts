@@ -151,7 +151,7 @@ describe("search.controller.spec.unit", () => {
     });
 
     describe("check form values on results page", () => {
-        it("should display the search terms in the relevant search fields", async () => {
+        it("should display the company name search terms in the relevant search fields", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
                 .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test")));
 
@@ -161,6 +161,17 @@ describe("search.controller.spec.unit", () => {
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain("<input class='govuk-input govuk-!-width-width-full' id='companyNameIncludes' name='companyNameIncludes' type='text' value='test1 test2'");
             chai.expect(resp.text).to.contain("<input class='govuk-input govuk-!-width-width-full' id='companyNameExcludes' name='companyNameExcludes' type='text' value='test3 test4'");
+        });
+
+        it("should display the registered office address search term in the relevant search field", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test")));
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?companyNameIncludes=tesco&companyNameExcludes=&registeredOfficeAddress=london");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("<input class='govuk-input govuk-!-width-width-full' id='registeredOfficeAddress' name='registeredOfficeAddress' type='text' value='london'>");
         });
     });
 
