@@ -5,14 +5,22 @@ import { checkLineBreakRequired, determineReportAvailableBool, getDownloadReport
 describe("utils.spec.unit", () => {
     describe("check that reports are only available if within the last 20 years", () => {
         it("should return false if date is > 20 years old", () => {
+            const companyNumber: string = "00000000";
             const date: string = "1990-00-25";
 
-            chai.expect(determineReportAvailableBool(date)).to.equal(false);
+            chai.expect(determineReportAvailableBool(companyNumber, date)).to.equal(false);
         });
         it("should return true if date is < 20 years old", () => {
+            const companyNumber: string = "00000000";
             const date: string = "2009-00-25";
 
-            chai.expect(determineReportAvailableBool(date)).to.equal(true);
+            chai.expect(determineReportAvailableBool(companyNumber, date)).to.equal(true);
+        });
+        it("should return false if the company number starts with BR branches", () => {
+            const companyNumber: string = "BR000000";
+            const date: string = "2009-00-25";
+
+            chai.expect(determineReportAvailableBool(companyNumber, date)).to.equal(false);
         });
     });
 

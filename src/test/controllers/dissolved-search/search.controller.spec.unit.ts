@@ -515,17 +515,28 @@ describe("search.controller.spec.unit", () => {
 
         describe("check it returns a url is the company has been dissolved less than 20 years", () => {
             it("should return a url for companies less than 20 years", () => {
+                const companyNumber = "00000000";
                 const date = "2010";
 
-                chai.expect(determineReportAvailableBool(date)).to.equal(true);
+                chai.expect(determineReportAvailableBool(companyNumber, date)).to.equal(true);
+            });
+        });
+
+        describe("check it does not return a url if the company is a branch", () => {
+            it("should return a url for companies less than 20 years", () => {
+                const companyNumber = "BR000000";
+                const date = "2010";
+
+                chai.expect(determineReportAvailableBool(companyNumber, date)).to.equal(false);
             });
         });
 
         describe("check it does not return a url is the company has been dissolved more than 20 years", () => {
             it("should not return a url for companies more than 20 years", () => {
+                const companyNumber = "00000000";
                 const date = "1990";
 
-                chai.expect(determineReportAvailableBool(date)).to.equal(false);
+                chai.expect(determineReportAvailableBool(companyNumber, date)).to.equal(false);
             });
         });
     });
