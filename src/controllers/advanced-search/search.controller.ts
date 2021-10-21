@@ -4,7 +4,7 @@ import { SEARCH_WEB_COOKIE_NAME, API_KEY, APPLICATION_NAME } from "../../config/
 import { getAdvancedCompanies } from "../../client/apiclient";
 import { CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/advanced-search/types";
 import { getCompanyConstant, COMPANY_STATUS_CONSTANT, COMPANY_TYPE_CONSTANT } from "../../config/api.enumerations";
-import { checkLineBreakRequired, formatLongDate, formatCompactAddress } from "../../controllers/utils";
+import { checkLineBreakRequired, formatLongDate, formatCompactAddress, mapCompanyStatusCheckboxes } from "../../controllers/utils";
 import * as templatePaths from "../../model/template.paths";
 
 import Cookies = require("cookies");
@@ -23,11 +23,11 @@ const route = async (req: Request, res: Response) => {
     const companyType = null;
     const dissolvedFrom = null;
     const dissolvedTo = null;
-
+    const selectedStatusCheckboxes = mapCompanyStatusCheckboxes(companyStatus);
 
     const { searchResults } = await getSearchResults(companyNameIncludes, companyNameExcludes, location, incorporatedFrom, incorporatedTo,
         sicCodes, companyStatus, companyType, dissolvedFrom, dissolvedTo, cookies);
-    return res.render(templatePaths.ADVANCED_SEARCH_RESULTS, { searchResults, companyNameIncludes, companyNameExcludes, location });
+    return res.render(templatePaths.ADVANCED_SEARCH_RESULTS, { searchResults, companyNameIncludes, companyNameExcludes, location, selectedStatusCheckboxes });
 };
 
 const getSearchResults = async (companyNameIncludes: string | null, companyNameExcludes: string | null, location: string | null, incorporatedFrom: string | null,

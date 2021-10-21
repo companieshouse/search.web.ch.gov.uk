@@ -228,6 +228,40 @@ export const checkLineBreakRequired = (text: string) : string => {
     return text + "<br>";
 };
 
+export const mapCompanyStatusCheckboxes = (companyStatus) => {
+    const selectedStatusCheckboxes = {
+        allCompanies: "",
+        active: "",
+        dissolved : "",
+        open: "",
+        closed: "",
+        convertedClosed: "",
+        receivership: "",
+        liquidation: "",
+        administration: "",
+        insolvencyProceedings: "",
+        voluntaryArrangement: ""
+    };
+
+    if (companyStatus === null || companyStatus === undefined) {
+        return selectedStatusCheckboxes;
+    }
+
+    selectedStatusCheckboxes.allCompanies = (String(companyStatus).includes("allCompanies")) ? "checked" : "";
+    selectedStatusCheckboxes.active = (String(companyStatus).includes("active")) ? "checked" : "";
+    selectedStatusCheckboxes.dissolved = (String(companyStatus).includes("dissolved")) ? "checked" : "";
+    selectedStatusCheckboxes.open = (String(companyStatus).includes("open")) ? "checked" : "";
+    selectedStatusCheckboxes.closed = (String(companyStatus).includes("closed")) ? "checked" : "";
+    selectedStatusCheckboxes.convertedClosed = (String(companyStatus).includes("converted-closed")) ? "checked" : "";
+    selectedStatusCheckboxes.receivership = (String(companyStatus).includes("receivership")) ? "checked" : "";
+    selectedStatusCheckboxes.liquidation = (String(companyStatus).includes("liquidation")) ? "checked" : "";
+    selectedStatusCheckboxes.administration = (String(companyStatus).includes("administration")) ? "checked" : "";
+    selectedStatusCheckboxes.insolvencyProceedings = (String(companyStatus).includes("insolvency-proceedings")) ? "checked" : "";
+    selectedStatusCheckboxes.voluntaryArrangement = (String(companyStatus).includes("voluntary-arrangement")) ? "checked" : "";
+
+    return selectedStatusCheckboxes;
+};
+
 function addCommaString (baseString : string, additionalString : string) : string {
     if (baseString.length === 0 && additionalString !== undefined) {
         return additionalString;
