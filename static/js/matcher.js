@@ -31,5 +31,8 @@ function clearForm(form) {
     if(formElements[i].type.toLowerCase() === "text") {
     formElements[i].value ="";
     };
+    if( formElements[i].type === "checkbox") {
+        formElements[i].removeAttribute("checked");
+    };
   };
 };
