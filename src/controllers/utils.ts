@@ -246,18 +246,19 @@ export const mapCompanyStatusCheckboxes = (companyStatus) => {
     if (companyStatus === null || companyStatus === undefined) {
         return selectedStatusCheckboxes;
     }
+    const selectedCompanyStatusArray: string[] = String(companyStatus).split(",");
 
-    selectedStatusCheckboxes.allCompanies = (String(companyStatus).includes("allCompanies")) ? "checked" : "";
-    selectedStatusCheckboxes.active = (String(companyStatus).includes("active")) ? "checked" : "";
-    selectedStatusCheckboxes.dissolved = (String(companyStatus).includes("dissolved")) ? "checked" : "";
-    selectedStatusCheckboxes.open = (String(companyStatus).includes("open")) ? "checked" : "";
-    selectedStatusCheckboxes.closed = (String(companyStatus).includes("closed")) ? "checked" : "";
-    selectedStatusCheckboxes.convertedClosed = (String(companyStatus).includes("converted-closed")) ? "checked" : "";
-    selectedStatusCheckboxes.receivership = (String(companyStatus).includes("receivership")) ? "checked" : "";
-    selectedStatusCheckboxes.liquidation = (String(companyStatus).includes("liquidation")) ? "checked" : "";
-    selectedStatusCheckboxes.administration = (String(companyStatus).includes("administration")) ? "checked" : "";
-    selectedStatusCheckboxes.insolvencyProceedings = (String(companyStatus).includes("insolvency-proceedings")) ? "checked" : "";
-    selectedStatusCheckboxes.voluntaryArrangement = (String(companyStatus).includes("voluntary-arrangement")) ? "checked" : "";
+    selectedStatusCheckboxes.allCompanies = (selectedCompanyStatusArray.includes("allCompanies")) ? "checked" : "";
+    selectedStatusCheckboxes.active = (selectedCompanyStatusArray.includes("active")) ? "checked" : "";
+    selectedStatusCheckboxes.dissolved = (selectedCompanyStatusArray.includes("dissolved")) ? "checked" : "";
+    selectedStatusCheckboxes.open = (selectedCompanyStatusArray.includes("open")) ? "checked" : "";
+    selectedStatusCheckboxes.closed = (selectedCompanyStatusArray.includes("closed")) ? "checked" : "";
+    selectedStatusCheckboxes.convertedClosed = (selectedCompanyStatusArray.includes("converted-closed")) ? "checked" : "";
+    selectedStatusCheckboxes.receivership = (selectedCompanyStatusArray.includes("receivership")) ? "checked" : "";
+    selectedStatusCheckboxes.liquidation = (selectedCompanyStatusArray.includes("liquidation")) ? "checked" : "";
+    selectedStatusCheckboxes.administration = (selectedCompanyStatusArray.includes("administration")) ? "checked" : "";
+    selectedStatusCheckboxes.insolvencyProceedings = (selectedCompanyStatusArray.includes("insolvency-proceedings")) ? "checked" : "";
+    selectedStatusCheckboxes.voluntaryArrangement = (selectedCompanyStatusArray.includes("voluntary-arrangement")) ? "checked" : "";
 
     return selectedStatusCheckboxes;
 };
