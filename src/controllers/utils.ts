@@ -35,7 +35,11 @@ export const sanitiseCompanyName = (companyName) => {
     return escape(companyName);
 };
 
-export const determineReportAvailableBool = (dateOfDissolution): boolean => {
+export const determineReportAvailableBool = (companyNumber: string, dateOfDissolution): boolean => {
+    if (companyNumber.substring(0, 2) === "BR") {
+        return false;
+    }
+
     const dissolutionDate = dateOfDissolution.toString();
     const now = moment();
     const nowMinus20years = now.subtract(20, "years").format("YYYY-MM-DD");
