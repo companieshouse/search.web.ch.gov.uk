@@ -236,4 +236,4 @@ function addCommaString (baseString : string, additionalString : string) : strin
         return baseString + ", " + additionalString;
     }
     return baseString;
-}
+};

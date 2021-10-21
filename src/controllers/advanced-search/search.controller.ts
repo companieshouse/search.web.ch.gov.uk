@@ -19,10 +19,11 @@ const route = async (req: Request, res: Response) => {
     const incorporatedFrom = null;
     const incorporatedTo = null;
     const sicCodes = null;
-    const companyStatus = null;
+    const companyStatus = req.query.status as string || null;
     const companyType = null;
     const dissolvedFrom = null;
     const dissolvedTo = null;
+
 
     const { searchResults } = await getSearchResults(companyNameIncludes, companyNameExcludes, location, incorporatedFrom, incorporatedTo,
         sicCodes, companyStatus, companyType, dissolvedFrom, dissolvedTo, cookies);
@@ -30,12 +31,13 @@ const route = async (req: Request, res: Response) => {
 };
 
 const getSearchResults = async (companyNameIncludes: string | null, companyNameExcludes: string | null, location: string | null, incorporatedFrom: string | null,
-    incorporatedTo: string | null, sicCodes: string | null, companyType: string | null, companyStatus: string | null,
+    incorporatedTo: string | null, sicCodes: string | null, companyStatus: string | null, companyType: string | null,
     dissolvedFrom: string | null, dissolvedTo: string | null, cookies: Cookies) : Promise<{
     companyResource: CompaniesResource,
     searchResults: any[]
 }> => {
     try {
+        
         const companyResource = await getAdvancedCompanies(API_KEY, companyNameIncludes, companyNameExcludes, location, incorporatedFrom, incorporatedTo,
             sicCodes, companyStatus, companyType, dissolvedFrom, dissolvedTo, (cookies.get(SEARCH_WEB_COOKIE_NAME) as string));
         const { items } = companyResource;
