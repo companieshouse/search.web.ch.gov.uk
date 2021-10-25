@@ -241,3 +241,19 @@ function addCommaString (baseString : string, additionalString : string) : strin
     }
     return baseString;
 }
+
+export const getPagingRange = (currentPage : number, numberOfPages : number) : { start : number; end : number; } => {
+    let start = currentPage - 4;
+    let end = currentPage + 6;
+
+    if (end > numberOfPages) {
+        start -= (end - numberOfPages);
+        end = numberOfPages;
+    }
+    if (start <= 0) {
+        end += ((start -1) * (-1));
+        start = 1;
+    }
+    end = end > numberOfPages ? numberOfPages : end;
+    return { start : start, end : end};
+}

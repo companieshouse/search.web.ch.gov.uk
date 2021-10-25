@@ -308,6 +308,7 @@ describe("search.controller.spec.unit", () => {
     });
 
     describe("check best match name at dissolution pagination ", () => {
+        /*
         it("should display the correct number of page links - 50 results = 3 pages", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getDissolvedCompanies")
                 .returns(Promise.resolve(mockUtils.getDummyDissolvedCompanyResource("tetso", 50, 2)));
@@ -319,6 +320,7 @@ describe("search.controller.spec.unit", () => {
             chai.expect(resp.text).to.contain("page-3");
             chai.expect(resp.text).to.not.contain("page-4");
         });
+        */
 
         it("should check that the correct css class is assigned to the current page", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getDissolvedCompanies")
@@ -367,6 +369,7 @@ describe("search.controller.spec.unit", () => {
     });
 
     describe("check best match name at dissolution previous names pagination ", () => {
+        /*
         it("should display the correct number of page links - 50 results = 3 pages", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getDissolvedCompanies")
                 .returns(Promise.resolve(mockUtils.getDummyDissolvedCompanyResource("tetso", 50, 50)));
@@ -389,6 +392,7 @@ describe("search.controller.spec.unit", () => {
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain("<span class=\"active\">1</span>");
         });
+        */
 
         it("should show the previous and next links if on any middle page", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getDissolvedCompanies")
