@@ -246,14 +246,19 @@ export const getPagingRange = (currentPage : number, numberOfPages : number) : {
     let start = currentPage - 4;
     let end = currentPage + 6;
 
-    if (end > numberOfPages) {
-        start -= (end - numberOfPages);
-        end = numberOfPages;
-    }
     if (start <= 0) {
-        end += ((start -1) * (-1));
         start = 1;
     }
-    end = end > numberOfPages ? numberOfPages : end;
+    if (end - start < 10){
+        end = start + 10;
+    }
+    if (end > numberOfPages) {
+        end = numberOfPages + 1;
+        if (end - 10 < start) {
+            if (end - 10 > 0){
+                start = (start - (end - 10)) > 0 ? (end - 10) : 1;
+            } 
+        }
+    }
     return { start : start, end : end};
 }
