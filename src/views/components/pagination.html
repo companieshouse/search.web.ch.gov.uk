@@ -7,75 +7,17 @@
             </a>
         </li>
         {% endif %}
-        {% if numberOfPages < 10 %}
-            {% for i in range(1, numberOfPages + 1) -%}
-                {% if (i == page) %}
-                    <li>
-                        <span class="active">{{ i }}</span>
-                    </li>
-                {% else %}
-                    <li>
-                        <a id="page-{{ i }}" class="page" href="{{partialHref}}&page={{i}}">{{ i }}</a>
-                    </li>
-                {% endif %}
-            {%- endfor %}
-        {% endif %}
-
-        {% if numberOfPages >= 10 and page < 5 %}
-            {% for i in range(1, 11) -%}
-                {% if (i == page) %}
-                    <li>
-                        <span class="active">{{ i }}</span>
-                    </li>
-                {% else %}
-                    <li>
-                        <a id="page-{{ i }}" class="page" href="{{partialHref}}&page={{i}}">{{ i }}</a>
-                    </li>
-                {% endif %}
-            {%- endfor %}
-        {% endif %}
-
-        {% if (numberOfPages > 10 and page >= 5) and (numberOfPages > 10 and page < numberOfPages - 6) %}
-            {% for i in range( page -4, page + 6) -%}
-                {% if (i == page) %}
-                    <li>
-                        <span class="active">{{ i }}</span>
-                    </li>
-                {% else %}
-                    <li>
-                        <a id="page-{{ i }}" class="page" href="{{partialHref}}&page={{i}}">{{ i }}</a>
-                    </li>
-                {% endif %}
-            {%- endfor %}
-        {% endif %}
-
-        {% if page > 10 and page >= numberOfPages - 6 %}
-            {% for i in range(numberOfPages -9 , numberOfPages + 1) -%}
-                {% if (i == page) %}
+        {% for i in range( pagingRange.start, pagingRange.end ) -%}
+            {% if (i == page) %}
                 <li>
                     <span class="active">{{ i }}</span>
                 </li>
-                {% else %}
-                    <li>
-                        <a id="page-{{ i }}" class="page" href="{{partialHref}}&page={{i}}">{{ i }}</a>
-                    </li>
-                {% endif %}
-            {%- endfor %}
-        {% endif %}
-
-        {% if (numberOfPages - page)  <= 10 %}
-            {% for i in range(numberOfPages, numberOfPages - 10) -%}
-                {% if (i == page) %}
+            {% else %}
                 <li>
-                    <span class="active">{{ i }}</span>
+                    <a id="page-{{ i }}" class="class" href="{{partialHref}}&page={{i}}">{{ i }}</a>
                 </li>
-                {% else %}
-                    <li>
-                        <a id="page-{{ i }}" class="page" href="{{partialHref}}&page={{i}}">{{ i }}</a>
-                    </li>
-                {% endif %}
-            {%- endfor %}
-        {% endif %}
+            {% endif %}
+        {%- endfor %}
 
         {% if page < numberOfPages %}
         <li>
