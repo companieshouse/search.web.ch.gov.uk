@@ -35,12 +35,13 @@ export const getDissolvedCompanies =
     };
 
 export const getAdvancedCompanies =
-    async (apiKey: string, companyNameIncludes: string | null, companyNameExcludes: string | null, location: string | null, incorporatedFrom: string | null,
+    async (apiKey: string, page: number, companyNameIncludes: string | null, companyNameExcludes: string | null, location: string | null, incorporatedFrom: string | null,
         incorporatedTo: string | null, sicCodes: string | null, companyStatus: string | null, companyType: string | null, dissolvedFrom: string | null,
         dissolvedTo: string | null, requestId: string): Promise<AdvancedCompaniesResource> => {
         const api = createApiClient(apiKey, undefined, API_URL);
+        const startIndexOffset = (page * 20) - 20;
         const companiesResource: Resource<AdvancedCompaniesResource> =
-            await api.advancedSearch.getCompanies(companyNameIncludes, companyNameExcludes, location, incorporatedFrom, incorporatedTo, sicCodes, companyStatus,
+            await api.advancedSearch.getCompanies(startIndexOffset, companyNameIncludes, companyNameExcludes, location, incorporatedFrom, incorporatedTo, sicCodes, companyStatus,
                 companyType, dissolvedFrom, dissolvedTo, requestId);
         if (companiesResource.httpStatusCode !== 200 && companiesResource.httpStatusCode !== 201) {
             throw createError(companiesResource.httpStatusCode, companiesResource.httpStatusCode.toString());
