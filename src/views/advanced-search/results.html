@@ -16,6 +16,13 @@
 {% endblock %}
 
 {% block content %}
+
+  {% if errorList.length > 0 %}
+    {{ govukErrorSummary({
+      titleText: ERROR_SUMMARY_TITLE,
+      errorList: errorList
+    }) }}
+  {% endif %}
   
   {% set companyFormHtml %}      
     <fieldset class='govuk-fieldset'>
@@ -46,6 +53,84 @@
       </label>
       <input class='govuk-input govuk-!-width-width-full' id='registeredOfficeAddress' name='registeredOfficeAddress' type='text' value='{{ location }}'>
     </div>         
+  {% endset %}
+
+  {% set incorporationDateHmtl %}
+    {% if errorList.length > 0 %}
+      {% if incorporatedFromError %}
+        <div class='govuk-form-group govuk-form-group--error'>  
+          <label class='accordion-label' for='incorporatedFrom'>
+            Companies incorporated after
+          </label>
+          <div id='incorporation-date-from-hint' class='accordion-hint'>
+              For example, 27/03/2007
+          </div>
+            <span id="incorporatedFrom-error" class="govuk-error-message">
+              <span class="govuk-visually-hidden">Error:</span> {{ incorporatedFromError.text }}
+            </span>
+          <input class='govuk-input govuk-!-width-width-full govuk-input--error' id='incorporatedFrom' name='incorporatedFrom' type='text' value='{{ incorporatedFrom }}' aria-describedby='incorporatedFrom-error'>
+        </div>
+      {% else %}
+        <div class='govuk-form-group'>  
+          <label class='accordion-label' for='incorporatedFrom'>
+            Companies incorporated after
+          </label>
+          <div id='incorporation-date-from-hint' class='accordion-hint'>
+              For example, 27/03/2007
+          </div>
+          <input class='govuk-input govuk-!-width-width-full' id='incorporatedFrom' name='incorporatedFrom' type='text' value='{{ incorporatedFrom }}'>
+        </div>
+      {% endif %}
+
+      <hr class='govuk-section-break govuk-section-break--m govuk-section-break--visible'>
+
+      {% if incorporatedToError %}
+        <div class='govuk-form-group govuk-form-group--error'>  
+          <label class='accordion-label' for='incorporatedTo'>
+            Companies incorporated before
+          </label>
+          <div id='incorporation-date-to-hint' class='accordion-hint'>
+              For example, 27/03/2007
+          </div>
+            <span id="incorporatedTo-error" class="govuk-error-message">
+              <span class="govuk-visually-hidden">Error:</span> {{ incorporatedToError.text }}
+            </span>
+          <input class='govuk-input govuk-!-width-width-full govuk-input--error' id='incorporatedTo' name='incorporatedTo' type='text' value='{{ incorporatedTo }}' aria-describedby='incorporatedTo-error'>
+        </div>
+      {% else %}
+        <div class='govuk-form-group'>
+          <label class='accordion-label' for='incorporatedTo'>
+            Companies incorporated before
+          </label>
+          <div id='incorporation-date-to-hint' class='accordion-hint'>
+              For example, 27/03/2007
+          </div>
+          <input class='govuk-input govuk-!-width-width-full' id='incorporatedTo' name='incorporatedTo' type='text' value='{{ incorporatedTo }}'>
+        </div>
+      {% endif %}
+    {% else %}
+      <div class='govuk-form-group'>  
+        <label class='accordion-label' for='incorporatedFrom'>
+          Companies incorporated after
+        </label>
+        <div id='incorporation-date-from-hint' class='accordion-hint'>
+            For example, 27/03/2007
+        </div>
+        <input class='govuk-input govuk-!-width-width-full' id='incorporatedFrom' name='incorporatedFrom' type='text' value='{{ incorporatedFrom }}'>
+      </div>
+
+      <hr class='govuk-section-break govuk-section-break--m govuk-section-break--visible'>
+
+      <div class='govuk-form-group'>
+        <label class='accordion-label' for='incorporatedTo'>
+          Companies incorporated before
+        </label>
+        <div id='incorporation-date-to-hint' class='accordion-hint'>
+            For example, 27/03/2007
+        </div>
+        <input class='govuk-input govuk-!-width-width-full' id='incorporatedTo' name='incorporatedTo' type='text' value='{{ incorporatedTo }}'>
+      </div>
+    {% endif %}
   {% endset %}
 
 <div class="govuk-width-container">
@@ -93,6 +178,14 @@
               },
               content: {
                 html: roaFormHtml
+              }
+            },
+            {
+              heading: {
+                text: "Incorporation date"
+              },
+              content: {
+                html: incorporationDateHmtl
               }
             }
           ]

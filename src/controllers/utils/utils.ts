@@ -262,3 +262,23 @@ export const getPagingRange = (currentPage : number, numberOfPages : number) : {
     }
     return { start : start, end : end};
 }
+
+export const changeDateFormat = (inputDate) => {
+    var splitDate = inputDate.split('/');
+    if(splitDate.count == 0){
+        return null;
+    }
+
+    var day = splitDate[0]; 
+    var month = splitDate[1];
+    var year = splitDate[2];
+
+    return year + '-' + month + '-' + day;
+}
+
+export const validateDate = (inputDate: string): boolean => {
+    const formattedDate = inputDate !== null || inputDate !== undefined ? changeDateFormat(inputDate) : null;
+    const momentDate = moment(formattedDate, true);
+
+    return momentDate.isValid();
+}

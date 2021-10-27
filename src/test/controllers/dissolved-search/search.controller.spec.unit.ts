@@ -4,7 +4,7 @@ import chai from "chai";
 import ioredis from "ioredis";
 import * as apiClient from "../../../client/apiclient";
 import { CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/dissolved-search/types";
-import { formatDate, sanitiseCompanyName, generateROAddress, determineReportAvailableBool } from "../../../controllers/utils";
+import { formatDate, sanitiseCompanyName, generateROAddress, determineReportAvailableBool } from "../../../controllers/utils/utils";
 import { signedInSession, SIGNED_IN_COOKIE } from "../../MockUtils/redis.mocks";
 
 const sandbox = sinon.createSandbox();
