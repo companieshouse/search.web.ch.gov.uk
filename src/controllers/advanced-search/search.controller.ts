@@ -4,7 +4,7 @@ import { SEARCH_WEB_COOKIE_NAME, API_KEY, APPLICATION_NAME } from "../../config/
 import { getAdvancedCompanies } from "../../client/apiclient";
 import { CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/advanced-search/types";
 import { getCompanyConstant, COMPANY_STATUS_CONSTANT, COMPANY_TYPE_CONSTANT } from "../../config/api.enumerations";
-import { checkLineBreakRequired, formatLongDate, formatCompactAddress } from "../../controllers/utils";
+import { checkLineBreakRequired, formatLongDate, formatCompactAddress, getPagingRange , buildPagingUrl} from "../../controllers/utils";
 import * as templatePaths from "../../model/template.paths";
 
 import Cookies = require("cookies");
@@ -13,6 +13,7 @@ const logger = createLogger(APPLICATION_NAME);
 
 const route = async (req: Request, res: Response) => {
     const cookies = new Cookies(req, res);
+    const page = req.query.page ? Number(req.query.page) : 1;
     const companyNameIncludes = req.query.companyNameIncludes as string || null;
     const companyNameExcludes = req.query.companyNameExcludes as string || null;
     const location = req.query.registeredOfficeAddress as string || null;
@@ -24,19 +25,25 @@ const route = async (req: Request, res: Response) => {
     const dissolvedFrom = null;
     const dissolvedTo = null;
 
-    const { searchResults } = await getSearchResults(companyNameIncludes, companyNameExcludes, location, incorporatedFrom, incorporatedTo,
+    const { companyResource, searchResults } = await getSearchResults(page, companyNameIncludes, companyNameExcludes, location, incorporatedFrom, incorporatedTo,
         sicCodes, companyStatus, companyType, dissolvedFrom, dissolvedTo, cookies);
-    return res.render(templatePaths.ADVANCED_SEARCH_RESULTS, { searchResults, companyNameIncludes, companyNameExcludes, location });
+
+    const numberOfPages: number = Math.ceil(companyResource.hits / 20);
+    const pagingRange = getPagingRange(page, numberOfPages);
+
+    const partialHref: string = buildPagingUrl(companyNameIncludes, companyNameExcludes, location);
+
+    return res.render(templatePaths.ADVANCED_SEARCH_RESULTS, { searchResults, companyNameIncludes, companyNameExcludes, location, page, numberOfPages, pagingRange, partialHref });
 };
 
-const getSearchResults = async (companyNameIncludes: string | null, companyNameExcludes: string | null, location: string | null, incorporatedFrom: string | null,
+const getSearchResults = async (page: number, companyNameIncludes: string | null, companyNameExcludes: string | null, location: string | null, incorporatedFrom: string | null,
     incorporatedTo: string | null, sicCodes: string | null, companyType: string | null, companyStatus: string | null,
     dissolvedFrom: string | null, dissolvedTo: string | null, cookies: Cookies) : Promise<{
     companyResource: CompaniesResource,
     searchResults: any[]
 }> => {
     try {
-        const companyResource = await getAdvancedCompanies(API_KEY, companyNameIncludes, companyNameExcludes, location, incorporatedFrom, incorporatedTo,
+        const companyResource = await getAdvancedCompanies(API_KEY, page, companyNameIncludes, companyNameExcludes, location, incorporatedFrom, incorporatedTo,
             sicCodes, companyStatus, companyType, dissolvedFrom, dissolvedTo, (cookies.get(SEARCH_WEB_COOKIE_NAME) as string));
         const { items } = companyResource;
 

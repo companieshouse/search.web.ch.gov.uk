@@ -262,3 +262,26 @@ export const getPagingRange = (currentPage : number, numberOfPages : number) : {
     }
     return { start : start, end : end};
 }
+
+export const buildPagingUrl = (companyNameInclues: string | null,
+                               companyNameExcludes: string | null,
+                               location: string | null) : string => {
+
+const pagingUrlBuilder = new URLSearchParams();
+
+if (companyNameInclues !== null) {
+pagingUrlBuilder.append("companyNameIncludes", companyNameInclues);
+}
+
+if (companyNameExcludes !== null) {
+pagingUrlBuilder.append("companyNameExcludes", companyNameExcludes);
+}
+
+if (location !== null) {
+pagingUrlBuilder.append("registeredOfficeAddress", location);
+}
+
+const pagingUrl: string = "get-results?" + pagingUrlBuilder.toString();
+
+return pagingUrl;
+};
