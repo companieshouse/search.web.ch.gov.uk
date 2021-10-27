@@ -1,6 +1,7 @@
 
 import chai from "chai";
-import { checkLineBreakRequired, determineReportAvailableBool, getDownloadReportText, mapResponsiveHeaders, formatLongDate, formatCompactAddress } from "../../controllers/utils";
+import { checkLineBreakRequired, determineReportAvailableBool, getDownloadReportText, mapResponsiveHeaders,
+     formatLongDate, formatCompactAddress, buildPagingUrl } from "../../controllers/utils";
 
 describe("utils.spec.unit", () => {
     describe("check that reports are only available if within the last 20 years", () => {
@@ -94,6 +95,30 @@ describe("utils.spec.unit", () => {
         });
         it("should return a blank string when no text available", () => {
             chai.expect(checkLineBreakRequired("")).to.equal("");
+        });
+    });
+
+    describe("check that buildPagingUrl constructs the url for paging correctly", () => {
+        it("should return a url with a parameter for company name includes", () => {
+            chai.expect(buildPagingUrl("testCompanyNameIncludes", null, null))
+            .to.equal("get-results?companyNameIncludes=testCompanyNameIncludes");
+        });
+
+        it("should return a url with a parameter for company name excludes", () => {
+            chai.expect(buildPagingUrl(null, "testCompanyNameExcludes", null))
+                .to.equal("get-results?companyNameExcludes=testCompanyNameExcludes");
+        });
+
+        it("should return a url with a parameter for registered office address", () => {
+            chai.expect(buildPagingUrl(null, null, "testRegisteredOfficeAddress"))
+                .to.equal("get-results?registeredOfficeAddress=testRegisteredOfficeAddress");
+        });
+
+        it("should return a url with a parameter for all fields present", () => {
+            chai.expect(buildPagingUrl("testCompanyNameIncludes", "testCompanyNameExcludes", "testRegisteredOfficeAddress"))
+                .to.equal("get-results?companyNameIncludes=testCompanyNameIncludes"
+                    + "&companyNameExcludes=testCompanyNameExcludes"
+                    + "&registeredOfficeAddress=testRegisteredOfficeAddress");
         });
     });
 });
