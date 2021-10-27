@@ -1,4 +1,4 @@
-import { check } from "express-validator";
+import { check, param } from "express-validator";
 import { createGovUkErrorData, GovUkErrorData } from "../../model/govuk.error.data";
 import { validateDate } from "./utils";
 
@@ -10,31 +10,30 @@ const INVALID_DATE_ERROR_MESSAGE = "You must enter a valid date, for example, 01
 export const advancedSearchValidationRules =
     [
         check(INCORPORATED_FROM_FIELD)
-            .custom((incorporatedFrom, { req }) => {
-                if(req.query?.incorporatedFrom != null) {
-                    const validDate = validateDate(req.query?.incorporatedFrom);
+            .custom((date) =>  {      
+                if(date !== null && date !== undefined && date.length > 0) {
+                    const validDate = validateDate(date);
                     if (!validDate) {
                         throw Error(INVALID_DATE_ERROR_MESSAGE);
                     }
-                    return true;
                 }
-            }),
+                return true;
+        }),
         check(INCORPORATED_TO_FIELD)
-            .custom((incorporatedTo, { req }) => {
-                if(req.query?.incorporatedTo != null) {
-                    const validDate = validateDate(req.query?.incorporatedTo);
+            .custom((date) =>  {      
+                if(date !== null && date !== undefined && date.length > 0) {
+                    const validDate = validateDate(date);
                     if (!validDate) {
                         throw Error(INVALID_DATE_ERROR_MESSAGE);
                     }
-                    return true;
                 }
-            })
+                return true;
+        })
     ];
 
 export const validate = (validationErrors) => {
     let incorporatedFromError;
     let incorporatedToError;
-
     const validationErrorList = validationErrors.array({ onlyFirstError: true }).map((error) => {
         const govUkErrorData: GovUkErrorData = createGovUkErrorData(error.msg, "#" + error.param, true, "");
         switch (error.param) {
