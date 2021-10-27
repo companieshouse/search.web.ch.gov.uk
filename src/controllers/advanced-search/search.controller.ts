@@ -30,16 +30,15 @@ const route = async (req: Request, res: Response) => {
 
     const errors = validationResult(req);
     const errorList = validate(errors);
-    
-    if(!errors.isEmpty()) {
+
+    if (!errors.isEmpty()) {
         return res.render(templatePaths.ADVANCED_SEARCH_RESULTS, { ...errorList, companyNameIncludes, companyNameExcludes, location, incorporatedFrom, incorporatedTo });
     };
 
-    const { searchResults } = await getSearchResults(companyNameIncludes, companyNameExcludes, location, formattedIncorporatedFromDate, 
+    const { searchResults } = await getSearchResults(companyNameIncludes, companyNameExcludes, location, formattedIncorporatedFromDate,
         formattedIncorporatedToDate, sicCodes, companyStatus, companyType, dissolvedFrom, dissolvedTo, cookies);
-    return res.render(templatePaths.ADVANCED_SEARCH_RESULTS, 
+    return res.render(templatePaths.ADVANCED_SEARCH_RESULTS,
         { searchResults, companyNameIncludes, companyNameExcludes, location, incorporatedFrom, incorporatedTo });
-       
 };
 
 const getSearchResults = async (companyNameIncludes: string | null, companyNameExcludes: string | null, location: string | null, incorporatedFrom: string | null,

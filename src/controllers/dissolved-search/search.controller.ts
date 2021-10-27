@@ -102,7 +102,7 @@ const route = async (req: Request, res: Response) => {
         }
         if (searchResultsNextLink.searchResults.length > 0) {
             nextLink = "resultsPresent";
-        }        
+        }
 
         return res.render(templatePaths.DISSOLVED_SEARCH_RESULTS, {
             searchResults, searchedName: companyName, templateName: templatePaths.DISSOLVED_SEARCH_RESULTS, lastUpdatedMessage, partialHref, numberOfPages, page, previousUrl, nextUrl, prevLink, nextLink, searchTypeFlag, pagingRange

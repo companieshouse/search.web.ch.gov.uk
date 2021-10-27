@@ -249,36 +249,36 @@ export const getPagingRange = (currentPage : number, numberOfPages : number) : {
     if (start <= 0) {
         start = 1;
     }
-    if (end - start < 10){
+    if (end - start < 10) {
         end = start + 10;
     }
     if (end > numberOfPages) {
         end = numberOfPages + 1;
         if (end - 10 < start) {
-            if (end - 10 > 0){
+            if (end - 10 > 0) {
                 start = (start - (end - 10)) > 0 ? (end - 10) : 1;
-            } 
+            }
         }
     }
-    return { start : start, end : end};
-}
+    return { start: start, end: end };
+};
 
 export const changeDateFormat = (inputDate) => {
-    var splitDate = inputDate.split('/');
-    if(splitDate.count == 0){
+    var splitDate = inputDate.split("/");
+    if (splitDate.count === 0) {
         return null;
     }
 
-    var day = splitDate[0]; 
+    var day = splitDate[0];
     var month = splitDate[1];
     var year = splitDate[2];
 
-    return year + '-' + month + '-' + day;
-}
+    return year + "-" + month + "-" + day;
+};
 
 export const validateDate = (inputDate: string): boolean => {
     const formattedDate = inputDate !== null || inputDate !== undefined ? changeDateFormat(inputDate) : null;
     const momentDate = moment(formattedDate, true);
 
     return momentDate.isValid();
-}
+};
