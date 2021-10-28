@@ -6,48 +6,45 @@ const INCORPORATED_FROM_FIELD: string = "incorporatedFrom";
 const INCORPORATED_TO_FIELD: string = "incorporatedTo";
 
 const INVALID_DATE_ERROR_MESSAGE = "You must enter a valid date, for example, 01/01/2009";
-const TO_DATE_BEFORE_FROM_DATE = "The incorported from date should be earlier than the incorporated to date";
+const TO_DATE_BEFORE_FROM_DATE = "The incorporated from date should be earlier than the incorporated to date";
 
 export const advancedSearchValidationRules =
     [
         check(INCORPORATED_FROM_FIELD)
-            .custom((date) => {
-                if (date !== null && date !== undefined && date.length > 0) {
+            .custom((date, {req}) => {
+                if (checkStringNotNullOrEmpty(date)) {
                     const validDate = validateDate(date);
                     if (!validDate) {
                         throw Error(INVALID_DATE_ERROR_MESSAGE);
+                    }
+                    let toDate = req.query?.incorporatedTo;
+                    if(checkStringNotNullOrEmpty(toDate)) {
+        
+                        if (checkDateBeforeInitial(toDate, date)) {
+                            throw Error(TO_DATE_BEFORE_FROM_DATE);
+                        }
                     }
                 }
                 return true;
             }),
         check(INCORPORATED_TO_FIELD)
-            .custom((date) => {
-                if (date !== null && date !== undefined && date.length > 0) {
+            .custom((date, {req}) => {
+                if (checkStringNotNullOrEmpty(date)) {
                     const validDate = validateDate(date);
                     if (!validDate) {
                         throw Error(INVALID_DATE_ERROR_MESSAGE);
                     }
+                    let fromDate = req.query?.incorporatedFrom;
+                    if(checkStringNotNullOrEmpty(fromDate)) {
+        
+                        if (checkDateBeforeInitial(date, fromDate)) {
+                            throw Error(TO_DATE_BEFORE_FROM_DATE);
+                        }
+                    }
                 }
                 return true;
-            }),
-        check(INCORPORATED_FROM_FIELD)
-            .custom(async (from, {req}) => {
-                let fromDate = new Date(from);
-                let toDate = new Date(req.query?.incorporatedTo);
-                console.log(`fromDate = ${fromDate} and toDate = ${toDate}`)
-                if (toDate < fromDate) {
-                    throw Error(TO_DATE_BEFORE_FROM_DATE);
-                }
-            }),
-        check(INCORPORATED_TO_FIELD)
-            .custom(async (to, {req}) => {
-                let toDate = new Date(to);
-                let fromDate = new Date(req.query?.incorporatedFrom);
-                console.log(`fromDate = ${fromDate} and toDate = ${toDate}`)
-                if (toDate < fromDate) {
-                    throw Error(TO_DATE_BEFORE_FROM_DATE);
-                }
             })
+        
     ];
 
 export const validate = (validationErrors) => {
@@ -71,3 +68,13 @@ export const validate = (validationErrors) => {
         incorporatedToError
     };
 };
+
+function checkDateBeforeInitial(initialDate, checkDate) {
+    let firstDate = new Date(initialDate);
+    let secondDate = new Date(checkDate);
+    return firstDate < secondDate;
+ }
+ 
+ function checkStringNotNullOrEmpty(checkString) {
+    return checkString !== null && checkString !== undefined && checkString.length > 0;
+ }
