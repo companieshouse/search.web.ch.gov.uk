@@ -255,39 +255,57 @@ export const getPagingRange = (currentPage : number, numberOfPages : number) : {
     if (start <= 0) {
         start = 1;
     }
-    if (end - start < 10){
+    if (end - start < 10) {
         end = start + 10;
     }
     if (end > numberOfPages) {
         end = numberOfPages + 1;
         if (end - 10 < start) {
-            if (end - 10 > 0){
+            if (end - 10 > 0) {
                 start = (start - (end - 10)) > 0 ? (end - 10) : 1;
-            } 
+            }
         }
     }
-    return { start : start, end : end};
-}
+    return { start: start, end: end };
+};
 
-export const buildPagingUrl = (companyNameInclues: string | null,
-                               companyNameExcludes: string | null,
-                               location: string | null) : string => {
+export const changeDateFormat = (inputDate: string) => {
+    const pattern = /^\d{2}\/\d{2}\/\d{4}$/;
+    if (!pattern.test(inputDate)) {
+        return null;
+    }
+    const splitDate = inputDate.split("/");
 
-const pagingUrlBuilder = new URLSearchParams();
+    const day = splitDate[0];
+    const month = splitDate[1];
+    const year = splitDate[2];
 
-if (companyNameInclues !== null) {
-pagingUrlBuilder.append("companyNameIncludes", companyNameInclues);
-}
+    return year + "-" + month + "-" + day;
+};
 
-if (companyNameExcludes !== null) {
-pagingUrlBuilder.append("companyNameExcludes", companyNameExcludes);
-}
+export const validateDate = (inputDate: string): boolean => {
+    const formattedDate = inputDate !== null || inputDate !== undefined ? changeDateFormat(inputDate) : null;
+    const momentDate = moment(formattedDate, true);
 
-if (location !== null) {
-pagingUrlBuilder.append("registeredOfficeAddress", location);
-}
+    return momentDate.isValid();
+};
 
-const pagingUrl: string = "get-results?" + pagingUrlBuilder.toString();
+export const buildPagingUrl = (companyNameInclues: string | null, companyNameExcludes: string | null, location: string | null) : string => {
+    const pagingUrlBuilder = new URLSearchParams();
 
-return pagingUrl;
+    if (companyNameInclues !== null) {
+        pagingUrlBuilder.append("companyNameIncludes", companyNameInclues);
+    }
+
+    if (companyNameExcludes !== null) {
+        pagingUrlBuilder.append("companyNameExcludes", companyNameExcludes);
+    }
+
+    if (location !== null) {
+        pagingUrlBuilder.append("registeredOfficeAddress", location);
+    }
+
+    const pagingUrl: string = "get-results?" + pagingUrlBuilder.toString();
+
+    return pagingUrl;
 };

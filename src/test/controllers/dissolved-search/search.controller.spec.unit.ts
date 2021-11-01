@@ -4,7 +4,7 @@ import chai from "chai";
 import ioredis from "ioredis";
 import * as apiClient from "../../../client/apiclient";
 import { CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/dissolved-search/types";
-import { formatDate, sanitiseCompanyName, generateROAddress, determineReportAvailableBool } from "../../../controllers/utils";
+import { formatDate, sanitiseCompanyName, generateROAddress, determineReportAvailableBool } from "../../../controllers/utils/utils";
 import { signedInSession, SIGNED_IN_COOKIE } from "../../MockUtils/redis.mocks";
 
 const sandbox = sinon.createSandbox();
@@ -564,7 +564,7 @@ describe("search.controller.spec.unit", () => {
                 .get("/dissolved-search/get-results?companyName=testo&changedName=name-at-dissolution&page=0");
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain('<a href="/signin?return_to=%2Fdissolved-search%2Fget-results%3FcompanyName%3Dtesto%26changedName%3Dname-at-dissolution%26page%3D0">Sign in to download report</a>');
+            chai.expect(resp.text).to.contain(`<a href="/signin?return_to=%2Fdissolved-search%2Fget-results%3FcompanyName%3Dtesto%26changedName%3Dname-at-dissolution%26page%3D0">Sign in to download report</a>`);
         });
 
         it("download links should show the correct return to url if not logged in and on the 1st page of results - no page parameter", async () => {
@@ -575,7 +575,7 @@ describe("search.controller.spec.unit", () => {
                 .get("/dissolved-search/get-results?companyName=testo&changedName=name-at-dissolution");
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain('<a href="/signin?return_to=%2Fdissolved-search%2Fget-results%3FcompanyName%3Dtesto%26changedName%3Dname-at-dissolution">Sign in to download report</a>');
+            chai.expect(resp.text).to.contain(`<a href="/signin?return_to=%2Fdissolved-search%2Fget-results%3FcompanyName%3Dtesto%26changedName%3Dname-at-dissolution">Sign in to download report</a>`);
         });
     });
 });

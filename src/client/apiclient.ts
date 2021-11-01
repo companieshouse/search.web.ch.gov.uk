@@ -46,6 +46,7 @@ export const getAdvancedCompanies =
         if (companiesResource.httpStatusCode !== 200 && companiesResource.httpStatusCode !== 201) {
             throw createError(companiesResource.httpStatusCode, companiesResource.httpStatusCode.toString());
         }
-        logger.info(`Get advanced search results, company_name_includes=${companyNameIncludes},company_name_excludes=${companyNameExcludes}, location=${location}, status_code=${companiesResource.httpStatusCode}`);
+        logger.info(`Get advanced search results, company_name_includes=${companyNameIncludes},company_name_excludes=${companyNameExcludes},
+         location=${location}, incorporated_from=${incorporatedFrom}, incorporated_to=${incorporatedTo}, status_code=${companiesResource.httpStatusCode}`);
         return companiesResource.resource as AdvancedCompaniesResource;
     };
