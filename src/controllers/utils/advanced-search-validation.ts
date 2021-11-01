@@ -14,18 +14,18 @@ export const advancedSearchValidationRules =
     [
         check(INCORPORATED_FROM_FIELD)
             .custom((date, { req }) => {
-                if (checkStringNotNullOrEmpty(date)) {
+                if (isStringNotNullOrEmpty(date)) {
                     const validDate = validateDate(date);
                     if (!validDate) {
                         throw Error(INVALID_DATE_ERROR_MESSAGE);
                     }
                     const toDate = req.query?.incorporatedTo;
-                    if (checkStringNotNullOrEmpty(toDate)) {
-                        if (checkDateBeforeInitial(toDate, date)) {
+                    if (isStringNotNullOrEmpty(toDate)) {
+                        if (isDateBeforeInitial(toDate, date)) {
                             throw Error(TO_DATE_BEFORE_FROM_DATE);
                         }
                     }
-                    if (checkIfDateInFuture(date)) {
+                    if (isDateInFuture(date)) {
                         throw Error(INCORPORATION_DATE_IN_FUTURE);
                     }
                 }
@@ -33,18 +33,18 @@ export const advancedSearchValidationRules =
             }),
         check(INCORPORATED_TO_FIELD)
             .custom((date, { req }) => {
-                if (checkStringNotNullOrEmpty(date)) {
+                if (isStringNotNullOrEmpty(date)) {
                     const validDate = validateDate(date);
                     if (!validDate) {
                         throw Error(INVALID_DATE_ERROR_MESSAGE);
                     }
                     const fromDate = req.query?.incorporatedFrom;
-                    if (checkStringNotNullOrEmpty(fromDate)) {
-                        if (checkDateBeforeInitial(date, fromDate)) {
+                    if (isStringNotNullOrEmpty(fromDate)) {
+                        if (isDateBeforeInitial(date, fromDate)) {
                             throw Error(TO_DATE_BEFORE_FROM_DATE);
                         }
                     }
-                    if (checkIfDateInFuture(date)) {
+                    if (isDateInFuture(date)) {
                         throw Error(INCORPORATION_DATE_IN_FUTURE);
                     }
                 }
@@ -74,7 +74,7 @@ export const validate = (validationErrors) => {
     };
 };
 
-function checkDateBeforeInitial (initialDate: string, checkDate: string) {
+function isDateBeforeInitial (initialDate: string, checkDate: string) : boolean {
     const firstMoment = moment(initialDate, "DD/MM/YYYY");
     const secondMoment = moment(checkDate, "DD/MM/YYYY");
     const firstDate = firstMoment.toDate();
@@ -82,11 +82,11 @@ function checkDateBeforeInitial (initialDate: string, checkDate: string) {
     return firstDate < secondDate;
 }
 
-function checkStringNotNullOrEmpty (checkString: string) {
+function isStringNotNullOrEmpty (checkString: string) : boolean {
     return checkString !== null && checkString !== undefined && checkString.length > 0;
 }
 
-function checkIfDateInFuture (date: string) {
+function isDateInFuture (date: string) : boolean {
     const dateMoment = moment(date, "DD/MM/YYYY");
     const checkDate = dateMoment.toDate();
     const now = new Date();
