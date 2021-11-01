@@ -53,10 +53,12 @@ export const determineReturnToUrl = (req): string => {
     const changeNameTypeParam: string = req.query.changedName as string;
     const searchBefore = req.query.searchBefore as string || null;
     const searchAfter = req.query.searchAfter as string || null;
+    const pageRequestParam = req.query.page as string || null;
     const CHANGED_NAME_QUERY = `&changedName=${changeNameTypeParam}`;
     const SEARCH_TYPE_QUERY = `&searchType=${searchTypeRequestParam}`;
     const SEARCH_BEFORE_QUERY = `&searchBefore=${searchBefore}`;
     const SEARCH_AFTER_QUERY = `&searchAfter=${searchAfter}`;
+    const PAGE_QUERY = `&page=${pageRequestParam}`;
 
     let url = `/dissolved-search/get-results?companyName=${companyNameRequestParam}`;
 
@@ -74,6 +76,10 @@ export const determineReturnToUrl = (req): string => {
 
     if (searchAfter != null) {
         url += SEARCH_AFTER_QUERY;
+    }
+
+    if (pageRequestParam != null) {
+        url += PAGE_QUERY;
     }
 
     return encodeURIComponent(url);
@@ -282,4 +288,26 @@ export const validateDate = (inputDate: string): boolean => {
     const momentDate = moment(formattedDate, true);
 
     return momentDate.isValid();
+};
+
+export const buildPagingUrl = (companyNameInclues: string | null,
+                               companyNameExcludes: string | null,
+                               location: string | null) : string => {
+    const pagingUrlBuilder = new URLSearchParams();
+
+    if (companyNameInclues !== null) {
+    pagingUrlBuilder.append("companyNameIncludes", companyNameInclues);
+    }
+
+    if (companyNameExcludes !== null) {
+    pagingUrlBuilder.append("companyNameExcludes", companyNameExcludes);
+    }
+
+    if (location !== null) {
+    pagingUrlBuilder.append("registeredOfficeAddress", location);
+    }
+
+    const pagingUrl: string = "get-results?" + pagingUrlBuilder.toString();
+
+    return pagingUrl;
 };

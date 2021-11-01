@@ -22,7 +22,9 @@ import {
     PIWIK_DISSOLVED_SERVICE_NAME,
     COOKIE_SECRET,
     COOKIE_DOMAIN,
-    CACHE_SERVER
+    CACHE_SERVER,
+    ALPHABETICAL_FEEDBACK_SOURCE, 
+    DISSOLVED_FEEDBACK_SOURCE
 } from "./config/config";
 
 const app = express();
@@ -63,15 +65,15 @@ app.use((req, res, next) => {
     if (req.path.includes("/alphabetical-search")) {
         env.addGlobal("SERVICE_NAME", ALPHABETICAL_SERVICE_NAME);
         env.addGlobal("PIWIK_SERVICE_NAME", PIWIK_ALPHABETICAL_SERVICE_NAME);
-        env.addGlobal("ENABLE_RESPONSIVE_TABLE", false);
-        env.addGlobal("RESPONSIVE_TABLE", "/alphabetical-search/static/responsive-table.css");
+        env.addGlobal("RESPONSIVE_TABLE", "");
         env.addGlobal("BACK_LINK", ALPHABETICAL_ROOT);
+        env.addGlobal("FEEDBACK_SOURCE", ALPHABETICAL_FEEDBACK_SOURCE);
     } else if (req.path.includes("/dissolved-search")) {
         env.addGlobal("SERVICE_NAME", DISSOLVED_SERVICE_NAME);
         env.addGlobal("PIWIK_SERVICE_NAME", PIWIK_DISSOLVED_SERVICE_NAME);
-        env.addGlobal("ENABLE_RESPONSIVE_TABLE", true);
         env.addGlobal("RESPONSIVE_TABLE", "/alphabetical-search/static/responsive-table.css");
         env.addGlobal("BACK_LINK", DISSOLVED_ROOT);
+        env.addGlobal("FEEDBACK_SOURCE", DISSOLVED_FEEDBACK_SOURCE);
     } else {
         env.addGlobal("SERVICE_NAME", SERVICE_NAME_GENERIC);
         env.addGlobal("SERVICE_PATH", "");

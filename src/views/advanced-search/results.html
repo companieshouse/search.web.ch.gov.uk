@@ -200,13 +200,19 @@
       </form>
 
     </div>
+
     <div class="govuk-grid-two-thirds two-thirds-div" style="padding-top: 45px;">
       <div>
         {% if searchResults.length > 0 %}
           {{ govukTable ({
               rows: searchResults,
               classes: 'govuk-!-font-size-16 govuk-!-width-one-half'
-          }) }}   
+          }) }}
+
+          {% if numberOfPages > 1 %}
+              {% include "../components/pagination.html" %}
+          {% endif %}
+
           <p class="govuk-body">{{ ADVANCED_SEARCH_LAST_UPDATED }}</p>  
         {% else %}
           <h2 class="govuk-heading-l" style="overflow-wrap: break-word;">No results found</h2>

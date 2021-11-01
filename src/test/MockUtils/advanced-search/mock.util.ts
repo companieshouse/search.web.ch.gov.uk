@@ -2,19 +2,19 @@ import { Address, CompaniesResource, Items, TopHit } from "@companieshouse/api-s
 
 const emptyDate = new Date();
 
-export const getDummyAdvancedCompanyResource = (name: string): CompaniesResource => {
+export const getDummyAdvancedCompanyResource = (name: string, numberOfCompanies: number): CompaniesResource => {
     return {
         etag: "etag",
-        items: createDummyItemsArray(name),
+        items: createDummyItemsArray(name, numberOfCompanies),
         kind: "kind",
         top_hit: createTopHit(name),
-        hits: 1
+        hits: numberOfCompanies
     };
 };
 
-export const createDummyItemsArray = (name: string): Items[] => {
+export const createDummyItemsArray = (name: string, numberOfCompanies: number): Items[] => {
     const itemsArray: Items[] = [];
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < numberOfCompanies; i++) {
         itemsArray.push({
             registered_office_address: createAddress(),
             company_name: name + i,

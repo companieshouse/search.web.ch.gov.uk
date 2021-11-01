@@ -1,6 +1,6 @@
 
 import chai from "chai";
-import { checkLineBreakRequired, determineReportAvailableBool, getDownloadReportText, mapResponsiveHeaders, formatLongDate, formatCompactAddress, changeDateFormat, validateDate, generateSize } from "../../controllers/utils/utils";
+import { checkLineBreakRequired, determineReportAvailableBool, getDownloadReportText, mapResponsiveHeaders, formatLongDate, formatCompactAddress, changeDateFormat, validateDate, generateSize, buildPagingUrl } from "../../controllers/utils/utils";
 
 describe("utils.spec.unit", () => {
     describe("check that reports are only available if within the last 20 years", () => {
@@ -151,6 +151,30 @@ describe("utils.spec.unit", () => {
         });
         it("should return size as a number if not null, not less than 1 and not greater than 100", () => {
             chai.expect(generateSize("50", null, null)).to.equal(50);
+        });
+    });
+
+    describe("check that buildPagingUrl constructs the url for paging correctly", () => {
+        it("should return a url with a parameter for company name includes", () => {
+            chai.expect(buildPagingUrl("testCompanyNameIncludes", null, null))
+            .to.equal("get-results?companyNameIncludes=testCompanyNameIncludes");
+        });
+
+        it("should return a url with a parameter for company name excludes", () => {
+            chai.expect(buildPagingUrl(null, "testCompanyNameExcludes", null))
+                .to.equal("get-results?companyNameExcludes=testCompanyNameExcludes");
+        });
+
+        it("should return a url with a parameter for registered office address", () => {
+            chai.expect(buildPagingUrl(null, null, "testRegisteredOfficeAddress"))
+                .to.equal("get-results?registeredOfficeAddress=testRegisteredOfficeAddress");
+        });
+
+        it("should return a url with a parameter for all fields present", () => {
+            chai.expect(buildPagingUrl("testCompanyNameIncludes", "testCompanyNameExcludes", "testRegisteredOfficeAddress"))
+                .to.equal("get-results?companyNameIncludes=testCompanyNameIncludes"
+                    + "&companyNameExcludes=testCompanyNameExcludes"
+                    + "&registeredOfficeAddress=testRegisteredOfficeAddress");
         });
     });
 });

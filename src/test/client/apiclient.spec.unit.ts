@@ -204,7 +204,7 @@ describe("api.client", () => {
             sandbox.stub(AdvancedSearchService.prototype, "getCompanies")
                 .returns(Promise.resolve(mockAdvancedResponse));
 
-            const advancedSearchResults = await getAdvancedCompanies("api key", "test", null, null, null, null, null, null, null, null, null, "request id");
+            const advancedSearchResults = await getAdvancedCompanies("api key", 1, "test", null, null, null, null, null, null, null, null, null, "request id");
             chai.expect(advancedSearchResults).to.equal(mockAdvancedResponse.resource);
         });
     });
