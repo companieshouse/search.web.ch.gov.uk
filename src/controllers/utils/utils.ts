@@ -263,15 +263,16 @@ export const getPagingRange = (currentPage : number, numberOfPages : number) : {
     return { start: start, end: end };
 };
 
-export const changeDateFormat = (inputDate) => {
-    var splitDate = inputDate.split("/");
-    if (splitDate.count === 0) {
+export const changeDateFormat = (inputDate: string) => {
+    const pattern = /^\d{2}\/\d{2}\/\d{4}$/;
+    if (!pattern.test(inputDate)) {
         return null;
     }
+    const splitDate = inputDate.split("/");
 
-    var day = splitDate[0];
-    var month = splitDate[1];
-    var year = splitDate[2];
+    const day = splitDate[0];
+    const month = splitDate[1];
+    const year = splitDate[2];
 
     return year + "-" + month + "-" + day;
 };

@@ -187,4 +187,117 @@ describe("search.controller.spec.unit", () => {
             chai.expect(resp.text).to.contain("test last updated message");
         });
     });
+
+    describe("check that the validation of incorporation dates displays the correct error message", () => {
+        it("should display an error if incorporatedFrom is separated by hyphens", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test")));
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?containsCompanyName=test&excludesCompanyName=&incorporatedFrom=01-01-2009");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain(`<a href="#incorporatedFrom">Incorporation date must include a day, a month and a year</a>`);
+            chai.expect(resp.text).to.contain("<input class='govuk-input govuk-!-width-width-full govuk-input--error' id='incorporatedFrom' name='incorporatedFrom' type='text' value='01-01-2009' aria-describedby='incorporatedFrom-error'>");
+        });
+        it("should display an error if incorporatedFrom is yyyy/mm/dd format", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test")));
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?containsCompanyName=test&excludesCompanyName=&incorporatedFrom=2009/01/01");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain(`<a href="#incorporatedFrom">Incorporation date must include a day, a month and a year</a>`);
+            chai.expect(resp.text).to.contain("<input class='govuk-input govuk-!-width-width-full govuk-input--error' id='incorporatedFrom' name='incorporatedFrom' type='text' value='2009/01/01' aria-describedby='incorporatedFrom-error'>");
+        });
+        it("should display an error if incorporatedFrom is mm/yyyy format", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test")));
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?containsCompanyName=test&excludesCompanyName=&incorporatedFrom=01/2009");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain(`<a href="#incorporatedFrom">Incorporation date must include a day, a month and a year</a>`);
+            chai.expect(resp.text).to.contain("<input class='govuk-input govuk-!-width-width-full govuk-input--error' id='incorporatedFrom' name='incorporatedFrom' type='text' value='01/2009' aria-describedby='incorporatedFrom-error'>");
+        });
+        it("should not display an error if incorporatedFrom is in the correct format", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test")));
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?containsCompanyName=test&excludesCompanyName=&incorporatedFrom=01/01/2009");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("<input class='govuk-input govuk-!-width-width-full' id='incorporatedFrom' name='incorporatedFrom' type='text' value='01/01/2009'>");
+        });
+        it("should display an error if incorporatedTo is separated by hyphens", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test")));
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?containsCompanyName=test&excludesCompanyName=&incorporatedTo=01-01-2009");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain(`<a href="#incorporatedTo">Incorporation date must include a day, a month and a year</a>`);
+            chai.expect(resp.text).to.contain("<input class='govuk-input govuk-!-width-width-full govuk-input--error' id='incorporatedTo' name='incorporatedTo' type='text' value='01-01-2009' aria-describedby='incorporatedTo-error'>");
+        });
+        it("should display an error if incorporatedTo is yyyy/mm/dd format", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test")));
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?containsCompanyName=test&excludesCompanyName=&incorporatedTo=2009/01/01");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain(`<a href="#incorporatedTo">Incorporation date must include a day, a month and a year</a>`);
+            chai.expect(resp.text).to.contain("<input class='govuk-input govuk-!-width-width-full govuk-input--error' id='incorporatedTo' name='incorporatedTo' type='text' value='2009/01/01' aria-describedby='incorporatedTo-error'>");
+        });
+        it("should display an error if incorporatedTo is mm/yyyy format", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test")));
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?containsCompanyName=test&excludesCompanyName=&incorporatedTo=01/2009");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain(`<a href="#incorporatedTo">Incorporation date must include a day, a month and a year</a>`);
+            chai.expect(resp.text).to.contain("<input class='govuk-input govuk-!-width-width-full govuk-input--error' id='incorporatedTo' name='incorporatedTo' type='text' value='01/2009' aria-describedby='incorporatedTo-error'>");
+        });
+        it("should not display an error if incorporatedTo is in the correct format", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test")));
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?containsCompanyName=test&excludesCompanyName=&incorporatedTo=01/01/2009");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("<input class='govuk-input govuk-!-width-width-full' id='incorporatedTo' name='incorporatedTo' type='text' value='01/01/2009'>");
+        });
+        it("should display an error if incorporatedFrom is a later date than incorporatedTo", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test")));
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?containsCompanyName=test&excludesCompanyName=&incorporatedTo=01/01/2009&incorporatedFrom=01/01/2010");
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain(`<a href="#incorporatedFrom">The &#39;Companies incorporated before&#39; date must be after the &#39;Companies incorporated after&#39; date</a>`);
+            chai.expect(resp.text).to.contain(`<a href="#incorporatedTo">The &#39;Companies incorporated before&#39; date must be after the &#39;Companies incorporated after&#39; date</a>`);
+            chai.expect(resp.text).to.contain(`<span id="incorporatedFrom-error" class="govuk-error-message">`);
+            chai.expect(resp.text).to.contain(`<span id="incorporatedTo-error" class="govuk-error-message">`);
+        });
+        it("should display an error if incorporatedFrom is a later date than incorporatedTo", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test")));
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?containsCompanyName=test&excludesCompanyName=&incorporatedFrom=01/01/2010&incorporatedTo=01/01/2009");
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain(`<a href="#incorporatedFrom">The &#39;Companies incorporated before&#39; date must be after the &#39;Companies incorporated after&#39; date</a>`);
+            chai.expect(resp.text).to.contain(`<a href="#incorporatedTo">The &#39;Companies incorporated before&#39; date must be after the &#39;Companies incorporated after&#39; date</a>`);
+            chai.expect(resp.text).to.contain(`<span id="incorporatedFrom-error" class="govuk-error-message">`);
+            chai.expect(resp.text).to.contain(`<span id="incorporatedTo-error" class="govuk-error-message">`);
+        });
+    });
 });
