@@ -1,6 +1,6 @@
 
 import chai from "chai";
-import { checkLineBreakRequired, determineReportAvailableBool, getDownloadReportText, mapResponsiveHeaders, formatLongDate, formatCompactAddress } from "../../controllers/utils/utils";
+import { checkLineBreakRequired, determineReportAvailableBool, getDownloadReportText, mapResponsiveHeaders, formatLongDate, formatCompactAddress, changeDateFormat, validateDate, generateSize } from "../../controllers/utils/utils";
 
 describe("utils.spec.unit", () => {
     describe("check that reports are only available if within the last 20 years", () => {
@@ -94,6 +94,63 @@ describe("utils.spec.unit", () => {
         });
         it("should return a blank string when no text available", () => {
             chai.expect(checkLineBreakRequired("")).to.equal("");
+        });
+    });
+
+    describe("check that changeDateFormat returns the expected result", () => {
+        it("should return null if the string passed in does not match the required format", () => {
+            chai.expect(changeDateFormat("12/23")).to.equal(null);
+        });
+        it("should return null if the string is not in the required format", () => {
+            chai.expect(changeDateFormat("01/02/2003/12")).to.equal(null);
+        });
+        it("should return a string if the value passed in matches the required format", () => {
+            chai.expect(changeDateFormat("12/03/2020")).to.equal("2020-03-12");
+        });
+    });
+
+    describe("check that validateDate returns true if a valid date", () => {
+        it("should return false if the string provided is empty", () => {
+            chai.expect(validateDate("")).to.equal(false);
+        });
+        it("should return null if the string provided does not include slashes", () => {
+            chai.expect(validateDate("03122020")).to.equal(false);
+        });
+        it("should return false if the string provided is not a date", () => {
+            chai.expect(validateDate("12/03")).to.equal(false);
+        });
+        it("should return false if the string provided is not a date", () => {
+            chai.expect(validateDate("12/03/2002/2003")).to.equal(false);
+        });
+        it("should return false if the string provided is not a date", () => {
+            chai.expect(validateDate("2/3/2021")).to.equal(false);
+        });
+        it("should return true if the string provided is a valid date", () => {
+            chai.expect(validateDate("12/03/2009")).to.equal(true);
+        });
+    });
+
+    describe("check that the generateSize method returns as expected", () => {
+        it("should return null if searchBefore, searchAfter and size are null", () => {
+            chai.expect(generateSize(null, null, null)).to.equal(null);
+        });
+        it("should return 40 if size is less than 1", () => {
+            chai.expect(generateSize("-10", null, null)).to.equal(40);
+        });
+        it("should return 40 if size is greater than 100", () => {
+            chai.expect(generateSize("1000", null, null)).to.equal(40);
+        });
+        it("should return 40 when size is null and searchBefore is not null", () => {
+            chai.expect(generateSize(null, "searchBefore", null)).to.equal(40);
+        });
+        it("should return 40 if size is null and searchAfter is not null", () => {
+            chai.expect(generateSize(null, null, "searchAfter")).to.equal(40);
+        });
+        it("should return 40 where size is null and searchBefore and searchAfter are not null", () => {
+            chai.expect(generateSize(null, "searchBefore", "searchAfter")).to.equal(40);
+        });
+        it("should return size as a number if not null, not less than 1 and not greater than 100", () => {
+            chai.expect(generateSize("50", null, null)).to.equal(50);
         });
     });
 });
