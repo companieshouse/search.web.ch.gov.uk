@@ -4,7 +4,7 @@ import { SEARCH_WEB_COOKIE_NAME, API_KEY, APPLICATION_NAME } from "../../config/
 import { getAdvancedCompanies } from "../../client/apiclient";
 import { CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/advanced-search/types";
 import { getCompanyConstant, COMPANY_STATUS_CONSTANT, COMPANY_TYPE_CONSTANT } from "../../config/api.enumerations";
-import { checkLineBreakRequired, formatLongDate, formatCompactAddress, changeDateFormat, getPagingRange , buildPagingUrl } from "../utils/utils";
+import { checkLineBreakRequired, formatLongDate, formatCompactAddress, changeDateFormat, getPagingRange, buildPagingUrl } from "../utils/utils";
 import { advancedSearchValidationRules, validate } from "../utils/advanced-search-validation";
 import { validationResult } from "express-validator";
 import * as templatePaths from "../../model/template.paths";

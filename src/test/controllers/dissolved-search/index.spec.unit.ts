@@ -45,7 +45,7 @@ describe("index.spec.unit", () => {
         it("should contain dissolved-search", async () => {
             const resp = await chai.request(testApp)
                 .get("/dissolved-search");
-                
+
             const $ = cheerio.load(resp.text);
 
             chai.expect(resp.status).to.equal(200);

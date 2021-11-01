@@ -157,7 +157,7 @@ describe("utils.spec.unit", () => {
     describe("check that buildPagingUrl constructs the url for paging correctly", () => {
         it("should return a url with a parameter for company name includes", () => {
             chai.expect(buildPagingUrl("testCompanyNameIncludes", null, null))
-            .to.equal("get-results?companyNameIncludes=testCompanyNameIncludes");
+                .to.equal("get-results?companyNameIncludes=testCompanyNameIncludes");
         });
 
         it("should return a url with a parameter for company name excludes", () => {
@@ -172,9 +172,9 @@ describe("utils.spec.unit", () => {
 
         it("should return a url with a parameter for all fields present", () => {
             chai.expect(buildPagingUrl("testCompanyNameIncludes", "testCompanyNameExcludes", "testRegisteredOfficeAddress"))
-                .to.equal("get-results?companyNameIncludes=testCompanyNameIncludes"
-                    + "&companyNameExcludes=testCompanyNameExcludes"
-                    + "&registeredOfficeAddress=testRegisteredOfficeAddress");
+                .to.equal("get-results?companyNameIncludes=testCompanyNameIncludes" +
+                    "&companyNameExcludes=testCompanyNameExcludes" +
+                    "&registeredOfficeAddress=testRegisteredOfficeAddress");
         });
     });
 });

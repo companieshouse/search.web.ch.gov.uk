@@ -346,7 +346,7 @@ describe("search.controller.spec.unit", () => {
         });
 
         it("should show the previous and next links if on any middle page", async () => {
-            getCompanyItemStub = sandbox.stub(apiClient, "getDissolvedCompanies")
+            getCompanyItemStub = sandbox.stub(apiClient, "getDissolvedCompanies");
             getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
                 .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 50)));
 
