@@ -299,5 +299,25 @@ describe("search.controller.spec.unit", () => {
             chai.expect(resp.text).to.contain(`<span id="incorporatedFrom-error" class="govuk-error-message">`);
             chai.expect(resp.text).to.contain(`<span id="incorporatedTo-error" class="govuk-error-message">`);
         });
+        it("should display an error message if incorporatedFrom is in the future", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test")));
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?containsCompanyName=test&excludesCompanyName=&incorporatedFrom=01/01/2030");
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain(`<a href="#incorporatedFrom">The incorporation date must be in the past</a>`);
+            chai.expect(resp.text).to.contain(`<span id="incorporatedFrom-error" class="govuk-error-message">`);
+        });
+        it("should display an error message if incorporatedTo is in the future", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test")));
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?containsCompanyName=test&excludesCompanyName=&incorporatedTo=01/01/2030");
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain(`<a href="#incorporatedTo">The incorporation date must be in the past</a>`);
+            chai.expect(resp.text).to.contain(`<span id="incorporatedTo-error" class="govuk-error-message">`);
+        });
     });
 });
