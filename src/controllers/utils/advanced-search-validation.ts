@@ -1,4 +1,4 @@
-import { check, param } from "express-validator";
+import { check } from "express-validator";
 import { createGovUkErrorData, GovUkErrorData } from "../../model/govuk.error.data";
 import { validateDate } from "./utils";
 import moment from "moment";
