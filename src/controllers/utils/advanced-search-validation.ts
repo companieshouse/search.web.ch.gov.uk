@@ -13,15 +13,14 @@ const INCORPORATION_DATE_IN_FUTURE = "The incorporation date must be in the past
 export const advancedSearchValidationRules =
     [
         check(INCORPORATED_FROM_FIELD)
-            .custom((date, {req}) => {
+            .custom((date, { req }) => {
                 if (checkStringNotNullOrEmpty(date)) {
                     const validDate = validateDate(date);
                     if (!validDate) {
                         throw Error(INVALID_DATE_ERROR_MESSAGE);
                     }
-                    let toDate = req.query?.incorporatedTo;
-                    if(checkStringNotNullOrEmpty(toDate)) {
-        
+                    const toDate = req.query?.incorporatedTo;
+                    if (checkStringNotNullOrEmpty(toDate)) {
                         if (checkDateBeforeInitial(toDate, date)) {
                             throw Error(TO_DATE_BEFORE_FROM_DATE);
                         }
@@ -33,15 +32,14 @@ export const advancedSearchValidationRules =
                 return true;
             }),
         check(INCORPORATED_TO_FIELD)
-            .custom((date, {req}) => {
+            .custom((date, { req }) => {
                 if (checkStringNotNullOrEmpty(date)) {
                     const validDate = validateDate(date);
                     if (!validDate) {
                         throw Error(INVALID_DATE_ERROR_MESSAGE);
                     }
-                    let fromDate = req.query?.incorporatedFrom;
-                    if(checkStringNotNullOrEmpty(fromDate)) {
-        
+                    const fromDate = req.query?.incorporatedFrom;
+                    if (checkStringNotNullOrEmpty(fromDate)) {
                         if (checkDateBeforeInitial(date, fromDate)) {
                             throw Error(TO_DATE_BEFORE_FROM_DATE);
                         }
@@ -52,7 +50,6 @@ export const advancedSearchValidationRules =
                 }
                 return true;
             })
-        
     ];
 
 export const validate = (validationErrors) => {
@@ -77,21 +74,21 @@ export const validate = (validationErrors) => {
     };
 };
 
-function checkDateBeforeInitial(initialDate: string, checkDate: string) {
-    let firstMoment = moment(initialDate, "DD/MM/YYYY");
-    let secondMoment = moment(checkDate, "DD/MM/YYYY");
-    let firstDate = firstMoment.toDate();
-    let secondDate = secondMoment.toDate();
+function checkDateBeforeInitial (initialDate: string, checkDate: string) {
+    const firstMoment = moment(initialDate, "DD/MM/YYYY");
+    const secondMoment = moment(checkDate, "DD/MM/YYYY");
+    const firstDate = firstMoment.toDate();
+    const secondDate = secondMoment.toDate();
     return firstDate < secondDate;
- }
- 
- function checkStringNotNullOrEmpty(checkString: string) {
-    return checkString !== null && checkString !== undefined && checkString.length > 0;
- }
+}
 
- function checkIfDateInFuture(date: string) {
-    let dateMoment = moment(date, "DD/MM/YYYY");
-    let checkDate = dateMoment.toDate();
-    let now = new Date();
+function checkStringNotNullOrEmpty (checkString: string) {
+    return checkString !== null && checkString !== undefined && checkString.length > 0;
+}
+
+function checkIfDateInFuture (date: string) {
+    const dateMoment = moment(date, "DD/MM/YYYY");
+    const checkDate = dateMoment.toDate();
+    const now = new Date();
     return now < checkDate;
- }
+}
