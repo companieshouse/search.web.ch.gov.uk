@@ -40,7 +40,7 @@ const route = async (req: Request, res: Response) => {
     const numberOfPages: number = Math.ceil(companyResource.hits / 20);
     const pagingRange = getPagingRange(page, numberOfPages);
 
-    const partialHref: string = buildPagingUrl(companyNameIncludes, companyNameExcludes, location);
+    const partialHref: string = buildPagingUrl(companyNameIncludes, companyNameExcludes, location, incorporatedFrom, incorporatedTo);
     return res.render(templatePaths.ADVANCED_SEARCH_RESULTS,
         { searchResults, companyNameIncludes, companyNameExcludes, location, page, numberOfPages, pagingRange, partialHref, incorporatedFrom, incorporatedTo });
 };

@@ -156,25 +156,27 @@ describe("utils.spec.unit", () => {
 
     describe("check that buildPagingUrl constructs the url for paging correctly", () => {
         it("should return a url with a parameter for company name includes", () => {
-            chai.expect(buildPagingUrl("testCompanyNameIncludes", null, null))
+            chai.expect(buildPagingUrl("testCompanyNameIncludes", null, null, null, null))
                 .to.equal("get-results?companyNameIncludes=testCompanyNameIncludes");
         });
 
         it("should return a url with a parameter for company name excludes", () => {
-            chai.expect(buildPagingUrl(null, "testCompanyNameExcludes", null))
+            chai.expect(buildPagingUrl(null, "testCompanyNameExcludes", null, null, null))
                 .to.equal("get-results?companyNameExcludes=testCompanyNameExcludes");
         });
 
         it("should return a url with a parameter for registered office address", () => {
-            chai.expect(buildPagingUrl(null, null, "testRegisteredOfficeAddress"))
+            chai.expect(buildPagingUrl(null, null, "testRegisteredOfficeAddress", null, null))
                 .to.equal("get-results?registeredOfficeAddress=testRegisteredOfficeAddress");
         });
 
         it("should return a url with a parameter for all fields present", () => {
-            chai.expect(buildPagingUrl("testCompanyNameIncludes", "testCompanyNameExcludes", "testRegisteredOfficeAddress"))
+            chai.expect(buildPagingUrl("testCompanyNameIncludes", "testCompanyNameExcludes", "testRegisteredOfficeAddress", "testIncorporatedFrom", "testIncorporatedTo"))
                 .to.equal("get-results?companyNameIncludes=testCompanyNameIncludes" +
                     "&companyNameExcludes=testCompanyNameExcludes" +
-                    "&registeredOfficeAddress=testRegisteredOfficeAddress");
+                    "&registeredOfficeAddress=testRegisteredOfficeAddress" +
+                    "&incorporatedFrom=testIncorporatedFrom" +
+                    "&incorporatedTo=testIncorporatedTo");
         });
     });
 });
