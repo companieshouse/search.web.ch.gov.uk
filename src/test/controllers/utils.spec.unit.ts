@@ -171,7 +171,7 @@ describe("utils.spec.unit", () => {
         });
 
         it("should return a url with a parameter for all fields present", () => {
-            chai.expect(buildPagingUrl("testCompanyNameIncludes", "testCompanyNameExcludes", "testRegisteredOfficeAddress", "testIncorporatedFrom", "incorporatedTo"))
+            chai.expect(buildPagingUrl("testCompanyNameIncludes", "testCompanyNameExcludes", "testRegisteredOfficeAddress", "testIncorporatedFrom", "testIncorporatedTo"))
                 .to.equal("get-results?companyNameIncludes=testCompanyNameIncludes" +
                     "&companyNameExcludes=testCompanyNameExcludes" +
                     "&registeredOfficeAddress=testRegisteredOfficeAddress" +
