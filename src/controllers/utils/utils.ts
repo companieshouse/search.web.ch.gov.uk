@@ -1,4 +1,5 @@
 import escape from "escape-html";
+import { AdvancedSearchParams } from "model/advanced.search.params";
 import moment from "moment";
 
 export const getDownloadReportText = (signedIn: boolean, reportAvailable: boolean, returnUrl: string, companyNumber: string): string => {
@@ -290,28 +291,27 @@ export const validateDate = (inputDate: string): boolean => {
     return momentDate.isValid();
 };
 
-export const buildPagingUrl = (companyNameInclues: string | null, companyNameExcludes: string | null, location: string | null,
-    incorporatedFrom: string | null, incorporatedTo: string | null) : string => {
+export const buildPagingUrl = (advancedSearchParams: AdvancedSearchParams) : string => {
     const pagingUrlBuilder = new URLSearchParams();
 
-    if (companyNameInclues !== null) {
-        pagingUrlBuilder.append("companyNameIncludes", companyNameInclues);
+    if (advancedSearchParams.companyNameIncludes !== null) {
+        pagingUrlBuilder.append("companyNameIncludes", advancedSearchParams.companyNameIncludes);
     }
 
-    if (companyNameExcludes !== null) {
-        pagingUrlBuilder.append("companyNameExcludes", companyNameExcludes);
+    if (advancedSearchParams.companyNameExcludes !== null) {
+        pagingUrlBuilder.append("companyNameExcludes", advancedSearchParams.companyNameExcludes);
     }
 
-    if (location !== null) {
-        pagingUrlBuilder.append("registeredOfficeAddress", location);
+    if (advancedSearchParams.location !== null) {
+        pagingUrlBuilder.append("registeredOfficeAddress", advancedSearchParams.location);
     }
 
-    if (incorporatedFrom !== null) {
-        pagingUrlBuilder.append("incorporatedFrom", incorporatedFrom);
+    if (advancedSearchParams.incorporatedFrom !== null) {
+        pagingUrlBuilder.append("incorporatedFrom", advancedSearchParams.incorporatedFrom);
     }
 
-    if (incorporatedTo !== null) {
-        pagingUrlBuilder.append("incorporatedTo", incorporatedTo);
+    if (advancedSearchParams.incorporatedTo !== null) {
+        pagingUrlBuilder.append("incorporatedTo", advancedSearchParams.incorporatedTo);
     }
 
     const pagingUrl: string = "get-results?" + pagingUrlBuilder.toString();

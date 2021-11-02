@@ -31,7 +31,7 @@
         <label class='accordion-label' for='companyNameIncludes'>
           Company names that contain
         </label>
-        <input class='govuk-input govuk-!-width-width-full' id='companyNameIncludes' name='companyNameIncludes' type='text' value='{{ companyNameIncludes }}'>
+        <input class='govuk-input govuk-!-width-width-full' id='companyNameIncludes' name='companyNameIncludes' type='text' value='{{ advancedSearchParams.companyNameIncludes }}'>
       </div>
 
       <hr class='govuk-section-break govuk-section-break--m govuk-section-break--visible'>
@@ -40,7 +40,7 @@
         <label class='accordion-label' for='companyNameExcludes'>
           Exclude company names that contain
         </label>
-        <input class='govuk-input govuk-!-width-width-full' id='companyNameExcludes' name='companyNameExcludes' type='text' value='{{ companyNameExcludes }}'>
+        <input class='govuk-input govuk-!-width-width-full' id='companyNameExcludes' name='companyNameExcludes' type='text' value='{{ advancedSearchParams.companyNameExcludes }}'>
       </div>
 
     </fieldset>          
@@ -51,7 +51,7 @@
       <label class="accordion-label" for="registeredOfficeAddress">
         Enter a full or partial address
       </label>
-      <input class='govuk-input govuk-!-width-width-full' id='registeredOfficeAddress' name='registeredOfficeAddress' type='text' value='{{ location }}'>
+      <input class='govuk-input govuk-!-width-width-full' id='registeredOfficeAddress' name='registeredOfficeAddress' type='text' value='{{ advancedSearchParams.location }}'>
     </div>         
   {% endset %}
 
@@ -68,7 +68,7 @@
             <span id="incorporatedFrom-error" class="govuk-error-message">
               <span class="govuk-visually-hidden">Error:</span> {{ incorporatedFromError.text }}
             </span>
-          <input class='govuk-input govuk-!-width-width-full govuk-input--error' id='incorporatedFrom' name='incorporatedFrom' type='text' value='{{ incorporatedFrom }}' aria-describedby='incorporatedFrom-error'>
+          <input class='govuk-input govuk-!-width-width-full govuk-input--error' id='incorporatedFrom' name='incorporatedFrom' type='text' value='{{ advancedSearchParams.incorporatedFrom }}' aria-describedby='incorporatedFrom-error'>
         </div>
       {% else %}
         <div class='govuk-form-group'>  
@@ -78,7 +78,7 @@
           <div id='incorporation-date-from-hint' class='accordion-hint'>
               For example, 27/03/2007
           </div>
-          <input class='govuk-input govuk-!-width-width-full' id='incorporatedFrom' name='incorporatedFrom' type='text' value='{{ incorporatedFrom }}'>
+          <input class='govuk-input govuk-!-width-width-full' id='incorporatedFrom' name='incorporatedFrom' type='text' value='{{ advancedSearchParams.incorporatedFrom }}'>
         </div>
       {% endif %}
 
@@ -95,7 +95,7 @@
             <span id="incorporatedTo-error" class="govuk-error-message">
               <span class="govuk-visually-hidden">Error:</span> {{ incorporatedToError.text }}
             </span>
-          <input class='govuk-input govuk-!-width-width-full govuk-input--error' id='incorporatedTo' name='incorporatedTo' type='text' value='{{ incorporatedTo }}' aria-describedby='incorporatedTo-error'>
+          <input class='govuk-input govuk-!-width-width-full govuk-input--error' id='incorporatedTo' name='incorporatedTo' type='text' value='{{ advancedSearchParams.incorporatedTo }}' aria-describedby='incorporatedTo-error'>
         </div>
       {% else %}
         <div class='govuk-form-group'>
@@ -105,7 +105,7 @@
           <div id='incorporation-date-to-hint' class='accordion-hint'>
               For example, 29/03/2007
           </div>
-          <input class='govuk-input govuk-!-width-width-full' id='incorporatedTo' name='incorporatedTo' type='text' value='{{ incorporatedTo }}'>
+          <input class='govuk-input govuk-!-width-width-full' id='incorporatedTo' name='incorporatedTo' type='text' value='{{ advancedSearchParams.incorporatedTo }}'>
         </div>
       {% endif %}
     {% else %}
@@ -116,7 +116,7 @@
         <div id='incorporation-date-from-hint' class='accordion-hint'>
             For example, 27/03/2007
         </div>
-        <input class='govuk-input govuk-!-width-width-full' id='incorporatedFrom' name='incorporatedFrom' type='text' value='{{ incorporatedFrom }}'>
+        <input class='govuk-input govuk-!-width-width-full' id='incorporatedFrom' name='incorporatedFrom' type='text' value='{{ advancedSearchParams.incorporatedFrom }}'>
       </div>
 
       <hr class='govuk-section-break govuk-section-break--m govuk-section-break--visible'>
@@ -128,7 +128,7 @@
         <div id='incorporation-date-to-hint' class='accordion-hint'>
             For example, 29/03/2007
         </div>
-        <input class='govuk-input govuk-!-width-width-full' id='incorporatedTo' name='incorporatedTo' type='text' value='{{ incorporatedTo }}'>
+        <input class='govuk-input govuk-!-width-width-full' id='incorporatedTo' name='incorporatedTo' type='text' value='{{ advancedSearchParams.incorporatedTo }}'>
       </div>
     {% endif %}
   {% endset %}
