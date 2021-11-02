@@ -59,8 +59,8 @@
     {% if errorList.length > 0 %}
       {% if incorporatedFromError %}
         <div class='govuk-form-group govuk-form-group--error'>  
-          <label class='accordion-label' for='incorporatedFrom'>
-            Companies incorporated after
+          <label class='accordion-label' for='incorporatedFrom' aria-describedby='companies incorporated'>
+            From
           </label>
           <div id='incorporation-date-from-hint' class='accordion-hint'>
               For example, 27/03/2007
@@ -72,13 +72,13 @@
         </div>
       {% else %}
         <div class='govuk-form-group'>  
-          <label class='accordion-label' for='incorporatedFrom'>
-            Companies incorporated after
+          <label class='accordion-label' for='incorporatedFrom' aria-describedby='companies incorporated'>
+            From
           </label>
           <div id='incorporation-date-from-hint' class='accordion-hint'>
               For example, 27/03/2007
           </div>
-          <input class='govuk-input govuk-!-width-width-full' id='incorporatedFrom' name='incorporatedFrom' type='text' value='{{ incorporatedFrom }}'>
+          <input class='govuk-input govuk-!-width-width-full' id='incorporatedFrom' name='incorporatedFrom' type='text' value='{{ incorporatedFrom }}' aria-describedby='incorporation-date-from-hint'>
         </div>
       {% endif %}
 
@@ -86,8 +86,8 @@
 
       {% if incorporatedToError %}
         <div class='govuk-form-group govuk-form-group--error'>  
-          <label class='accordion-label' for='incorporatedTo'>
-            Companies incorporated before
+          <label class='accordion-label' for='incorporatedTo' aria-describedby='companies incorporated'>
+            To
           </label>
           <div id='incorporation-date-to-hint' class='accordion-hint'>
               For example, 29/03/2007
@@ -99,36 +99,36 @@
         </div>
       {% else %}
         <div class='govuk-form-group'>
-          <label class='accordion-label' for='incorporatedTo'>
-            Companies incorporated before
+          <label class='accordion-label' for='incorporatedTo' aria-describedby='companies incorporated'>
+            To
           </label>
           <div id='incorporation-date-to-hint' class='accordion-hint'>
               For example, 29/03/2007
           </div>
-          <input class='govuk-input govuk-!-width-width-full' id='incorporatedTo' name='incorporatedTo' type='text' value='{{ incorporatedTo }}'>
+          <input class='govuk-input govuk-!-width-width-full' id='incorporatedTo' name='incorporatedTo' type='text' value='{{ incorporatedTo }}' aria-describedby='incorporation-date-to-hint'>
         </div>
       {% endif %}
     {% else %}
       <div class='govuk-form-group'>  
-        <label class='accordion-label' for='incorporatedFrom'>
-          Companies incorporated after
+        <label class='accordion-label' for='incorporatedFrom' aria-describedby='companies incorporated'>
+          From
         </label>
         <div id='incorporation-date-from-hint' class='accordion-hint'>
             For example, 27/03/2007
         </div>
-        <input class='govuk-input govuk-!-width-width-full' id='incorporatedFrom' name='incorporatedFrom' type='text' value='{{ incorporatedFrom }}'>
+        <input class='govuk-input govuk-!-width-width-full' id='incorporatedFrom' name='incorporatedFrom' type='text' value='{{ incorporatedFrom }}' aria-describedby='incorporation-date-from-hint'>
       </div>
 
       <hr class='govuk-section-break govuk-section-break--m govuk-section-break--visible'>
 
       <div class='govuk-form-group'>
-        <label class='accordion-label' for='incorporatedTo'>
-          Companies incorporated before
+        <label class='accordion-label' for='incorporatedTo' aria-describedby='companies incorporated'>
+          To
         </label>
         <div id='incorporation-date-to-hint' class='accordion-hint'>
             For example, 29/03/2007
         </div>
-        <input class='govuk-input govuk-!-width-width-full' id='incorporatedTo' name='incorporatedTo' type='text' value='{{ incorporatedTo }}'>
+        <input class='govuk-input govuk-!-width-width-full' id='incorporatedTo' name='incorporatedTo' type='text' value='{{ incorporatedTo }}' aria-describedby='incorporation-date-to-hint'>
       </div>
     {% endif %}
   {% endset %}
