@@ -290,7 +290,8 @@ export const validateDate = (inputDate: string): boolean => {
     return momentDate.isValid();
 };
 
-export const buildPagingUrl = (companyNameInclues: string | null, companyNameExcludes: string | null, location: string | null) : string => {
+export const buildPagingUrl = (companyNameInclues: string | null, companyNameExcludes: string | null, location: string | null,
+    incorporatedFrom: string | null, incorporatedTo: string | null) : string => {
     const pagingUrlBuilder = new URLSearchParams();
 
     if (companyNameInclues !== null) {
@@ -303,6 +304,14 @@ export const buildPagingUrl = (companyNameInclues: string | null, companyNameExc
 
     if (location !== null) {
         pagingUrlBuilder.append("registeredOfficeAddress", location);
+    }
+
+    if (incorporatedFrom !== null) {
+        pagingUrlBuilder.append("incorporatedFrom", incorporatedFrom);
+    }
+
+    if (incorporatedTo !== null) {
+        pagingUrlBuilder.append("incorporatedTo", incorporatedTo);
     }
 
     const pagingUrl: string = "get-results?" + pagingUrlBuilder.toString();
