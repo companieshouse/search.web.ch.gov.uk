@@ -7,7 +7,7 @@ const INCORPORATED_FROM_FIELD: string = "incorporatedFrom";
 const INCORPORATED_TO_FIELD: string = "incorporatedTo";
 
 const INVALID_DATE_ERROR_MESSAGE = "Incorporation date must include a day, a month and a year";
-const TO_DATE_BEFORE_FROM_DATE = "The 'Companies incorporated before' date must be after the 'Companies incorporated after' date";
+const TO_DATE_BEFORE_FROM_DATE = "The incorporation 'from' date must be the same as or before the 'to' date";
 const INCORPORATION_DATE_IN_FUTURE = "The incorporation date must be in the past";
 
 export const advancedSearchValidationRules =
