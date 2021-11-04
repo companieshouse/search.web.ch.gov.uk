@@ -241,7 +241,7 @@ export const checkLineBreakRequired = (text: string) : string => {
 export const mapCompanyStatusCheckboxes = (companyStatus) => {
     const selectedStatusCheckboxes = {
         active: "",
-        dissolved : "",
+        dissolved: "",
         open: "",
         closed: "",
         convertedClosed: "",

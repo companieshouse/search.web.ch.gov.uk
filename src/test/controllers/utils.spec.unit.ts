@@ -1,8 +1,10 @@
 
 import chai from "chai";
-import { checkLineBreakRequired, determineReportAvailableBool, getDownloadReportText, mapResponsiveHeaders,
-     formatLongDate, formatCompactAddress, changeDateFormat, validateDate,
-     generateSize, buildPagingUrl, mapCompanyStatusCheckboxes } from "../../controllers/utils/utils";
+import {
+    checkLineBreakRequired, determineReportAvailableBool, getDownloadReportText, mapResponsiveHeaders,
+    formatLongDate, formatCompactAddress, changeDateFormat, validateDate,
+    generateSize, buildPagingUrl, mapCompanyStatusCheckboxes
+} from "../../controllers/utils/utils";
 
 describe("utils.spec.unit", () => {
     describe("check that reports are only available if within the last 20 years", () => {
@@ -183,13 +185,11 @@ describe("utils.spec.unit", () => {
         });
     });
 
-
     describe("check that mapCompanyStatusCheckboxes applies checked to the selected checkboxes", () => {
         it("should apply checked to all checkboxes", () => {
-
             const expectedSelectedStatusCheckboxes = {
                 active: "checked",
-                dissolved : "checked",
+                dissolved: "checked",
                 open: "checked",
                 closed: "checked",
                 convertedClosed: "checked",
@@ -208,10 +208,9 @@ describe("utils.spec.unit", () => {
         });
 
         it("should apply checked to only active when just active selected", () => {
-
             const expectedSelectedStatusCheckboxes = {
                 active: "checked",
-                dissolved : "",
+                dissolved: "",
                 open: "",
                 closed: "",
                 convertedClosed: "",
@@ -227,10 +226,9 @@ describe("utils.spec.unit", () => {
         });
 
         it("should return an object with no options checked when null", () => {
-
             const expectedSelectedStatusCheckboxes = {
                 active: "",
-                dissolved : "",
+                dissolved: "",
                 open: "",
                 closed: "",
                 convertedClosed: "",
@@ -246,10 +244,9 @@ describe("utils.spec.unit", () => {
         });
 
         it("should return an object with no options checked when undefined", () => {
-
             const expectedSelectedStatusCheckboxes = {
                 active: "",
-                dissolved : "",
+                dissolved: "",
                 open: "",
                 closed: "",
                 convertedClosed: "",
