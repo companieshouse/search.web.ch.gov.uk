@@ -1,6 +1,8 @@
 
 import chai from "chai";
-import { checkLineBreakRequired, determineReportAvailableBool, getDownloadReportText, mapResponsiveHeaders, formatLongDate, formatCompactAddress, changeDateFormat, validateDate, generateSize, buildPagingUrl } from "../../controllers/utils/utils";
+import { checkLineBreakRequired, determineReportAvailableBool, getDownloadReportText, mapResponsiveHeaders,
+     formatLongDate, formatCompactAddress, changeDateFormat, validateDate,
+     generateSize, buildPagingUrl, mapCompanyStatusCheckboxes } from "../../controllers/utils/utils";
 
 describe("utils.spec.unit", () => {
     describe("check that reports are only available if within the last 20 years", () => {
@@ -179,4 +181,99 @@ describe("utils.spec.unit", () => {
                     "&incorporatedTo=testIncorporatedTo");
         });
     });
+
+
+    describe("check that mapCompanyStatusCheckboxes applies checked to the selected checkboxes", () => {
+        it("should apply checked to all checkboxes", () => {
+
+            const expectedSelectedStatusCheckboxes = {
+                active: "checked",
+                dissolved : "checked",
+                open: "checked",
+                closed: "checked",
+                convertedClosed: "checked",
+                receivership: "checked",
+                liquidation: "checked",
+                administration: "checked",
+                insolvencyProceedings: "checked",
+                voluntaryArrangement: "checked"
+            };
+
+            const actualSelectedStatusCheckboxes =
+                mapCompanyStatusCheckboxes("active,dissolved,open,closed,converted-closed," +
+                    "receivership,liquidation,administration,insolvency-proceedings,voluntary-arrangement");
+
+            compareCheckboxSelections(expectedSelectedStatusCheckboxes, actualSelectedStatusCheckboxes);
+        });
+
+        it("should apply checked to only active when just active selected", () => {
+
+            const expectedSelectedStatusCheckboxes = {
+                active: "checked",
+                dissolved : "",
+                open: "",
+                closed: "",
+                convertedClosed: "",
+                receivership: "",
+                liquidation: "",
+                administration: "",
+                insolvencyProceedings: "",
+                voluntaryArrangement: ""
+            };
+
+            const actualSelectedStatusCheckboxes = mapCompanyStatusCheckboxes("active");
+            compareCheckboxSelections(expectedSelectedStatusCheckboxes, actualSelectedStatusCheckboxes);
+        });
+
+        it("should return an object with no options checked when null", () => {
+
+            const expectedSelectedStatusCheckboxes = {
+                active: "",
+                dissolved : "",
+                open: "",
+                closed: "",
+                convertedClosed: "",
+                receivership: "",
+                liquidation: "",
+                administration: "",
+                insolvencyProceedings: "",
+                voluntaryArrangement: ""
+            };
+
+            const actualSelectedStatusCheckboxes = mapCompanyStatusCheckboxes(null);
+            compareCheckboxSelections(expectedSelectedStatusCheckboxes, actualSelectedStatusCheckboxes);
+        });
+
+        it("should return an object with no options checked when undefined", () => {
+
+            const expectedSelectedStatusCheckboxes = {
+                active: "",
+                dissolved : "",
+                open: "",
+                closed: "",
+                convertedClosed: "",
+                receivership: "",
+                liquidation: "",
+                administration: "",
+                insolvencyProceedings: "",
+                voluntaryArrangement: ""
+            };
+
+            const actualSelectedStatusCheckboxes = mapCompanyStatusCheckboxes(undefined);
+            compareCheckboxSelections(expectedSelectedStatusCheckboxes, actualSelectedStatusCheckboxes);
+        });
+    });
 });
+
+const compareCheckboxSelections = (expectedSelectedStatusCheckboxes, actualSelectedStatusCheckboxes) => {
+    chai.expect(expectedSelectedStatusCheckboxes.active).to.equal(actualSelectedStatusCheckboxes.active);
+    chai.expect(expectedSelectedStatusCheckboxes.dissolved).to.equal(actualSelectedStatusCheckboxes.dissolved);
+    chai.expect(expectedSelectedStatusCheckboxes.open).to.equal(actualSelectedStatusCheckboxes.open);
+    chai.expect(expectedSelectedStatusCheckboxes.closed).to.equal(actualSelectedStatusCheckboxes.closed);
+    chai.expect(expectedSelectedStatusCheckboxes.convertedClosed).to.equal(actualSelectedStatusCheckboxes.convertedClosed);
+    chai.expect(expectedSelectedStatusCheckboxes.receivership).to.equal(actualSelectedStatusCheckboxes.receivership);
+    chai.expect(expectedSelectedStatusCheckboxes.liquidation).to.equal(actualSelectedStatusCheckboxes.liquidation);
+    chai.expect(expectedSelectedStatusCheckboxes.administration).to.equal(actualSelectedStatusCheckboxes.administration);
+    chai.expect(expectedSelectedStatusCheckboxes.insolvencyProceedings).to.equal(actualSelectedStatusCheckboxes.insolvencyProceedings);
+    chai.expect(expectedSelectedStatusCheckboxes.voluntaryArrangement).to.equal(actualSelectedStatusCheckboxes.voluntaryArrangement);
+};
