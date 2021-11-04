@@ -4,7 +4,7 @@ import chai from "chai";
 import ioredis from "ioredis";
 import * as apiClient from "../../../client/apiclient";
 import { CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/dissolved-search/types";
-import { formatDate, sanitiseCompanyName, generateROAddress, determineReportAvailableBool } from "../../../controllers/utils";
+import { formatDate, sanitiseCompanyName, generateROAddress, determineReportAvailableBool } from "../../../controllers/utils/utils";
 import { signedInSession, SIGNED_IN_COOKIE } from "../../MockUtils/redis.mocks";
 
 const sandbox = sinon.createSandbox();
@@ -515,17 +515,28 @@ describe("search.controller.spec.unit", () => {
 
         describe("check it returns a url is the company has been dissolved less than 20 years", () => {
             it("should return a url for companies less than 20 years", () => {
+                const companyNumber = "00000000";
                 const date = "2010";
 
-                chai.expect(determineReportAvailableBool(date)).to.equal(true);
+                chai.expect(determineReportAvailableBool(companyNumber, date)).to.equal(true);
+            });
+        });
+
+        describe("check it does not return a url if the company is a branch", () => {
+            it("should return a url for companies less than 20 years", () => {
+                const companyNumber = "BR000000";
+                const date = "2010";
+
+                chai.expect(determineReportAvailableBool(companyNumber, date)).to.equal(false);
             });
         });
 
         describe("check it does not return a url is the company has been dissolved more than 20 years", () => {
             it("should not return a url for companies more than 20 years", () => {
+                const companyNumber = "00000000";
                 const date = "1990";
 
-                chai.expect(determineReportAvailableBool(date)).to.equal(false);
+                chai.expect(determineReportAvailableBool(companyNumber, date)).to.equal(false);
             });
         });
     });
@@ -543,6 +554,28 @@ describe("search.controller.spec.unit", () => {
             chai.expect(resp.text).to.contain(`data-resource-url="/dissolved-company-number/06500000`);
             chai.expect(resp.text).to.contain(`data-resource-url="/dissolved-company-number/06500004`);
             chai.expect(resp.text).to.not.contain(`data-resource-url="/dissolved-company-number/06500005`);
+        });
+
+        it("download links should show the correct return to url if not logged in", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getDissolvedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyDissolvedCompanyResource("tetso", 50, 2)));
+
+            const resp = await chai.request(testApp)
+                .get("/dissolved-search/get-results?companyName=testo&changedName=name-at-dissolution&page=0");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain(`<a href="/signin?return_to=%2Fdissolved-search%2Fget-results%3FcompanyName%3Dtesto%26changedName%3Dname-at-dissolution%26page%3D0">Sign in to download report</a>`);
+        });
+
+        it("download links should show the correct return to url if not logged in and on the 1st page of results - no page parameter", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getDissolvedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyDissolvedCompanyResource("tetso", 50, 2)));
+
+            const resp = await chai.request(testApp)
+                .get("/dissolved-search/get-results?companyName=testo&changedName=name-at-dissolution");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain(`<a href="/signin?return_to=%2Fdissolved-search%2Fget-results%3FcompanyName%3Dtesto%26changedName%3Dname-at-dissolution">Sign in to download report</a>`);
         });
     });
 });

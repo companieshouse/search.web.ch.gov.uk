@@ -40,4 +40,16 @@ describe("index.spec.unit", () => {
             chai.expect(resp.text).to.contain("There is a problem");
         });
     });
+
+    describe("populate feedback link with the dissoled-search source url", () => {
+        it("should contain dissolved-search", async () => {
+            const resp = await chai.request(testApp)
+                .get("/dissolved-search");
+
+            const $ = cheerio.load(resp.text);
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("help/feedback?sourceurl=dissolved-search");
+        });
+    });
 });

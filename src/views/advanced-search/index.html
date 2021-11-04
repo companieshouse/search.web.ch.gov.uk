@@ -78,6 +78,39 @@
               },
               {
                 heading: {
+                  text: "Incorporation date"
+                },
+                content: {
+                  html: "
+                    <fieldset class='govuk-fieldset'>
+
+                      <div class='govuk-form-group'>  
+                        <label class='accordion-label' for='incorporatedFrom' aria-label='Companies incorporated from'>
+                          From
+                        </label>
+                        <div id='incorporation-date-from-hint' class='accordion-hint'>
+                           For example, 27/03/2007
+                        </div>
+                        <input class='govuk-input govuk-!-width-width-full' id='incorporatedFrom' name='incorporatedFrom' type='text' aria-describedby='incorporation-date-from-hint'>
+                      </div>
+
+                      <hr class='govuk-section-break govuk-section-break--m govuk-section-break--visible'>
+
+                      <div class='govuk-form-group'>
+                        <label class='accordion-label' for='incorporatedTo' aria-label='Companies incorporated to'>
+                          To
+                        </label>
+                        <div id='incorporation-date-to-hint' class='accordion-hint'>
+                           For example, 29/03/2007
+                        </div>
+                        <input class='govuk-input govuk-!-width-width-full' id='incorporatedTo' name='incorporatedTo' type='text' aria-describedby='incorporation-date-to-hint'>
+                      </div>
+
+                    </fieldset>"
+                }
+              },
+              {
+                heading: {
                   text: "Status"
                 },
                 content: {

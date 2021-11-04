@@ -35,7 +35,11 @@ export const sanitiseCompanyName = (companyName) => {
     return escape(companyName);
 };
 
-export const determineReportAvailableBool = (dateOfDissolution): boolean => {
+export const determineReportAvailableBool = (companyNumber: string, dateOfDissolution): boolean => {
+    if (companyNumber.substring(0, 2) === "BR") {
+        return false;
+    }
+
     const dissolutionDate = dateOfDissolution.toString();
     const now = moment();
     const nowMinus20years = now.subtract(20, "years").format("YYYY-MM-DD");
@@ -49,10 +53,12 @@ export const determineReturnToUrl = (req): string => {
     const changeNameTypeParam: string = req.query.changedName as string;
     const searchBefore = req.query.searchBefore as string || null;
     const searchAfter = req.query.searchAfter as string || null;
+    const pageRequestParam = req.query.page as string || null;
     const CHANGED_NAME_QUERY = `&changedName=${changeNameTypeParam}`;
     const SEARCH_TYPE_QUERY = `&searchType=${searchTypeRequestParam}`;
     const SEARCH_BEFORE_QUERY = `&searchBefore=${searchBefore}`;
     const SEARCH_AFTER_QUERY = `&searchAfter=${searchAfter}`;
+    const PAGE_QUERY = `&page=${pageRequestParam}`;
 
     let url = `/dissolved-search/get-results?companyName=${companyNameRequestParam}`;
 
@@ -70,6 +76,10 @@ export const determineReturnToUrl = (req): string => {
 
     if (searchAfter != null) {
         url += SEARCH_AFTER_QUERY;
+    }
+
+    if (pageRequestParam != null) {
+        url += PAGE_QUERY;
     }
 
     return encodeURIComponent(url);
@@ -271,4 +281,75 @@ function addCommaString (baseString : string, additionalString : string) : strin
         return baseString + ", " + additionalString;
     }
     return baseString;
+}
+
+export const getPagingRange = (currentPage : number, numberOfPages : number) : { start : number; end : number; } => {
+    let start = currentPage - 4;
+    let end = currentPage + 6;
+
+    if (start <= 0) {
+        start = 1;
+    }
+    if (end - start < 10) {
+        end = start + 10;
+    }
+    if (end > numberOfPages) {
+        end = numberOfPages + 1;
+        if (end - 10 < start) {
+            if (end - 10 > 0) {
+                start = (start - (end - 10)) > 0 ? (end - 10) : 1;
+            }
+        }
+    }
+    return { start: start, end: end };
+};
+
+export const changeDateFormat = (inputDate: string) => {
+    const pattern = /^\d{2}\/\d{2}\/\d{4}$/;
+    if (!pattern.test(inputDate)) {
+        return null;
+    }
+    const splitDate = inputDate.split("/");
+
+    const day = splitDate[0];
+    const month = splitDate[1];
+    const year = splitDate[2];
+
+    return year + "-" + month + "-" + day;
+};
+
+export const validateDate = (inputDate: string): boolean => {
+    const formattedDate = inputDate !== null || inputDate !== undefined ? changeDateFormat(inputDate) : null;
+    const momentDate = moment(formattedDate, true);
+
+    return momentDate.isValid();
+};
+
+export const buildPagingUrl = (companyNameInclues: string | null, companyNameExcludes: string | null, location: string | null,
+    incorporatedFrom: string | null, incorporatedTo: string | null) : string => {
+    const pagingUrlBuilder = new URLSearchParams();
+
+    if (companyNameInclues !== null) {
+        pagingUrlBuilder.append("companyNameIncludes", companyNameInclues);
+    }
+
+    if (companyNameExcludes !== null) {
+        pagingUrlBuilder.append("companyNameExcludes", companyNameExcludes);
+    }
+
+    if (location !== null) {
+        pagingUrlBuilder.append("registeredOfficeAddress", location);
+    }
+
+    if (incorporatedFrom !== null) {
+        pagingUrlBuilder.append("incorporatedFrom", incorporatedFrom);
+    }
+
+    if (incorporatedTo !== null) {
+        pagingUrlBuilder.append("incorporatedTo", incorporatedTo);
+    }
+
+    const pagingUrl: string = "get-results?" + pagingUrlBuilder.toString();
+
+    return pagingUrl;
 };
