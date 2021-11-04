@@ -240,7 +240,6 @@ export const checkLineBreakRequired = (text: string) : string => {
 
 export const mapCompanyStatusCheckboxes = (companyStatus) => {
     const selectedStatusCheckboxes = {
-        allCompanies: "",
         active: "",
         dissolved : "",
         open: "",
@@ -258,7 +257,6 @@ export const mapCompanyStatusCheckboxes = (companyStatus) => {
     }
     const selectedCompanyStatusArray: string[] = String(companyStatus).split(",");
 
-    selectedStatusCheckboxes.allCompanies = (selectedCompanyStatusArray.includes("allCompanies")) ? "checked" : "";
     selectedStatusCheckboxes.active = (selectedCompanyStatusArray.includes("active")) ? "checked" : "";
     selectedStatusCheckboxes.dissolved = (selectedCompanyStatusArray.includes("dissolved")) ? "checked" : "";
     selectedStatusCheckboxes.open = (selectedCompanyStatusArray.includes("open")) ? "checked" : "";
