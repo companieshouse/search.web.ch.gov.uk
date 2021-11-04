@@ -324,7 +324,7 @@ export const validateDate = (inputDate: string): boolean => {
 };
 
 export const buildPagingUrl = (companyNameInclues: string | null, companyNameExcludes: string | null, location: string | null,
-    incorporatedFrom: string | null, incorporatedTo: string | null) : string => {
+    incorporatedFrom: string | null, incorporatedTo: string | null, companyStatus: string | null) : string => {
     const pagingUrlBuilder = new URLSearchParams();
 
     if (companyNameInclues !== null) {
@@ -345,6 +345,10 @@ export const buildPagingUrl = (companyNameInclues: string | null, companyNameExc
 
     if (incorporatedTo !== null) {
         pagingUrlBuilder.append("incorporatedTo", incorporatedTo);
+    }
+
+    if (companyStatus !== null) {
+        pagingUrlBuilder.append("status", companyStatus);
     }
 
     const pagingUrl: string = "get-results?" + pagingUrlBuilder.toString();
