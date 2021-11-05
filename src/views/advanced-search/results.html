@@ -31,7 +31,7 @@
         <label class='accordion-label' for='companyNameIncludes'>
           Company names that contain
         </label>
-        <input class='govuk-input govuk-!-width-width-full' id='companyNameIncludes' name='companyNameIncludes' type='text' value='{{ companyNameIncludes }}'>
+        <input class='govuk-input govuk-!-width-width-full' id='companyNameIncludes' name='companyNameIncludes' type='text' value='{{ advancedSearchParams.companyNameIncludes }}'>
       </div>
 
       <hr class='govuk-section-break govuk-section-break--m govuk-section-break--visible'>
@@ -40,7 +40,7 @@
         <label class='accordion-label' for='companyNameExcludes'>
           Exclude company names that contain
         </label>
-        <input class='govuk-input govuk-!-width-width-full' id='companyNameExcludes' name='companyNameExcludes' type='text' value='{{ companyNameExcludes }}'>
+        <input class='govuk-input govuk-!-width-width-full' id='companyNameExcludes' name='companyNameExcludes' type='text' value='{{ advancedSearchParams.companyNameExcludes }}'>
       </div>
 
     </fieldset>          
@@ -51,7 +51,7 @@
       <label class="accordion-label" for="registeredOfficeAddress">
         Enter a full or partial address
       </label>
-      <input class='govuk-input govuk-!-width-width-full' id='registeredOfficeAddress' name='registeredOfficeAddress' type='text' value='{{ location }}'>
+      <input class='govuk-input govuk-!-width-width-full' id='registeredOfficeAddress' name='registeredOfficeAddress' type='text' value='{{ advancedSearchParams.location }}'>
     </div>         
   {% endset %}
 

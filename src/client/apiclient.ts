@@ -6,6 +6,7 @@ import { API_URL, APPLICATION_NAME, DISSOLVED_SEARCH_NUMBER_OF_RESULTS } from ".
 import { createLogger } from "@companieshouse/structured-logging-node";
 import Resource from "@companieshouse/api-sdk-node/dist/services/resource";
 import createError from "http-errors";
+import { AdvancedSearchParams } from "model/advanced.search.params";
 
 const logger = createLogger(APPLICATION_NAME);
 
@@ -35,18 +36,27 @@ export const getDissolvedCompanies =
     };
 
 export const getAdvancedCompanies =
-    async (apiKey: string, page: number, companyNameIncludes: string | null, companyNameExcludes: string | null, location: string | null, incorporatedFrom: string | null,
-        incorporatedTo: string | null, sicCodes: string | null, companyStatus: string | null, companyType: string | null, dissolvedFrom: string | null,
-        dissolvedTo: string | null, requestId: string): Promise<AdvancedCompaniesResource> => {
+    async (apiKey: string, advancedSearchParams: AdvancedSearchParams, requestId: string): Promise<AdvancedCompaniesResource> => {
         const api = createApiClient(apiKey, undefined, API_URL);
-        const startIndexOffset = (page * 20) - 20;
+        const startIndexOffset = (advancedSearchParams.page * 20) - 20;
         const companiesResource: Resource<AdvancedCompaniesResource> =
-            await api.advancedSearch.getCompanies(startIndexOffset, companyNameIncludes, companyNameExcludes, location, incorporatedFrom, incorporatedTo, sicCodes, companyStatus,
-                companyType, dissolvedFrom, dissolvedTo, requestId);
+            await api.advancedSearch.getCompanies(startIndexOffset,
+                advancedSearchParams.companyNameIncludes,
+                advancedSearchParams.companyNameExcludes,
+                advancedSearchParams.location,
+                advancedSearchParams.incorporatedFrom,
+                advancedSearchParams.incorporatedTo,
+                advancedSearchParams.sicCodes,
+                advancedSearchParams.companyStatus,
+                advancedSearchParams.companyType,
+                advancedSearchParams.dissolvedFrom,
+                advancedSearchParams.dissolvedTo,
+                requestId);
+
         if (companiesResource.httpStatusCode !== 200 && companiesResource.httpStatusCode !== 201) {
             throw createError(companiesResource.httpStatusCode, companiesResource.httpStatusCode.toString());
         }
-        logger.info(`Get advanced search results, company_name_includes=${companyNameIncludes},company_name_excludes=${companyNameExcludes},
-         location=${location}, incorporated_from=${incorporatedFrom}, incorporated_to=${incorporatedTo}, company_status=${companyStatus}, status_code=${companiesResource.httpStatusCode}`);
+        logger.info(`Get advanced search results, company_name_includes=${advancedSearchParams.companyNameIncludes},company_name_excludes=${advancedSearchParams.companyNameExcludes},
+         location=${advancedSearchParams.location}, incorporated_from=${advancedSearchParams.incorporatedFrom}, incorporated_to=${advancedSearchParams.incorporatedTo}, company_status=${advancedSearchParams.companyStatus} status_code=${companiesResource.httpStatusCode}`);
         return companiesResource.resource as AdvancedCompaniesResource;
     };

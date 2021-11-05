@@ -1,4 +1,5 @@
 import escape from "escape-html";
+import { AdvancedSearchParams } from "model/advanced.search.params";
 import moment from "moment";
 
 export const getDownloadReportText = (signedIn: boolean, reportAvailable: boolean, returnUrl: string, companyNumber: string): string => {
@@ -323,20 +324,19 @@ export const validateDate = (inputDate: string): boolean => {
     return momentDate.isValid();
 };
 
-export const buildPagingUrl = (companyNameInclues: string | null, companyNameExcludes: string | null, location: string | null,
-    incorporatedFrom: string | null, incorporatedTo: string | null, companyStatus: string | null) : string => {
+export const buildPagingUrl = (advancedSearchParams: AdvancedSearchParams, incorporatedFrom: string | null, incorporatedTo: string | null) : string => {
     const pagingUrlBuilder = new URLSearchParams();
 
-    if (companyNameInclues !== null) {
-        pagingUrlBuilder.append("companyNameIncludes", companyNameInclues);
+    if (advancedSearchParams.companyNameIncludes !== null) {
+        pagingUrlBuilder.append("companyNameIncludes", advancedSearchParams.companyNameIncludes);
     }
 
-    if (companyNameExcludes !== null) {
-        pagingUrlBuilder.append("companyNameExcludes", companyNameExcludes);
+    if (advancedSearchParams.companyNameExcludes !== null) {
+        pagingUrlBuilder.append("companyNameExcludes", advancedSearchParams.companyNameExcludes);
     }
 
-    if (location !== null) {
-        pagingUrlBuilder.append("registeredOfficeAddress", location);
+    if (advancedSearchParams.location !== null) {
+        pagingUrlBuilder.append("registeredOfficeAddress", advancedSearchParams.location);
     }
 
     if (incorporatedFrom !== null) {
@@ -347,8 +347,8 @@ export const buildPagingUrl = (companyNameInclues: string | null, companyNameExc
         pagingUrlBuilder.append("incorporatedTo", incorporatedTo);
     }
 
-    if (companyStatus !== null) {
-        pagingUrlBuilder.append("status", companyStatus);
+    if (advancedSearchParams.companyStatus !== null) {
+        pagingUrlBuilder.append("status", advancedSearchParams.companyStatus);
     }
 
     const pagingUrl: string = "get-results?" + pagingUrlBuilder.toString();
