@@ -8,12 +8,47 @@ import Cookies from "cookies";
 import { createLogger } from "@companieshouse/structured-logging-node";
 
 const logger = createLogger(APPLICATION_NAME);
+const emptyCompaniesResource: CompaniesResource = {
+    hits: 0,
+    etag: "",
+    kind: "",
+    top_hit: {
+        company_name: "",
+        company_number: "",
+        company_status: "",
+        company_type: "",
+        kind: "",
+        links: {
+            company_profile: ""
+        },
+        date_of_cessation: new Date(),
+        date_of_creation: new Date(),
+        registered_office_address: {
+            address_line_1: "",
+            address_line_2: "",
+            locality: "",
+            postal_code: "",
+            premises: "",
+            region: "",
+            country: ""
+        },
+        sic_codes: [
+        ]
+    },
+    items: []
+}
 
 export const getSearchResults = async (advancedSearchParams: AdvancedSearchParams, cookies: Cookies) : Promise<{
     companyResource: CompaniesResource,
     searchResults: any[]
 }> => {
     try {
+        if (isAdvancedSearchParamsEmpty(advancedSearchParams)) {
+            return {
+                companyResource: emptyCompaniesResource,
+                searchResults: []
+            };
+        }
         const companyResource = await getAdvancedCompanies(API_KEY, advancedSearchParams, (cookies.get(SEARCH_WEB_COOKIE_NAME) as string));
         const { items } = companyResource;
 
@@ -45,36 +80,21 @@ export const getSearchResults = async (advancedSearchParams: AdvancedSearchParam
     } catch (err) {
         logger.error(`${err}`);
         return {
-            companyResource: {
-                hits: 0,
-                etag: "",
-                kind: "",
-                top_hit: {
-                    company_name: "",
-                    company_number: "",
-                    company_status: "",
-                    company_type: "",
-                    kind: "",
-                    links: {
-                        company_profile: ""
-                    },
-                    date_of_cessation: new Date(),
-                    date_of_creation: new Date(),
-                    registered_office_address: {
-                        address_line_1: "",
-                        address_line_2: "",
-                        locality: "",
-                        postal_code: "",
-                        premises: "",
-                        region: "",
-                        country: ""
-                    },
-                    sic_codes: [
-                    ]
-                },
-                items: []
-            },
+            companyResource: emptyCompaniesResource,
             searchResults: []
         };
     }
 };
+
+export const isAdvancedSearchParamsEmpty = (advancedSearchParams: AdvancedSearchParams): boolean => {
+    return advancedSearchParams.companyNameIncludes === null &&
+        advancedSearchParams.companyNameExcludes === null &&
+        advancedSearchParams.location === null &&
+        advancedSearchParams.incorporatedFrom === null &&
+        advancedSearchParams.incorporatedTo === null &&
+        advancedSearchParams.sicCodes === null &&
+        advancedSearchParams.companyStatus === null &&
+        advancedSearchParams.companyType === null &&
+        advancedSearchParams.dissolvedFrom === null &&
+        advancedSearchParams.dissolvedTo === null
+}
