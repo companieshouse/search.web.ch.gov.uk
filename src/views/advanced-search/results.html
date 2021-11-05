@@ -68,7 +68,7 @@
             <span id="incorporatedFrom-error" class="govuk-error-message">
               <span class="govuk-visually-hidden">Error:</span> {{ incorporatedFromError.text }}
             </span>
-          <input class='govuk-input govuk-!-width-width-full govuk-input--error' id='incorporatedFrom' name='incorporatedFrom' type='text' value='{{ advancedSearchParams.incorporatedFrom }}' aria-describedby='incorporatedFrom-error'>
+          <input class='govuk-input govuk-!-width-width-full govuk-input--error' id='incorporatedFrom' name='incorporatedFrom' type='text' value='{{ incorporatedFrom }}' aria-describedby='incorporatedFrom-error'>
         </div>
       {% else %}
         <div class='govuk-form-group'>  
@@ -78,7 +78,7 @@
           <div id='incorporation-date-from-hint' class='accordion-hint'>
               For example, 27/03/2007
           </div>
-          <input class='govuk-input govuk-!-width-width-full' id='incorporatedFrom' name='incorporatedFrom' type='text' value='{{ advancedSearchParams.incorporatedFrom }}'>
+          <input class='govuk-input govuk-!-width-width-full' id='incorporatedFrom' name='incorporatedFrom' type='text' value='{{ incorporatedFrom }}'>
         </div>
       {% endif %}
 
@@ -95,7 +95,7 @@
             <span id="incorporatedTo-error" class="govuk-error-message">
               <span class="govuk-visually-hidden">Error:</span> {{ incorporatedToError.text }}
             </span>
-          <input class='govuk-input govuk-!-width-width-full govuk-input--error' id='incorporatedTo' name='incorporatedTo' type='text' value='{{ advancedSearchParams.incorporatedTo }}' aria-describedby='incorporatedTo-error'>
+          <input class='govuk-input govuk-!-width-width-full govuk-input--error' id='incorporatedTo' name='incorporatedTo' type='text' value='{{ incorporatedTo }}' aria-describedby='incorporatedTo-error'>
         </div>
       {% else %}
         <div class='govuk-form-group'>
@@ -105,7 +105,7 @@
           <div id='incorporation-date-to-hint' class='accordion-hint'>
               For example, 29/03/2007
           </div>
-          <input class='govuk-input govuk-!-width-width-full' id='incorporatedTo' name='incorporatedTo' type='text' value='{{ advancedSearchParams.incorporatedTo }}'>
+          <input class='govuk-input govuk-!-width-width-full' id='incorporatedTo' name='incorporatedTo' type='text' value='{{ incorporatedTo }}'>
         </div>
       {% endif %}
     {% else %}
@@ -116,7 +116,7 @@
         <div id='incorporation-date-from-hint' class='accordion-hint'>
             For example, 27/03/2007
         </div>
-        <input class='govuk-input govuk-!-width-width-full' id='incorporatedFrom' name='incorporatedFrom' type='text' value='{{ advancedSearchParams.incorporatedFrom }}'>
+        <input class='govuk-input govuk-!-width-width-full' id='incorporatedFrom' name='incorporatedFrom' type='text' value='{{ incorporatedFrom }}'>
       </div>
 
       <hr class='govuk-section-break govuk-section-break--m govuk-section-break--visible'>
@@ -128,7 +128,7 @@
         <div id='incorporation-date-to-hint' class='accordion-hint'>
             For example, 29/03/2007
         </div>
-        <input class='govuk-input govuk-!-width-width-full' id='incorporatedTo' name='incorporatedTo' type='text' value='{{ advancedSearchParams.incorporatedTo }}'>
+        <input class='govuk-input govuk-!-width-width-full' id='incorporatedTo' name='incorporatedTo' type='text' value='{{ incorporatedTo }}'>
       </div>
     {% endif %}
   {% endset %}

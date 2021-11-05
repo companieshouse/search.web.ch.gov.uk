@@ -1,4 +1,5 @@
 import { Address, CompaniesResource, Items, TopHit } from "@companieshouse/api-sdk-node/dist/services/search/advanced-search/types";
+import { AdvancedSearchParams } from "model/advanced.search.params";
 
 const emptyDate = new Date();
 
@@ -99,4 +100,34 @@ export const createEmptyAddress = (): Address => {
         region: "",
         country: ""
     };
+};
+
+
+export const createDummyAdvancedSearchParams = (
+    pageParam: string | null,
+    companyNameIncludesParam: string | null,
+    companyNameExcludesParam: string | null,
+    locationParam: string | null,
+    incorporatedFromParam: string | null,
+    incorporatedToParam: string | null,
+    sicCodesParam: null,
+    companyStatusParam: null,
+    companyTypeParam: null,
+    dissolvedFromParam: null,
+    dissolvedToParam: null): AdvancedSearchParams => {
+
+    const dummyAdvancedSearchParams: AdvancedSearchParams = {
+        page: Number(pageParam),
+        companyNameExcludes: companyNameExcludesParam,
+        companyNameIncludes: companyNameIncludesParam,
+        location: locationParam,
+        incorporatedFrom: incorporatedFromParam,
+        incorporatedTo: incorporatedToParam,
+        sicCodes: sicCodesParam,
+        companyStatus: companyStatusParam,
+        companyType: companyTypeParam,
+        dissolvedFrom: dissolvedFromParam,
+        dissolvedTo: dissolvedToParam 
+    }
+    return dummyAdvancedSearchParams;
 };
