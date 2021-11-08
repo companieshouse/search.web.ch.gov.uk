@@ -226,6 +226,18 @@
   </div>
 {% endset %}
 
+{% set sicCodeFormHtml %}
+<div class="govuk-form-group">
+  <label class="accordion-label padded-top" for="sicCodes">
+    Enter a Standard Industrial Classification (SIC) code to search by nature of business.
+  </label>
+
+  <input class="govuk-input govuk-!-width-full" id="sicCodes" name="sicCodes" type="text" value='{{ advancedSearchParams.sicCodes }}'>
+
+  <p style="padding-top:10px;"> <a href="http://resources.companieshouse.gov.uk/sic/" target="_blank" class="govuk-link accordion-label">Browse SIC codes (opens in new tab)</a></p>
+</div>
+{% endset %}
+
 <div class="govuk-width-container">
 
   <div class="govuk-grid-row">
@@ -287,6 +299,14 @@
               },
               content: {
                 html: statusFormHtml
+              }
+            },
+            {
+              heading: {
+                text: "Nature of business"
+              },
+              content: {
+                html: sicCodeFormHtml
               }
             }
           ]

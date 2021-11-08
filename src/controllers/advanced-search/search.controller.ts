@@ -19,7 +19,7 @@ const route = async (req: Request, res: Response) => {
         location: req.query.registeredOfficeAddress as string || null,
         incorporatedFrom: incorporatedFrom !== null ? changeDateFormat(incorporatedFrom) : null,
         incorporatedTo: incorporatedTo !== null ? changeDateFormat(incorporatedTo) : null,
-        sicCodes: null,
+        sicCodes: req.query.sicCodes as string || null,
         companyStatus: req.query.status as string || null,
         companyType: null,
         dissolvedFrom: null,
