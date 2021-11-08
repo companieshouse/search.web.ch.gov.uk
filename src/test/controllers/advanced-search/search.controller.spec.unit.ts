@@ -41,7 +41,7 @@ describe("search.controller.spec.unit", () => {
                 .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 20)));
 
             const resp = await chai.request(testApp)
-                .get("/advanced-search/get-results?containsCompanyName=test&excludesCompanyName=");
+                .get("/advanced-search/get-results?companyNameIncludes=test");
 
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain("test");
@@ -55,7 +55,7 @@ describe("search.controller.spec.unit", () => {
                 .returns(Promise.resolve(mockUtils.getEmptyAdvancedDummyCompanyResource()));
 
             const resp = await chai.request(testApp)
-                .get("/advanced-search/get-results?containsCompanyName=asdasdasdadsadqwdsdvsd&excludesCompanyName=");
+                .get("/advanced-search/get-results?companyNameIncludes=asdasdasdadsadqwdsdvsd&excludesCompanyName=");
 
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain("No results found");
@@ -68,7 +68,7 @@ describe("search.controller.spec.unit", () => {
                 .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 20)));
 
             const resp = await chai.request(testApp)
-                .get("/advanced-search/get-results?containsCompanyName=test&excludesCompanyName=");
+                .get("/advanced-search/get-results?companyNameIncludes=test&excludesCompanyName=");
 
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain("<a class=\"govuk-link\" href=/065000 target=\"_blank\">test1<span class=\"govuk-visually-hidden\">(link opens a new window)</span></a>");
@@ -79,7 +79,7 @@ describe("search.controller.spec.unit", () => {
                 .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 20)));
 
             const resp = await chai.request(testApp)
-                .get("/advanced-search/get-results?containsCompanyName=test&excludesCompanyName=");
+                .get("/advanced-search/get-results?companyNameIncludes=test&excludesCompanyName=");
 
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain("Active");
@@ -90,7 +90,7 @@ describe("search.controller.spec.unit", () => {
                 .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 20)));
 
             const resp = await chai.request(testApp)
-                .get("/advanced-search/get-results?containsCompanyName=test&excludesCompanyName=");
+                .get("/advanced-search/get-results?companyNameIncludes=test&excludesCompanyName=");
 
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain("Private limited company");
@@ -101,7 +101,7 @@ describe("search.controller.spec.unit", () => {
                 .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 20)));
 
             const resp = await chai.request(testApp)
-                .get("/advanced-search/get-results?containsCompanyName=test&excludesCompanyName=");
+                .get("/advanced-search/get-results?companyNameIncludes=test&excludesCompanyName=");
 
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain("0650000");
@@ -112,7 +112,7 @@ describe("search.controller.spec.unit", () => {
                 .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 20)));
 
             const resp = await chai.request(testApp)
-                .get("/advanced-search/get-results?containsCompanyName=test&excludesCompanyName=");
+                .get("/advanced-search/get-results?companyNameIncludes=test&excludesCompanyName=");
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain("- Incorporated on 8 February 1981");
         });
@@ -122,7 +122,7 @@ describe("search.controller.spec.unit", () => {
                 .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 20)));
 
             const resp = await chai.request(testApp)
-                .get("/advanced-search/get-results?containsCompanyName=test&excludesCompanyName=");
+                .get("/advanced-search/get-results?companyNameIncludes=test&excludesCompanyName=");
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain("Dissolved on 12 December 1991");
         });
@@ -132,7 +132,7 @@ describe("search.controller.spec.unit", () => {
                 .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 20)));
 
             const resp = await chai.request(testApp)
-                .get("/advanced-search/get-results?containsCompanyName=test&excludesCompanyName=");
+                .get("/advanced-search/get-results?registeredOfficeAddress=test");
 
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain("premises, test house, test street, cardiff, region, country cf5 6rb");
@@ -143,7 +143,7 @@ describe("search.controller.spec.unit", () => {
                 .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 20)));
 
             const resp = await chai.request(testApp)
-                .get("/advanced-search/get-results?containsCompanyName=test&excludesCompanyName=");
+                .get("/advanced-search/get-results?companyNameIncludes=test&excludesCompanyName=");
 
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain("SIC codes - 8765");
@@ -194,7 +194,7 @@ describe("search.controller.spec.unit", () => {
                 .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 20)));
 
             const resp = await chai.request(testApp)
-                .get("/advanced-search/get-results?containsCompanyName=test&excludesCompanyName=");
+                .get("/advanced-search/get-results?companyNameIncludes=test");
 
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain("test last updated message");
