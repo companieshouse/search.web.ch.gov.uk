@@ -143,7 +143,7 @@ describe("search.controller.spec.unit", () => {
                 .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 20)));
 
             const resp = await chai.request(testApp)
-                .get("/advanced-search/get-results?companyNameIncludes=test&excludesCompanyName=");
+                .get("/advanced-search/get-results?sicCodes=8765");
 
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain("SIC codes - 8765");
@@ -185,6 +185,17 @@ describe("search.controller.spec.unit", () => {
             chai.expect(resp.text).to.contain("<input class='govuk-checkboxes__input' id='activeCompanies' name='status' type='checkbox' value='active' checked>");
             chai.expect(resp.text).to.contain("<input class='govuk-checkboxes__input' id='dissolvedCompanies' name='status' type='checkbox' value='dissolved' checked>");
             chai.expect(resp.text).to.not.contain("<input class='govuk-checkboxes__input' id='openCompanies' name='status' type='checkbox' value='open' checked>");
+        });
+
+        it.only("should display the sic codes search term in the relevant search field", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 20)));
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?sicCodes=07210");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("<input class='govuk-input govuk-!-width-full' id='sicCodes' name='sicCodes' type='text' value='07210'>");
         });
     });
 
