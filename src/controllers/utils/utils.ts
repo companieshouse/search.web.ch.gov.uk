@@ -327,31 +327,21 @@ export const validateDate = (inputDate: string): boolean => {
 export const buildPagingUrl = (advancedSearchParams: AdvancedSearchParams, incorporatedFrom: string | null, incorporatedTo: string | null) : string => {
     const pagingUrlBuilder = new URLSearchParams();
 
-    if (advancedSearchParams.companyNameIncludes !== null) {
-        pagingUrlBuilder.append("companyNameIncludes", advancedSearchParams.companyNameIncludes);
-    }
-
-    if (advancedSearchParams.companyNameExcludes !== null) {
-        pagingUrlBuilder.append("companyNameExcludes", advancedSearchParams.companyNameExcludes);
-    }
-
-    if (advancedSearchParams.location !== null) {
-        pagingUrlBuilder.append("registeredOfficeAddress", advancedSearchParams.location);
-    }
-
-    if (incorporatedFrom !== null) {
-        pagingUrlBuilder.append("incorporatedFrom", incorporatedFrom);
-    }
-
-    if (incorporatedTo !== null) {
-        pagingUrlBuilder.append("incorporatedTo", incorporatedTo);
-    }
-
-    if (advancedSearchParams.companyStatus !== null) {
-        pagingUrlBuilder.append("status", advancedSearchParams.companyStatus);
-    }
+    urlAppender(pagingUrlBuilder, advancedSearchParams.companyNameIncludes, "companyNameIncludes");
+    urlAppender(pagingUrlBuilder, advancedSearchParams.companyNameExcludes, "companyNameExcludes");
+    urlAppender(pagingUrlBuilder, advancedSearchParams.location, "registeredOfficeAddress");
+    urlAppender(pagingUrlBuilder, incorporatedFrom, "incorporatedFrom");
+    urlAppender(pagingUrlBuilder, incorporatedTo, "incorporatedTo");
+    urlAppender(pagingUrlBuilder, advancedSearchParams.companyStatus, "status");
+    urlAppender(pagingUrlBuilder, advancedSearchParams.sicCodes, "sicCodes");
 
     const pagingUrl: string = "get-results?" + pagingUrlBuilder.toString();
 
     return pagingUrl;
+};
+
+const urlAppender = (urlBuilder: URLSearchParams, field: string | null, urlParam: string) => {
+    if (field !== null) {
+        urlBuilder.append(urlParam, field);
+    }
 };
