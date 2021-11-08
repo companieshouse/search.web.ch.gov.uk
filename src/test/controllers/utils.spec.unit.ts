@@ -161,7 +161,7 @@ describe("utils.spec.unit", () => {
 
     describe("check that buildPagingUrl constructs the url for paging correctly", () => {
         it("should return a url with a parameter for company name includes", () => {
-            const searchParams = createDummyAdvancedSearchParams("1","testCompanyNameIncludes", null, null, null, null, null, null, null, null, null);
+            const searchParams = createDummyAdvancedSearchParams("1", "testCompanyNameIncludes", null, null, null, null, null, null, null, null, null);
             chai.expect(buildPagingUrl(searchParams, null, null))
                 .to.equal("get-results?companyNameIncludes=testCompanyNameIncludes");
         });

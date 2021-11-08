@@ -102,7 +102,6 @@ export const createEmptyAddress = (): Address => {
     };
 };
 
-
 export const createDummyAdvancedSearchParams = (
     pageParam: string | null,
     companyNameIncludesParam: string | null,
@@ -115,7 +114,6 @@ export const createDummyAdvancedSearchParams = (
     companyTypeParam: string | null,
     dissolvedFromParam: string | null,
     dissolvedToParam: string | null): AdvancedSearchParams => {
-
     const dummyAdvancedSearchParams: AdvancedSearchParams = {
         page: Number(pageParam),
         companyNameExcludes: companyNameExcludesParam,
@@ -127,7 +125,7 @@ export const createDummyAdvancedSearchParams = (
         companyStatus: companyStatusParam,
         companyType: companyTypeParam,
         dissolvedFrom: dissolvedFromParam,
-        dissolvedTo: dissolvedToParam 
-    }
+        dissolvedTo: dissolvedToParam
+    };
     return dummyAdvancedSearchParams;
 };

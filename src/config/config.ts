@@ -34,3 +34,4 @@ export const ADVANCED_SEARCH_LAST_UPDATED = getEnvironmentValue("ADVANCED_SEARCH
 
 export const ALPHABETICAL_FEEDBACK_SOURCE = "alphabetical-search";
 export const DISSOLVED_FEEDBACK_SOURCE = "dissolved-search";
+export const ADVANCED_FEEDBACK_SOURCE = "advanced-search";

@@ -24,7 +24,8 @@ import {
     COOKIE_DOMAIN,
     CACHE_SERVER,
     ALPHABETICAL_FEEDBACK_SOURCE,
-    DISSOLVED_FEEDBACK_SOURCE
+    DISSOLVED_FEEDBACK_SOURCE,
+    ADVANCED_FEEDBACK_SOURCE
 } from "./config/config";
 
 const app = express();
@@ -74,6 +75,8 @@ app.use((req, res, next) => {
         env.addGlobal("RESPONSIVE_TABLE", "/alphabetical-search/static/responsive-table.css");
         env.addGlobal("BACK_LINK", DISSOLVED_ROOT);
         env.addGlobal("FEEDBACK_SOURCE", DISSOLVED_FEEDBACK_SOURCE);
+    } else if (req.path.includes("/advanced-search")) {
+        env.addGlobal("FEEDBACK_SOURCE", ADVANCED_FEEDBACK_SOURCE);
     } else {
         env.addGlobal("SERVICE_NAME", SERVICE_NAME_GENERIC);
         env.addGlobal("SERVICE_PATH", "");

@@ -41,7 +41,7 @@ describe("index.spec.unit", () => {
         });
     });
 
-    describe("populate feedback link with the dissoled-search source url", () => {
+    describe("populate feedback link with the dissolved-search source url", () => {
         it("should contain dissolved-search", async () => {
             const resp = await chai.request(testApp)
                 .get("/dissolved-search");

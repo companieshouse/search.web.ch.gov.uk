@@ -1,8 +1,7 @@
 import sinon, { mock } from "sinon";
 import chai from "chai";
 import ioredis from "ioredis";
-import * as mockUtils from "../../MockUtils/advanced-search/mock.util";
-import * as apiClient from "../../../client/apiclient";
+import cheerio from "cheerio";
 import { signedInSession } from "../../MockUtils/redis.mocks";
 
 const sandbox = sinon.createSandbox();
@@ -48,6 +47,18 @@ describe("search.controller.spec.unit", () => {
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain("Registered office address");
             chai.expect(resp.text).to.contain("Enter a full or partial address");
+        });
+    });
+
+    describe("populate feedback link with the advanced-search source url", () => {
+        it("should contain dissolved-search", async () => {
+            const resp = await chai.request(testApp)
+                .get("/advanced-search");
+
+            const $ = cheerio.load(resp.text);
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("help/feedback?sourceurl=advanced-search");
         });
     });
 });
