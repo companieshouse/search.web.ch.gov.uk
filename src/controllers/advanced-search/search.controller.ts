@@ -3,9 +3,9 @@ import { changeDateFormat, getPagingRange, buildPagingUrl, mapCompanyStatusCheck
 import { advancedSearchValidationRules, validate } from "../utils/advanced-search-validation";
 import { validationResult } from "express-validator";
 import * as templatePaths from "../../model/template.paths";
-import Cookies = require("cookies");
 import { AdvancedSearchParams } from "model/advanced.search.params";
 import { getSearchResults } from "../../service/advanced-search/search.service";
+import Cookies = require("cookies");
 
 const route = async (req: Request, res: Response) => {
     const cookies = new Cookies(req, res);
@@ -24,7 +24,7 @@ const route = async (req: Request, res: Response) => {
         companyType: null,
         dissolvedFrom: null,
         dissolvedTo: null
-    }
+    };
     const selectedStatusCheckboxes = mapCompanyStatusCheckboxes(advancedSearchParams.companyStatus);
 
     const errors = validationResult(req);
@@ -38,7 +38,7 @@ const route = async (req: Request, res: Response) => {
     const numberOfPages: number = Math.ceil(companyResource.hits / 20);
     const pagingRange = getPagingRange(page, numberOfPages);
     const partialHref: string = buildPagingUrl(advancedSearchParams, incorporatedFrom, incorporatedTo);
-    
+
     return res.render(templatePaths.ADVANCED_SEARCH_RESULTS,
         { searchResults, advancedSearchParams, page, numberOfPages, pagingRange, partialHref, incorporatedFrom, incorporatedTo, selectedStatusCheckboxes });
 };

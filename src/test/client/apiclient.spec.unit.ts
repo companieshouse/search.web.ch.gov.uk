@@ -207,9 +207,9 @@ describe("api.client", () => {
                 .returns(Promise.resolve(mockAdvancedResponse));
 
             const searchParams: AdvancedSearchParams = createDummyAdvancedSearchParams("1", "testCompanyNameIncludes", "testCompanyNameExcludes", "testLocation", "01/01/2000",
-            "01/01/2001", null, "active", null, null, null);
-                
-            const advancedSearchResults = await getAdvancedCompanies("api key", searchParams ,"request id");
+                "01/01/2001", null, "active", null, null, null);
+
+            const advancedSearchResults = await getAdvancedCompanies("api key", searchParams, "request id");
             chai.expect(advancedSearchResults).to.equal(mockAdvancedResponse.resource);
         });
     });
