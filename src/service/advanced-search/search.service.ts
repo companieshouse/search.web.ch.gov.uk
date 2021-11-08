@@ -36,7 +36,7 @@ const emptyCompaniesResource: CompaniesResource = {
         ]
     },
     items: []
-}
+};
 
 export const getSearchResults = async (advancedSearchParams: AdvancedSearchParams, cookies: Cookies) : Promise<{
     companyResource: CompaniesResource,
@@ -97,4 +97,4 @@ export const isAdvancedSearchParamsEmpty = (advancedSearchParams: AdvancedSearch
         advancedSearchParams.companyType === null &&
         advancedSearchParams.dissolvedFrom === null &&
         advancedSearchParams.dissolvedTo === null
-}
+};
