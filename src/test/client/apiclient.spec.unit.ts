@@ -8,6 +8,8 @@ import { getCompanies, getDissolvedCompanies, getAdvancedCompanies } from "../..
 import AlphabeticalSearchService from "@companieshouse/api-sdk-node/dist/services/search/alphabetical-search/service";
 import DissolvedSearchService from "@companieshouse/api-sdk-node/dist/services/search/dissolved-search/service";
 import AdvancedSearchService from "@companieshouse/api-sdk-node/dist/services/search/advanced-search/service";
+import { createDummyAdvancedSearchParams } from "../../test/MockUtils/advanced-search/mock.util";
+import { AdvancedSearchParams } from "../../model/advanced.search.params";
 
 const mockResponse: Resource<CompaniesResource> = {
     httpStatusCode: 200,
@@ -204,7 +206,10 @@ describe("api.client", () => {
             sandbox.stub(AdvancedSearchService.prototype, "getCompanies")
                 .returns(Promise.resolve(mockAdvancedResponse));
 
-            const advancedSearchResults = await getAdvancedCompanies("api key", 1, "test", null, null, null, null, null, null, null, null, null, "request id");
+            const searchParams: AdvancedSearchParams = createDummyAdvancedSearchParams("1", "testCompanyNameIncludes", "testCompanyNameExcludes", "testLocation", "01/01/2000",
+            "01/01/2001", null, "active", null, null, null);
+                
+            const advancedSearchResults = await getAdvancedCompanies("api key", searchParams ,"request id");
             chai.expect(advancedSearchResults).to.equal(mockAdvancedResponse.resource);
         });
     });

@@ -1,4 +1,5 @@
 import escape from "escape-html";
+import { AdvancedSearchParams } from "model/advanced.search.params";
 import moment from "moment";
 
 export const getDownloadReportText = (signedIn: boolean, reportAvailable: boolean, returnUrl: string, companyNumber: string): string => {
@@ -238,6 +239,39 @@ export const checkLineBreakRequired = (text: string) : string => {
     return text + "<br>";
 };
 
+export const mapCompanyStatusCheckboxes = (companyStatus) => {
+    const selectedStatusCheckboxes = {
+        active: "",
+        dissolved: "",
+        open: "",
+        closed: "",
+        convertedClosed: "",
+        receivership: "",
+        liquidation: "",
+        administration: "",
+        insolvencyProceedings: "",
+        voluntaryArrangement: ""
+    };
+
+    if (companyStatus === null || companyStatus === undefined) {
+        return selectedStatusCheckboxes;
+    }
+    const selectedCompanyStatusArray: string[] = String(companyStatus).split(",");
+
+    selectedStatusCheckboxes.active = (selectedCompanyStatusArray.includes("active")) ? "checked" : "";
+    selectedStatusCheckboxes.dissolved = (selectedCompanyStatusArray.includes("dissolved")) ? "checked" : "";
+    selectedStatusCheckboxes.open = (selectedCompanyStatusArray.includes("open")) ? "checked" : "";
+    selectedStatusCheckboxes.closed = (selectedCompanyStatusArray.includes("closed")) ? "checked" : "";
+    selectedStatusCheckboxes.convertedClosed = (selectedCompanyStatusArray.includes("converted-closed")) ? "checked" : "";
+    selectedStatusCheckboxes.receivership = (selectedCompanyStatusArray.includes("receivership")) ? "checked" : "";
+    selectedStatusCheckboxes.liquidation = (selectedCompanyStatusArray.includes("liquidation")) ? "checked" : "";
+    selectedStatusCheckboxes.administration = (selectedCompanyStatusArray.includes("administration")) ? "checked" : "";
+    selectedStatusCheckboxes.insolvencyProceedings = (selectedCompanyStatusArray.includes("insolvency-proceedings")) ? "checked" : "";
+    selectedStatusCheckboxes.voluntaryArrangement = (selectedCompanyStatusArray.includes("voluntary-arrangement")) ? "checked" : "";
+
+    return selectedStatusCheckboxes;
+};
+
 function addCommaString (baseString : string, additionalString : string) : string {
     if (baseString.length === 0 && additionalString !== undefined) {
         return additionalString;
@@ -290,20 +324,19 @@ export const validateDate = (inputDate: string): boolean => {
     return momentDate.isValid();
 };
 
-export const buildPagingUrl = (companyNameInclues: string | null, companyNameExcludes: string | null, location: string | null,
-    incorporatedFrom: string | null, incorporatedTo: string | null) : string => {
+export const buildPagingUrl = (advancedSearchParams: AdvancedSearchParams, incorporatedFrom: string | null, incorporatedTo: string | null) : string => {
     const pagingUrlBuilder = new URLSearchParams();
 
-    if (companyNameInclues !== null) {
-        pagingUrlBuilder.append("companyNameIncludes", companyNameInclues);
+    if (advancedSearchParams.companyNameIncludes !== null) {
+        pagingUrlBuilder.append("companyNameIncludes", advancedSearchParams.companyNameIncludes);
     }
 
-    if (companyNameExcludes !== null) {
-        pagingUrlBuilder.append("companyNameExcludes", companyNameExcludes);
+    if (advancedSearchParams.companyNameExcludes !== null) {
+        pagingUrlBuilder.append("companyNameExcludes", advancedSearchParams.companyNameExcludes);
     }
 
-    if (location !== null) {
-        pagingUrlBuilder.append("registeredOfficeAddress", location);
+    if (advancedSearchParams.location !== null) {
+        pagingUrlBuilder.append("registeredOfficeAddress", advancedSearchParams.location);
     }
 
     if (incorporatedFrom !== null) {
@@ -312,6 +345,10 @@ export const buildPagingUrl = (companyNameInclues: string | null, companyNameExc
 
     if (incorporatedTo !== null) {
         pagingUrlBuilder.append("incorporatedTo", incorporatedTo);
+    }
+
+    if (advancedSearchParams.companyStatus !== null) {
+        pagingUrlBuilder.append("status", advancedSearchParams.companyStatus);
     }
 
     const pagingUrl: string = "get-results?" + pagingUrlBuilder.toString();

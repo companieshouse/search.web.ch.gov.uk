@@ -29,7 +29,10 @@ function clearForm(form) {
   var formElements = form.elements;
   for(i=0; i<formElements.length; i++) {
     if(formElements[i].type.toLowerCase() === "text") {
-    formElements[i].value ="";
+        formElements[i].value ="";
+    };
+    if(formElements[i].type === "checkbox") {
+        formElements[i].removeAttribute("checked");
     };
   };
 };
