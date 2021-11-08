@@ -187,7 +187,7 @@ describe("search.controller.spec.unit", () => {
             chai.expect(resp.text).to.not.contain("<input class='govuk-checkboxes__input' id='openCompanies' name='status' type='checkbox' value='open' checked>");
         });
 
-        it.only("should display the sic codes search term in the relevant search field", async () => {
+        it("should display the sic codes search term in the relevant search field", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
                 .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 20)));
 
@@ -342,6 +342,44 @@ describe("search.controller.spec.unit", () => {
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain(`<a href="#incorporatedTo">The incorporation date must be in the past</a>`);
             chai.expect(resp.text).to.contain(`<span id="incorporatedTo-error" class="govuk-error-message">`);
+        });
+    });
+
+    describe("check that the validation of sic codes displays the correct error message", () => {
+        it("should display an error if sicCode provided is less than 4 digits", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 3)));
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?sicCodes=1");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain(`<a href="#sicCodes">Enter the SIC code in the correct format</a>`);
+            chai.expect(resp.text).to.contain("<span id='sicCodes-error'class='govuk-error-message'>");
+        });
+
+        it("should display an error if sicCode provided is greater than 5 digits", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 3)));
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?sicCodes=1234567");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain(`<a href="#sicCodes">Enter the SIC code in the correct format</a>`);
+            chai.expect(resp.text).to.contain("<span id='sicCodes-error'class='govuk-error-message'>");
+        });
+
+        it("should display an error if sicCode provided is not numeric", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 3)));
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?sicCodes=ABCDE");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain(`<a href="#sicCodes">Enter the SIC code in the correct format</a>`);
+            chai.expect(resp.text).to.contain("<span id='sicCodes-error'class='govuk-error-message'>");
         });
     });
 
