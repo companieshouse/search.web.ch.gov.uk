@@ -332,7 +332,6 @@ describe("search.controller.spec.unit", () => {
             chai.expect(resp.text).to.contain(`<a href="#incorporatedTo">The incorporation date must be in the past</a>`);
             chai.expect(resp.text).to.contain(`<span id="incorporatedTo-error" class="govuk-error-message">`);
         });
-        // start of my tests
         it("should display an error message if 'from' date is 29 February and not a leap year", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
                 .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 3)));
