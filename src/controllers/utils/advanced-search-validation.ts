@@ -1,6 +1,5 @@
 import { check } from "express-validator";
 import { createGovUkErrorData, GovUkErrorData } from "../../model/govuk.error.data";
-import { validateDate } from "./utils";
 import moment from "moment";
 
 const INCORPORATED_FROM_FIELD: string = "incorporatedFrom";
@@ -52,7 +51,7 @@ export const advancedSearchValidationRules =
                     }
                     if (isDateInFuture(date)) {
                         throw Error(INCORPORATION_DATE_IN_FUTURE);
-                    }                    
+                    }
                 }
                 return true;
             })
@@ -99,31 +98,31 @@ function isDateInFuture (date: string) : boolean {
     return now < checkDate;
 }
 
-function getDaysInMonth(month: string, year: string) : number {
+function getDaysInMonth (month: string, year: string) : number {
     const yearAsNumber = +year;
-    switch(month) {
-        case "02":
-            return (yearAsNumber % 4 == 0 && yearAsNumber % 100) || yearAsNumber % 400 == 0 ? 29 : 28;
-        case "04": case "06": case "09": case "11":
-            return 30;
-        default:
-            return 31;
+    switch (month) {
+    case "02":
+        return (yearAsNumber % 4 === 0 && yearAsNumber % 100) || yearAsNumber % 400 === 0 ? 29 : 28;
+    case "04": case "06": case "09": case "11":
+        return 30;
+    default:
+        return 31;
     }
 }
 
-function isDateValid(date: string) : boolean {
-    const [ day, month, year ] = date.split("/");
+function isDateValid (date: string) : boolean {
+    const [day, month, year] = date.split("/");
     const daysInMonth = getDaysInMonth(month, year);
     const monthAsNumber = +month;
     const dayAsNumber = +day;
-    if(monthAsNumber < 1 || monthAsNumber > 12 || dayAsNumber < 1 || dayAsNumber > daysInMonth) {
+    if (monthAsNumber < 1 || monthAsNumber > 12 || dayAsNumber < 1 || dayAsNumber > daysInMonth) {
         return false;
     } else {
         return true;
     }
 }
 
-function isDateFormattedProperly(date: string) : boolean {
+function isDateFormattedProperly (date: string) : boolean {
     const pattern = /^\d{2}\/\d{2}\/\d{4}$/;
     return pattern.test(date);
 }

@@ -332,6 +332,51 @@ describe("search.controller.spec.unit", () => {
             chai.expect(resp.text).to.contain(`<a href="#incorporatedTo">The incorporation date must be in the past</a>`);
             chai.expect(resp.text).to.contain(`<span id="incorporatedTo-error" class="govuk-error-message">`);
         });
+        // start of my tests
+        it("should display an error message if 'from' date is 29 February and not a leap year", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 3)));
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?containsCompanyName=test&excludesCompanyName=&incorporatedFrom=29/02/2021");
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain(`<a href="#incorporatedFrom">Incorporation &#39;from&#39; must be a real date</a>`);
+            chai.expect(resp.text).to.contain(`<span id="incorporatedFrom-error" class="govuk-error-message">`);
+            chai.expect(resp.text).to.contain(`<span class="govuk-visually-hidden">Error:</span> Incorporation &#39;from&#39; must be a real date`);
+        });
+        it("should display an error message if 'from' date has a month > 12", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 3)));
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?containsCompanyName=test&excludesCompanyName=&incorporatedFrom=01/13/2020");
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain(`<a href="#incorporatedFrom">Incorporation &#39;from&#39; must be a real date</a>`);
+            chai.expect(resp.text).to.contain(`<span id="incorporatedFrom-error" class="govuk-error-message">`);
+            chai.expect(resp.text).to.contain(`<span class="govuk-visually-hidden">Error:</span> Incorporation &#39;from&#39; must be a real date`);
+        });
+        it("should display an error message if 'to' date is 29 February and not a leap year", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 3)));
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?containsCompanyName=test&excludesCompanyName=&incorporatedTo=29/02/2021");
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain(`<a href="#incorporatedTo">Incorporation &#39;to&#39; must be a real date</a>`);
+            chai.expect(resp.text).to.contain(`<span id="incorporatedTo-error" class="govuk-error-message">`);
+            chai.expect(resp.text).to.contain(`<span class="govuk-visually-hidden">Error:</span> Incorporation &#39;to&#39; must be a real date`);
+        });
+        it("should display an error message if 'to' date has a month > 12", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 3)));
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?containsCompanyName=test&excludesCompanyName=&incorporatedTo=01/13/2020");
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain(`<a href="#incorporatedTo">Incorporation &#39;to&#39; must be a real date</a>`);
+            chai.expect(resp.text).to.contain(`<span id="incorporatedTo-error" class="govuk-error-message">`);
+            chai.expect(resp.text).to.contain(`<span class="govuk-visually-hidden">Error:</span> Incorporation &#39;to&#39; must be a real date`);
+        });
     });
 
     describe("check advanced search pagination ", () => {
