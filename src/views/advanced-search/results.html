@@ -135,81 +135,79 @@
 
   {% set statusFormHtml %}
   <div class='govuk-form-group'>
-      <div class='govuk-form-group' style='overflow: scroll; height: 200px; width: 300px; padding-left: govuk-spacing(1);'>
-          <fieldset class='govuk-fieldset'>
-            <div class='govuk-checkboxes--small'>
-
-            <div class='govuk-checkboxes__item'>
-              <input class='govuk-checkboxes__input' id='activeCompanies' name='status' type='checkbox' value='active' {{ selectedStatusCheckboxes.active }}>
-              <label class='govuk-label govuk-checkboxes__label' for='activeCompanies'>
-                Active
-              </label>
-            </div>
-
-            <div class='govuk-checkboxes__item'>
-                <input class='govuk-checkboxes__input' id='dissolvedCompanies' name='status' type='checkbox' value='dissolved' {{ selectedStatusCheckboxes.dissolved }}>
-                <label class='govuk-label govuk-checkboxes__label' for='dissolvedCompanies'>
-                  Dissolved
-                </label>
-              </div>
-
-              <div class='govuk-checkboxes__item'>
-                <input class='govuk-checkboxes__input' id='openCompanies' name='status' type='checkbox' value='open' {{ selectedStatusCheckboxes.open }}>
-                <label class='govuk-label govuk-checkboxes__label' for='openCompanies'>
-                  Open
-                </label>
-              </div>
-
-              <div class='govuk-checkboxes__item'>
-                <input class='govuk-checkboxes__input' id='closedCompanies' name='status' type='checkbox' value='closed' {{  selectedStatusCheckboxes.closed }}>
-                <label class='govuk-label govuk-checkboxes__label' for='closedCompanies'>
-                  Closed
-                </label>
-              </div>
-
-              <div class='govuk-checkboxes__item'>
-                <input class='govuk-checkboxes__input' id='convertedClosedCompanies' name='status' type='checkbox' value='converted-closed' {{selectedStatusCheckboxes.convertedClosed }}>
-                <label class='govuk-label govuk-checkboxes__label' for='convertedClosedCompanies'>
-                  Converted closed
-                </label>
-              </div>
-
-              <div class='govuk-checkboxes__item'>
-                <input class='govuk-checkboxes__input' id='receivershipCompanies' name='status' type='checkbox' value='receivership' {{ selectedStatusCheckboxes.receivership }}>
-                <label class='govuk-label govuk-checkboxes__label' for='receivershipCompanies'>
-                  Receivership
-                </label>
-              </div>
-
-              <div class='govuk-checkboxes__item'>
-                <input class='govuk-checkboxes__input' id='liquidationCompanies' name='status' type='checkbox' value='liquidation' {{ selectedStatusCheckboxes.liquidation }}>
-                <label class='govuk-label govuk-checkboxes__label' for='liquidationCompanies'>
-                  Liquidation
-                </label>
-              </div>
-
-              <div class='govuk-checkboxes__item'>
-                <input class='govuk-checkboxes__input' id='administrationCompanies' name='status' type='checkbox' value='administration' {{ selectedStatusCheckboxes.administration }}>
-                <label class='govuk-label govuk-checkboxes__label' for='administrationCompanies'>
-                  Administration
-                </label>
-              </div>
-
-
-              <div class='govuk-checkboxes__item'>
-                <input class='govuk-checkboxes__input' id='insolvencyProceedingsCompanies' name='status' type='checkbox' value='insolvency-proceedings' {{ selectedStatusCheckboxes.insolvencyProceedings }}>
-                <label class='govuk-label govuk-checkboxes__label' for='insolvencyProceedingsCompanies'>
-                  Insolvency proceedings
-                </label>
-              </div>
-
-              <div class='govuk-checkboxes__item'>
-                <input class='govuk-checkboxes__input' id='voluntaryArrangementCompanies' name='status' type='checkbox' value='voluntary-arrangement' {{  selectedStatusCheckboxes.voluntaryArrangement }}>
-                <label class='govuk-label govuk-checkboxes__label' for='voluntaryArrangementCompanies'>
-                  Voluntary arrangement
-                </label>
-              </div>
+    <div class='govuk-form-group' style='overflow: scroll; height: 200px; width: 300px; padding-left: govuk-spacing(1);'>
+      <fieldset class='govuk-fieldset'>
+        <div class='govuk-checkboxes--small'>
+          <div class='govuk-checkboxes__item'>
+            <input class='govuk-checkboxes__input' id='activeCompanies' name='status' type='checkbox' value='active' {{ selectedStatusCheckboxes.active }}>
+            <label class='govuk-label govuk-checkboxes__label' for='activeCompanies'>
+              Active
+            </label>
           </div>
+
+          <div class='govuk-checkboxes__item'>
+            <input class='govuk-checkboxes__input' id='dissolvedCompanies' name='status' type='checkbox' value='dissolved' {{ selectedStatusCheckboxes.dissolved }}>
+            <label class='govuk-label govuk-checkboxes__label' for='dissolvedCompanies'>
+              Dissolved
+            </label>
+          </div>
+
+          <div class='govuk-checkboxes__item'>
+            <input class='govuk-checkboxes__input' id='openCompanies' name='status' type='checkbox' value='open' {{ selectedStatusCheckboxes.open }}>
+            <label class='govuk-label govuk-checkboxes__label' for='openCompanies'>
+              Open
+            </label>
+          </div>
+
+          <div class='govuk-checkboxes__item'>
+            <input class='govuk-checkboxes__input' id='closedCompanies' name='status' type='checkbox' value='closed' {{  selectedStatusCheckboxes.closed }}>
+            <label class='govuk-label govuk-checkboxes__label' for='closedCompanies'>
+              Closed
+            </label>
+          </div>
+
+          <div class='govuk-checkboxes__item'>
+            <input class='govuk-checkboxes__input' id='convertedClosedCompanies' name='status' type='checkbox' value='converted-closed' {{selectedStatusCheckboxes.convertedClosed }}>
+            <label class='govuk-label govuk-checkboxes__label' for='convertedClosedCompanies'>
+              Converted closed
+            </label>
+          </div>
+
+          <div class='govuk-checkboxes__item'>
+            <input class='govuk-checkboxes__input' id='receivershipCompanies' name='status' type='checkbox' value='receivership' {{ selectedStatusCheckboxes.receivership }}>
+            <label class='govuk-label govuk-checkboxes__label' for='receivershipCompanies'>
+              Receivership
+            </label>
+          </div>
+
+          <div class='govuk-checkboxes__item'>
+            <input class='govuk-checkboxes__input' id='liquidationCompanies' name='status' type='checkbox' value='liquidation' {{ selectedStatusCheckboxes.liquidation }}>
+            <label class='govuk-label govuk-checkboxes__label' for='liquidationCompanies'>
+              Liquidation
+            </label>
+          </div>
+
+          <div class='govuk-checkboxes__item'>
+            <input class='govuk-checkboxes__input' id='administrationCompanies' name='status' type='checkbox' value='administration' {{ selectedStatusCheckboxes.administration }}>
+            <label class='govuk-label govuk-checkboxes__label' for='administrationCompanies'>
+              Administration
+            </label>
+          </div>
+
+          <div class='govuk-checkboxes__item'>
+            <input class='govuk-checkboxes__input' id='insolvencyProceedingsCompanies' name='status' type='checkbox' value='insolvency-proceedings' {{ selectedStatusCheckboxes.insolvencyProceedings }}>
+            <label class='govuk-label govuk-checkboxes__label' for='insolvencyProceedingsCompanies'>
+              Insolvency proceedings
+            </label>
+          </div>
+
+          <div class='govuk-checkboxes__item'>
+            <input class='govuk-checkboxes__input' id='voluntaryArrangementCompanies' name='status' type='checkbox' value='voluntary-arrangement' {{  selectedStatusCheckboxes.voluntaryArrangement }}>
+            <label class='govuk-label govuk-checkboxes__label' for='voluntaryArrangementCompanies'>
+              Voluntary arrangement
+            </label>
+          </div>
+        </div>
       </fieldset>
     </div>
   </div>
