@@ -68,7 +68,7 @@
             <span id="incorporatedFrom-error" class="govuk-error-message">
               <span class="govuk-visually-hidden">Error:</span> {{ incorporatedFromError.text }}
             </span>
-          <input class='govuk-input govuk-!-width-width-full govuk-input--error' id='incorporatedFrom' name='incorporatedFrom' type='text' value='{{ incorporatedFrom }}' aria-describedby='incorporatedFrom-error'>
+          <input class='govuk-input govuk-input--width-10 govuk-input--error' id='incorporatedFrom' name='incorporatedFrom' type='text' value='{{ incorporatedFrom }}' aria-describedby='incorporatedFrom-error'>
         </div>
       {% else %}
         <div class='govuk-form-group'>  
@@ -78,7 +78,7 @@
           <div id='incorporation-date-from-hint' class='accordion-hint'>
               For example, 27/03/2007
           </div>
-          <input class='govuk-input govuk-!-width-width-full' id='incorporatedFrom' name='incorporatedFrom' type='text' value='{{ incorporatedFrom }}' aria-describedby='incorporation-date-from-hint'>
+          <input class='govuk-input govuk-input--width-10' id='incorporatedFrom' name='incorporatedFrom' type='text' value='{{ incorporatedFrom }}' aria-describedby='incorporation-date-from-hint'>
         </div>
       {% endif %}
 
@@ -95,7 +95,7 @@
             <span id="incorporatedTo-error" class="govuk-error-message">
               <span class="govuk-visually-hidden">Error:</span> {{ incorporatedToError.text }}
             </span>
-          <input class='govuk-input govuk-!-width-width-full govuk-input--error' id='incorporatedTo' name='incorporatedTo' type='text' value='{{ incorporatedTo }}' aria-describedby='incorporatedTo-error'>
+          <input class='govuk-input govuk-input--width-10 govuk-input--error' id='incorporatedTo' name='incorporatedTo' type='text' value='{{ incorporatedTo }}' aria-describedby='incorporatedTo-error'>
         </div>
       {% else %}
         <div class='govuk-form-group'>
@@ -105,7 +105,7 @@
           <div id='incorporation-date-to-hint' class='accordion-hint'>
               For example, 29/03/2007
           </div>
-          <input class='govuk-input govuk-!-width-width-full' id='incorporatedTo' name='incorporatedTo' type='text' value='{{ incorporatedTo }}' aria-describedby='incorporation-date-to-hint'>
+          <input class='govuk-input govuk-input--width-10' id='incorporatedTo' name='incorporatedTo' type='text' value='{{ incorporatedTo }}' aria-describedby='incorporation-date-to-hint'>
         </div>
       {% endif %}
     {% else %}
@@ -116,7 +116,7 @@
         <div id='incorporation-date-from-hint' class='accordion-hint'>
             For example, 27/03/2007
         </div>
-        <input class='govuk-input govuk-!-width-width-full' id='incorporatedFrom' name='incorporatedFrom' type='text' value='{{ incorporatedFrom }}' aria-describedby='incorporation-date-from-hint'>
+        <input class='govuk-input govuk-input--width-10' id='incorporatedFrom' name='incorporatedFrom' type='text' value='{{ incorporatedFrom }}' aria-describedby='incorporation-date-from-hint'>
       </div>
 
       <hr class='govuk-section-break govuk-section-break--m govuk-section-break--visible'>
@@ -128,91 +128,87 @@
         <div id='incorporation-date-to-hint' class='accordion-hint'>
             For example, 29/03/2007
         </div>
-        <input class='govuk-input govuk-!-width-width-full' id='incorporatedTo' name='incorporatedTo' type='text' value='{{ incorporatedTo }}' aria-describedby='incorporation-date-to-hint'>
+        <input class='govuk-input govuk-input--width-10' id='incorporatedTo' name='incorporatedTo' type='text' value='{{ incorporatedTo }}' aria-describedby='incorporation-date-to-hint'>
       </div>
     {% endif %}
   {% endset %}
 
   {% set statusFormHtml %}
   <div class='govuk-form-group'>
-    <div id='accordion-default-content-3' class='govuk-accordion__section-content' aria-labelledby='accordion-default-heading-3'>
-        <div class='govuk-form-group' style='overflow: scroll; height: 200px; width: 300px; padding-left: govuk-spacing(1);'>
-            <fieldset class='govuk-fieldset'>
-              <div class='govuk-checkboxes--small'>
+    <div class='govuk-form-group' style='overflow: scroll; height: 200px; width: 300px; padding-left: govuk-spacing(1);'>
+      <fieldset class='govuk-fieldset'>
+        <div class='govuk-checkboxes--small'>
+          <div class='govuk-checkboxes__item'>
+            <input class='govuk-checkboxes__input' id='activeCompanies' name='status' type='checkbox' value='active' {{ selectedStatusCheckboxes.active }}>
+            <label class='govuk-label govuk-checkboxes__label' for='activeCompanies'>
+              Active
+            </label>
+          </div>
 
-              <div class='govuk-checkboxes__item'>
-                <input class='govuk-checkboxes__input' id='activeCompanies' name='status' type='checkbox' value='active' {{ selectedStatusCheckboxes.active }}>
-                <label class='govuk-label govuk-checkboxes__label' for='activeCompanies'>
-                  Active
-                </label>
-              </div>
+          <div class='govuk-checkboxes__item'>
+            <input class='govuk-checkboxes__input' id='dissolvedCompanies' name='status' type='checkbox' value='dissolved' {{ selectedStatusCheckboxes.dissolved }}>
+            <label class='govuk-label govuk-checkboxes__label' for='dissolvedCompanies'>
+              Dissolved
+            </label>
+          </div>
 
-              <div class='govuk-checkboxes__item'>
-                  <input class='govuk-checkboxes__input' id='dissolvedCompanies' name='status' type='checkbox' value='dissolved' {{ selectedStatusCheckboxes.dissolved }}>
-                  <label class='govuk-label govuk-checkboxes__label' for='dissolvedCompanies'>
-                    Dissolved
-                  </label>
-                </div>
+          <div class='govuk-checkboxes__item'>
+            <input class='govuk-checkboxes__input' id='openCompanies' name='status' type='checkbox' value='open' {{ selectedStatusCheckboxes.open }}>
+            <label class='govuk-label govuk-checkboxes__label' for='openCompanies'>
+              Open
+            </label>
+          </div>
 
-                <div class='govuk-checkboxes__item'>
-                  <input class='govuk-checkboxes__input' id='openCompanies' name='status' type='checkbox' value='open' {{ selectedStatusCheckboxes.open }}>
-                  <label class='govuk-label govuk-checkboxes__label' for='openCompanies'>
-                    Open
-                  </label>
-                </div>
+          <div class='govuk-checkboxes__item'>
+            <input class='govuk-checkboxes__input' id='closedCompanies' name='status' type='checkbox' value='closed' {{  selectedStatusCheckboxes.closed }}>
+            <label class='govuk-label govuk-checkboxes__label' for='closedCompanies'>
+              Closed
+            </label>
+          </div>
 
-                <div class='govuk-checkboxes__item'>
-                  <input class='govuk-checkboxes__input' id='closedCompanies' name='status' type='checkbox' value='closed' {{  selectedStatusCheckboxes.closed }}>
-                  <label class='govuk-label govuk-checkboxes__label' for='closedCompanies'>
-                    Closed
-                  </label>
-                </div>
+          <div class='govuk-checkboxes__item'>
+            <input class='govuk-checkboxes__input' id='convertedClosedCompanies' name='status' type='checkbox' value='converted-closed' {{selectedStatusCheckboxes.convertedClosed }}>
+            <label class='govuk-label govuk-checkboxes__label' for='convertedClosedCompanies'>
+              Converted closed
+            </label>
+          </div>
 
-                <div class='govuk-checkboxes__item'>
-                  <input class='govuk-checkboxes__input' id='convertedClosedCompanies' name='status' type='checkbox' value='converted-closed' {{selectedStatusCheckboxes.convertedClosed }}>
-                  <label class='govuk-label govuk-checkboxes__label' for='convertedClosedCompanies'>
-                    Converted closed
-                  </label>
-                </div>
+          <div class='govuk-checkboxes__item'>
+            <input class='govuk-checkboxes__input' id='receivershipCompanies' name='status' type='checkbox' value='receivership' {{ selectedStatusCheckboxes.receivership }}>
+            <label class='govuk-label govuk-checkboxes__label' for='receivershipCompanies'>
+              Receivership
+            </label>
+          </div>
 
-                <div class='govuk-checkboxes__item'>
-                  <input class='govuk-checkboxes__input' id='receivershipCompanies' name='status' type='checkbox' value='receivership' {{ selectedStatusCheckboxes.receivership }}>
-                  <label class='govuk-label govuk-checkboxes__label' for='receivershipCompanies'>
-                    Receivership
-                  </label>
-                </div>
+          <div class='govuk-checkboxes__item'>
+            <input class='govuk-checkboxes__input' id='liquidationCompanies' name='status' type='checkbox' value='liquidation' {{ selectedStatusCheckboxes.liquidation }}>
+            <label class='govuk-label govuk-checkboxes__label' for='liquidationCompanies'>
+              Liquidation
+            </label>
+          </div>
 
-                <div class='govuk-checkboxes__item'>
-                  <input class='govuk-checkboxes__input' id='liquidationCompanies' name='status' type='checkbox' value='liquidation' {{ selectedStatusCheckboxes.liquidation }}>
-                  <label class='govuk-label govuk-checkboxes__label' for='liquidationCompanies'>
-                    Liquidation
-                  </label>
-                </div>
+          <div class='govuk-checkboxes__item'>
+            <input class='govuk-checkboxes__input' id='administrationCompanies' name='status' type='checkbox' value='administration' {{ selectedStatusCheckboxes.administration }}>
+            <label class='govuk-label govuk-checkboxes__label' for='administrationCompanies'>
+              Administration
+            </label>
+          </div>
 
-                <div class='govuk-checkboxes__item'>
-                  <input class='govuk-checkboxes__input' id='administrationCompanies' name='status' type='checkbox' value='administration' {{ selectedStatusCheckboxes.administration }}>
-                  <label class='govuk-label govuk-checkboxes__label' for='administrationCompanies'>
-                    Administration
-                  </label>
-                </div>
+          <div class='govuk-checkboxes__item'>
+            <input class='govuk-checkboxes__input' id='insolvencyProceedingsCompanies' name='status' type='checkbox' value='insolvency-proceedings' {{ selectedStatusCheckboxes.insolvencyProceedings }}>
+            <label class='govuk-label govuk-checkboxes__label' for='insolvencyProceedingsCompanies'>
+              Insolvency proceedings
+            </label>
+          </div>
 
-
-                <div class='govuk-checkboxes__item'>
-                  <input class='govuk-checkboxes__input' id='insolvencyProceedingsCompanies' name='status' type='checkbox' value='insolvency-proceedings' {{ selectedStatusCheckboxes.insolvencyProceedings }}>
-                  <label class='govuk-label govuk-checkboxes__label' for='insolvencyProceedingsCompanies'>
-                    Insolvency proceedings
-                  </label>
-                </div>
-
-                <div class='govuk-checkboxes__item'>
-                  <input class='govuk-checkboxes__input' id='voluntaryArrangementCompanies' name='status' type='checkbox' value='voluntary-arrangement' {{  selectedStatusCheckboxes.voluntaryArrangement }}>
-                  <label class='govuk-label govuk-checkboxes__label' for='voluntaryArrangementCompanies'>
-                    Voluntary arrangement
-                  </label>
-                </div>
-            </div>
-        </fieldset>
-      </div>
+          <div class='govuk-checkboxes__item'>
+            <input class='govuk-checkboxes__input' id='voluntaryArrangementCompanies' name='status' type='checkbox' value='voluntary-arrangement' {{  selectedStatusCheckboxes.voluntaryArrangement }}>
+            <label class='govuk-label govuk-checkboxes__label' for='voluntaryArrangementCompanies'>
+              Voluntary arrangement
+            </label>
+          </div>
+        </div>
+      </fieldset>
     </div>
   </div>
 {% endset %}
