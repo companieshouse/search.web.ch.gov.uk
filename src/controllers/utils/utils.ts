@@ -317,13 +317,6 @@ export const changeDateFormat = (inputDate: string) => {
     return year + "-" + month + "-" + day;
 };
 
-export const validateDate = (inputDate: string): boolean => {
-    const formattedDate = inputDate !== null || inputDate !== undefined ? changeDateFormat(inputDate) : null;
-    const momentDate = moment(formattedDate, true);
-
-    return momentDate.isValid();
-};
-
 export const buildPagingUrl = (advancedSearchParams: AdvancedSearchParams, incorporatedFrom: string | null, incorporatedTo: string | null) : string => {
     const pagingUrlBuilder = new URLSearchParams();
 

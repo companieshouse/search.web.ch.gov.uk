@@ -96,5 +96,5 @@ export const isAdvancedSearchParamsEmpty = (advancedSearchParams: AdvancedSearch
         advancedSearchParams.companyStatus === null &&
         advancedSearchParams.companyType === null &&
         advancedSearchParams.dissolvedFrom === null &&
-        advancedSearchParams.dissolvedTo === null
+        advancedSearchParams.dissolvedTo === null;
 };
