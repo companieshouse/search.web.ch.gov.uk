@@ -2,6 +2,7 @@ import { check } from "express-validator";
 import { createGovUkErrorData, GovUkErrorData } from "../../model/govuk.error.data";
 import { validateDate } from "./utils";
 import moment from "moment";
+import { getCompanySicCodes } from "../../config/api.enumerations";
 
 const INCORPORATED_FROM_FIELD: string = "incorporatedFrom";
 const INCORPORATED_TO_FIELD: string = "incorporatedTo";
@@ -55,7 +56,7 @@ export const advancedSearchValidationRules =
         check(SIC_CODES_FIELD)
             .custom((sicCode, { req }) => {
                 if (isStringNotNullOrEmpty(sicCode)) {
-                    if (!isSicCodeFormatCorrect(sicCode)) {
+                    if (!checkSicCode(sicCode)) {
                         throw Error(INVALID_SIC_CODE_FORMAT);
                     }
                 }
@@ -113,4 +114,10 @@ function isSicCodeFormatCorrect (value: string): boolean {
     const isNumeric =  /^-?\d+$/.test(value);
 
     return isNumeric && value.length >=4 && value.length <=5;
+}
+
+function checkSicCode(value: string): boolean {
+    const SIC_CODES = getCompanySicCodes()
+     const trimmedValue = value.trim();
+     return SIC_CODES?.includes(trimmedValue) ? true : false;
 }
