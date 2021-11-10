@@ -143,7 +143,7 @@ describe("search.controller.spec.unit", () => {
                 .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 20)));
 
             const resp = await chai.request(testApp)
-                .get("/advanced-search/get-results?companyNameIncludes=test&excludesCompanyName=");
+                .get("/advanced-search/get-results?sicCodes=8765");
 
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain("SIC codes - 8765");
@@ -185,6 +185,17 @@ describe("search.controller.spec.unit", () => {
             chai.expect(resp.text).to.contain("<input class='govuk-checkboxes__input' id='activeCompanies' name='status' type='checkbox' value='active' checked>");
             chai.expect(resp.text).to.contain("<input class='govuk-checkboxes__input' id='dissolvedCompanies' name='status' type='checkbox' value='dissolved' checked>");
             chai.expect(resp.text).to.not.contain("<input class='govuk-checkboxes__input' id='openCompanies' name='status' type='checkbox' value='open' checked>");
+        });
+
+        it("should display the sic codes search term in the relevant search field", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 20)));
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?sicCodes=07210");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("<input class='govuk-input govuk-!-width-full' id='sicCodes' name='sicCodes' type='text' value='07210'>");
         });
     });
 
@@ -375,6 +386,44 @@ describe("search.controller.spec.unit", () => {
             chai.expect(resp.text).to.contain(`<a href="#incorporatedTo">Incorporation &#39;to&#39; must be a real date</a>`);
             chai.expect(resp.text).to.contain(`<span id="incorporatedTo-error" class="govuk-error-message">`);
             chai.expect(resp.text).to.contain(`<span class="govuk-visually-hidden">Error:</span> Incorporation &#39;to&#39; must be a real date`);
+        });
+    });
+
+    describe("check that the validation of sic codes displays the correct error message", () => {
+        it("should display an error if sicCode provided is less than 4 digits", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 3)));
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?sicCodes=1");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain(`<a href="#sicCodes">Enter the SIC code in the correct format</a>`);
+            chai.expect(resp.text).to.contain("<span id='sicCodes-error'class='govuk-error-message'>");
+        });
+
+        it("should display an error if sicCode provided is greater than 5 digits", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 3)));
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?sicCodes=1234567");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain(`<a href="#sicCodes">Enter the SIC code in the correct format</a>`);
+            chai.expect(resp.text).to.contain("<span id='sicCodes-error'class='govuk-error-message'>");
+        });
+
+        it("should display an error if sicCode provided is not numeric", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 3)));
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?sicCodes=ABCDE");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain(`<a href="#sicCodes">Enter the SIC code in the correct format</a>`);
+            chai.expect(resp.text).to.contain("<span id='sicCodes-error'class='govuk-error-message'>");
         });
     });
 

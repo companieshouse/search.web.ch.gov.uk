@@ -4,12 +4,14 @@ import moment from "moment";
 
 const INCORPORATED_FROM_FIELD: string = "incorporatedFrom";
 const INCORPORATED_TO_FIELD: string = "incorporatedTo";
+const SIC_CODES_FIELD: string = "sicCodes";
 
 const INVALID_DATE_ERROR_MESSAGE = "Incorporation date must include a day, a month and a year";
 const TO_DATE_BEFORE_FROM_DATE = "The incorporation 'from' date must be the same as or before the 'to' date";
 const INCORPORATION_DATE_IN_FUTURE = "The incorporation date must be in the past";
 const FROM_MUST_BE_REAL_DATE = "Incorporation 'from' must be a real date";
 const TO_MUST_BE_REAL_DATE = "Incorporation 'to' must be a real date";
+const INVALID_SIC_CODE_FORMAT = "Enter the SIC code in the correct format";
 
 export const advancedSearchValidationRules =
     [
@@ -54,12 +56,22 @@ export const advancedSearchValidationRules =
                     }
                 }
                 return true;
+            }),
+        check(SIC_CODES_FIELD)
+            .custom((sicCode, { req }) => {
+                if (isStringNotNullOrEmpty(sicCode)) {
+                    if (!isSicCodeFormatCorrect(sicCode)) {
+                        throw Error(INVALID_SIC_CODE_FORMAT);
+                    }
+                }
+                return true;
             })
     ];
 
 export const validate = (validationErrors) => {
     let incorporatedFromError;
     let incorporatedToError;
+    let sicCodesError;
     const validationErrorList = validationErrors.array({ onlyFirstError: true }).map((error) => {
         const govUkErrorData: GovUkErrorData = createGovUkErrorData(error.msg, "#" + error.param, true, "");
         switch (error.param) {
@@ -69,13 +81,17 @@ export const validate = (validationErrors) => {
         case INCORPORATED_TO_FIELD:
             incorporatedToError = govUkErrorData;
             break;
+        case SIC_CODES_FIELD:
+            sicCodesError = govUkErrorData;
+            break;
         }
         return govUkErrorData;
     });
     return {
         errorList: validationErrorList,
         incorporatedFromError,
-        incorporatedToError
+        incorporatedToError,
+        sicCodesError
     };
 };
 
@@ -96,6 +112,12 @@ function isDateInFuture (date: string) : boolean {
     const checkDate = dateMoment.toDate();
     const now = new Date();
     return now < checkDate;
+}
+
+function isSicCodeFormatCorrect (value: string): boolean {
+    const isNumeric =  /^-?\d+$/.test(value);
+
+    return isNumeric && value.length >=4 && value.length <=5;
 }
 
 function getDaysInMonth (month: string, year: string) : number {

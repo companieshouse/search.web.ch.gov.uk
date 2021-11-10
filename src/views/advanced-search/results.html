@@ -213,6 +213,33 @@
   </div>
 {% endset %}
 
+{% set sicCodeFormHtml %}
+  {% if sicCodesError %}
+    <div class='govuk-form-group govuk-form-group--error'>
+      <label class='accordion-label padded-top' for='sicCodes'>
+        Enter a Standard Industrial Classification (SIC) code to search by nature of business.
+      </label>
+
+      <span id='sicCodes-error'class='govuk-error-message'>
+        <span class='govuk-visually-hidden'>Error:</span> {{ sicCodesError.text }}
+      </span>
+      <input class='govuk-input govuk-!-width-full' id='sicCodes' name='sicCodes' type='text' value='{{ advancedSearchParams.sicCodes }}'>
+
+      <p class='padded-top'> <a href='http://resources.companieshouse.gov.uk/sic/' target='_blank' class='govuk-link accordion-label'>Browse SIC codes (opens in new tab)</a></p>
+    </div>
+  {% else %}
+    <div class='govuk-form-group'>
+      <label class='accordion-label padded-top' for='sicCodes'>
+        Enter a Standard Industrial Classification (SIC) code to search by nature of business.
+      </label>
+
+      <input class='govuk-input govuk-!-width-full' id='sicCodes' name='sicCodes' type='text' value='{{ advancedSearchParams.sicCodes }}'>
+
+      <p class='padded-top'> <a href='http://resources.companieshouse.gov.uk/sic/' target='_blank' class='govuk-link accordion-label'>Browse SIC codes (opens in new tab)</a></p>
+    </div>
+{% endif %}
+{% endset %}
+
 <div class="govuk-width-container">
 
   <div class="govuk-grid-row">
@@ -274,6 +301,14 @@
               },
               content: {
                 html: statusFormHtml
+              }
+            },
+            {
+              heading: {
+                text: "Nature of business"
+              },
+              content: {
+                html: sicCodeFormHtml
               }
             }
           ]
