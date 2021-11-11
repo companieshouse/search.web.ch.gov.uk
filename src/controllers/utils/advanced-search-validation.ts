@@ -115,9 +115,9 @@ function isDateInFuture (date: string) : boolean {
 }
 
 function isSicCodeFormatCorrect (value: string): boolean {
-    const isNumeric =  /^-?\d+$/.test(value);
+    const isNumeric = /^-?\d+$/.test(value);
 
-    return isNumeric && value.length >=4 && value.length <=5;
+    return isNumeric && value.length >= 4 && value.length <= 5;
 }
 
 function getDaysInMonth (month: string, year: string) : number {

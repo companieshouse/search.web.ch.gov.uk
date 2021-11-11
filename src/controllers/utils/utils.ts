@@ -327,6 +327,7 @@ export const buildPagingUrl = (advancedSearchParams: AdvancedSearchParams, incor
     urlAppender(pagingUrlBuilder, incorporatedTo, "incorporatedTo");
     urlAppender(pagingUrlBuilder, advancedSearchParams.companyStatus, "status");
     urlAppender(pagingUrlBuilder, advancedSearchParams.sicCodes, "sicCodes");
+    urlAppender(pagingUrlBuilder, advancedSearchParams.companyType, "type");
 
     const pagingUrl: string = "get-results?" + pagingUrlBuilder.toString();
 
@@ -337,4 +338,74 @@ const urlAppender = (urlBuilder: URLSearchParams, field: string | null, urlParam
     if (field !== null) {
         urlBuilder.append(urlParam, field);
     }
+};
+
+export const mapCompanyTypeCheckboxes = (companyType: string | null | undefined) => {
+    const selectedTypeCheckboxes = {
+        assuranceCompany: "",
+        charitableIncorporatedOrganisation: "",
+        convertedOrClosed: "",
+        eeig: "",
+        europeanPublicLimitedLiabilityCompanySe: "",
+        furtherEducationOrSixthFormCollegeCorporation: "",
+        icvc: "",
+        industrialAndProvidentSociety: "",
+        limitedPartnership: "",
+        llp: "",
+        ltd: "",
+        northernIreland: "",
+        northernIrelandOther: "",
+        oldPublicCompany: "",
+        overseaCompany: "",
+        plc: "",
+        privateLimitedGuarantNscLimitedExemption: "",
+        privateLimitedGuarantNsc: "",
+        privateLimitedSharesSection30Exemption: "",
+        privateUnlimited: "",
+        privateUnlimitedNsc: "",
+        protectedCellCompany: "",
+        registeredSocietyNonJurisdictional: "",
+        royalCharter: "",
+        scottishCharitableIncorporatedOrganisation: "",
+        scottishPartnership: "",
+        unregisteredCompany: "",
+        ukEstablishment: ""
+    };
+
+    if (companyType === null || companyType === undefined) {
+        return selectedTypeCheckboxes;
+    }
+
+    const selectedCompanyTypeArray : string[] = String(companyType).split(",");
+
+    selectedTypeCheckboxes.assuranceCompany = (selectedCompanyTypeArray.includes("assurance-company")) ? "checked" : "";
+    selectedTypeCheckboxes.charitableIncorporatedOrganisation = (selectedCompanyTypeArray.includes("charitable-incorporated-organisation")) ? "checked" : "";
+    selectedTypeCheckboxes.convertedOrClosed = (selectedCompanyTypeArray.includes("converted-or-closed")) ? "checked" : "";
+    selectedTypeCheckboxes.eeig = (selectedCompanyTypeArray.includes("eeig")) ? "checked" : "";
+    selectedTypeCheckboxes.europeanPublicLimitedLiabilityCompanySe = (selectedCompanyTypeArray.includes("european-public-limited-liability-company-se")) ? "checked" : "";
+    selectedTypeCheckboxes.furtherEducationOrSixthFormCollegeCorporation = (selectedCompanyTypeArray.includes("further-education-or-sixth-form-college-corporation")) ? "checked" : "";
+    selectedTypeCheckboxes.icvc = (selectedCompanyTypeArray.includes("icvc")) ? "checked" : "";
+    selectedTypeCheckboxes.industrialAndProvidentSociety = (selectedCompanyTypeArray.includes("industrial-and-provident-society")) ? "checked" : "";
+    selectedTypeCheckboxes.limitedPartnership = (selectedCompanyTypeArray.includes("limited-partnership")) ? "checked" : "";
+    selectedTypeCheckboxes.llp = (selectedCompanyTypeArray.includes("llp")) ? "checked" : "";
+    selectedTypeCheckboxes.ltd = (selectedCompanyTypeArray.includes("ltd")) ? "checked" : "";
+    selectedTypeCheckboxes.northernIreland = (selectedCompanyTypeArray.includes("northern-ireland")) ? "checked" : "";
+    selectedTypeCheckboxes.northernIrelandOther = (selectedCompanyTypeArray.includes("northern-ireland-other")) ? "checked" : "";
+    selectedTypeCheckboxes.oldPublicCompany = (selectedCompanyTypeArray.includes("old-public-company")) ? "checked" : "";
+    selectedTypeCheckboxes.overseaCompany = (selectedCompanyTypeArray.includes("oversea-company")) ? "checked" : "";
+    selectedTypeCheckboxes.plc = (selectedCompanyTypeArray.includes("plc")) ? "checked" : "";
+    selectedTypeCheckboxes.privateLimitedGuarantNsc = (selectedCompanyTypeArray.includes("private-limited-guarant-nsc")) ? "checked" : "";
+    selectedTypeCheckboxes.privateLimitedGuarantNscLimitedExemption = (selectedCompanyTypeArray.includes("private-limited-guarant-nsc-limited-exemption")) ? "checked" : "";
+    selectedTypeCheckboxes.privateLimitedSharesSection30Exemption = (selectedCompanyTypeArray.includes("private-limited-shares-section-30-exemption")) ? "checked" : "";
+    selectedTypeCheckboxes.privateUnlimited = (selectedCompanyTypeArray.includes("private-unlimited")) ? "checked" : "";
+    selectedTypeCheckboxes.privateUnlimitedNsc = (selectedCompanyTypeArray.includes("private-unlimited-nsc")) ? "checked" : "";
+    selectedTypeCheckboxes.protectedCellCompany = (selectedCompanyTypeArray.includes("protected-cell-company")) ? "checked" : "";
+    selectedTypeCheckboxes.registeredSocietyNonJurisdictional = (selectedCompanyTypeArray.includes("registered-society-non-jurisdictional")) ? "checked" : "";
+    selectedTypeCheckboxes.royalCharter = (selectedCompanyTypeArray.includes("royal-charter")) ? "checked" : "";
+    selectedTypeCheckboxes.scottishCharitableIncorporatedOrganisation = (selectedCompanyTypeArray.includes("scottish-charitable-incorporated-organisation")) ? "checked" : "";
+    selectedTypeCheckboxes.scottishPartnership = (selectedCompanyTypeArray.includes("scottish-partnership")) ? "checked" : "";
+    selectedTypeCheckboxes.ukEstablishment = (selectedCompanyTypeArray.includes("uk-establishment")) ? "checked" : "";
+    selectedTypeCheckboxes.unregisteredCompany = (selectedCompanyTypeArray.includes("unregistered-company")) ? "checked" : "";
+
+    return selectedTypeCheckboxes;
 };

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { changeDateFormat, getPagingRange, buildPagingUrl, mapCompanyStatusCheckboxes } from "../utils/utils";
+import { changeDateFormat, getPagingRange, buildPagingUrl, mapCompanyStatusCheckboxes, mapCompanyTypeCheckboxes } from "../utils/utils";
 import { advancedSearchValidationRules, validate } from "../utils/advanced-search-validation";
 import { validationResult } from "express-validator";
 import * as templatePaths from "../../model/template.paths";
@@ -21,26 +21,29 @@ const route = async (req: Request, res: Response) => {
         incorporatedTo: incorporatedTo !== null ? changeDateFormat(incorporatedTo) : null,
         sicCodes: req.query.sicCodes as string || null,
         companyStatus: req.query.status as string || null,
-        companyType: null,
+        companyType: req.query.type as string || null,
         dissolvedFrom: null,
         dissolvedTo: null
     };
     const selectedStatusCheckboxes = mapCompanyStatusCheckboxes(advancedSearchParams.companyStatus);
-
+    const selectedTypeCheckboxes = mapCompanyTypeCheckboxes(advancedSearchParams.companyType);
     const errors = validationResult(req);
     const errorList = validate(errors);
 
     if (!errors.isEmpty()) {
-        return res.render(templatePaths.ADVANCED_SEARCH_RESULTS, { ...errorList, advancedSearchParams, incorporatedFrom, incorporatedTo, selectedStatusCheckboxes });
+        return res.render(templatePaths.ADVANCED_SEARCH_RESULTS, { ...errorList, advancedSearchParams, incorporatedFrom, incorporatedTo, selectedStatusCheckboxes, selectedTypeCheckboxes });
     };
 
+    if (advancedSearchParams.companyType !== null) {
+        advancedSearchParams.companyType = String(advancedSearchParams.companyType).replace("icvc", "icvc-securities,icvc-warrant,icvc-umbrella");
+    }
     const { companyResource, searchResults } = await getSearchResults(advancedSearchParams, cookies);
     const numberOfPages: number = Math.ceil(companyResource.hits / 20);
     const pagingRange = getPagingRange(page, numberOfPages);
     const partialHref: string = buildPagingUrl(advancedSearchParams, incorporatedFrom, incorporatedTo);
 
     return res.render(templatePaths.ADVANCED_SEARCH_RESULTS,
-        { searchResults, advancedSearchParams, page, numberOfPages, pagingRange, partialHref, incorporatedFrom, incorporatedTo, selectedStatusCheckboxes });
+        { searchResults, advancedSearchParams, page, numberOfPages, pagingRange, partialHref, incorporatedFrom, incorporatedTo, selectedStatusCheckboxes, selectedTypeCheckboxes });
 };
 
 export default [...advancedSearchValidationRules, route];

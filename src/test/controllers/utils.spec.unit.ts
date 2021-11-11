@@ -3,7 +3,7 @@ import chai from "chai";
 import {
     checkLineBreakRequired, determineReportAvailableBool, getDownloadReportText, mapResponsiveHeaders,
     formatLongDate, formatCompactAddress, changeDateFormat,
-    generateSize, buildPagingUrl, mapCompanyStatusCheckboxes
+    generateSize, buildPagingUrl, mapCompanyStatusCheckboxes, mapCompanyTypeCheckboxes
 } from "../../controllers/utils/utils";
 import { createDummyAdvancedSearchParams } from "../../test/MockUtils/advanced-search/mock.util";
 
@@ -246,6 +246,64 @@ describe("utils.spec.unit", () => {
             compareCheckboxSelections(expectedSelectedStatusCheckboxes, actualSelectedStatusCheckboxes);
         });
     });
+
+    describe("ensure that mapCompanyTypeCheckboxes assigns checked to the correct checkbox entries", () => {
+        it("should return an object with all variables set as checked if all company type options are included", () => {
+            const expectedSelection = setUpSelectedCompanyType();
+            expectedSelection.assuranceCompany = "checked";
+            expectedSelection.charitableIncorporatedOrganisation = "checked";
+            expectedSelection.convertedOrClosed = "checked";
+            expectedSelection.eeig = "checked";
+            expectedSelection.europeanPublicLimitedLiabilityCompanySe = "checked";
+            expectedSelection.furtherEducationOrSixthFormCollegeCorporation = "checked";
+            expectedSelection.icvc = "checked";
+            expectedSelection.industrialAndProvidentSociety = "checked";
+            expectedSelection.limitedPartnership = "checked";
+            expectedSelection.llp = "checked";
+            expectedSelection.ltd = "checked";
+            expectedSelection.northernIreland = "checked";
+            expectedSelection.northernIrelandOther = "checked";
+            expectedSelection.oldPublicCompany = "checked";
+            expectedSelection.overseaCompany = "checked";
+            expectedSelection.plc = "checked";
+            expectedSelection.privateLimitedGuarantNsc = "checked";
+            expectedSelection.privateLimitedGuarantNscLimitedExemption = "checked";
+            expectedSelection.privateLimitedSharesSection30Exemption = "checked";
+            expectedSelection.privateUnlimited = "checked";
+            expectedSelection.privateUnlimitedNsc = "checked";
+            expectedSelection.protectedCellCompany = "checked";
+            expectedSelection.registeredSocietyNonJurisdictional = "checked";
+            expectedSelection.royalCharter = "checked";
+            expectedSelection.scottishCharitableIncorporatedOrganisation = "checked";
+            expectedSelection.scottishPartnership = "checked";
+            expectedSelection.ukEstablishment = "checked";
+            expectedSelection.unregisteredCompany = "checked";
+            const actualSelection = mapCompanyTypeCheckboxes("assurance-company,charitable-incorporated-organisation," +
+                "converted-or-closed,eeig,european-public-limited-liability-company-se,further-education-or-sixth-form-college-corporation," +
+                "icvc,industrial-and-provident-society,limited-partnership,llp,ltd,northern-ireland,northern-ireland-other," +
+                "old-public-company,oversea-company,plc,private-limited-guarant-nsc,private-limited-guarant-nsc-limited-exemption," +
+                "private-limited-shares-section-30-exemption,private-unlimited,private-unlimited-nsc,protected-cell-company," +
+                "registered-society-non-jurisdictional,royal-charter,scottish-charitable-incorporated-organisation,scottish-partnership," +
+                "uk-establishment,unregistered-company");
+            checkCompanyTypeSelections(expectedSelection, actualSelection);
+        });
+        it("should return an object with ltd variable set as checked if that is the only companyType option passed in", () => {
+            const expectedSelection = setUpSelectedCompanyType();
+            expectedSelection.ltd = "checked";
+            const actualSelection = mapCompanyTypeCheckboxes("ltd");
+            checkCompanyTypeSelections(expectedSelection, actualSelection);
+        });
+        it("should return an object with no variables set as checked if null is provided", () => {
+            const expectedSelection = setUpSelectedCompanyType();
+            const actualSelection = mapCompanyTypeCheckboxes(null);
+            checkCompanyTypeSelections(expectedSelection, actualSelection);
+        });
+        it("should return an object with no variables set as checked if undefined is provided", () => {
+            const expectedSelection = setUpSelectedCompanyType();
+            const actualSelection = mapCompanyTypeCheckboxes(undefined);
+            checkCompanyTypeSelections(expectedSelection, actualSelection);
+        });
+    });
 });
 
 const compareCheckboxSelections = (expectedSelectedStatusCheckboxes, actualSelectedStatusCheckboxes) => {
@@ -259,4 +317,68 @@ const compareCheckboxSelections = (expectedSelectedStatusCheckboxes, actualSelec
     chai.expect(expectedSelectedStatusCheckboxes.administration).to.equal(actualSelectedStatusCheckboxes.administration);
     chai.expect(expectedSelectedStatusCheckboxes.insolvencyProceedings).to.equal(actualSelectedStatusCheckboxes.insolvencyProceedings);
     chai.expect(expectedSelectedStatusCheckboxes.voluntaryArrangement).to.equal(actualSelectedStatusCheckboxes.voluntaryArrangement);
+};
+
+const checkCompanyTypeSelections = (expectedSelection, actualSelection) => {
+    chai.expect(expectedSelection.assuranceCompany).to.equal(actualSelection.assuranceCompany);
+    chai.expect(expectedSelection.charitableIncorporatedOrganisation).to.equal(actualSelection.charitableIncorporatedOrganisation);
+    chai.expect(expectedSelection.convertedOrClosed).to.equal(actualSelection.convertedOrClosed);
+    chai.expect(expectedSelection.eeig).to.equal(actualSelection.eeig);
+    chai.expect(expectedSelection.europeanPublicLimitedLiabilityCompanySe).to.equal(actualSelection.europeanPublicLimitedLiabilityCompanySe);
+    chai.expect(expectedSelection.furtherEducationOrSixthFormCollegeCorporation).to.equal(actualSelection.furtherEducationOrSixthFormCollegeCorporation);
+    chai.expect(expectedSelection.icvc).to.equal(actualSelection.icvc);
+    chai.expect(expectedSelection.industrialAndProvidentSociety).to.equal(actualSelection.industrialAndProvidentSociety);
+    chai.expect(expectedSelection.limitedPartnership).to.equal(actualSelection.limitedPartnership);
+    chai.expect(expectedSelection.llp).to.equal(actualSelection.llp);
+    chai.expect(expectedSelection.ltd).to.equal(actualSelection.ltd);
+    chai.expect(expectedSelection.northernIreland).to.equal(actualSelection.northernIreland);
+    chai.expect(expectedSelection.northernIrelandOther).to.equal(actualSelection.northernIrelandOther);
+    chai.expect(expectedSelection.oldPublicCompany).to.equal(actualSelection.oldPublicCompany);
+    chai.expect(expectedSelection.overseaCompany).to.equal(actualSelection.overseaCompany);
+    chai.expect(expectedSelection.plc).to.equal(actualSelection.plc);
+    chai.expect(expectedSelection.privateLimitedGuarantNscLimitedExemption).to.equal(actualSelection.privateLimitedGuarantNscLimitedExemption);
+    chai.expect(expectedSelection.privateLimitedGuarantNsc).to.equal(actualSelection.privateLimitedGuarantNsc);
+    chai.expect(expectedSelection.privateLimitedSharesSection30Exemption).to.equal(actualSelection.privateLimitedSharesSection30Exemption);
+    chai.expect(expectedSelection.privateUnlimited).to.equal(actualSelection.privateUnlimited);
+    chai.expect(expectedSelection.privateUnlimitedNsc).to.equal(actualSelection.privateUnlimitedNsc);
+    chai.expect(expectedSelection.protectedCellCompany).to.equal(actualSelection.protectedCellCompany);
+    chai.expect(expectedSelection.registeredSocietyNonJurisdictional).to.equal(actualSelection.registeredSocietyNonJurisdictional);
+    chai.expect(expectedSelection.royalCharter).to.equal(actualSelection.royalCharter);
+    chai.expect(expectedSelection.scottishCharitableIncorporatedOrganisation).to.equal(actualSelection.scottishCharitableIncorporatedOrganisation);
+    chai.expect(expectedSelection.scottishPartnership).to.equal(actualSelection.scottishPartnership);
+    chai.expect(expectedSelection.unregisteredCompany).to.equal(actualSelection.unregisteredCompany);
+    chai.expect(expectedSelection.ukEstablishment).to.equal(actualSelection.ukEstablishment);
+};
+
+const setUpSelectedCompanyType = () => {
+    return {
+        assuranceCompany: "",
+        charitableIncorporatedOrganisation: "",
+        convertedOrClosed: "",
+        eeig: "",
+        europeanPublicLimitedLiabilityCompanySe: "",
+        furtherEducationOrSixthFormCollegeCorporation: "",
+        icvc: "",
+        industrialAndProvidentSociety: "",
+        limitedPartnership: "",
+        llp: "",
+        ltd: "",
+        northernIreland: "",
+        northernIrelandOther: "",
+        oldPublicCompany: "",
+        overseaCompany: "",
+        plc: "",
+        privateLimitedGuarantNscLimitedExemption: "",
+        privateLimitedGuarantNsc: "",
+        privateLimitedSharesSection30Exemption: "",
+        privateUnlimited: "",
+        privateUnlimitedNsc: "",
+        protectedCellCompany: "",
+        registeredSocietyNonJurisdictional: "",
+        royalCharter: "",
+        scottishCharitableIncorporatedOrganisation: "",
+        scottishPartnership: "",
+        unregisteredCompany: "",
+        ukEstablishment: ""
+    };
 };
