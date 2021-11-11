@@ -25,7 +25,7 @@ export const createDummyItemsArray = (name: string, numberOfCompanies: number): 
             date_of_creation: new Date(1980, 13, 8),
             kind: "kind",
             company_type: "ltd",
-            sic_codes: ["8765"],
+            sic_codes: ["01120"],
             links: {
                 company_profile: "/065000"
             }
