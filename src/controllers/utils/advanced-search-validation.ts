@@ -1,6 +1,7 @@
 import { check } from "express-validator";
 import { createGovUkErrorData, GovUkErrorData } from "../../model/govuk.error.data";
 import moment from "moment";
+import { getCompanySicCodes } from "../../config/api.enumerations";
 
 const INCORPORATED_FROM_FIELD: string = "incorporatedFrom";
 const INCORPORATED_TO_FIELD: string = "incorporatedTo";
@@ -11,7 +12,7 @@ const TO_DATE_BEFORE_FROM_DATE = "The incorporation 'from' date must be the same
 const INCORPORATION_DATE_IN_FUTURE = "The incorporation date must be in the past";
 const FROM_MUST_BE_REAL_DATE = "Incorporation 'from' must be a real date";
 const TO_MUST_BE_REAL_DATE = "Incorporation 'to' must be a real date";
-const INVALID_SIC_CODE_FORMAT = "Enter the SIC code in the correct format";
+const INVALID_SIC_CODE_FORMAT = "Enter a valid SIC code";
 
 export const advancedSearchValidationRules =
     [
@@ -60,7 +61,7 @@ export const advancedSearchValidationRules =
         check(SIC_CODES_FIELD)
             .custom((sicCode, { req }) => {
                 if (isStringNotNullOrEmpty(sicCode)) {
-                    if (!isSicCodeFormatCorrect(sicCode)) {
+                    if (!checkSicCode(sicCode)) {
                         throw Error(INVALID_SIC_CODE_FORMAT);
                     }
                 }
@@ -114,10 +115,17 @@ function isDateInFuture (date: string) : boolean {
     return now < checkDate;
 }
 
+<<<<<<< HEAD
 function isSicCodeFormatCorrect (value: string): boolean {
     const isNumeric = /^-?\d+$/.test(value);
 
     return isNumeric && value.length >= 4 && value.length <= 5;
+=======
+function checkSicCode(value: string): boolean {
+    const SIC_CODES = getCompanySicCodes()
+    const trimmedValue = value.trim();
+    return SIC_CODES?.includes(trimmedValue) ? true : false;
+>>>>>>> master
 }
 
 function getDaysInMonth (month: string, year: string) : number {
