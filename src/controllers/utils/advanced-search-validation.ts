@@ -11,7 +11,7 @@ const SIC_CODES_FIELD: string = "sicCodes";
 const INVALID_DATE_ERROR_MESSAGE = "Incorporation date must include a day, a month and a year";
 const TO_DATE_BEFORE_FROM_DATE = "The incorporation 'from' date must be the same as or before the 'to' date";
 const INCORPORATION_DATE_IN_FUTURE = "The incorporation date must be in the past";
-const INVALID_SIC_CODE_FORMAT = "Enter the SIC code in the correct format";
+const INVALID_SIC_CODE_FORMAT = "Enter a valid SIC code";
 
 export const advancedSearchValidationRules =
     [
@@ -108,12 +108,6 @@ function isDateInFuture (date: string) : boolean {
     const checkDate = dateMoment.toDate();
     const now = new Date();
     return now < checkDate;
-}
-
-function isSicCodeFormatCorrect (value: string): boolean {
-    const isNumeric =  /^-?\d+$/.test(value);
-
-    return isNumeric && value.length >=4 && value.length <=5;
 }
 
 function checkSicCode(value: string): boolean {
