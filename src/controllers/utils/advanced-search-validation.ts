@@ -1,6 +1,5 @@
 import { check } from "express-validator";
 import { createGovUkErrorData, GovUkErrorData } from "../../model/govuk.error.data";
-import { validateDate } from "./utils";
 import moment from "moment";
 import { getCompanySicCodes } from "../../config/api.enumerations";
 
@@ -11,6 +10,8 @@ const SIC_CODES_FIELD: string = "sicCodes";
 const INVALID_DATE_ERROR_MESSAGE = "Incorporation date must include a day, a month and a year";
 const TO_DATE_BEFORE_FROM_DATE = "The incorporation 'from' date must be the same as or before the 'to' date";
 const INCORPORATION_DATE_IN_FUTURE = "The incorporation date must be in the past";
+const FROM_MUST_BE_REAL_DATE = "Incorporation 'from' must be a real date";
+const TO_MUST_BE_REAL_DATE = "Incorporation 'to' must be a real date";
 const INVALID_SIC_CODE_FORMAT = "Enter a valid SIC code";
 
 export const advancedSearchValidationRules =
@@ -18,9 +19,11 @@ export const advancedSearchValidationRules =
         check(INCORPORATED_FROM_FIELD)
             .custom((date, { req }) => {
                 if (isStringNotNullOrEmpty(date)) {
-                    const validDate = validateDate(date);
-                    if (!validDate) {
+                    if (!isDateFormattedProperly(date)) {
                         throw Error(INVALID_DATE_ERROR_MESSAGE);
+                    }
+                    if (!isDateValid(date)) {
+                        throw Error(FROM_MUST_BE_REAL_DATE);
                     }
                     const toDate = req.query?.incorporatedTo;
                     if (isStringNotNullOrEmpty(toDate)) {
@@ -37,9 +40,11 @@ export const advancedSearchValidationRules =
         check(INCORPORATED_TO_FIELD)
             .custom((date, { req }) => {
                 if (isStringNotNullOrEmpty(date)) {
-                    const validDate = validateDate(date);
-                    if (!validDate) {
+                    if (!isDateFormattedProperly(date)) {
                         throw Error(INVALID_DATE_ERROR_MESSAGE);
+                    }
+                    if (!isDateValid(date)) {
+                        throw Error(TO_MUST_BE_REAL_DATE);
                     }
                     const fromDate = req.query?.incorporatedFrom;
                     if (isStringNotNullOrEmpty(fromDate)) {
@@ -114,4 +119,33 @@ function checkSicCode(value: string): boolean {
     const SIC_CODES = getCompanySicCodes()
     const trimmedValue = value.trim();
     return SIC_CODES?.includes(trimmedValue) ? true : false;
+}
+
+function getDaysInMonth (month: string, year: string) : number {
+    const yearAsNumber = +year;
+    switch (month) {
+    case "02":
+        return (yearAsNumber % 4 === 0 && yearAsNumber % 100) || yearAsNumber % 400 === 0 ? 29 : 28;
+    case "04": case "06": case "09": case "11":
+        return 30;
+    default:
+        return 31;
+    }
+}
+
+function isDateValid (date: string) : boolean {
+    const [day, month, year] = date.split("/");
+    const daysInMonth = getDaysInMonth(month, year);
+    const monthAsNumber = +month;
+    const dayAsNumber = +day;
+    if (monthAsNumber < 1 || monthAsNumber > 12 || dayAsNumber < 1 || dayAsNumber > daysInMonth) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+function isDateFormattedProperly (date: string) : boolean {
+    const pattern = /^\d{2}\/\d{2}\/\d{4}$/;
+    return pattern.test(date);
 }

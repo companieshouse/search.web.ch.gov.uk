@@ -2,7 +2,7 @@
 import chai from "chai";
 import {
     checkLineBreakRequired, determineReportAvailableBool, getDownloadReportText, mapResponsiveHeaders,
-    formatLongDate, formatCompactAddress, changeDateFormat, validateDate,
+    formatLongDate, formatCompactAddress, changeDateFormat,
     generateSize, buildPagingUrl, mapCompanyStatusCheckboxes
 } from "../../controllers/utils/utils";
 import { createDummyAdvancedSearchParams } from "../../test/MockUtils/advanced-search/mock.util";
@@ -111,27 +111,6 @@ describe("utils.spec.unit", () => {
         });
         it("should return a string if the value passed in matches the required format", () => {
             chai.expect(changeDateFormat("12/03/2020")).to.equal("2020-03-12");
-        });
-    });
-
-    describe("check that validateDate returns true if a valid date", () => {
-        it("should return false if the string provided is empty", () => {
-            chai.expect(validateDate("")).to.equal(false);
-        });
-        it("should return null if the string provided does not include slashes", () => {
-            chai.expect(validateDate("03122020")).to.equal(false);
-        });
-        it("should return false if the string provided is not a date", () => {
-            chai.expect(validateDate("12/03")).to.equal(false);
-        });
-        it("should return false if the string provided is not a date", () => {
-            chai.expect(validateDate("12/03/2002/2003")).to.equal(false);
-        });
-        it("should return false if the string provided is not a date", () => {
-            chai.expect(validateDate("2/3/2021")).to.equal(false);
-        });
-        it("should return true if the string provided is a valid date", () => {
-            chai.expect(validateDate("12/03/2009")).to.equal(true);
         });
     });
 
