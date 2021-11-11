@@ -115,17 +115,10 @@ function isDateInFuture (date: string) : boolean {
     return now < checkDate;
 }
 
-<<<<<<< HEAD
-function isSicCodeFormatCorrect (value: string): boolean {
-    const isNumeric = /^-?\d+$/.test(value);
-
-    return isNumeric && value.length >= 4 && value.length <= 5;
-=======
 function checkSicCode(value: string): boolean {
     const SIC_CODES = getCompanySicCodes()
     const trimmedValue = value.trim();
     return SIC_CODES?.includes(trimmedValue) ? true : false;
->>>>>>> master
 }
 
 function getDaysInMonth (month: string, year: string) : number {
