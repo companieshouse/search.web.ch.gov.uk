@@ -317,7 +317,8 @@ export const changeDateFormat = (inputDate: string) => {
     return year + "-" + month + "-" + day;
 };
 
-export const buildPagingUrl = (advancedSearchParams: AdvancedSearchParams, incorporatedFrom: string | null, incorporatedTo: string | null) : string => {
+export const buildPagingUrl = (advancedSearchParams: AdvancedSearchParams, incorporatedFrom: string | null, incorporatedTo: string | null,
+    dissolvedFrom: string | null, dissolvedTo: string | null) : string => {
     const pagingUrlBuilder = new URLSearchParams();
 
     urlAppender(pagingUrlBuilder, advancedSearchParams.companyNameIncludes, "companyNameIncludes");
@@ -328,6 +329,8 @@ export const buildPagingUrl = (advancedSearchParams: AdvancedSearchParams, incor
     urlAppender(pagingUrlBuilder, advancedSearchParams.companyStatus, "status");
     urlAppender(pagingUrlBuilder, advancedSearchParams.sicCodes, "sicCodes");
     urlAppender(pagingUrlBuilder, advancedSearchParams.companyType, "type");
+    urlAppender(pagingUrlBuilder, dissolvedFrom, "dissolvedFrom");
+    urlAppender(pagingUrlBuilder, dissolvedTo, "dissolvedTo");
 
     const pagingUrl: string = "get-results?" + pagingUrlBuilder.toString();
 

@@ -130,8 +130,8 @@ const mockAdvancedResponse: Resource<AdvancedCompanyResource> = {
                     company_profile: "/company_profile/0000789"
                 },
                 sic_codes: ["00000"],
-                date_of_cessation: (new Date("19910212")),
-                date_of_creation: (new Date("19910212")),
+                date_of_cessation: (new Date("20100212")),
+                date_of_creation: (new Date("20100212")),
                 kind: "kind"
             }
         ],
@@ -154,8 +154,8 @@ const mockAdvancedResponse: Resource<AdvancedCompanyResource> = {
                 company_profile: "/company_profile/0000789"
             },
             sic_codes: ["00000"],
-            date_of_cessation: (new Date("19910212")),
-            date_of_creation: (new Date("19910212")),
+            date_of_cessation: (new Date("20100212")),
+            date_of_creation: (new Date("20100212")),
             kind: "kind"
         },
         hits: 20
@@ -207,7 +207,7 @@ describe("api.client", () => {
                 .returns(Promise.resolve(mockAdvancedResponse));
 
             const searchParams: AdvancedSearchParams = createDummyAdvancedSearchParams("1", "testCompanyNameIncludes", "testCompanyNameExcludes", "testLocation", "01/01/2000",
-                "01/01/2001", "07210", "active", null, null, null);
+                "01/01/2001", "07210", "active", "ltd", "01/10/2010", "01/03/2010");
 
             const advancedSearchResults = await getAdvancedCompanies("api key", searchParams, "request id");
             chai.expect(advancedSearchResults).to.equal(mockAdvancedResponse.resource);
