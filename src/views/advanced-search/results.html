@@ -245,6 +245,7 @@
     </div>
 {% endif %}
 {% endset %}
+
 {% set typeFormHtml %}
     <div class='govuk-form-group'>
       <div class='govuk-form-group' style='overflow: scroll; height: 200px; width: 300px; padding-left: 5px;'>
@@ -452,6 +453,95 @@
     </div>
   {% endset %}
 
+  {% set dissolutionDateHtml %}
+    {% if errorList.length > 0 %}
+      {% if dissolvedFromError %}
+        <div class='govuk-form-group govuk-form-group--error'>  
+          <span class='accordion-label govuk-!-margin-bottom-3'>
+            We can only show companies dissolved since 01/01/2010.
+          </span>
+
+          <label class='accordion-label' for='dissolvedFrom' aria-label='Companies dissolved from from'>
+            From
+          </label>
+          <div id='dissolvedn-date-from-hint' class='accordion-hint'>
+              For example, 21/03/2011
+          </div>
+            <span id="dissolvedFrom-error" class="govuk-error-message">
+              <span class="govuk-visually-hidden">Error:</span> {{ dissolvedFromError.text }}
+            </span>
+          <input class='govuk-input govuk-input--width-10 govuk-input--error' id='dissolvedFrom' name='dissolvedFrom' type='text' value='{{ dissolvedFrom }}' aria-describedby='dissolvedFrom-error'>
+        </div>
+      {% else %}
+      <div class='govuk-form-group'>  
+        <span class='accordion-label govuk-!-margin-bottom-3'>
+          We can only show companies dissolved since 01/01/2010.
+        </span>
+
+        <label class='accordion-label' for='dissolvedFrom' aria-label='Companies dissolved from from'>
+          From
+        </label>
+        <div id='dissolved-date-from-hint' class='accordion-hint'>
+            For example, 23/03/2011
+        </div>
+        <input class='govuk-input govuk-input--width-10' id='dissolvedFrom' name='dissolvedFrom' type='text' value='{{ dissolvedFrom }}' aria-describedby='dissolved-date-from-hint'>
+      </div>
+    {% endif %}
+
+    <hr class='govuk-section-break govuk-section-break--m govuk-section-break--visible'>
+
+    {% if dissolvedToError %}
+      <div class='govuk-form-group govuk-form-group--error'>  
+        <label class='accordion-label' for='dissolvedTo' aria-label='Companies dissolved to'>
+          To
+        </label>
+        <div id='dissolved-date-to-hint' class='accordion-hint'>
+            For example, 21/03/2011
+        </div>
+          <span id="dissolvedTo-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> {{ dissolvedToError.text }}
+          </span>
+        <input class='govuk-input govuk-input--width-10 govuk-input--error' id='dissolvedTo' name='dissolvedTo' type='text' value='{{ dissolvedTo }}' aria-describedby='dissolvedTo-error'>
+      </div>
+    {% else %}
+      <div class='govuk-form-group'>
+        <label class='accordion-label' for='dissolvedTo' aria-label='Companies dissolved to'>
+          To
+        </label>
+        <div id='dissolved-date-to-hint' class='accordion-hint'>
+            For example, 23/03/2011
+        </div>
+        <input class='govuk-input govuk-input--width-10' id='dissolvedTo' name='dissolvedTo' type='text' value='{{ dissolvedTo }}' aria-describedby='dissolved-date-to-hint'>
+      </div>
+    {% endif %}
+  {% else %}
+    <div class='govuk-form-group'>  
+      <span class='accordion-label govuk-!-margin-bottom-3'>
+        We can only show companies dissolved since 01/01/2010.
+      </span>
+      <label class='accordion-label' for='dissolvedFrom' aria-label='Companies dissolved from'>
+        From
+      </label>
+      <div id='dissolved-date-from-hint' class='accordion-hint'>
+          For example, 21/03/2011
+      </div>
+      <input class='govuk-input govuk-input--width-10' id='dissolvedFrom' name='dissolvedFrom' type='text' value='{{ dissolvedFrom }}' aria-describedby='dissolved-date-from-hint'>
+    </div>
+
+    <hr class='govuk-section-break govuk-section-break--m govuk-section-break--visible'>
+
+    <div class='govuk-form-group'>
+      <label class='accordion-label' for='dissolvedTo' aria-label='Companies dissolved to'>
+        To
+      </label>
+      <div id='incorporation-date-to-hint' class='accordion-hint'>
+          For example, 23/03/2011
+      </div>
+      <input class='govuk-input govuk-input--width-10' id='dissolvedTo' name='dissolvedTo' type='text' value='{{ dissolvedTo }}' aria-describedby='dissolved-date-to-hint'>
+    </div>
+  {% endif %}
+{% endset %}
+
 <div class="govuk-width-container">
 
   <div class="govuk-grid-row">
@@ -529,6 +619,14 @@
               },
               content: {
                 html: typeFormHtml
+              }
+            },
+            {
+              heading: {
+                text: "Dissolved date"
+              },
+              content: {
+                html: dissolutionDateHtml
               }
             }
           ]

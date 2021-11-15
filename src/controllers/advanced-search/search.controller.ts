@@ -12,6 +12,8 @@ const route = async (req: Request, res: Response) => {
     const page = req.query.page ? Number(req.query.page) : 1;
     const incorporatedFrom = req.query.incorporatedFrom as string || null;
     const incorporatedTo = req.query.incorporatedTo as string || null;
+    const dissolvedFrom = req.query.dissolvedFrom as string || null;
+    const dissolvedTo = req.query.dissolvedTo as string || null;
     const advancedSearchParams: AdvancedSearchParams = {
         page: page,
         companyNameIncludes: req.query.companyNameIncludes as string || null,
@@ -22,8 +24,8 @@ const route = async (req: Request, res: Response) => {
         sicCodes: req.query.sicCodes as string || null,
         companyStatus: req.query.status as string || null,
         companyType: req.query.type as string || null,
-        dissolvedFrom: null,
-        dissolvedTo: null
+        dissolvedFrom: dissolvedFrom !== null ? changeDateFormat(dissolvedFrom) : null,
+        dissolvedTo: dissolvedTo !== null ? changeDateFormat(dissolvedTo) : null
     };
     const selectedStatusCheckboxes = mapCompanyStatusCheckboxes(advancedSearchParams.companyStatus);
     const selectedTypeCheckboxes = mapCompanyTypeCheckboxes(advancedSearchParams.companyType);
@@ -31,7 +33,7 @@ const route = async (req: Request, res: Response) => {
     const errorList = validate(errors);
 
     if (!errors.isEmpty()) {
-        return res.render(templatePaths.ADVANCED_SEARCH_RESULTS, { ...errorList, advancedSearchParams, incorporatedFrom, incorporatedTo, selectedStatusCheckboxes, selectedTypeCheckboxes });
+        return res.render(templatePaths.ADVANCED_SEARCH_RESULTS, { ...errorList, advancedSearchParams, incorporatedFrom, incorporatedTo, selectedStatusCheckboxes, selectedTypeCheckboxes, dissolvedFrom, dissolvedTo });
     };
 
     if (advancedSearchParams.companyType !== null) {
@@ -40,10 +42,10 @@ const route = async (req: Request, res: Response) => {
     const { companyResource, searchResults } = await getSearchResults(advancedSearchParams, cookies);
     const numberOfPages: number = Math.ceil(companyResource.hits / 20);
     const pagingRange = getPagingRange(page, numberOfPages);
-    const partialHref: string = buildPagingUrl(advancedSearchParams, incorporatedFrom, incorporatedTo);
+    const partialHref: string = buildPagingUrl(advancedSearchParams, incorporatedFrom, incorporatedTo, dissolvedFrom, dissolvedTo);
 
     return res.render(templatePaths.ADVANCED_SEARCH_RESULTS,
-        { searchResults, advancedSearchParams, page, numberOfPages, pagingRange, partialHref, incorporatedFrom, incorporatedTo, selectedStatusCheckboxes, selectedTypeCheckboxes });
+        { searchResults, advancedSearchParams, page, numberOfPages, pagingRange, partialHref, incorporatedFrom, incorporatedTo, selectedStatusCheckboxes, selectedTypeCheckboxes, dissolvedFrom, dissolvedTo });
 };
 
 export default [...advancedSearchValidationRules, route];
