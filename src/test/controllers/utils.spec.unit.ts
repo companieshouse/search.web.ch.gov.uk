@@ -157,6 +157,11 @@ describe("utils.spec.unit", () => {
                 .to.equal("get-results?registeredOfficeAddress=testRegisteredOfficeAddress");
         });
 
+        it("should return a url with a parameter for company type", () => {
+            const searchParams = createDummyAdvancedSearchParams(null, null, null, null, null, null, null, null, "ltd", null, null);
+            chai.expect(buildPagingUrl(searchParams, null, null, null, null)).to.equal("get-results?type=ltd");
+        });
+
         it("should return a url with parameters for dissolvedFrom and DissolvedTo", () => {
             const searchParams = createDummyAdvancedSearchParams(null, null, null, null, null, null, null, null, null, "testDissolvedFrom", "testDissolvedTo");
             chai.expect(buildPagingUrl(searchParams, null, null, "testDissolvedFrom", "testDissolvedTo"))
@@ -164,7 +169,7 @@ describe("utils.spec.unit", () => {
         });
 
         it("should return a url with a parameter for all fields present", () => {
-            const searchParams = createDummyAdvancedSearchParams("1", "testCompanyNameIncludes", "testCompanyNameExcludes", "testRegisteredOfficeAddress", "testIncorporatedFrom", "testIncorporatedTo", "07210", "active", null, null, null);
+            const searchParams = createDummyAdvancedSearchParams("1", "testCompanyNameIncludes", "testCompanyNameExcludes", "testRegisteredOfficeAddress", "testIncorporatedFrom", "testIncorporatedTo", "07210", "active", "ltd", null, null);
             chai.expect(buildPagingUrl(searchParams, "testIncorporatedFrom", "testIncorporatedTo", "testDissolvedFrom", "testDissolvedTo"))
                 .to.equal("get-results?companyNameIncludes=testCompanyNameIncludes" +
                     "&companyNameExcludes=testCompanyNameExcludes" +
@@ -173,6 +178,7 @@ describe("utils.spec.unit", () => {
                     "&incorporatedTo=testIncorporatedTo" +
                     "&status=active" +
                     "&sicCodes=07210" +
+                    "&type=ltd" +
                     "&dissolvedFrom=testDissolvedFrom" +
                     "&dissolvedTo=testDissolvedTo");
         });
