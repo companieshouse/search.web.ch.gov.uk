@@ -157,6 +157,12 @@ describe("utils.spec.unit", () => {
                 .to.equal("get-results?registeredOfficeAddress=testRegisteredOfficeAddress");
         });
 
+        it("should return a url with a parameter for company type", () => {
+            const searchParams = createDummyAdvancedSearchParams(null, null, null, null, null, null, null, null, "ltd", null, null);
+            chai.expect(buildPagingUrl(searchParams, null, null))
+                .to.equal("get-results?type=ltd");
+        });
+
         it("should return a url with a parameter for all fields present", () => {
             const searchParams = createDummyAdvancedSearchParams("1", "testCompanyNameIncludes", "testCompanyNameExcludes", "testRegisteredOfficeAddress", "testIncorporatedFrom", "testIncorporatedTo", "07210", "active", "ltd", null, null);
             chai.expect(buildPagingUrl(searchParams, "testIncorporatedFrom", "testIncorporatedTo"))
