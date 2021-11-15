@@ -79,7 +79,7 @@ describe("search.controller.spec.unit", () => {
 
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain("Dissolution date");
-            chai.expect(resp.text).to.contain("Companies dissolved after");
+            chai.expect(resp.text).to.contain("We can only show companies dissolved since 01/01/2010.");
         });
     });
 
