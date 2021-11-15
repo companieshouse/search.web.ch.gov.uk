@@ -57,7 +57,8 @@ export const getAdvancedCompanies =
             throw createError(companiesResource.httpStatusCode, companiesResource.httpStatusCode.toString());
         }
         logger.info(`Get advanced search results, company_name_includes=${advancedSearchParams.companyNameIncludes},company_name_excludes=${advancedSearchParams.companyNameExcludes},
-         location=${advancedSearchParams.location}, incorporated_from=${advancedSearchParams.incorporatedFrom}, incorporated_to=${advancedSearchParams.incorporatedTo},
-          company_status=${advancedSearchParams.companyStatus}, sic_codes=${advancedSearchParams.sicCodes} status_code=${companiesResource.httpStatusCode}`);
+          location=${advancedSearchParams.location}, incorporated_from=${advancedSearchParams.incorporatedFrom}, incorporated_to=${advancedSearchParams.incorporatedTo},
+          company_status=${advancedSearchParams.companyStatus}, sic_codes=${advancedSearchParams.sicCodes}, company_type=${advancedSearchParams.companyType} 
+          status_code=${companiesResource.httpStatusCode}`);
         return companiesResource.resource as AdvancedCompaniesResource;
     };

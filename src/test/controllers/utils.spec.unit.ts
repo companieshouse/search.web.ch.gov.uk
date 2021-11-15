@@ -158,7 +158,7 @@ describe("utils.spec.unit", () => {
         });
 
         it("should return a url with a parameter for all fields present", () => {
-            const searchParams = createDummyAdvancedSearchParams("1", "testCompanyNameIncludes", "testCompanyNameExcludes", "testRegisteredOfficeAddress", "testIncorporatedFrom", "testIncorporatedTo", "07210", "active", null, null, null);
+            const searchParams = createDummyAdvancedSearchParams("1", "testCompanyNameIncludes", "testCompanyNameExcludes", "testRegisteredOfficeAddress", "testIncorporatedFrom", "testIncorporatedTo", "07210", "active", "ltd", null, null);
             chai.expect(buildPagingUrl(searchParams, "testIncorporatedFrom", "testIncorporatedTo"))
                 .to.equal("get-results?companyNameIncludes=testCompanyNameIncludes" +
                     "&companyNameExcludes=testCompanyNameExcludes" +
@@ -166,7 +166,8 @@ describe("utils.spec.unit", () => {
                     "&incorporatedFrom=testIncorporatedFrom" +
                     "&incorporatedTo=testIncorporatedTo" +
                     "&status=active" +
-                    "&sicCodes=07210");
+                    "&sicCodes=07210" +
+                    "&type=ltd");
         });
     });
 
