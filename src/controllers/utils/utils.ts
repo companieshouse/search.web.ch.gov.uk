@@ -414,7 +414,7 @@ export const mapCompanyTypeCheckboxes = (companyType: string | null | undefined)
     return selectedTypeCheckboxes;
 };
 
-export const getJsonString = (companyResource) => {
+export const mapCompanyResource = (companyResource) => {
     const listOfCompanies = companyResource.items.map(item => {
         const sicCodes = item.sic_codes !== undefined ? item.sic_codes.toString().replace(/,/g, " ") : " ";
         const companyData = {
@@ -429,7 +429,5 @@ export const getJsonString = (companyResource) => {
         };
         return companyData;
     });
-    const jsonString = JSON.stringify(listOfCompanies);
-
-    return jsonString;
+    return listOfCompanies;
 };

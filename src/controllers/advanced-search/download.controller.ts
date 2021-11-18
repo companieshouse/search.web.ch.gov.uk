@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { changeDateFormat, getJsonString } from "../utils/utils";
+import { changeDateFormat, mapCompanyResource } from "../utils/utils";
 import { AdvancedSearchParams } from "../../model/advanced.search.params";
 import { getAdvancedCompanies } from "../../client/apiclient";
 import { ADVANCED_SEARCH_NUMBER_OF_RESULTS_TO_DOWNLOAD, API_KEY, SEARCH_WEB_COOKIE_NAME } from "../../config/config";
@@ -31,7 +31,7 @@ const route = async (req: Request, res: Response) => {
     };
    
     const companyResource = await getAdvancedCompanies(API_KEY, advancedSearchParams, (cookies.get(SEARCH_WEB_COOKIE_NAME) as string));
-    const jsonString = getJsonString(companyResource);
+    const jsonString = mapCompanyResource(companyResource);
     const parsedData = Papa.unparse(jsonString);
 
     res.header('Content-Type', 'text/csv');
