@@ -36,3 +36,14 @@ function clearForm(form) {
     };
   };
 };
+
+function reloadPage() {
+    if (navigator.userAgent.indexOf("Chrome") !== -1 || navigator.userAgent.indexOf('Trident/') !== -1){
+      window.addEventListener( "pageshow", function ( event ) {
+        let historyTraversal = event.persisted || window.performance.getEntriesByType("navigation")[0].type === "back_forward";
+        if (historyTraversal) {
+          window.location.reload();
+        };
+      });
+    };
+};
