@@ -9,11 +9,11 @@ const SIC_CODES_FIELD: string = "sicCodes";
 const DISSOLVED_FROM_FIELD: string = "dissolvedFrom";
 const DISSOLVED_TO_FIELD: string = "dissolvedTo";
 
-const INVALID_DATE_ERROR_MESSAGE = "Incorporation date must include a day, a month and a year";
+const INVALID_DATE_ERROR_MESSAGE = "The incorporation date must include a day, a month and a year";
 const TO_DATE_BEFORE_FROM_DATE = "The incorporation 'from' date must be the same as or before the 'to' date";
 const INCORPORATION_DATE_IN_FUTURE = "The incorporation date must be in the past";
-const FROM_MUST_BE_REAL_DATE = "Incorporation 'from' must be a real date";
-const TO_MUST_BE_REAL_DATE = "Incorporation 'to' must be a real date";
+const FROM_MUST_BE_REAL_DATE = "The incorporation 'from' must be a real date";
+const TO_MUST_BE_REAL_DATE = "The incorporation 'to' must be a real date";
 const INVALID_SIC_CODE_FORMAT = "Enter a valid SIC code";
 const DISSOLVED_INVALID_DATE_ERROR_MESSAGE = "Dissolution date must include a day, a month and a year";
 const DISSOLVED_TO_DATE_BEFORE_FROM_DATE = "The dissolved 'from' date must be the same as or before the 'to' date";
