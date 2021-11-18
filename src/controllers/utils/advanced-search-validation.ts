@@ -15,11 +15,11 @@ const INCORPORATION_DATE_IN_FUTURE = "The incorporation date must be in the past
 const FROM_MUST_BE_REAL_DATE = "Incorporation 'from' must be a real date";
 const TO_MUST_BE_REAL_DATE = "Incorporation 'to' must be a real date";
 const INVALID_SIC_CODE_FORMAT = "Enter a valid SIC code";
-const DISSOLVED_INVALID_DATE_ERROR_MESSAGE = "Dissolution date must include a day, a month and a year";
-const DISSOLVED_TO_DATE_BEFORE_FROM_DATE = "The dissolved 'from' date must be the same as or before the 'to' date";
+const DISSOLVED_INVALID_DATE_ERROR_MESSAGE = "The dissolution date must include a day, a month and a year";
+const DISSOLVED_TO_DATE_BEFORE_FROM_DATE = "The dissolution 'from' date must be the same as or before the 'to' date";
 const DISSOLVED_DATE_IN_FUTURE = "The dissolution date must be in the past";
-const DISSOLVED_FROM_MUST_BE_REAL_DATE = "Dissolution 'from' date must be a real date";
-const DISSOLVED_TO_MUST_BE_REAL_DATE = "Dissolution 'to' date must be a real date";
+const DISSOLVED_FROM_MUST_BE_REAL_DATE = "The dissolution 'from' date must be a real date";
+const DISSOLVED_TO_MUST_BE_REAL_DATE = "The dissolution 'to' date must be a real date";
 
 export const advancedSearchValidationRules =
     [

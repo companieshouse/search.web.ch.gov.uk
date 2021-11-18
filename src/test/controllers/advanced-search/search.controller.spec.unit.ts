@@ -521,7 +521,7 @@ describe("search.controller.spec.unit", () => {
                 .get("/advanced-search/get-results?dissolvedFrom=01-01-2009");
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain("Dissolution date must include a day, a month and a year");
+            chai.expect(resp.text).to.contain("The dissolution date must include a day, a month and a year");
             chai.expect(resp.text).to.contain("<input class='govuk-input govuk-input--width-10 govuk-input--error' id='dissolvedFrom' name='dissolvedFrom' type='text' value='01-01-2009' aria-describedby='dissolvedFrom-error'>");
         });
 
@@ -533,7 +533,7 @@ describe("search.controller.spec.unit", () => {
                 .get("/advanced-search/get-results?dissolvedFrom=2009/01/01");
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain("Dissolution date must include a day, a month and a year");
+            chai.expect(resp.text).to.contain("The dissolution date must include a day, a month and a year");
             chai.expect(resp.text).to.contain("<input class='govuk-input govuk-input--width-10 govuk-input--error' id='dissolvedFrom' name='dissolvedFrom' type='text' value='2009/01/01' aria-describedby='dissolvedFrom-error'>");
         });
 
@@ -545,7 +545,7 @@ describe("search.controller.spec.unit", () => {
                 .get("/advanced-search/get-results?containsCompanyName=test&excludesCompanyName=&dissolvedFrom=01/2009");
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain(`<a href="#dissolvedFrom">Dissolution date must include a day, a month and a year</a>`);
+            chai.expect(resp.text).to.contain(`<a href="#dissolvedFrom">The dissolution date must include a day, a month and a year</a>`);
             chai.expect(resp.text).to.contain("<input class='govuk-input govuk-input--width-10 govuk-input--error' id='dissolvedFrom' name='dissolvedFrom' type='text' value='01/2009' aria-describedby='dissolvedFrom-error'>");
         });
 
@@ -568,7 +568,7 @@ describe("search.controller.spec.unit", () => {
                 .get("/advanced-search/get-results?containsCompanyName=test&excludesCompanyName=&dissolvedTo=01-01-2009");
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain(`<a href="#dissolvedTo">Dissolution date must include a day, a month and a year</a>`);
+            chai.expect(resp.text).to.contain(`<a href="#dissolvedTo">The dissolution date must include a day, a month and a year</a>`);
             chai.expect(resp.text).to.contain("<input class='govuk-input govuk-input--width-10 govuk-input--error' id='dissolvedTo' name='dissolvedTo' type='text' value='01-01-2009' aria-describedby='dissolvedTo-error'>");
         });
 
@@ -580,7 +580,7 @@ describe("search.controller.spec.unit", () => {
                 .get("/advanced-search/get-results?containsCompanyName=test&excludesCompanyName=&dissolvedTo=2009/01/01");
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain(`<a href="#dissolvedTo">Dissolution date must include a day, a month and a year</a>`);
+            chai.expect(resp.text).to.contain(`<a href="#dissolvedTo">The dissolution date must include a day, a month and a year</a>`);
             chai.expect(resp.text).to.contain("<input class='govuk-input govuk-input--width-10 govuk-input--error' id='dissolvedTo' name='dissolvedTo' type='text' value='2009/01/01' aria-describedby='dissolvedTo-error'>");
         });
 
@@ -592,7 +592,7 @@ describe("search.controller.spec.unit", () => {
                 .get("/advanced-search/get-results?containsCompanyName=test&excludesCompanyName=&dissolvedTo=01/2009");
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain(`<a href="#dissolvedTo">Dissolution date must include a day, a month and a year</a>`);
+            chai.expect(resp.text).to.contain(`<a href="#dissolvedTo">The dissolution date must include a day, a month and a year</a>`);
             chai.expect(resp.text).to.contain("<input class='govuk-input govuk-input--width-10 govuk-input--error' id='dissolvedTo' name='dissolvedTo' type='text' value='01/2009' aria-describedby='dissolvedTo-error'>");
         });
 
@@ -614,8 +614,8 @@ describe("search.controller.spec.unit", () => {
             const resp = await chai.request(testApp)
                 .get("/advanced-search/get-results?containsCompanyName=test&excludesCompanyName=&dissolvedTo=01/01/2009&dissolvedFrom=01/01/2010");
             chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain(`<a href="#dissolvedFrom">The dissolved &#39;from&#39; date must be the same as or before the &#39;to&#39; date</a>`);
-            chai.expect(resp.text).to.contain(`<a href="#dissolvedTo">The dissolved &#39;from&#39; date must be the same as or before the &#39;to&#39; date</a>`);
+            chai.expect(resp.text).to.contain(`<a href="#dissolvedFrom">The dissolution &#39;from&#39; date must be the same as or before the &#39;to&#39; date</a>`);
+            chai.expect(resp.text).to.contain(`<a href="#dissolvedTo">The dissolution &#39;from&#39; date must be the same as or before the &#39;to&#39; date</a>`);
             chai.expect(resp.text).to.contain(`<span id="dissolvedFrom-error" class="govuk-error-message">`);
             chai.expect(resp.text).to.contain(`<span id="dissolvedTo-error" class="govuk-error-message">`);
         });
@@ -627,8 +627,8 @@ describe("search.controller.spec.unit", () => {
             const resp = await chai.request(testApp)
                 .get("/advanced-search/get-results?containsCompanyName=test&excludesCompanyName=&dissolvedFrom=01/01/2010&dissolvedTo=01/01/2009");
             chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain(`<a href="#dissolvedFrom">The dissolved &#39;from&#39; date must be the same as or before the &#39;to&#39; date</a>`);
-            chai.expect(resp.text).to.contain(`<a href="#dissolvedTo">The dissolved &#39;from&#39; date must be the same as or before the &#39;to&#39; date</a>`);
+            chai.expect(resp.text).to.contain(`<a href="#dissolvedFrom">The dissolution &#39;from&#39; date must be the same as or before the &#39;to&#39; date</a>`);
+            chai.expect(resp.text).to.contain(`<a href="#dissolvedTo">The dissolution &#39;from&#39; date must be the same as or before the &#39;to&#39; date</a>`);
             chai.expect(resp.text).to.contain(`<span id="dissolvedFrom-error" class="govuk-error-message">`);
             chai.expect(resp.text).to.contain(`<span id="dissolvedTo-error" class="govuk-error-message">`);
         });
@@ -662,9 +662,9 @@ describe("search.controller.spec.unit", () => {
             const resp = await chai.request(testApp)
                 .get("/advanced-search/get-results?containsCompanyName=test&excludesCompanyName=&dissolvedFrom=29/02/2021");
             chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain(`<a href="#dissolvedFrom">Dissolution &#39;from&#39; date must be a real date</a>`);
+            chai.expect(resp.text).to.contain(`<a href="#dissolvedFrom">The dissolution &#39;from&#39; date must be a real date</a>`);
             chai.expect(resp.text).to.contain(`<span id="dissolvedFrom-error" class="govuk-error-message">`);
-            chai.expect(resp.text).to.contain(`<span class="govuk-visually-hidden">Error:</span> Dissolution &#39;from&#39; date must be a real date`);
+            chai.expect(resp.text).to.contain(`<span class="govuk-visually-hidden">Error:</span> The dissolution &#39;from&#39; date must be a real date`);
         });
 
         it("should display an error message if 'from' date has a month > 12", async () => {
@@ -674,9 +674,9 @@ describe("search.controller.spec.unit", () => {
             const resp = await chai.request(testApp)
                 .get("/advanced-search/get-results?containsCompanyName=test&excludesCompanyName=&dissolvedFrom=01/13/2020");
             chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain(`<a href="#dissolvedFrom">Dissolution &#39;from&#39; date must be a real date</a>`);
+            chai.expect(resp.text).to.contain(`<a href="#dissolvedFrom">The dissolution &#39;from&#39; date must be a real date</a>`);
             chai.expect(resp.text).to.contain(`<span id="dissolvedFrom-error" class="govuk-error-message">`);
-            chai.expect(resp.text).to.contain(`<span class="govuk-visually-hidden">Error:</span> Dissolution &#39;from&#39; date must be a real date`);
+            chai.expect(resp.text).to.contain(`<span class="govuk-visually-hidden">Error:</span> The dissolution &#39;from&#39; date must be a real date`);
         });
 
         it("should display an error message if 'to' date is 29 February and not a leap year", async () => {
@@ -686,9 +686,9 @@ describe("search.controller.spec.unit", () => {
             const resp = await chai.request(testApp)
                 .get("/advanced-search/get-results?containsCompanyName=test&excludesCompanyName=&dissolvedTo=29/02/2021");
             chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain(`<a href="#dissolvedTo">Dissolution &#39;to&#39; date must be a real date</a>`);
+            chai.expect(resp.text).to.contain(`<a href="#dissolvedTo">The dissolution &#39;to&#39; date must be a real date</a>`);
             chai.expect(resp.text).to.contain(`<span id="dissolvedTo-error" class="govuk-error-message">`);
-            chai.expect(resp.text).to.contain(`<span class="govuk-visually-hidden">Error:</span> Dissolution &#39;to&#39; date must be a real date`);
+            chai.expect(resp.text).to.contain(`<span class="govuk-visually-hidden">Error:</span> The dissolution &#39;to&#39; date must be a real date`);
         });
 
         it("should display an error message if 'to' date has a month > 12", async () => {
@@ -698,9 +698,9 @@ describe("search.controller.spec.unit", () => {
             const resp = await chai.request(testApp)
                 .get("/advanced-search/get-results?containsCompanyName=test&excludesCompanyName=&dissolvedTo=01/13/2020");
             chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain(`<a href="#dissolvedTo">Dissolution &#39;to&#39; date must be a real date</a>`);
+            chai.expect(resp.text).to.contain(`<a href="#dissolvedTo">The dissolution &#39;to&#39; date must be a real date</a>`);
             chai.expect(resp.text).to.contain(`<span id="dissolvedTo-error" class="govuk-error-message">`);
-            chai.expect(resp.text).to.contain(`<span class="govuk-visually-hidden">Error:</span> Dissolution &#39;to&#39; date must be a real date`);
+            chai.expect(resp.text).to.contain(`<span class="govuk-visually-hidden">Error:</span> The dissolution &#39;to&#39; date must be a real date`);
         });
     });
 });
