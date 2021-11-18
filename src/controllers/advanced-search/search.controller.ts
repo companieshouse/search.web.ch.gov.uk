@@ -25,7 +25,8 @@ const route = async (req: Request, res: Response) => {
         companyStatus: req.query.status as string || null,
         companyType: req.query.type as string || null,
         dissolvedFrom: dissolvedFrom !== null ? changeDateFormat(dissolvedFrom) : null,
-        dissolvedTo: dissolvedTo !== null ? changeDateFormat(dissolvedTo) : null
+        dissolvedTo: dissolvedTo !== null ? changeDateFormat(dissolvedTo) : null,
+        size: null
     };
     const selectedStatusCheckboxes = mapCompanyStatusCheckboxes(advancedSearchParams.companyStatus);
     const selectedTypeCheckboxes = mapCompanyTypeCheckboxes(advancedSearchParams.companyType);

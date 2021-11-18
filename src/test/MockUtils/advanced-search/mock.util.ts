@@ -113,7 +113,8 @@ export const createDummyAdvancedSearchParams = (
     companyStatusParam: string | null,
     companyTypeParam: string | null,
     dissolvedFromParam: string | null,
-    dissolvedToParam: string | null): AdvancedSearchParams => {
+    dissolvedToParam: string | null,
+    sizeParam: number | null): AdvancedSearchParams => {
     const dummyAdvancedSearchParams: AdvancedSearchParams = {
         page: Number(pageParam),
         companyNameExcludes: companyNameExcludesParam,
@@ -125,7 +126,8 @@ export const createDummyAdvancedSearchParams = (
         companyStatus: companyStatusParam,
         companyType: companyTypeParam,
         dissolvedFrom: dissolvedFromParam,
-        dissolvedTo: dissolvedToParam
+        dissolvedTo: dissolvedToParam,
+        size: sizeParam
     };
     return dummyAdvancedSearchParams;
 };

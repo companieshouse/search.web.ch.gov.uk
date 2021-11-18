@@ -140,36 +140,36 @@ describe("utils.spec.unit", () => {
 
     describe("check that buildPagingUrl constructs the url for paging correctly", () => {
         it("should return a url with a parameter for company name includes", () => {
-            const searchParams = createDummyAdvancedSearchParams("1", "testCompanyNameIncludes", null, null, null, null, null, null, null, null, null);
+            const searchParams = createDummyAdvancedSearchParams("1", "testCompanyNameIncludes", null, null, null, null, null, null, null, null, null, null);
             chai.expect(buildPagingUrl(searchParams, null, null, null, null))
                 .to.equal("get-results?companyNameIncludes=testCompanyNameIncludes");
         });
 
         it("should return a url with a parameter for company name excludes", () => {
-            const searchParams = createDummyAdvancedSearchParams(null, null, "testCompanyNameExcludes", null, null, null, null, null, null, null, null);
+            const searchParams = createDummyAdvancedSearchParams(null, null, "testCompanyNameExcludes", null, null, null, null, null, null, null, null, null);
             chai.expect(buildPagingUrl(searchParams, null, null, null, null))
                 .to.equal("get-results?companyNameExcludes=testCompanyNameExcludes");
         });
 
         it("should return a url with a parameter for registered office address", () => {
-            const searchParams = createDummyAdvancedSearchParams(null, null, null, "testRegisteredOfficeAddress", null, null, null, null, null, null, null);
+            const searchParams = createDummyAdvancedSearchParams(null, null, null, "testRegisteredOfficeAddress", null, null, null, null, null, null, null, null);
             chai.expect(buildPagingUrl(searchParams, null, null, null, null))
                 .to.equal("get-results?registeredOfficeAddress=testRegisteredOfficeAddress");
         });
 
         it("should return a url with a parameter for company type", () => {
-            const searchParams = createDummyAdvancedSearchParams(null, null, null, null, null, null, null, null, "ltd", null, null);
+            const searchParams = createDummyAdvancedSearchParams(null, null, null, null, null, null, null, null, "ltd", null, null, null);
             chai.expect(buildPagingUrl(searchParams, null, null, null, null)).to.equal("get-results?type=ltd");
         });
 
         it("should return a url with parameters for dissolvedFrom and DissolvedTo", () => {
-            const searchParams = createDummyAdvancedSearchParams(null, null, null, null, null, null, null, null, null, "testDissolvedFrom", "testDissolvedTo");
+            const searchParams = createDummyAdvancedSearchParams(null, null, null, null, null, null, null, null, null, "testDissolvedFrom", "testDissolvedTo", null);
             chai.expect(buildPagingUrl(searchParams, null, null, "testDissolvedFrom", "testDissolvedTo"))
                 .to.equal("get-results?dissolvedFrom=testDissolvedFrom&dissolvedTo=testDissolvedTo");
         });
 
         it("should return a url with a parameter for all fields present", () => {
-            const searchParams = createDummyAdvancedSearchParams("1", "testCompanyNameIncludes", "testCompanyNameExcludes", "testRegisteredOfficeAddress", "testIncorporatedFrom", "testIncorporatedTo", "07210", "active", "ltd", null, null);
+            const searchParams = createDummyAdvancedSearchParams("1", "testCompanyNameIncludes", "testCompanyNameExcludes", "testRegisteredOfficeAddress", "testIncorporatedFrom", "testIncorporatedTo", "07210", "active", "ltd", null, null, null);
             chai.expect(buildPagingUrl(searchParams, "testIncorporatedFrom", "testIncorporatedTo", "testDissolvedFrom", "testDissolvedTo"))
                 .to.equal("get-results?companyNameIncludes=testCompanyNameIncludes" +
                     "&companyNameExcludes=testCompanyNameExcludes" +

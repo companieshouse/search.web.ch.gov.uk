@@ -51,6 +51,7 @@ export const getAdvancedCompanies =
                 advancedSearchParams.companyType,
                 advancedSearchParams.dissolvedFrom,
                 advancedSearchParams.dissolvedTo,
+                advancedSearchParams.size,
                 requestId);
 
         if (companiesResource.httpStatusCode !== 200 && companiesResource.httpStatusCode !== 201) {
@@ -59,6 +60,6 @@ export const getAdvancedCompanies =
         logger.info(`Get advanced search results, company_name_includes=${advancedSearchParams.companyNameIncludes},company_name_excludes=${advancedSearchParams.companyNameExcludes},
           location=${advancedSearchParams.location}, incorporated_from=${advancedSearchParams.incorporatedFrom}, incorporated_to=${advancedSearchParams.incorporatedTo},
           company_status=${advancedSearchParams.companyStatus}, sic_codes=${advancedSearchParams.sicCodes}, company_type=${advancedSearchParams.companyType}, 
-          dissolved_from=${advancedSearchParams.dissolvedFrom}, dissolved_to=${advancedSearchParams.dissolvedTo}, status_code=${companiesResource.httpStatusCode}`);
+          dissolved_from=${advancedSearchParams.dissolvedFrom}, dissolved_to=${advancedSearchParams.dissolvedTo}, size=${advancedSearchParams.size}, status_code=${companiesResource.httpStatusCode}`);
         return companiesResource.resource as AdvancedCompaniesResource;
     };

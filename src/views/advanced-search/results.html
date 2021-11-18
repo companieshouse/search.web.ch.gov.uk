@@ -555,7 +555,6 @@
     </div>
   </div>
 
-
   <div class="govuk-grid-row">
 
     <div class="govuk-grid-column-one-third" style="margin-right: 15px;">
@@ -640,6 +639,21 @@
         </div>
       </form>
 
+      {% if searchResults.length > 0 %}
+        <div>
+          <form action="/advanced-search/download" method="GET">
+            <button class="govuk-button" data-module="govuk-button">
+              Download CSV
+            </button>
+          </form>
+        </div>
+      {% else %}
+        <div>
+            <button disabled="disabled" aria-disabled="true" class="govuk-button govuk-button--disabled" data-module="govuk-button">
+              Download CSV
+            </button>
+        </div>
+      {% endif %}
     </div>
 
     <div class="govuk-grid-two-thirds two-thirds-div" style="padding-top: 45px;">
