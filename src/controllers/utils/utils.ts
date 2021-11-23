@@ -1,7 +1,11 @@
 import { COMPANY_STATUS_CONSTANT, COMPANY_TYPE_CONSTANT, getCompanyConstant } from "../../config/api.enumerations";
 import { AdvancedSearchParams } from "model/advanced.search.params";
+import { ADVANCED_SEARCH_NUMBER_OF_RESULTS_TO_DOWNLOAD, APPLICATION_NAME } from "../../config/config";
+import { createLogger } from "@companieshouse/structured-logging-node";
 import escape from "escape-html";
 import moment from "moment";
+
+const logger = createLogger(APPLICATION_NAME);
 
 export const getDownloadReportText = (signedIn: boolean, reportAvailable: boolean, returnUrl: string, companyNumber: string): string => {
     const signIn = "Sign in to download report";
@@ -412,6 +416,46 @@ export const mapCompanyTypeCheckboxes = (companyType: string | null | undefined)
     selectedTypeCheckboxes.unregisteredCompany = (selectedCompanyTypeArray.includes("unregistered-company")) ? "checked" : "";
 
     return selectedTypeCheckboxes;
+};
+
+export const getParamsFromUrlReferer = (url: string): AdvancedSearchParams => {
+    const emptyAdvancedSearchParams: AdvancedSearchParams = {
+        page: 1,
+        companyNameIncludes: null,
+        companyNameExcludes: null,
+        location: null,
+        incorporatedFrom: null,
+        incorporatedTo: null,
+        sicCodes: null,
+        companyStatus: null,
+        companyType: null,
+        dissolvedFrom: null,
+        dissolvedTo: null,
+        size: ADVANCED_SEARCH_NUMBER_OF_RESULTS_TO_DOWNLOAD
+    };
+
+    try {
+        const urlArray = url?.split("advanced-search/get-results?");
+        const parsedQueryParams = JSON.parse("{\"" + decodeURI(urlArray[1].replace(/&/g, "\",\"").replace(/=/g, "\":\"")) + "\"}");
+        const advancedSearchParams: AdvancedSearchParams = {
+            page: 1,
+            companyNameIncludes: parsedQueryParams.companyNameIncludes as string || null,
+            companyNameExcludes: parsedQueryParams.companyNameExcludes as string || null,
+            location: parsedQueryParams.registeredOfficeAddress as string || null,
+            incorporatedFrom: parsedQueryParams.incorporatedFrom !== null ? changeDateFormat(decodeURIComponent(parsedQueryParams.incorporatedFrom)) : null,
+            incorporatedTo: parsedQueryParams.incorporatedTo !== null ? changeDateFormat(decodeURIComponent(parsedQueryParams.incorporatedTo)) : null,
+            sicCodes: parsedQueryParams.icCodes as string || null,
+            companyStatus: parsedQueryParams.status as string || null,
+            companyType: parsedQueryParams.type as string || null,
+            dissolvedFrom: parsedQueryParams.dissolvedFrom !== null ? changeDateFormat(decodeURIComponent(parsedQueryParams.dissolvedFrom)) : null,
+            dissolvedTo: parsedQueryParams.dissolvedTo !== null ? changeDateFormat(decodeURIComponent(parsedQueryParams.dissolvedTo)) : null,
+            size: ADVANCED_SEARCH_NUMBER_OF_RESULTS_TO_DOWNLOAD
+        };
+        return advancedSearchParams;
+    } catch (err) {
+        logger.error(`${err}`);
+        return emptyAdvancedSearchParams;
+    };
 };
 
 export const mapCompanyResource = (companyResource) => {

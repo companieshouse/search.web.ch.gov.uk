@@ -703,4 +703,39 @@ describe("search.controller.spec.unit", () => {
             chai.expect(resp.text).to.contain(`<span class="govuk-visually-hidden">Error:</span> Dissolution &#39;to&#39; date must be a real date`);
         });
     });
+
+    describe("Download button", () => {
+        it("should show an active download button", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 50)));
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?companyNameIncludes=test");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("<form action=\"/advanced-search/download\" method=\"GET\">\n            <button class=\"govuk-button\" data-module=\"govuk-button\">\n              Download CSV\n            </button>");
+        });
+
+        it("should show an inactive download button if there are no results", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 50)));
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?companyNameIncludes=");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("<button disabled=\"disabled\" aria-disabled=\"true\" class=\"govuk-button govuk-button--disabled\" data-module=\"govuk-button\">\n              Download CSV\n            </button>");
+        });
+
+        it("should show an inactive download button if there is a validation error", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 50)));
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?incorporatedFrom=invalid");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("<button disabled=\"disabled\" aria-disabled=\"true\" class=\"govuk-button govuk-button--disabled\" data-module=\"govuk-button\">\n              Download CSV\n            </button>");
+        });
+    });
 });

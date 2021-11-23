@@ -3,9 +3,9 @@ import chai from "chai";
 import {
     checkLineBreakRequired, determineReportAvailableBool, getDownloadReportText, mapResponsiveHeaders,
     formatLongDate, formatCompactAddress, changeDateFormat,
-    generateSize, buildPagingUrl, mapCompanyStatusCheckboxes, mapCompanyTypeCheckboxes
+    generateSize, buildPagingUrl, mapCompanyStatusCheckboxes, mapCompanyTypeCheckboxes, mapCompanyResource, getParamsFromUrlReferer
 } from "../../controllers/utils/utils";
-import { createDummyAdvancedSearchParams } from "../../test/MockUtils/advanced-search/mock.util";
+import { createDummyAdvancedSearchParams, getDummyAdvancedCompanyResource } from "../../test/MockUtils/advanced-search/mock.util";
 
 describe("utils.spec.unit", () => {
     describe("check that reports are only available if within the last 20 years", () => {
@@ -317,6 +317,33 @@ describe("utils.spec.unit", () => {
             const actualSelection = mapCompanyTypeCheckboxes(undefined);
             checkCompanyTypeSelections(expectedSelection, actualSelection);
         });
+    });
+});
+
+describe("check that the getParamsFromUrlReferer splits the url into params", () => {
+    it("should split a url into a params object", () => {
+        const url: string = "/advanced-search/get-results?companyNameIncludes=bank&companyNameExcludes=limited&incorporatedFrom=";
+        const result = getParamsFromUrlReferer(url);
+
+        chai.expect(result.companyNameIncludes).to.equal("bank");
+        chai.expect(result.companyNameExcludes).to.equal("limited");
+        chai.expect(result.incorporatedFrom).to.equal(null);
+    });
+});
+
+describe("check that the mapCompanyResource maps the company resource correctly ready for csv download", () => {
+    it("should map the input company resource correctly", () => {
+        const listOfCompanies = getDummyAdvancedCompanyResource("test", 10);
+        const mappedCompanies = mapCompanyResource(listOfCompanies);
+
+        chai.expect(mappedCompanies[0].company_name).to.equal("test0");
+        chai.expect(mappedCompanies[0].company_number).to.equal("06500000");
+        chai.expect(mappedCompanies[0].company_status).to.equal("Active");
+        chai.expect(mappedCompanies[0].company_type).to.equal("Private limited company");
+        chai.expect(mappedCompanies[0].date_of_cessation).to.deep.equal(new Date(1991, 11, 12));
+        chai.expect(mappedCompanies[0].date_of_creation).to.deep.equal(new Date(1980, 13, 8));
+        chai.expect(mappedCompanies[0].sic_codes).to.equal("01120");
+        chai.expect(mappedCompanies[0].registered_office_address).to.equal("test house test street cardiff cf5 6rb");
     });
 });
 
