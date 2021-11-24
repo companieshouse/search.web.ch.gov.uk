@@ -7,7 +7,7 @@ let testApp = null;
 
 describe("index.spec.unit", () => {
     beforeEach((done) => {
-        testApp = require("../../../../src/app").default;
+        testApp = require("../../../src/app").default;
         done();
     });
 

@@ -2,9 +2,9 @@ import * as mockUtils from "../../MockUtils/dissolved-search/mock.util";
 import sinon from "sinon";
 import chai from "chai";
 import ioredis from "ioredis";
-import * as apiClient from "../../../client/apiclient";
+import * as apiClient from "../../../src/client/apiclient";
 import { CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/dissolved-search/types";
-import { formatDate, sanitiseCompanyName, generateROAddress, determineReportAvailableBool } from "../../../controllers/utils/utils";
+import { formatDate, sanitiseCompanyName, generateROAddress, determineReportAvailableBool } from "../../../src/controllers/utils/utils";
 import { signedInSession, SIGNED_IN_COOKIE } from "../../MockUtils/redis.mocks";
 
 const sandbox = sinon.createSandbox();
@@ -114,7 +114,7 @@ describe("search.controller.spec.unit", () => {
     beforeEach((done) => {
         sandbox.stub(ioredis.prototype, "connect").returns(Promise.resolve());
         sandbox.stub(ioredis.prototype, "get").returns(Promise.resolve(signedInSession));
-        testApp = require("../../../../src/app").default;
+        testApp = require("../../../src/app").default;
         done();
     });
 

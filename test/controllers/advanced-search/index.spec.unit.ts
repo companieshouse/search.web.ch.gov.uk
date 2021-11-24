@@ -12,7 +12,7 @@ describe("search.controller.spec.unit", () => {
     beforeEach((done) => {
         sandbox.stub(ioredis.prototype, "connect").returns(Promise.resolve());
         sandbox.stub(ioredis.prototype, "get").returns(Promise.resolve(signedInSession));
-        testApp = require("../../../../src/app").default;
+        testApp = require("../../../src/app").default;
         done();
     });
 

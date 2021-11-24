@@ -4,7 +4,7 @@ import {
     checkLineBreakRequired, determineReportAvailableBool, getDownloadReportText, mapResponsiveHeaders,
     formatLongDate, formatCompactAddress, changeDateFormat,
     generateSize, buildPagingUrl, mapCompanyStatusCheckboxes, mapCompanyTypeCheckboxes
-} from "../../controllers/utils/utils";
+} from "../../src/controllers/utils/utils";
 import { createDummyAdvancedSearchParams } from "../../test/MockUtils/advanced-search/mock.util";
 
 describe("utils.spec.unit", () => {
