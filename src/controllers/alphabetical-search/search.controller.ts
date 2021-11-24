@@ -89,7 +89,7 @@ const getSearchResults = async (encodedCompanyName: string, cookies: Cookies, se
 
             if (!noNearestMatch) {
                 noNearestMatch = nearestClass === "nearest";
-            };
+            }
 
             const sanitisedCompanyName = escape(company_name);
 
