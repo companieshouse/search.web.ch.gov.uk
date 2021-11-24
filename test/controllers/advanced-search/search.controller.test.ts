@@ -2,18 +2,18 @@ import sinon, { mock } from "sinon";
 import chai from "chai";
 import ioredis from "ioredis";
 import * as mockUtils from "../../MockUtils/advanced-search/mock.util";
-import * as apiClient from "../../../client/apiclient";
+import * as apiClient from "../../../src/client/apiclient";
 import { signedInSession } from "../../MockUtils/redis.mocks";
 
 const sandbox = sinon.createSandbox();
 let testApp = null;
 let getCompanyItemStub;
 
-describe("search.controller.spec.unit", () => {
+describe("search.controller.test", () => {
     beforeEach((done) => {
         sandbox.stub(ioredis.prototype, "connect").returns(Promise.resolve());
         sandbox.stub(ioredis.prototype, "get").returns(Promise.resolve(signedInSession));
-        testApp = require("../../../../src/app").default;
+        testApp = require("../../../src/app").default;
         done();
     });
 

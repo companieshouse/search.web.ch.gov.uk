@@ -76,6 +76,6 @@ You can also autofix minor linting errors by running `npm run lint:fix`
 
 ### Testing
 
-Tests can be found in the directory [src/test](./src/test). The framework used is [Mocha](https://mochajs.org/) along with [Chai](https://www.chaijs.com/) to dispatch handlers that can have assertions made against the responses and [Sinon] (https://sinonjs.org/) to stub the rest calls. Execute the following to run the tests;
+Tests can be found in the directory [test](./test). The framework used is [Mocha](https://mochajs.org/) along with [Chai](https://www.chaijs.com/) to dispatch handlers that can have assertions made against the responses and [Sinon] (https://sinonjs.org/) to stub the rest calls. Execute the following to run the tests;
 
     npm t

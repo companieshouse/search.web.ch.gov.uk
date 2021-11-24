@@ -6,12 +6,12 @@ import { signedInSession } from "../MockUtils/redis.mocks";
 let testApp = null;
 const sandbox = sinon.createSandbox();
 
-describe("routes.spec.unit", () => {
+describe("routes.test", () => {
     beforeEach((done) => {
         sandbox.stub(ioredis.prototype, "connect").returns(Promise.resolve());
         sandbox.stub(ioredis.prototype, "get").returns(Promise.resolve(signedInSession));
 
-        testApp = require("../../../src/app").default;
+        testApp = require("../../src/app").default;
         done();
     });
 

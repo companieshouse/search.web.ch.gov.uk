@@ -1,6 +1,6 @@
 import { expect } from "chai";
 
-import { getCompanyConstant, COMPANY_STATUS_CONSTANT, COMPANY_TYPE_CONSTANT } from "../../config/api.enumerations";
+import { getCompanyConstant, COMPANY_STATUS_CONSTANT, COMPANY_TYPE_CONSTANT } from "../../src/config/api.enumerations";
 
 describe("api.enumerations.unit", () => {
     describe("getCompanyConstant", () => {

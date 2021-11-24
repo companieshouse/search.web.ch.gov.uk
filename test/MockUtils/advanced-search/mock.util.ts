@@ -1,5 +1,5 @@
 import { Address, CompaniesResource, Items, TopHit } from "@companieshouse/api-sdk-node/dist/services/search/advanced-search/types";
-import { AdvancedSearchParams } from "model/advanced.search.params";
+import { AdvancedSearchParams } from "../../../src/model/advanced.search.params";
 
 const emptyDate = new Date();
 

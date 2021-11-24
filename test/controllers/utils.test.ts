@@ -4,10 +4,10 @@ import {
     checkLineBreakRequired, determineReportAvailableBool, getDownloadReportText, mapResponsiveHeaders,
     formatLongDate, formatCompactAddress, changeDateFormat,
     generateSize, buildPagingUrl, mapCompanyStatusCheckboxes, mapCompanyTypeCheckboxes
-} from "../../controllers/utils/utils";
-import { createDummyAdvancedSearchParams } from "../../test/MockUtils/advanced-search/mock.util";
+} from "../../src/controllers/utils/utils";
+import { createDummyAdvancedSearchParams } from "../MockUtils/advanced-search/mock.util";
 
-describe("utils.spec.unit", () => {
+describe("utils.test", () => {
     describe("check that reports are only available if within the last 20 years", () => {
         it("should return false if date is > 20 years old", () => {
             const companyNumber: string = "00000000";

@@ -5,5 +5,4 @@ coverage
 .scannerwork/
 .vscode/*
 coverage-report
-.nyc_output/ 
 .nyc_output/

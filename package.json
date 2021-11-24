@@ -7,9 +7,9 @@
     "start": "node dist/bin/www.js",
     "start:watch": "NODE_ENV=development nodemon",
     "build": "NODE_ENV=production tsc && cp -r src/views dist/ && gulp static",
-    "lint": "eslint 'src/*.ts' 'src/**/*.ts' ./src/'test/*.ts' './src/test/**/*.ts'",
-    "lint:fix": "eslint 'src/*.ts' 'src/**/*.ts' './src/test/*.ts' './src/test/**/*.ts' --fix",
-    "test": "nyc mocha **/test/**/*.unit.ts",
+    "lint": "eslint 'src/*.ts' 'src/**/*.ts' ./'test/*.ts' './test/**/*.ts'",
+    "lint:fix": "eslint 'src/*.ts' 'src/**/*.ts' './test/*.ts' './test/**/*.ts' --fix",
+    "test": "mocha test/**/*.test.ts",
     "test:coverage": "nyc npm test",
     "analyse-code": "sonar-scanner"
   },
@@ -65,11 +65,11 @@
     "gulp-sass": "^4.0.2",
     "http-errors": "~1.7.3",
     "mocha": "~7.2.0",
-    "nyc": "^15.1.0",
     "node-sass": "^4.13.1",
     "nodemon": "^1.19.3",
+    "nyc": "^15.1.0",
     "sinon": "~9.0.2",
-    "sonarqube-scanner": "^2.8.0",
+    "sonarqube-scanner": "^2.8.1",
     "ts-node": "^8.4.1",
     "typescript": "~3.8.3"
   },
@@ -80,7 +80,7 @@
     "ext": "ts",
     "legacyWatch": true,
     "ignore": [
-      "**/*.spec.ts"
+      "**/*.test.ts"
     ],
     "exec": "ts-node ./src/bin/www.ts"
   }
