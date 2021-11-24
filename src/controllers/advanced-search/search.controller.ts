@@ -6,6 +6,7 @@ import * as templatePaths from "../../model/template.paths";
 import { AdvancedSearchParams } from "model/advanced.search.params";
 import { getSearchResults } from "../../service/advanced-search/search.service";
 import Cookies = require("cookies");
+import { ADVANCED_SEARCH_NUMBER_OF_RESULTS_TO_DOWNLOAD } from "../../config/config";
 
 const route = async (req: Request, res: Response) => {
     const cookies = new Cookies(req, res);
@@ -34,7 +35,7 @@ const route = async (req: Request, res: Response) => {
     const errorList = validate(errors);
 
     if (!errors.isEmpty()) {
-        return res.render(templatePaths.ADVANCED_SEARCH_RESULTS, { ...errorList, advancedSearchParams, incorporatedFrom, incorporatedTo, selectedStatusCheckboxes, selectedTypeCheckboxes, dissolvedFrom, dissolvedTo });
+        return res.render(templatePaths.ADVANCED_SEARCH_RESULTS, { ...errorList, advancedSearchParams, incorporatedFrom, incorporatedTo, selectedStatusCheckboxes, selectedTypeCheckboxes, dissolvedFrom, dissolvedTo, ADVANCED_SEARCH_NUMBER_OF_RESULTS_TO_DOWNLOAD });
     };
 
     if (advancedSearchParams.companyType !== null) {
@@ -46,7 +47,7 @@ const route = async (req: Request, res: Response) => {
     const partialHref: string = buildPagingUrl(advancedSearchParams, incorporatedFrom, incorporatedTo, dissolvedFrom, dissolvedTo);
 
     return res.render(templatePaths.ADVANCED_SEARCH_RESULTS,
-        { searchResults, advancedSearchParams, page, numberOfPages, pagingRange, partialHref, incorporatedFrom, incorporatedTo, selectedStatusCheckboxes, selectedTypeCheckboxes, dissolvedFrom, dissolvedTo });
+        { searchResults, advancedSearchParams, page, numberOfPages, pagingRange, partialHref, incorporatedFrom, incorporatedTo, selectedStatusCheckboxes, selectedTypeCheckboxes, dissolvedFrom, dissolvedTo, ADVANCED_SEARCH_NUMBER_OF_RESULTS_TO_DOWNLOAD });
 };
 
 export default [...advancedSearchValidationRules, route];

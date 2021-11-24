@@ -29,24 +29,22 @@ describe("search.controller.spec.unit", () => {
 
             const resp = await chai.request(testApp)
                 .get("/advanced-search/download")
-                .set("Content-Type", "text/csv")
-                .set("referer", "/advanced-search/get-results?companyNameIncludes=test&companyNameExcludes=&registeredOfficeAddress=&incorporatedFrom=&incorporatedTo=&sicCodes=&dissolvedFrom=&dissolvedTo=");
+                .set("Content-Type", "text/csv");
 
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain("company_name,company_number,company_status,company_type,date_of_cessation,date_of_creation,sic_codes,registered_office_address");
             chai.expect(resp.text).to.contain("test0,06500000,Active,Private limited company,1991-12-12T00:00:00.000Z,1981-02-08T00:00:00.000Z,01120,test house test street cardiff cf5 6rb");
         });
 
-        it("should not return csv file, header referer url missing", async () => {
+        it("should replace icvc with icvc-securities,icvc-warrant,icvc-umbrella", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
-                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("", 0)));
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 50)));
 
             const resp = await chai.request(testApp)
-                .get("/advanced-search/download")
-                .set("Content-Type", "text/csv");
+                .get("/advanced-search/download");
 
-            chai.expect(resp.status).to.equal(400);
-            chai.expect(resp.text).to.contain("Unable to download results");
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("<input class='govuk-checkboxes__input' id='icvc' name='type' type='checkbox' value='icvc' checked>");
         });
     });
 });

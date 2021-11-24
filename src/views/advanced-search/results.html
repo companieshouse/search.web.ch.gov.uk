@@ -642,9 +642,60 @@
       {% if searchResults.length > 0 %}
         <div>
           <form action="/advanced-search/download" method="GET">
+            <input class='hidden govuk-input govuk-!-width-width-full' id='companyNameIncludes' name='companyNameIncludes' type='text' value='{{ advancedSearchParams.companyNameIncludes }}'>
+            <input class='hidden govuk-input govuk-!-width-width-full' id='companyNameExcludes' name='companyNameExcludes' type='text' value='{{ advancedSearchParams.companyNameExcludes }}'>
+            <input class='hidden govuk-input govuk-!-width-width-full' id='registeredOfficeAddress' name='registeredOfficeAddress' type='text' value='{{ advancedSearchParams.location }}'>
+            <input class='hidden govuk-input govuk-input--width-10' id='incorporatedFrom' name='incorporatedFrom' type='text' value='{{ incorporatedFrom }}' aria-describedby='incorporation-date-from-hint'>
+            <input class='hidden govuk-input govuk-input--width-10' id='incorporatedTo' name='incorporatedTo' type='text' value='{{ incorporatedTo }}' aria-describedby='incorporation-date-to-hint'>
+            <input class='hidden govuk-checkboxes__input' id='activeCompanies' name='status' type='checkbox' value='active' {{ selectedStatusCheckboxes.active }}>
+            <input class='hidden govuk-checkboxes__input' id='dissolvedCompanies' name='status' type='checkbox' value='dissolved' {{ selectedStatusCheckboxes.dissolved }}>
+            <input class='hidden govuk-checkboxes__input' id='openCompanies' name='status' type='checkbox' value='open' {{ selectedStatusCheckboxes.open }}>
+            <input class='hidden govuk-checkboxes__input' id='closedCompanies' name='status' type='checkbox' value='closed' {{  selectedStatusCheckboxes.closed }}>
+            <input class='hidden govuk-checkboxes__input' id='convertedClosedCompanies' name='status' type='checkbox' value='converted-closed' {{selectedStatusCheckboxes.convertedClosed }}>
+            <input class='hidden govuk-checkboxes__input' id='receivershipCompanies' name='status' type='checkbox' value='receivership' {{ selectedStatusCheckboxes.receivership }}>
+            <input class='hidden govuk-checkboxes__input' id='liquidationCompanies' name='status' type='checkbox' value='liquidation' {{ selectedStatusCheckboxes.liquidation }}>
+            <input class='hidden govuk-checkboxes__input' id='administrationCompanies' name='status' type='checkbox' value='administration' {{ selectedStatusCheckboxes.administration }}>
+            <input class='hidden govuk-checkboxes__input' id='insolvencyProceedingsCompanies' name='status' type='checkbox' value='insolvency-proceedings' {{ selectedStatusCheckboxes.insolvencyProceedings }}>
+            <input class='hidden govuk-checkboxes__input' id='voluntaryArrangementCompanies' name='status' type='checkbox' value='voluntary-arrangement' {{  selectedStatusCheckboxes.voluntaryArrangement }}>
+            <input class='hidden govuk-input govuk-!-width-full' id='sicCodes' name='sicCodes' type='text' value='{{ advancedSearchParams.sicCodes }}'>
+            <input class='hidden govuk-checkboxes__input' id='private-unlimited' name='type' type='checkbox' value='private-unlimited' {{ selectedTypeCheckboxes.privateUnlimited }}>
+            <input class='hidden govuk-checkboxes__input' id='ltd' name='type' type='checkbox' value='ltd' {{ selectedTypeCheckboxes.ltd }}>
+            <input class='hidden govuk-checkboxes__input' id='plc' name='type' type='checkbox' value='plc' {{ selectedTypeCheckboxes.plc }}>
+            <input class='hidden govuk-checkboxes__input' id='old-public-company' name='type' type='checkbox' value='old-public-company' {{ selectedTypeCheckboxes.oldPublicCompany }}>
+            <input class='hidden govuk-checkboxes__input' id='private-limited-guarant-nsc-limited-exemption' name='type' type='checkbox' value='private-limited-guarant-nsc-limited-exemption' {{ selectedTypeCheckboxes.privateLimitedGuarantNscLimitedExemption }}>
+            <input class='hidden govuk-checkboxes__input' id='limited-partnership' name='type' type='checkbox' value='limited-partnership' {{ selectedTypeCheckboxes.limitedPartnership }}>
+            <input class='hidden govuk-checkboxes__input' id='private-limited-guarant-nsc' name='type' type='checkbox' value='private-limited-guarant-nsc' {{ selectedTypeCheckboxes.privateLimitedGuarantNsc }}>
+            <input class='hidden govuk-checkboxes__input' id='converted-or-closed' name='type' type='checkbox' value='converted-or-closed' {{ selectedTypeCheckboxes.convertedOrClosed }}>
+            <input class='hidden govuk-checkboxes__input' id='private-unlimited-nsc' name='type' type='checkbox' value='private-unlimited-nsc' {{ selectedTypeCheckboxes.privateUnlimitedNsc }}>
+            <input class='hidden govuk-checkboxes__input' id='private-limited-shares-section-30-exemption' name='type' type='checkbox' value='private-limited-shares-section-30-exemption' {{ selectedTypeCheckboxes.privateLimitedSharesSection30Exemption }}>
+            <input class='hidden govuk-checkboxes__input' id='protected-cell-company' name='type' type='checkbox' value='protected-cell-company' {{ selectedTypeCheckboxes.protectedCellCompany }}>
+            <input class='hidden govuk-checkboxes__input' id='assurance-company' name='type' type='checkbox' value='assurance-company' {{ selectedTypeCheckboxes.assuranceCompany }}>
+            <input class='hidden govuk-checkboxes__input' id='oversea-company' name='type' type='checkbox' value='oversea-company' {{ selectedTypeCheckboxes.overseaCompany }}>
+            <input class='hidden govuk-checkboxes__input' id='eeig' name='type' type='checkbox' value='eeig' {{ selectedTypeCheckboxes.eeig }}>
+            <input class='hidden govuk-checkboxes__input' id='icvc' name='type' type='checkbox' value='icvc' {{ selectedTypeCheckboxes.icvc }}>
+            <input class='hidden govuk-checkboxes__input' id='registered-society-non-jurisdictional' name='type' type='checkbox' value='registered-society-non-jurisdictional' {{ selectedTypeCheckboxes.registeredSocietyNonJurisdictional }}>
+            <input class='hidden govuk-checkboxes__input' id='industrial-and-provident-society' name='type' type='checkbox' value='industrial-and-provident-society' {{ selectedTypeCheckboxes.industrialAndProvidentSociety }}>
+            <input class='hidden govuk-checkboxes__input' id='northern-ireland' name='type' type='checkbox' value='northern-ireland' {{ selectedTypeCheckboxes.northernIreland }}>
+            <input class='hidden govuk-checkboxes__input' id='northern-ireland-other' name='type' type='checkbox' value='northern-ireland-other' {{ selectedTypeCheckboxes.northernIrelandOther }}>
+            <input class='hidden govuk-checkboxes__input' id='llp' name='type' type='checkbox' value='llp' {{ selectedTypeCheckboxes.llp }}>
+            <input class='hidden govuk-checkboxes__input' id='royal-charter' name='type' type='checkbox' value='royal-charter' {{ selectedTypeCheckboxes.royalCharter }}>
+            <input class='hidden govuk-checkboxes__input' id='unregistered-company' name='type' type='checkbox' value='unregistered-company' {{ selectedTypeCheckboxes.unregisteredCompany }}>
+            <input class='hidden govuk-checkboxes__input' id='unregistered-company' name='type' type='checkbox' value='unregistered-company' {{ selectedTypeCheckboxes.unregisteredCompany }}>
+            <input class='hidden govuk-checkboxes__input' id='european-public-limited-liability-company-se' name='type' type='checkbox' value='european-public-limited-liability-company-se' {{ selectedTypeCheckboxes.europeanPublicLimitedLiabilityCompanySe }}>
+            <input class='hidden govuk-checkboxes__input' id='uk-establishment' name='type' type='checkbox' value='uk-establishment' {{ selectedTypeCheckboxes.ukEstablishment }}>
+            <input class='hidden govuk-checkboxes__input' id='scottish-partnership' name='type' type='checkbox' value='scottish-partnership' {{ selectedTypeCheckboxes.scottishPartnership }}>
+            <input class='hidden govuk-checkboxes__input' id='charitable-incorporated-organisation' name='type' type='checkbox' value='charitable-incorporated-organisation' {{ selectedTypeCheckboxes.charitableIncorporatedOrganisation }}>
+            <input class='hidden govuk-checkboxes__input' id='scottish-charitable-incorporated-organisation' name='type' type='checkbox' value='scottish-charitable-incorporated-organisation' {{ selectedTypeCheckboxes.scottishCharitableIncorporatedOrganisation }}>
+            <input class='hidden govuk-checkboxes__input' id='further-education-or-sixth-form-college-corporation' name='type' type='checkbox' value='further-education-or-sixth-form-college-corporation' {{ selectedTypeCheckboxes.furtherEducationOrSixthFormCollegeCorporation }}>
+            <input class='hidden govuk-input govuk-input--width-10' id='dissolvedFrom' name='dissolvedFrom' type='text' value='{{ dissolvedFrom }}' aria-describedby='dissolved-date-from-hint'>
+            <input class='hidden govuk-input govuk-input--width-10' id='dissolvedTo' name='dissolvedTo' type='text' value='{{ dissolvedTo }}' aria-describedby='dissolved-date-to-hint'>
+
             <button class="govuk-button" data-module="govuk-button">
               Download CSV
             </button>
+            <div class="accordion-label">
+              Download is limited to the first {{ADVANCED_SEARCH_NUMBER_OF_RESULTS_TO_DOWNLOAD}} results
+            </div>
           </form>
         </div>
       {% else %}
@@ -652,6 +703,9 @@
             <button disabled="disabled" aria-disabled="true" class="govuk-button govuk-button--disabled" data-module="govuk-button">
               Download CSV
             </button>
+            <div class="accordion-label">
+              Download is limited to the first {{ADVANCED_SEARCH_NUMBER_OF_RESULTS_TO_DOWNLOAD}} results
+            </div>
         </div>
       {% endif %}
     </div>

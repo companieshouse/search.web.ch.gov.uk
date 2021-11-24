@@ -713,7 +713,7 @@ describe("search.controller.spec.unit", () => {
                 .get("/advanced-search/get-results?companyNameIncludes=test");
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain("<form action=\"/advanced-search/download\" method=\"GET\">\n            <button class=\"govuk-button\" data-module=\"govuk-button\">\n              Download CSV\n            </button>");
+            chai.expect(resp.text).to.contain("<button class=\"govuk-button\" data-module=\"govuk-button\">\n              Download CSV\n            </button>");
         });
 
         it("should show an inactive download button if there are no results", async () => {

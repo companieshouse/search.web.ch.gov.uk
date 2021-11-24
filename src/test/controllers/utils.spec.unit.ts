@@ -3,7 +3,7 @@ import chai from "chai";
 import {
     checkLineBreakRequired, determineReportAvailableBool, getDownloadReportText, mapResponsiveHeaders,
     formatLongDate, formatCompactAddress, changeDateFormat,
-    generateSize, buildPagingUrl, mapCompanyStatusCheckboxes, mapCompanyTypeCheckboxes, mapCompanyResource, getParamsFromUrlReferer
+    generateSize, buildPagingUrl, mapCompanyStatusCheckboxes, mapCompanyTypeCheckboxes, mapCompanyResource
 } from "../../controllers/utils/utils";
 import { createDummyAdvancedSearchParams, getDummyAdvancedCompanyResource } from "../../test/MockUtils/advanced-search/mock.util";
 
@@ -317,17 +317,6 @@ describe("utils.spec.unit", () => {
             const actualSelection = mapCompanyTypeCheckboxes(undefined);
             checkCompanyTypeSelections(expectedSelection, actualSelection);
         });
-    });
-});
-
-describe("check that the getParamsFromUrlReferer splits the url into params", () => {
-    it("should split a url into a params object", () => {
-        const url: string = "/advanced-search/get-results?companyNameIncludes=bank&companyNameExcludes=limited&incorporatedFrom=";
-        const result = getParamsFromUrlReferer(url);
-
-        chai.expect(result.companyNameIncludes).to.equal("bank");
-        chai.expect(result.companyNameExcludes).to.equal("limited");
-        chai.expect(result.incorporatedFrom).to.equal(null);
     });
 });
 
