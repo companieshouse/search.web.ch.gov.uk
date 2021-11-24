@@ -5,7 +5,7 @@ import cheerio from "cheerio";
 const sandbox = sinon.createSandbox();
 let testApp = null;
 
-describe("index.spec.unit", () => {
+describe("index.test", () => {
     beforeEach((done) => {
         testApp = require("../../../src/app").default;
         done();

@@ -9,7 +9,7 @@
     "build": "NODE_ENV=production tsc && cp -r src/views dist/ && gulp static",
     "lint": "eslint 'src/*.ts' 'src/**/*.ts' ./'test/*.ts' './test/**/*.ts'",
     "lint:fix": "eslint 'src/*.ts' 'src/**/*.ts' './test/*.ts' './test/**/*.ts' --fix",
-    "test": "nyc mocha test/**/*.unit.ts",
+    "test": "nyc mocha test/**/*.test.ts",
     "test:coverage": "nyc npm test",
     "analyse-code": "sonar-scanner"
   },
@@ -80,7 +80,7 @@
     "ext": "ts",
     "legacyWatch": true,
     "ignore": [
-      "**/*.spec.ts"
+      "**/*.test.ts"
     ],
     "exec": "ts-node ./src/bin/www.ts"
   }
