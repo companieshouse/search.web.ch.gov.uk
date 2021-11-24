@@ -8,7 +8,7 @@ import { getCompanies, getDissolvedCompanies, getAdvancedCompanies } from "../..
 import AlphabeticalSearchService from "@companieshouse/api-sdk-node/dist/services/search/alphabetical-search/service";
 import DissolvedSearchService from "@companieshouse/api-sdk-node/dist/services/search/dissolved-search/service";
 import AdvancedSearchService from "@companieshouse/api-sdk-node/dist/services/search/advanced-search/service";
-import { createDummyAdvancedSearchParams } from "../../test/MockUtils/advanced-search/mock.util";
+import { createDummyAdvancedSearchParams } from "../MockUtils/advanced-search/mock.util";
 import { AdvancedSearchParams } from "../../src/model/advanced.search.params";
 
 const mockResponse: Resource<CompaniesResource> = {
