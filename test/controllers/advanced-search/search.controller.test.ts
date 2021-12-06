@@ -211,19 +211,6 @@ describe("search.controller.test", () => {
         });
     });
 
-    describe("check that the configurable message is displayed", () => {
-        it("should display the last updated message", async () => {
-            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
-                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 20)));
-
-            const resp = await chai.request(testApp)
-                .get("/advanced-search/get-results?companyNameIncludes=test");
-
-            chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain("test last updated message");
-        });
-    });
-
     describe("check that the validation of incorporation dates displays the correct error message", () => {
         it("should display an error if incorporatedFrom is separated by hyphens", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
