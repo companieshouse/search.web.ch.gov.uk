@@ -473,7 +473,11 @@
 
           <div class="govuk-button-group">
             {{ govukButton({
-              text: "Search"
+              text: "Search",
+              attributes: {
+                "data-event-id": "advanced-search-button",
+                id: "advanced-search-button"
+              }
             }) }}
 
             {{ govukButton({

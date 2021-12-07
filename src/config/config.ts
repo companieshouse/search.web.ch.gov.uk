@@ -23,6 +23,7 @@ export const COOKIE_DOMAIN = getEnvironmentValue("COOKIE_DOMAIN");
 export const CACHE_SERVER = getEnvironmentValue("CACHE_SERVER");
 
 export const ALPHABETICAL_SERVICE_NAME = "Alphabetical company search";
+export const ADVANCED_SERVICE_NAME = "Advanced company search";
 export const PIWIK_ALPHABETICAL_SERVICE_NAME = "alphabetical-search";
 export const DISSOLVED_SERVICE_NAME = "Dissolved company search";
 export const PIWIK_DISSOLVED_SERVICE_NAME = "dissolved-search";
