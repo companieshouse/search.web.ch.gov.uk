@@ -14,6 +14,7 @@ import { CookieConfig } from "@companieshouse/node-session-handler/lib/config/Co
 import { SessionMiddleware, SessionStore } from "@companieshouse/node-session-handler";
 import {
     ALPHABETICAL_SERVICE_NAME,
+    ADVANCED_SERVICE_NAME,
     CHS_URL,
     DISSOLVED_SERVICE_NAME,
     PIWIK_ALPHABETICAL_SERVICE_NAME,
@@ -76,6 +77,7 @@ app.use((req, res, next) => {
         env.addGlobal("BACK_LINK", DISSOLVED_ROOT);
         env.addGlobal("FEEDBACK_SOURCE", DISSOLVED_FEEDBACK_SOURCE);
     } else if (req.path.includes("/advanced-search")) {
+        env.addGlobal("SERVICE_NAME", ADVANCED_SERVICE_NAME);
         env.addGlobal("FEEDBACK_SOURCE", ADVANCED_FEEDBACK_SOURCE);
     } else {
         env.addGlobal("SERVICE_NAME", SERVICE_NAME_GENERIC);
