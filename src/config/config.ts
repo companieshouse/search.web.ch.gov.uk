@@ -28,6 +28,7 @@ export const PIWIK_ALPHABETICAL_SERVICE_NAME = "alphabetical-search";
 export const DISSOLVED_SERVICE_NAME = "Dissolved company search";
 export const PIWIK_DISSOLVED_SERVICE_NAME = "dissolved-search";
 export const SERVICE_NAME_GENERIC = "";
+export const PIWIK_ADVANCED_SERVICE_NAME = "advanced-search";
 
 export const LAST_UPDATED_MESSAGE = getEnvironmentValue("LAST_UPDATED_MESSAGE");
 export const DISSOLVED_SEARCH_NUMBER_OF_RESULTS = Number(getEnvironmentValue("DISSOLVED_SEARCH_NUMBER_OF_RESULTS"));
