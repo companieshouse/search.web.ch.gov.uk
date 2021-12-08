@@ -27,7 +27,8 @@ import {
     CACHE_SERVER,
     ALPHABETICAL_FEEDBACK_SOURCE,
     DISSOLVED_FEEDBACK_SOURCE,
-    ADVANCED_FEEDBACK_SOURCE
+    ADVANCED_FEEDBACK_SOURCE,
+    PIWIK_ADVANCED_SERVICE_NAME
 } from "./config/config";
 
 const app = express();
@@ -79,6 +80,7 @@ app.use((req, res, next) => {
     } else if (req.path.includes("/advanced-search")) {
         env.addGlobal("SERVICE_NAME", ADVANCED_SERVICE_NAME);
         env.addGlobal("FEEDBACK_SOURCE", ADVANCED_FEEDBACK_SOURCE);
+        env.addGlobal("PIWIK_SERVICE_NAME", PIWIK_ADVANCED_SERVICE_NAME);
     } else {
         env.addGlobal("SERVICE_NAME", SERVICE_NAME_GENERIC);
         env.addGlobal("SERVICE_PATH", "");

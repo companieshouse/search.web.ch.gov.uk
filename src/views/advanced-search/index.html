@@ -482,6 +482,10 @@
 
             {{ govukButton({
               text: "Clear search",
+              attributes: {
+                "data-event-id": "advanced-clear-search-button",
+                id: "advanced-clear-search-button"
+              },
               classes: "govuk-button--secondary",
               type: "reset"
             }) }}
