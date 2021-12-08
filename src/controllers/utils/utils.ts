@@ -418,9 +418,8 @@ export const mapCompanyTypeCheckboxes = (companyType: string | null | undefined)
     return selectedTypeCheckboxes;
 };
 
-export const mapCompanyResource = (companyResource) => {
+export const mapCompanyResource = (companyResource, isCsv: boolean) => {
     const listOfCompanies = companyResource.items.map(item => {
-        const sicCodes = item.sic_codes !== undefined ? item.sic_codes.toString().replace(/,/g, " ") : " ";
         const companyData = {
             company_name: item.company_name,
             company_number: item.company_number,
@@ -428,10 +427,14 @@ export const mapCompanyResource = (companyResource) => {
             company_type: getCompanyConstant(COMPANY_TYPE_CONSTANT, item.company_type),
             date_of_cessation: item.date_of_cessation,
             date_of_creation: item.date_of_creation,
-            sic_codes: sicCodes,
+            sic_codes: isCsv ? replaceCommas(item.sic_codes) : item.sic_codes,
             registered_office_address: generateROAddress(item.registered_office_address)
         };
         return companyData;
     });
     return listOfCompanies;
 };
+
+const replaceCommas = (sicCodes: string ) => {
+    return sicCodes !== undefined ? sicCodes.toString().replace(/,/g, " ") : " ";
+}

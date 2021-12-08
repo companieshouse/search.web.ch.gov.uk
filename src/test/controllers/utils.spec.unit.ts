@@ -323,7 +323,7 @@ describe("utils.spec.unit", () => {
 describe("check that the mapCompanyResource maps the company resource correctly ready for csv download", () => {
     it("should map the input company resource correctly", () => {
         const listOfCompanies = getDummyAdvancedCompanyResource("test", 10);
-        const mappedCompanies = mapCompanyResource(listOfCompanies);
+        const mappedCompanies = mapCompanyResource(listOfCompanies, true);
 
         chai.expect(mappedCompanies[0].company_name).to.equal("test0");
         chai.expect(mappedCompanies[0].company_number).to.equal("06500000");

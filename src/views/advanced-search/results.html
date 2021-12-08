@@ -641,7 +641,7 @@
 
       {% if searchResults.length > 0 %}
         <div>
-          <form action="/advanced-search/download" method="GET">
+          <form action="/advanced-search/download" method="GET" autocomplete="off">
             <input class='hidden govuk-input govuk-!-width-width-full' id='companyNameIncludes' name='companyNameIncludes' type='text' value='{{ advancedSearchParams.companyNameIncludes }}'>
             <input class='hidden govuk-input govuk-!-width-width-full' id='companyNameExcludes' name='companyNameExcludes' type='text' value='{{ advancedSearchParams.companyNameExcludes }}'>
             <input class='hidden govuk-input govuk-!-width-width-full' id='registeredOfficeAddress' name='registeredOfficeAddress' type='text' value='{{ advancedSearchParams.location }}'>
@@ -690,22 +690,47 @@
             <input class='hidden govuk-input govuk-input--width-10' id='dissolvedFrom' name='dissolvedFrom' type='text' value='{{ dissolvedFrom }}' aria-describedby='dissolved-date-from-hint'>
             <input class='hidden govuk-input govuk-input--width-10' id='dissolvedTo' name='dissolvedTo' type='text' value='{{ dissolvedTo }}' aria-describedby='dissolved-date-to-hint'>
 
+            {{ govukRadios({
+              classes: "govuk-radios--small",
+              idPrefix: "downloadType",
+              name: "downloadType",
+              fieldset: {
+                legend: {
+                  text: "Download results",
+                  isPageHeading: true,
+                  classes: "govuk-fieldset__legend--m"
+                }
+              },
+              hint: {
+                text: "Download is limited to the first 500 results"
+              },
+              items: [
+                {
+                  value: "csv",
+                  text: "CSV",
+                  checked: "true"
+                },
+                {
+                  value: "xml",
+                  text: "XML"
+                },
+                {
+                  value: "json",
+                  text: "JSON"
+                }
+              ]
+            }) }}
+
             <button class="govuk-button" data-module="govuk-button">
-              Download CSV
+              Download
             </button>
-            <div class="accordion-label">
-              Download is limited to the first {{ADVANCED_SEARCH_NUMBER_OF_RESULTS_TO_DOWNLOAD}} results
-            </div>
           </form>
         </div>
       {% else %}
         <div>
             <button disabled="disabled" aria-disabled="true" class="govuk-button govuk-button--disabled" data-module="govuk-button">
-              Download CSV
+              Download
             </button>
-            <div class="accordion-label">
-              Download is limited to the first {{ADVANCED_SEARCH_NUMBER_OF_RESULTS_TO_DOWNLOAD}} results
-            </div>
         </div>
       {% endif %}
     </div>
