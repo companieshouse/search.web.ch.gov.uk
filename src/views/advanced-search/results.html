@@ -566,10 +566,10 @@
       <form action="/advanced-search/get-results" method="GET" autocomplete="off">
 
         <div class="govuk-button-group">
-            <button class="govuk-button" data-module="govuk-button">
+            <button class="govuk-button" data-module="govuk-button" data-event-id = "advanced-search-results-page-update">
               Update results
             </button>
-            <input type="button" class="govuk-button govuk-button--secondary" value="Clear search" onclick="clearForm(this.form)"></input>
+            <input type="button" class="govuk-button govuk-button--secondary" value="Clear search" onclick="clearForm(this.form)" data-event-id="advanced-search-results-page-clear" ></input>
         </div>
 
         {{ govukAccordion({
@@ -636,10 +636,10 @@
         }) }}
         
         <div class="govuk-button-group">
-            <button class="govuk-button" data-module="govuk-button">
+            <button class="govuk-button" data-module="govuk-button" data-event-id = "advanced-search-results-page-update">
               Update results
             </button>
-            <input type="button" class="govuk-button govuk-button--secondary" value="Clear search" onclick="clearForm(this.form)"></input>
+            <input type="button" class="govuk-button govuk-button--secondary" value="Clear search" onclick="clearForm(this.form)" data-event-id="advanced-search-results-page-clear"></input>
         </div>
       </form>
 
@@ -650,7 +650,7 @@
         {% if searchResults.length > 0 %}
           {{ govukTable ({
               rows: searchResults,
-              classes: 'govuk-!-font-size-16 govuk-!-width-one-half'
+              classes: 'govuk-!-font-size-16'
           }) }}
 
           {% if numberOfPages > 1 %}
