@@ -238,7 +238,7 @@ export const buildCompanyStatusHtml = (companyStatus: string | undefined | null)
         return "";
     }
     const mappedCompanyStatus = getCompanyConstant(COMPANY_STATUS_CONSTANT, companyStatus);
-    return `<span class="govuk-body govuk-!-font-weight-bold">${mappedCompanyStatus}</span><br>`
+    return `<span class="govuk-body govuk-!-font-weight-bold">${mappedCompanyStatus}</span>`
 }
 
 export const checkLineBreakRequired = (text: string) : string => {

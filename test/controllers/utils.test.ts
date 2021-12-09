@@ -95,7 +95,7 @@ describe("utils.test", () => {
 
     describe("check that buildCompanyStatusHtml returns the correct string", () => {
         it("should return a html string for the company status", () => {
-            chai.expect(buildCompanyStatusHtml("active")).to.equal(`<span class="govuk-body govuk-!-font-weight-bold">Active</span><br>`);
+            chai.expect(buildCompanyStatusHtml("active")).to.equal(`<span class="govuk-body govuk-!-font-weight-bold">Active</span>`);
         });
         it("should return an empty string for the company status being null", () => {
             chai.expect(buildCompanyStatusHtml(null)).to.equal("");

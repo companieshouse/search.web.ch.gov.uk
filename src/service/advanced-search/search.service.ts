@@ -63,7 +63,8 @@ export const getSearchResults = async (advancedSearchParams: AdvancedSearchParam
                 {
                     html: `<h2 class="govuk-heading-m" style="margin-bottom: 3px;"><a class="govuk-link" href=${links.company_profile} target="_blank">${company_name}<span class="govuk-visually-hidden">(link opens a new window)</span></a></h2>
                             <p style="margin-top:0px;">
-                            ${mappedCompanyStatus}
+                                ${mappedCompanyStatus}
+                            <p>
                             <ul class="govuk-list govuk-!-font-size-16">
                             <li>${mappedCompanyType}</li>
                             <li>${company_number} ${formattedIncorporationDate}</li>
