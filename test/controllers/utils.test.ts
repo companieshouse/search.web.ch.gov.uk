@@ -3,7 +3,7 @@ import chai from "chai";
 import {
     checkLineBreakRequired, determineReportAvailableBool, getDownloadReportText, mapResponsiveHeaders,
     formatLongDate, formatCompactAddress, changeDateFormat,
-    generateSize, buildPagingUrl, mapCompanyStatusCheckboxes, mapCompanyTypeCheckboxes
+    generateSize, buildPagingUrl, mapCompanyStatusCheckboxes, mapCompanyTypeCheckboxes, buildCompanyStatusHtml
 } from "../../src/controllers/utils/utils";
 import { createDummyAdvancedSearchParams } from "../MockUtils/advanced-search/mock.util";
 
@@ -90,6 +90,18 @@ describe("utils.test", () => {
         };
         it("should return a formatted string if data is present", () => {
             chai.expect(formatCompactAddress(registeredOfficeAddress)).to.equal("test street, cardiff, region, country cf5 6rb");
+        });
+    });
+
+    describe("check that buildCompanyStatusHtml returns the correct string", () => {
+        it("should return a html string for the company status", () => {
+            chai.expect(buildCompanyStatusHtml("active")).to.equal(`<span class="govuk-body govuk-!-font-weight-bold">Active</span><br>`);
+        });
+        it("should return an empty string for the company status being null", () => {
+            chai.expect(buildCompanyStatusHtml(null)).to.equal("");
+        });
+        it("should return an empty string for being undefined", () => {
+            chai.expect(buildCompanyStatusHtml(undefined)).to.equal("");
         });
     });
 
