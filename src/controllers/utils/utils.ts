@@ -440,3 +440,24 @@ export const mapCompanyResource = (companyResource) => {
     });
     return listOfCompanies;
 };
+
+export const mapAdvancedSearchParams = (page: number, companyNameIncludes: string | null, companyNameExcludes: string | null,
+    registeredOfficeAddress: string | null, incorporatedFrom: string | null, incorporatedTo: string | null, sicCodes: string | null,
+    companyStatus: string | null, companyType: string | null, dissolvedFrom: string | null, dissolvedTo: string | null, size: number | null): AdvancedSearchParams => {
+    const advancedSearchParams: AdvancedSearchParams = {
+        page: page,
+        companyNameIncludes: companyNameIncludes,
+        companyNameExcludes: companyNameExcludes,
+        location: registeredOfficeAddress,
+        incorporatedFrom: incorporatedFrom !== null ? changeDateFormat(incorporatedFrom) : null,
+        incorporatedTo: incorporatedTo !== null ? changeDateFormat(incorporatedTo) : null,
+        sicCodes: sicCodes,
+        companyStatus: companyStatus,
+        companyType: companyType,
+        dissolvedFrom: dissolvedFrom !== null ? changeDateFormat(dissolvedFrom) : null,
+        dissolvedTo: dissolvedTo !== null ? changeDateFormat(dissolvedTo) : null,
+        size: size
+    };
+
+    return advancedSearchParams;
+};

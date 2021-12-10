@@ -3,8 +3,9 @@ import chai from "chai";
 import {
     checkLineBreakRequired, determineReportAvailableBool, getDownloadReportText, mapResponsiveHeaders,
     formatLongDate, formatCompactAddress, changeDateFormat, generateSize, buildPagingUrl, mapCompanyStatusCheckboxes,
-    mapCompanyTypeCheckboxes, buildCompanyStatusHtml, mapCompanyResource
+    mapCompanyTypeCheckboxes, buildCompanyStatusHtml, mapCompanyResource, mapAdvancedSearchParams
 } from "../../src/controllers/utils/utils";
+import { AdvancedSearchParams } from "../../src/model/advanced.search.params";
 import { createDummyAdvancedSearchParams, getDummyAdvancedCompanyResource } from "../MockUtils/advanced-search/mock.util";
 
 describe("utils.test", () => {
@@ -349,6 +350,26 @@ describe("utils.test", () => {
             chai.expect(mappedCompanies[0].incorporation_date).to.deep.equal(new Date(1980, 13, 8));
             chai.expect(mappedCompanies[0].nature_of_business).to.equal("01120");
             chai.expect(mappedCompanies[0].registered_office_address).to.equal("test house test street cardiff cf5 6rb");
+        });
+    });
+
+    describe("mapAdvancedSearchParams", () => {
+        it("should map function arguments to advanced search params", async () => {
+            const advancedSearchMappedParams: AdvancedSearchParams = mapAdvancedSearchParams(1, "companyNameIncludes", "companyNameExcludes", "address", "01/01/2010", "01/01/2010",
+                "sicCodes", "status", "type", "01/01/2010", "01/01/2010", 50);
+
+            chai.expect(advancedSearchMappedParams.page).to.equal(1);
+            chai.expect(advancedSearchMappedParams.companyNameExcludes).to.equal("companyNameExcludes");
+            chai.expect(advancedSearchMappedParams.companyNameIncludes).to.equal("companyNameIncludes");
+            chai.expect(advancedSearchMappedParams.location).to.equal("address");
+            chai.expect(advancedSearchMappedParams.incorporatedFrom).to.equal("2010-01-01");
+            chai.expect(advancedSearchMappedParams.incorporatedTo).to.equal("2010-01-01");
+            chai.expect(advancedSearchMappedParams.sicCodes).to.equal("sicCodes");
+            chai.expect(advancedSearchMappedParams.companyStatus).to.equal("status");
+            chai.expect(advancedSearchMappedParams.companyType).to.equal("type");
+            chai.expect(advancedSearchMappedParams.dissolvedFrom).to.equal("2010-01-01");
+            chai.expect(advancedSearchMappedParams.dissolvedTo).to.equal("2010-01-01");
+            chai.expect(advancedSearchMappedParams.size).to.equal(50);
         });
     });
 });
