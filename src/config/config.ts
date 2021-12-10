@@ -32,6 +32,7 @@ export const PIWIK_ADVANCED_SERVICE_NAME = "advanced-search";
 
 export const LAST_UPDATED_MESSAGE = getEnvironmentValue("LAST_UPDATED_MESSAGE");
 export const DISSOLVED_SEARCH_NUMBER_OF_RESULTS = Number(getEnvironmentValue("DISSOLVED_SEARCH_NUMBER_OF_RESULTS"));
+export const ADVANCED_SEARCH_NUMBER_OF_RESULTS_TO_DOWNLOAD = Number(getEnvironmentValue("ADVANCED_SEARCH_NUMBER_OF_RESULTS_TO_DOWNLOAD"));
 
 export const ALPHABETICAL_FEEDBACK_SOURCE = "alphabetical-search";
 export const DISSOLVED_FEEDBACK_SOURCE = "dissolved-search";

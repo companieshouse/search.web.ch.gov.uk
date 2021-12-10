@@ -225,3 +225,18 @@ padding: 8px 16px;
 .padded-top {
   padding-top:10px;
 }
+
+.download-button {
+  justify-content: flex-end; 
+  margin-bottom: 0px; 
+  margin-right: 0px;
+}
+
+.download-text {
+  text-align: right; 
+  color: #505a5f;
+} 
+
+.flex-end {
+  justify-content: flex-end;
+}

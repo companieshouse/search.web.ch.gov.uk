@@ -690,4 +690,39 @@ describe("search.controller.test", () => {
             chai.expect(resp.text).to.contain(`<span class="govuk-visually-hidden">Error:</span> The dissolution &#39;to&#39; date must be a real date`);
         });
     });
+
+    describe("Download button", () => {
+        it("should show an active download button", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 50)));
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?companyNameIncludes=test");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("<button class=\"govuk-button\" data-module=\"govuk-button\">\n                Download results\n              </button>");
+        });
+
+        it("should show an inactive download button if there are no results", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 50)));
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?companyNameIncludes=");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("<button disabled=\"disabled\" aria-disabled=\"true\" class=\"govuk-button govuk-button--disabled\" data-module=\"govuk-button\">\n            Download results\n          </button>");
+        });
+
+        it("should show an inactive download button if there is a validation error", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 50)));
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?incorporatedFrom=invalid");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("<button disabled=\"disabled\" aria-disabled=\"true\" class=\"govuk-button govuk-button--disabled\" data-module=\"govuk-button\">\n            Download results\n          </button>");
+        });
+    });
 });

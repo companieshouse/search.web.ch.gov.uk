@@ -1,5 +1,6 @@
-import escape from "escape-html";
+import { COMPANY_STATUS_CONSTANT, COMPANY_TYPE_CONSTANT, getCompanyConstant } from "../../config/api.enumerations";
 import { AdvancedSearchParams } from "model/advanced.search.params";
+import escape from "escape-html";
 import moment from "moment";
 
 export const getDownloadReportText = (signedIn: boolean, reportAvailable: boolean, returnUrl: string, companyNumber: string): string => {
@@ -411,4 +412,22 @@ export const mapCompanyTypeCheckboxes = (companyType: string | null | undefined)
     selectedTypeCheckboxes.unregisteredCompany = (selectedCompanyTypeArray.includes("unregistered-company")) ? "checked" : "";
 
     return selectedTypeCheckboxes;
+};
+
+export const mapCompanyResource = (companyResource) => {
+    const listOfCompanies = companyResource.items.map(item => {
+        const sicCodes = item.sic_codes !== undefined ? item.sic_codes.toString().replace(/,/g, " ") : " ";
+        const companyData = {
+            company_name: item.company_name,
+            company_number: item.company_number,
+            company_status: getCompanyConstant(COMPANY_STATUS_CONSTANT, item.company_status),
+            company_type: getCompanyConstant(COMPANY_TYPE_CONSTANT, item.company_type),
+            dissolution_date: item.date_of_cessation,
+            incorporation_date: item.date_of_creation,
+            nature_of_business: sicCodes,
+            registered_office_address: generateROAddress(item.registered_office_address)
+        };
+        return companyData;
+    });
+    return listOfCompanies;
 };

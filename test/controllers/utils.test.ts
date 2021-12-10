@@ -3,9 +3,9 @@ import chai from "chai";
 import {
     checkLineBreakRequired, determineReportAvailableBool, getDownloadReportText, mapResponsiveHeaders,
     formatLongDate, formatCompactAddress, changeDateFormat,
-    generateSize, buildPagingUrl, mapCompanyStatusCheckboxes, mapCompanyTypeCheckboxes
+    generateSize, buildPagingUrl, mapCompanyStatusCheckboxes, mapCompanyTypeCheckboxes, mapCompanyResource
 } from "../../src/controllers/utils/utils";
-import { createDummyAdvancedSearchParams } from "../MockUtils/advanced-search/mock.util";
+import { createDummyAdvancedSearchParams, getDummyAdvancedCompanyResource } from "../MockUtils/advanced-search/mock.util";
 
 describe("utils.test", () => {
     describe("check that reports are only available if within the last 20 years", () => {
@@ -140,36 +140,36 @@ describe("utils.test", () => {
 
     describe("check that buildPagingUrl constructs the url for paging correctly", () => {
         it("should return a url with a parameter for company name includes", () => {
-            const searchParams = createDummyAdvancedSearchParams("1", "testCompanyNameIncludes", null, null, null, null, null, null, null, null, null);
+            const searchParams = createDummyAdvancedSearchParams("1", "testCompanyNameIncludes", null, null, null, null, null, null, null, null, null, null);
             chai.expect(buildPagingUrl(searchParams, null, null, null, null))
                 .to.equal("get-results?companyNameIncludes=testCompanyNameIncludes");
         });
 
         it("should return a url with a parameter for company name excludes", () => {
-            const searchParams = createDummyAdvancedSearchParams(null, null, "testCompanyNameExcludes", null, null, null, null, null, null, null, null);
+            const searchParams = createDummyAdvancedSearchParams(null, null, "testCompanyNameExcludes", null, null, null, null, null, null, null, null, null);
             chai.expect(buildPagingUrl(searchParams, null, null, null, null))
                 .to.equal("get-results?companyNameExcludes=testCompanyNameExcludes");
         });
 
         it("should return a url with a parameter for registered office address", () => {
-            const searchParams = createDummyAdvancedSearchParams(null, null, null, "testRegisteredOfficeAddress", null, null, null, null, null, null, null);
+            const searchParams = createDummyAdvancedSearchParams(null, null, null, "testRegisteredOfficeAddress", null, null, null, null, null, null, null, null);
             chai.expect(buildPagingUrl(searchParams, null, null, null, null))
                 .to.equal("get-results?registeredOfficeAddress=testRegisteredOfficeAddress");
         });
 
         it("should return a url with a parameter for company type", () => {
-            const searchParams = createDummyAdvancedSearchParams(null, null, null, null, null, null, null, null, "ltd", null, null);
+            const searchParams = createDummyAdvancedSearchParams(null, null, null, null, null, null, null, null, "ltd", null, null, null);
             chai.expect(buildPagingUrl(searchParams, null, null, null, null)).to.equal("get-results?type=ltd");
         });
 
         it("should return a url with parameters for dissolvedFrom and DissolvedTo", () => {
-            const searchParams = createDummyAdvancedSearchParams(null, null, null, null, null, null, null, null, null, "testDissolvedFrom", "testDissolvedTo");
+            const searchParams = createDummyAdvancedSearchParams(null, null, null, null, null, null, null, null, null, "testDissolvedFrom", "testDissolvedTo", null);
             chai.expect(buildPagingUrl(searchParams, null, null, "testDissolvedFrom", "testDissolvedTo"))
                 .to.equal("get-results?dissolvedFrom=testDissolvedFrom&dissolvedTo=testDissolvedTo");
         });
 
         it("should return a url with a parameter for all fields present", () => {
-            const searchParams = createDummyAdvancedSearchParams("1", "testCompanyNameIncludes", "testCompanyNameExcludes", "testRegisteredOfficeAddress", "testIncorporatedFrom", "testIncorporatedTo", "07210", "active", "ltd", null, null);
+            const searchParams = createDummyAdvancedSearchParams("1", "testCompanyNameIncludes", "testCompanyNameExcludes", "testRegisteredOfficeAddress", "testIncorporatedFrom", "testIncorporatedTo", "07210", "active", "ltd", null, null, null);
             chai.expect(buildPagingUrl(searchParams, "testIncorporatedFrom", "testIncorporatedTo", "testDissolvedFrom", "testDissolvedTo"))
                 .to.equal("get-results?companyNameIncludes=testCompanyNameIncludes" +
                     "&companyNameExcludes=testCompanyNameExcludes" +
@@ -316,6 +316,22 @@ describe("utils.test", () => {
             const expectedSelection = setUpSelectedCompanyType();
             const actualSelection = mapCompanyTypeCheckboxes(undefined);
             checkCompanyTypeSelections(expectedSelection, actualSelection);
+        });
+    });
+
+    describe("check that the mapCompanyResource maps the company resource correctly ready for csv download", () => {
+        it("should map the input company resource correctly", () => {
+            const listOfCompanies = getDummyAdvancedCompanyResource("test", 10);
+            const mappedCompanies = mapCompanyResource(listOfCompanies);
+    
+            chai.expect(mappedCompanies[0].company_name).to.equal("test0");
+            chai.expect(mappedCompanies[0].company_number).to.equal("06500000");
+            chai.expect(mappedCompanies[0].company_status).to.equal("Active");
+            chai.expect(mappedCompanies[0].company_type).to.equal("Private limited company");
+            chai.expect(mappedCompanies[0].date_of_cessation).to.deep.equal(new Date(1991, 11, 12));
+            chai.expect(mappedCompanies[0].date_of_creation).to.deep.equal(new Date(1980, 13, 8));
+            chai.expect(mappedCompanies[0].sic_codes).to.equal("01120");
+            chai.expect(mappedCompanies[0].registered_office_address).to.equal("test house test street cardiff cf5 6rb");
         });
     });
 });
