@@ -1,7 +1,7 @@
 import { COMPANY_STATUS_CONSTANT, COMPANY_TYPE_CONSTANT, getCompanyConstant } from "../../config/api.enumerations";
 import { AdvancedSearchParams } from "model/advanced.search.params";
-import escape from "escape-html";
 import moment from "moment";
+import escape from "escape-html";
 
 export const getDownloadReportText = (signedIn: boolean, reportAvailable: boolean, returnUrl: string, companyNumber: string): string => {
     const signIn = "Sign in to download report";
@@ -233,6 +233,14 @@ export const formatCompactAddress = (registered_office_address) : string => {
     return (registered_office_address.postal_code === undefined) ? addressString : addressString + " " + registered_office_address.postal_code;
 };
 
+export const buildCompanyStatusHtml = (companyStatus: string | undefined | null) => {
+    if (companyStatus === undefined || companyStatus === null) {
+        return "";
+    }
+    const mappedCompanyStatus = getCompanyConstant(COMPANY_STATUS_CONSTANT, companyStatus);
+    return `<span class="govuk-body govuk-!-font-weight-bold">${mappedCompanyStatus}</span>`;
+};
+
 export const checkLineBreakRequired = (text: string) : string => {
     if (text === "") {
         return text;
@@ -321,6 +329,7 @@ export const changeDateFormat = (inputDate: string) => {
 export const buildPagingUrl = (advancedSearchParams: AdvancedSearchParams, incorporatedFrom: string | null, incorporatedTo: string | null,
     dissolvedFrom: string | null, dissolvedTo: string | null) : string => {
     const pagingUrlBuilder = new URLSearchParams();
+    const companyTypeCheck = advancedSearchParams.companyType?.includes("icvc") ? "icvc" : advancedSearchParams.companyType;
 
     urlAppender(pagingUrlBuilder, advancedSearchParams.companyNameIncludes, "companyNameIncludes");
     urlAppender(pagingUrlBuilder, advancedSearchParams.companyNameExcludes, "companyNameExcludes");
@@ -329,7 +338,7 @@ export const buildPagingUrl = (advancedSearchParams: AdvancedSearchParams, incor
     urlAppender(pagingUrlBuilder, incorporatedTo, "incorporatedTo");
     urlAppender(pagingUrlBuilder, advancedSearchParams.companyStatus, "status");
     urlAppender(pagingUrlBuilder, advancedSearchParams.sicCodes, "sicCodes");
-    urlAppender(pagingUrlBuilder, advancedSearchParams.companyType, "type");
+    urlAppender(pagingUrlBuilder, companyTypeCheck, "type");
     urlAppender(pagingUrlBuilder, dissolvedFrom, "dissolvedFrom");
     urlAppender(pagingUrlBuilder, dissolvedTo, "dissolvedTo");
 

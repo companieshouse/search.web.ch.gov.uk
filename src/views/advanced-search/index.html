@@ -216,7 +216,7 @@
 
                       <input class='govuk-input govuk-!-width-full' id='sicCodes' name='sicCodes' type='text'>
 
-                      <p class='padded-top'> <a href='http://resources.companieshouse.gov.uk/sic/' target='_blank' class='govuk-link accordion-label'>Browse SIC codes (opens in new tab)</a></p>
+                      <p class='padded-top'> <a rel='noopener' href='http://resources.companieshouse.gov.uk/sic/' target='_blank' class='govuk-link accordion-label' data-event-id='advanced-search-start-page-sic-link'>Browse SIC codes (opens in new tab)</a></p>
                     </div>"
                 }
               },
@@ -475,7 +475,7 @@
             {{ govukButton({
               text: "Search",
               attributes: {
-                "data-event-id": "advanced-search-button",
+                "data-event-id": "advanced-search-start-page-search",
                 id: "advanced-search-button"
               }
             }) }}
@@ -483,7 +483,7 @@
             {{ govukButton({
               text: "Clear search",
               attributes: {
-                "data-event-id": "advanced-clear-search-button",
+                "data-event-id": "advanced-search-start-page-clear",
                 id: "advanced-clear-search-button"
               },
               classes: "govuk-button--secondary",

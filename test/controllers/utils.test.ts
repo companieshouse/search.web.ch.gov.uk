@@ -2,8 +2,8 @@
 import chai from "chai";
 import {
     checkLineBreakRequired, determineReportAvailableBool, getDownloadReportText, mapResponsiveHeaders,
-    formatLongDate, formatCompactAddress, changeDateFormat,
-    generateSize, buildPagingUrl, mapCompanyStatusCheckboxes, mapCompanyTypeCheckboxes, mapCompanyResource
+    formatLongDate, formatCompactAddress, changeDateFormat, generateSize, buildPagingUrl, mapCompanyStatusCheckboxes,
+    mapCompanyTypeCheckboxes, buildCompanyStatusHtml, mapCompanyResource
 } from "../../src/controllers/utils/utils";
 import { createDummyAdvancedSearchParams, getDummyAdvancedCompanyResource } from "../MockUtils/advanced-search/mock.util";
 
@@ -93,6 +93,18 @@ describe("utils.test", () => {
         });
     });
 
+    describe("check that buildCompanyStatusHtml returns the correct string", () => {
+        it("should return a html string for the company status", () => {
+            chai.expect(buildCompanyStatusHtml("active")).to.equal(`<span class="govuk-body govuk-!-font-weight-bold">Active</span>`);
+        });
+        it("should return an empty string for the company status being null", () => {
+            chai.expect(buildCompanyStatusHtml(null)).to.equal("");
+        });
+        it("should return an empty string for being undefined", () => {
+            chai.expect(buildCompanyStatusHtml(undefined)).to.equal("");
+        });
+    });
+
     describe("check that checkLineBreakRequired returns the correct string", () => {
         it("should return a string with a line break if text available", () => {
             chai.expect(checkLineBreakRequired("test")).to.equal("test<br>");
@@ -160,6 +172,11 @@ describe("utils.test", () => {
         it("should return a url with a parameter for company type", () => {
             const searchParams = createDummyAdvancedSearchParams(null, null, null, null, null, null, null, null, "ltd", null, null, null);
             chai.expect(buildPagingUrl(searchParams, null, null, null, null)).to.equal("get-results?type=ltd");
+        });
+
+        it("should check if type includes an icvc type and set type to icvc", () => {
+            const searchParams = createDummyAdvancedSearchParams(null, null, null, null, null, null, null, null, "icvc-securities,icvc-warrant,icvc-umbrella", null, null, null);
+            chai.expect(buildPagingUrl(searchParams, null, null, null, null)).to.equal("get-results?type=icvc");
         });
 
         it("should return a url with parameters for dissolvedFrom and DissolvedTo", () => {
