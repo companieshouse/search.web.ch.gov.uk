@@ -2,9 +2,9 @@ import { Request, Response } from "express";
 import { changeDateFormat, mapCompanyResource } from "../utils/utils";
 import { getAdvancedCompanies } from "../../client/apiclient";
 import { ADVANCED_SEARCH_NUMBER_OF_RESULTS_TO_DOWNLOAD, API_KEY, SEARCH_WEB_COOKIE_NAME } from "../../config/config";
+import { AdvancedSearchParams } from "../../model/advanced.search.params";
 import Papa from "papaparse";
 import Cookies = require("cookies");
-import { AdvancedSearchParams } from "../../model/advanced.search.params";
 
 const route = async (req: Request, res: Response) => {
     const cookies = new Cookies(req, res);
@@ -30,8 +30,8 @@ const route = async (req: Request, res: Response) => {
 
     if (advancedSearchParams.companyType !== null) {
         advancedSearchParams.companyType = String(advancedSearchParams.companyType).replace("icvc", "icvc-securities,icvc-warrant,icvc-umbrella");
-    };
-    
+    }
+
     const companyResource = await getAdvancedCompanies(API_KEY, advancedSearchParams, (cookies.get(SEARCH_WEB_COOKIE_NAME) as string));
     const companyJson = mapCompanyResource(companyResource);
     const parsedData = Papa.unparse(companyJson);
