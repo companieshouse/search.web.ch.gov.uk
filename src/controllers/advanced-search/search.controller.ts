@@ -34,11 +34,12 @@ const route = async (req: Request, res: Response) => {
 
     if (!errors.isEmpty()) {
         return res.render(templatePaths.ADVANCED_SEARCH_RESULTS, { ...errorList, advancedSearchParams, incorporatedFrom, incorporatedTo, selectedStatusCheckboxes, selectedTypeCheckboxes, dissolvedFrom, dissolvedTo });
-    };
+    }
 
     if (advancedSearchParams.companyType !== null) {
         advancedSearchParams.companyType = String(advancedSearchParams.companyType).replace("icvc", "icvc-securities,icvc-warrant,icvc-umbrella");
     }
+
     const { companyResource, searchResults } = await getSearchResults(advancedSearchParams, cookies);
     const numberOfPages: number = Math.ceil(companyResource.hits / 20);
     const pagingRange = getPagingRange(page, numberOfPages);

@@ -174,6 +174,11 @@ describe("utils.test", () => {
             chai.expect(buildPagingUrl(searchParams, null, null, null, null)).to.equal("get-results?type=ltd");
         });
 
+        it("should check if type includes an icvc type and set type to icvc", () => {
+            const searchParams = createDummyAdvancedSearchParams(null, null, null, null, null, null, null, null, "icvc-securities,icvc-warrant,icvc-umbrella", null, null);
+            chai.expect(buildPagingUrl(searchParams, null, null, null, null)).to.equal("get-results?type=icvc");
+        });
+
         it("should return a url with parameters for dissolvedFrom and DissolvedTo", () => {
             const searchParams = createDummyAdvancedSearchParams(null, null, null, null, null, null, null, null, null, "testDissolvedFrom", "testDissolvedTo");
             chai.expect(buildPagingUrl(searchParams, null, null, "testDissolvedFrom", "testDissolvedTo"))
