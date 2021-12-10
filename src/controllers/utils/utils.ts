@@ -1,5 +1,6 @@
 import escape from "escape-html";
 import { AdvancedSearchParams } from "model/advanced.search.params";
+import { getCompanyConstant, COMPANY_STATUS_CONSTANT } from "../../config/api.enumerations";
 import moment from "moment";
 
 export const getDownloadReportText = (signedIn: boolean, reportAvailable: boolean, returnUrl: string, companyNumber: string): string => {
@@ -231,6 +232,14 @@ export const formatCompactAddress = (registered_office_address) : string => {
     addressString = addCommaString(addressString, registered_office_address.country);
     return (registered_office_address.postal_code === undefined) ? addressString : addressString + " " + registered_office_address.postal_code;
 };
+
+export const buildCompanyStatusHtml = (companyStatus: string | undefined | null) => {
+    if (companyStatus === undefined || companyStatus === null) {
+        return "";
+    }
+    const mappedCompanyStatus = getCompanyConstant(COMPANY_STATUS_CONSTANT, companyStatus);
+    return `<span class="govuk-body govuk-!-font-weight-bold">${mappedCompanyStatus}</span>`
+}
 
 export const checkLineBreakRequired = (text: string) : string => {
     if (text === "") {
