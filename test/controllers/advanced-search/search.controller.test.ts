@@ -486,19 +486,6 @@ describe("search.controller.test", () => {
         });
     });
 
-    describe("check the company type", () => {
-        it("should replace icvc with icvc-securities,icvc-warrant,icvc-umbrella", async () => {
-            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
-                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 50)));
-
-            const resp = await chai.request(testApp)
-                .get("/advanced-search/get-results?companyNameIncludes=test&page=3&type=icvc");
-
-            chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain("<input class='govuk-checkboxes__input' id='icvc' name='type' type='checkbox' value='icvc' checked>");
-        });
-    });
-
     describe("check that the validation of dissolution dates displays the correct error message", () => {
         it("should display an error if dissolvedFrom is separated by hyphens", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
@@ -688,6 +675,41 @@ describe("search.controller.test", () => {
             chai.expect(resp.text).to.contain(`<a href="#dissolvedTo">The dissolution &#39;to&#39; date must be a real date</a>`);
             chai.expect(resp.text).to.contain(`<span id="dissolvedTo-error" class="govuk-error-message">`);
             chai.expect(resp.text).to.contain(`<span class="govuk-visually-hidden">Error:</span> The dissolution &#39;to&#39; date must be a real date`);
+        });
+    });
+
+    describe("Download button", () => {
+        it("should show an active download button", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 50)));
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?companyNameIncludes=test");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("<button class=\"govuk-button\" data-module=\"govuk-button\">\n        Download results\n        </button>");
+        });
+
+        it("should show an inactive download button if there are no results", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 50)));
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?companyNameIncludes=");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("<button disabled=\"disabled\" aria-disabled=\"true\" class=\"govuk-button govuk-button--disabled\" data-module=\"govuk-button\">\n            Download results\n          </button>");
+        });
+
+        it("should show an inactive download button if there is a validation error", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 50)));
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?incorporatedFrom=invalid");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("<button disabled=\"disabled\" aria-disabled=\"true\" class=\"govuk-button govuk-button--disabled\" data-module=\"govuk-button\">\n            Download results\n          </button>");
         });
     });
 });

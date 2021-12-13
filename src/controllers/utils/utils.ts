@@ -1,7 +1,7 @@
-import escape from "escape-html";
+import { COMPANY_STATUS_CONSTANT, COMPANY_TYPE_CONSTANT, getCompanyConstant } from "../../config/api.enumerations";
 import { AdvancedSearchParams } from "model/advanced.search.params";
-import { getCompanyConstant, COMPANY_STATUS_CONSTANT } from "../../config/api.enumerations";
 import moment from "moment";
+import escape from "escape-html";
 
 export const getDownloadReportText = (signedIn: boolean, reportAvailable: boolean, returnUrl: string, companyNumber: string): string => {
     const signIn = "Sign in to download report";
@@ -238,8 +238,8 @@ export const buildCompanyStatusHtml = (companyStatus: string | undefined | null)
         return "";
     }
     const mappedCompanyStatus = getCompanyConstant(COMPANY_STATUS_CONSTANT, companyStatus);
-    return `<span class="govuk-body govuk-!-font-weight-bold">${mappedCompanyStatus}</span>`
-}
+    return `<span class="govuk-body govuk-!-font-weight-bold">${mappedCompanyStatus}</span>`;
+};
 
 export const checkLineBreakRequired = (text: string) : string => {
     if (text === "") {
@@ -397,7 +397,7 @@ export const mapCompanyTypeCheckboxes = (companyType: string | null | undefined)
     selectedTypeCheckboxes.eeig = (selectedCompanyTypeArray.includes("eeig")) ? "checked" : "";
     selectedTypeCheckboxes.europeanPublicLimitedLiabilityCompanySe = (selectedCompanyTypeArray.includes("european-public-limited-liability-company-se")) ? "checked" : "";
     selectedTypeCheckboxes.furtherEducationOrSixthFormCollegeCorporation = (selectedCompanyTypeArray.includes("further-education-or-sixth-form-college-corporation")) ? "checked" : "";
-    selectedTypeCheckboxes.icvc = (selectedCompanyTypeArray.includes("icvc")) ? "checked" : "";
+    selectedTypeCheckboxes.icvc = (selectedCompanyTypeArray.includes("icvc-warrant")) ? "checked" : "";
     selectedTypeCheckboxes.industrialAndProvidentSociety = (selectedCompanyTypeArray.includes("industrial-and-provident-society")) ? "checked" : "";
     selectedTypeCheckboxes.limitedPartnership = (selectedCompanyTypeArray.includes("limited-partnership")) ? "checked" : "";
     selectedTypeCheckboxes.llp = (selectedCompanyTypeArray.includes("llp")) ? "checked" : "";
@@ -421,4 +421,48 @@ export const mapCompanyTypeCheckboxes = (companyType: string | null | undefined)
     selectedTypeCheckboxes.unregisteredCompany = (selectedCompanyTypeArray.includes("unregistered-company")) ? "checked" : "";
 
     return selectedTypeCheckboxes;
+};
+
+export const mapCompanyResource = (companyResource) => {
+    const listOfCompanies = companyResource.items.map(item => {
+        const sicCodes = item.sic_codes !== undefined ? item.sic_codes.toString().replace(/,/g, " ") : " ";
+        const companyData = {
+            company_name: item.company_name,
+            company_number: item.company_number,
+            company_status: getCompanyConstant(COMPANY_STATUS_CONSTANT, item.company_status),
+            company_type: getCompanyConstant(COMPANY_TYPE_CONSTANT, item.company_type),
+            dissolution_date: item.date_of_cessation,
+            incorporation_date: item.date_of_creation,
+            nature_of_business: sicCodes,
+            registered_office_address: generateROAddress(item.registered_office_address)
+        };
+        return companyData;
+    });
+    return listOfCompanies;
+};
+
+export const mapAdvancedSearchParams = (page: number, companyNameIncludes: string | null, companyNameExcludes: string | null,
+    registeredOfficeAddress: string | null, incorporatedFrom: string | null, incorporatedTo: string | null, sicCodes: string | null,
+    companyStatus: string | null, companyType: string | null, dissolvedFrom: string | null, dissolvedTo: string | null, size: number | null): AdvancedSearchParams => {
+        
+        if (companyType !== null) {
+            companyType = String(companyType).replace("icvc", "icvc-securities,icvc-warrant,icvc-umbrella");
+        }
+    
+    const advancedSearchParams: AdvancedSearchParams = {
+        page: page,
+        companyNameIncludes: companyNameIncludes,
+        companyNameExcludes: companyNameExcludes,
+        location: registeredOfficeAddress,
+        incorporatedFrom: incorporatedFrom !== null ? changeDateFormat(incorporatedFrom) : null,
+        incorporatedTo: incorporatedTo !== null ? changeDateFormat(incorporatedTo) : null,
+        sicCodes: sicCodes,
+        companyStatus: companyStatus,
+        companyType: companyType,
+        dissolvedFrom: dissolvedFrom !== null ? changeDateFormat(dissolvedFrom) : null,
+        dissolvedTo: dissolvedTo !== null ? changeDateFormat(dissolvedTo) : null,
+        size: size
+    };
+
+    return advancedSearchParams;
 };

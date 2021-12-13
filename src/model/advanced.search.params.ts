@@ -10,4 +10,5 @@ export interface AdvancedSearchParams {
     companyType: string | null;
     dissolvedFrom: string | null;
     dissolvedTo: string | null;
+    size: number | null;
 }

@@ -2,10 +2,11 @@
 import chai from "chai";
 import {
     checkLineBreakRequired, determineReportAvailableBool, getDownloadReportText, mapResponsiveHeaders,
-    formatLongDate, formatCompactAddress, changeDateFormat,
-    generateSize, buildPagingUrl, mapCompanyStatusCheckboxes, mapCompanyTypeCheckboxes, buildCompanyStatusHtml
+    formatLongDate, formatCompactAddress, changeDateFormat, generateSize, buildPagingUrl, mapCompanyStatusCheckboxes,
+    mapCompanyTypeCheckboxes, buildCompanyStatusHtml, mapCompanyResource, mapAdvancedSearchParams
 } from "../../src/controllers/utils/utils";
-import { createDummyAdvancedSearchParams } from "../MockUtils/advanced-search/mock.util";
+import { AdvancedSearchParams } from "../../src/model/advanced.search.params";
+import { createDummyAdvancedSearchParams, getDummyAdvancedCompanyResource } from "../MockUtils/advanced-search/mock.util";
 
 describe("utils.test", () => {
     describe("check that reports are only available if within the last 20 years", () => {
@@ -152,41 +153,41 @@ describe("utils.test", () => {
 
     describe("check that buildPagingUrl constructs the url for paging correctly", () => {
         it("should return a url with a parameter for company name includes", () => {
-            const searchParams = createDummyAdvancedSearchParams("1", "testCompanyNameIncludes", null, null, null, null, null, null, null, null, null);
+            const searchParams = createDummyAdvancedSearchParams("1", "testCompanyNameIncludes", null, null, null, null, null, null, null, null, null, null);
             chai.expect(buildPagingUrl(searchParams, null, null, null, null))
                 .to.equal("get-results?companyNameIncludes=testCompanyNameIncludes");
         });
 
         it("should return a url with a parameter for company name excludes", () => {
-            const searchParams = createDummyAdvancedSearchParams(null, null, "testCompanyNameExcludes", null, null, null, null, null, null, null, null);
+            const searchParams = createDummyAdvancedSearchParams(null, null, "testCompanyNameExcludes", null, null, null, null, null, null, null, null, null);
             chai.expect(buildPagingUrl(searchParams, null, null, null, null))
                 .to.equal("get-results?companyNameExcludes=testCompanyNameExcludes");
         });
 
         it("should return a url with a parameter for registered office address", () => {
-            const searchParams = createDummyAdvancedSearchParams(null, null, null, "testRegisteredOfficeAddress", null, null, null, null, null, null, null);
+            const searchParams = createDummyAdvancedSearchParams(null, null, null, "testRegisteredOfficeAddress", null, null, null, null, null, null, null, null);
             chai.expect(buildPagingUrl(searchParams, null, null, null, null))
                 .to.equal("get-results?registeredOfficeAddress=testRegisteredOfficeAddress");
         });
 
         it("should return a url with a parameter for company type", () => {
-            const searchParams = createDummyAdvancedSearchParams(null, null, null, null, null, null, null, null, "ltd", null, null);
+            const searchParams = createDummyAdvancedSearchParams(null, null, null, null, null, null, null, null, "ltd", null, null, null);
             chai.expect(buildPagingUrl(searchParams, null, null, null, null)).to.equal("get-results?type=ltd");
         });
 
         it("should check if type includes an icvc type and set type to icvc", () => {
-            const searchParams = createDummyAdvancedSearchParams(null, null, null, null, null, null, null, null, "icvc-securities,icvc-warrant,icvc-umbrella", null, null);
+            const searchParams = createDummyAdvancedSearchParams(null, null, null, null, null, null, null, null, "icvc-securities,icvc-warrant,icvc-umbrella", null, null, null);
             chai.expect(buildPagingUrl(searchParams, null, null, null, null)).to.equal("get-results?type=icvc");
         });
 
         it("should return a url with parameters for dissolvedFrom and DissolvedTo", () => {
-            const searchParams = createDummyAdvancedSearchParams(null, null, null, null, null, null, null, null, null, "testDissolvedFrom", "testDissolvedTo");
+            const searchParams = createDummyAdvancedSearchParams(null, null, null, null, null, null, null, null, null, "testDissolvedFrom", "testDissolvedTo", null);
             chai.expect(buildPagingUrl(searchParams, null, null, "testDissolvedFrom", "testDissolvedTo"))
                 .to.equal("get-results?dissolvedFrom=testDissolvedFrom&dissolvedTo=testDissolvedTo");
         });
 
         it("should return a url with a parameter for all fields present", () => {
-            const searchParams = createDummyAdvancedSearchParams("1", "testCompanyNameIncludes", "testCompanyNameExcludes", "testRegisteredOfficeAddress", "testIncorporatedFrom", "testIncorporatedTo", "07210", "active", "ltd", null, null);
+            const searchParams = createDummyAdvancedSearchParams("1", "testCompanyNameIncludes", "testCompanyNameExcludes", "testRegisteredOfficeAddress", "testIncorporatedFrom", "testIncorporatedTo", "07210", "active", "ltd", null, null, null);
             chai.expect(buildPagingUrl(searchParams, "testIncorporatedFrom", "testIncorporatedTo", "testDissolvedFrom", "testDissolvedTo"))
                 .to.equal("get-results?companyNameIncludes=testCompanyNameIncludes" +
                     "&companyNameExcludes=testCompanyNameExcludes" +
@@ -311,7 +312,7 @@ describe("utils.test", () => {
             expectedSelection.unregisteredCompany = "checked";
             const actualSelection = mapCompanyTypeCheckboxes("assurance-company,charitable-incorporated-organisation," +
                 "converted-or-closed,eeig,european-public-limited-liability-company-se,further-education-or-sixth-form-college-corporation," +
-                "icvc,industrial-and-provident-society,limited-partnership,llp,ltd,northern-ireland,northern-ireland-other," +
+                "icvc-warrant,industrial-and-provident-society,limited-partnership,llp,ltd,northern-ireland,northern-ireland-other," +
                 "old-public-company,oversea-company,plc,private-limited-guarant-nsc,private-limited-guarant-nsc-limited-exemption," +
                 "private-limited-shares-section-30-exemption,private-unlimited,private-unlimited-nsc,protected-cell-company," +
                 "registered-society-non-jurisdictional,royal-charter,scottish-charitable-incorporated-organisation,scottish-partnership," +
@@ -333,6 +334,50 @@ describe("utils.test", () => {
             const expectedSelection = setUpSelectedCompanyType();
             const actualSelection = mapCompanyTypeCheckboxes(undefined);
             checkCompanyTypeSelections(expectedSelection, actualSelection);
+        });
+    });
+
+    describe("check that the mapCompanyResource maps the company resource correctly ready for csv download", () => {
+        it("should map the input company resource correctly", () => {
+            const listOfCompanies = getDummyAdvancedCompanyResource("test", 10);
+            const mappedCompanies = mapCompanyResource(listOfCompanies);
+
+            chai.expect(mappedCompanies[0].company_name).to.equal("test0");
+            chai.expect(mappedCompanies[0].company_number).to.equal("06500000");
+            chai.expect(mappedCompanies[0].company_status).to.equal("Active");
+            chai.expect(mappedCompanies[0].company_type).to.equal("Private limited company");
+            chai.expect(mappedCompanies[0].dissolution_date).to.deep.equal(new Date(1991, 11, 12));
+            chai.expect(mappedCompanies[0].incorporation_date).to.deep.equal(new Date(1980, 13, 8));
+            chai.expect(mappedCompanies[0].nature_of_business).to.equal("01120");
+            chai.expect(mappedCompanies[0].registered_office_address).to.equal("test house test street cardiff cf5 6rb");
+        });
+    });
+
+    describe("mapAdvancedSearchParams", () => {
+        it("should map function arguments to advanced search params", async () => {
+            const advancedSearchMappedParams: AdvancedSearchParams = mapAdvancedSearchParams(1, "companyNameIncludes", "companyNameExcludes", "address", "01/01/2010", "01/01/2010",
+                "sicCodes", "status", "type", "01/01/2010", "01/01/2010", 50);
+
+            chai.expect(advancedSearchMappedParams.page).to.equal(1);
+            chai.expect(advancedSearchMappedParams.companyNameExcludes).to.equal("companyNameExcludes");
+            chai.expect(advancedSearchMappedParams.companyNameIncludes).to.equal("companyNameIncludes");
+            chai.expect(advancedSearchMappedParams.location).to.equal("address");
+            chai.expect(advancedSearchMappedParams.incorporatedFrom).to.equal("2010-01-01");
+            chai.expect(advancedSearchMappedParams.incorporatedTo).to.equal("2010-01-01");
+            chai.expect(advancedSearchMappedParams.sicCodes).to.equal("sicCodes");
+            chai.expect(advancedSearchMappedParams.companyStatus).to.equal("status");
+            chai.expect(advancedSearchMappedParams.companyType).to.equal("type");
+            chai.expect(advancedSearchMappedParams.dissolvedFrom).to.equal("2010-01-01");
+            chai.expect(advancedSearchMappedParams.dissolvedTo).to.equal("2010-01-01");
+            chai.expect(advancedSearchMappedParams.size).to.equal(50);
+        });
+
+        it("should replace icvc with icvc-securities,icvc-warrant,icvc-umbrella", async () => {
+            const advancedSearchMappedParams: AdvancedSearchParams = mapAdvancedSearchParams(1, "companyNameIncludes", "companyNameExcludes", "address", "01/01/2010", "01/01/2010",
+                "sicCodes", "status", "icvc", "01/01/2010", "01/01/2010", 50);
+                
+            chai.expect(advancedSearchMappedParams.companyType).to.equal("icvc-securities,icvc-warrant,icvc-umbrella");
+
         });
     });
 });

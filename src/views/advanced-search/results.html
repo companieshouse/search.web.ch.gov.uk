@@ -642,25 +642,43 @@
             <input type="button" class="govuk-button govuk-button--secondary" value="Clear search" onclick="clearForm(this.form)" data-event-id="advanced-search-results-page-clear"></input>
         </div>
       </form>
-
     </div>
 
     <div class="govuk-grid-two-thirds two-thirds-div" style="padding-top: 45px;">
-      <div>
-        {% if searchResults.length > 0 %}
-          {{ govukTable ({
-              rows: searchResults,
-              classes: 'govuk-!-font-size-16'
-          }) }}
+      {% if searchResults.length > 0 %}
+        {% include "../components/download-results.html"%}
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+      {% endif %}
 
-          {% if numberOfPages > 1 %}
+        <div>
+          {% if searchResults.length > 0 %}
+            {{ govukTable ({
+                rows: searchResults,
+                classes: 'govuk-!-font-size-16'
+            }) }}
+
+            {% if numberOfPages > 1 %}
               {% include "../components/pagination.html" %}
+            {% endif %}
+          {% else %}
+            <h2 class="govuk-heading-l" style="overflow-wrap: break-word;">No results found</h2>
+            <p class="govuk-body">Please try searching again using a different search criteria.</p>
           {% endif %}
-        {% else %}
-          <h2 class="govuk-heading-l" style="overflow-wrap: break-word;">No results found</h2>
-          <p class="govuk-body">Please try searching again using a different search criteria.</p>
-        {% endif %}
-      </div>
+        </div>
+
+      {% if searchResults.length > 0 %}
+        {% include "../components/download-results.html" %}
+      {% else %}
+        <div class="govuk-button-group download-button">
+          <button disabled="disabled" aria-disabled="true" class="govuk-button govuk-button--disabled" data-module="govuk-button">
+            Download results
+          </button>
+        </div>
+        <div class="flex-end">
+          <p class="govuk-body-s download-text">Results are downloaded as a CSV file. Only the first {{ADVANCED_SEARCH_NUMBER_OF_RESULTS_TO_DOWNLOAD}} results can be downloaded.</p>
+        </div>
+      {% endif %}
+
     </div>
   </div>   
 </div>
