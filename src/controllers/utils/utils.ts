@@ -444,11 +444,9 @@ export const mapCompanyResource = (companyResource) => {
 export const mapAdvancedSearchParams = (page: number, companyNameIncludes: string | null, companyNameExcludes: string | null,
     registeredOfficeAddress: string | null, incorporatedFrom: string | null, incorporatedTo: string | null, sicCodes: string | null,
     companyStatus: string | null, companyType: string | null, dissolvedFrom: string | null, dissolvedTo: string | null, size: number | null): AdvancedSearchParams => {
-        
-        if (companyType !== null) {
-            companyType = String(companyType).replace("icvc", "icvc-securities,icvc-warrant,icvc-umbrella");
-        }
-    
+    if (companyType !== null) {
+        companyType = String(companyType).replace("icvc", "icvc-securities,icvc-warrant,icvc-umbrella");
+    }
     const advancedSearchParams: AdvancedSearchParams = {
         page: page,
         companyNameIncludes: companyNameIncludes,
