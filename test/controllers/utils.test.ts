@@ -312,7 +312,7 @@ describe("utils.test", () => {
             expectedSelection.unregisteredCompany = "checked";
             const actualSelection = mapCompanyTypeCheckboxes("assurance-company,charitable-incorporated-organisation," +
                 "converted-or-closed,eeig,european-public-limited-liability-company-se,further-education-or-sixth-form-college-corporation," +
-                "icvc,industrial-and-provident-society,limited-partnership,llp,ltd,northern-ireland,northern-ireland-other," +
+                "icvc-warrant,industrial-and-provident-society,limited-partnership,llp,ltd,northern-ireland,northern-ireland-other," +
                 "old-public-company,oversea-company,plc,private-limited-guarant-nsc,private-limited-guarant-nsc-limited-exemption," +
                 "private-limited-shares-section-30-exemption,private-unlimited,private-unlimited-nsc,protected-cell-company," +
                 "registered-society-non-jurisdictional,royal-charter,scottish-charitable-incorporated-organisation,scottish-partnership," +
@@ -370,6 +370,14 @@ describe("utils.test", () => {
             chai.expect(advancedSearchMappedParams.dissolvedFrom).to.equal("2010-01-01");
             chai.expect(advancedSearchMappedParams.dissolvedTo).to.equal("2010-01-01");
             chai.expect(advancedSearchMappedParams.size).to.equal(50);
+        });
+
+        it("should replace icvc with icvc-securities,icvc-warrant,icvc-umbrella", async () => {
+            const advancedSearchMappedParams: AdvancedSearchParams = mapAdvancedSearchParams(1, "companyNameIncludes", "companyNameExcludes", "address", "01/01/2010", "01/01/2010",
+                "sicCodes", "status", "icvc", "01/01/2010", "01/01/2010", 50);
+                
+            chai.expect(advancedSearchMappedParams.companyType).to.equal("icvc-securities,icvc-warrant,icvc-umbrella");
+
         });
     });
 });

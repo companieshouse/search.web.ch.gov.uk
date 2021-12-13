@@ -397,7 +397,7 @@ export const mapCompanyTypeCheckboxes = (companyType: string | null | undefined)
     selectedTypeCheckboxes.eeig = (selectedCompanyTypeArray.includes("eeig")) ? "checked" : "";
     selectedTypeCheckboxes.europeanPublicLimitedLiabilityCompanySe = (selectedCompanyTypeArray.includes("european-public-limited-liability-company-se")) ? "checked" : "";
     selectedTypeCheckboxes.furtherEducationOrSixthFormCollegeCorporation = (selectedCompanyTypeArray.includes("further-education-or-sixth-form-college-corporation")) ? "checked" : "";
-    selectedTypeCheckboxes.icvc = (selectedCompanyTypeArray.includes("icvc")) ? "checked" : "";
+    selectedTypeCheckboxes.icvc = (selectedCompanyTypeArray.includes("icvc-warrant")) ? "checked" : "";
     selectedTypeCheckboxes.industrialAndProvidentSociety = (selectedCompanyTypeArray.includes("industrial-and-provident-society")) ? "checked" : "";
     selectedTypeCheckboxes.limitedPartnership = (selectedCompanyTypeArray.includes("limited-partnership")) ? "checked" : "";
     selectedTypeCheckboxes.llp = (selectedCompanyTypeArray.includes("llp")) ? "checked" : "";
@@ -444,6 +444,11 @@ export const mapCompanyResource = (companyResource) => {
 export const mapAdvancedSearchParams = (page: number, companyNameIncludes: string | null, companyNameExcludes: string | null,
     registeredOfficeAddress: string | null, incorporatedFrom: string | null, incorporatedTo: string | null, sicCodes: string | null,
     companyStatus: string | null, companyType: string | null, dissolvedFrom: string | null, dissolvedTo: string | null, size: number | null): AdvancedSearchParams => {
+        
+        if (companyType !== null) {
+            companyType = String(companyType).replace("icvc", "icvc-securities,icvc-warrant,icvc-umbrella");
+        }
+    
     const advancedSearchParams: AdvancedSearchParams = {
         page: page,
         companyNameIncludes: companyNameIncludes,

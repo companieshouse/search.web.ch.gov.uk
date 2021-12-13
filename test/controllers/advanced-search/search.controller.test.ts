@@ -486,19 +486,6 @@ describe("search.controller.test", () => {
         });
     });
 
-    describe("check the company type", () => {
-        it("should replace icvc with icvc-securities,icvc-warrant,icvc-umbrella", async () => {
-            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
-                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 50)));
-
-            const resp = await chai.request(testApp)
-                .get("/advanced-search/get-results?companyNameIncludes=test&page=3&type=icvc");
-
-            chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain("<input class='govuk-checkboxes__input' id='icvc' name='type' type='checkbox' value='icvc' checked>");
-        });
-    });
-
     describe("check that the validation of dissolution dates displays the correct error message", () => {
         it("should display an error if dissolvedFrom is separated by hyphens", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
