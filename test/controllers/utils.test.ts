@@ -1,4 +1,3 @@
-
 import chai from "chai";
 import {
     checkLineBreakRequired, determineReportAvailableBool, getDownloadReportText, mapResponsiveHeaders,
@@ -375,9 +374,8 @@ describe("utils.test", () => {
         it("should replace icvc with icvc-securities,icvc-warrant,icvc-umbrella", async () => {
             const advancedSearchMappedParams: AdvancedSearchParams = mapAdvancedSearchParams(1, "companyNameIncludes", "companyNameExcludes", "address", "01/01/2010", "01/01/2010",
                 "sicCodes", "status", "icvc", "01/01/2010", "01/01/2010", 50);
-                
-            chai.expect(advancedSearchMappedParams.companyType).to.equal("icvc-securities,icvc-warrant,icvc-umbrella");
 
+            chai.expect(advancedSearchMappedParams.companyType).to.equal("icvc-securities,icvc-warrant,icvc-umbrella");
         });
     });
 });
