@@ -698,7 +698,7 @@ describe("search.controller.test", () => {
                 .get("/advanced-search/get-results?companyNameIncludes=");
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain("<button disabled=\"disabled\" aria-disabled=\"true\" class=\"govuk-button govuk-button--disabled\" data-module=\"govuk-button\">\n            Download results\n          </button>");
+            chai.expect(resp.text).to.contain("<button disabled=\"disabled\" aria-disabled=\"true\" class=\"govuk-button govuk-button--disabled\" data-module=\"govuk-button\" data-event-id=\"advanced-search-results-page-download-results\">\n            Download results\n          </button>");
         });
 
         it("should show an inactive download button if there is a validation error", async () => {
@@ -709,7 +709,7 @@ describe("search.controller.test", () => {
                 .get("/advanced-search/get-results?incorporatedFrom=invalid");
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain("<button disabled=\"disabled\" aria-disabled=\"true\" class=\"govuk-button govuk-button--disabled\" data-module=\"govuk-button\">\n            Download results\n          </button>");
+            chai.expect(resp.text).to.contain("<button disabled=\"disabled\" aria-disabled=\"true\" class=\"govuk-button govuk-button--disabled\" data-module=\"govuk-button\" data-event-id=\"advanced-search-results-page-download-results\">\n            Download results\n          </button>");
         });
     });
 });
