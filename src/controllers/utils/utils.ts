@@ -8,10 +8,10 @@ export const getDownloadReportText = (signedIn: boolean, reportAvailable: boolea
     const signInLink = "/signin?return_to=";
     let downloadReportText = `<div class="onlyJS">
                                 <div id="widget">
-                                <a class="render-document" href="#">Download report
+                                <a class="render-document" href="#" data-event-id="dissolved-search-results-page-download-report">Download report
                                     <span class="govuk-visually-hidden">link opens in new tab/window</span></a>
                                     <div class="widget-footer visually-hidden">
-                                        <input type="hidden" id="document-data"
+                                        <input type="hidden" id="document-data" 
                                             data-resource-url="/dissolved-company-number/${companyNumber}"
                                             data-content-type="text/html" data-document-type="text/html">
                                         </input>
