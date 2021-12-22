@@ -131,7 +131,6 @@ const getSearchResults = async (encodedCompanyName: string, cookies: Cookies, se
             const nearestClass = detectNearestMatch(ordered_alpha_key_with_id, top_hit.ordered_alpha_key_with_id, noNearestMatch);
             const reportAvailable: boolean = determineReportAvailableBool(company_number, date_of_cessation);
             const downloadReportText: string = getDownloadReportText(signedIn, reportAvailable, returnToUrl, company_number);
-
             if (!noNearestMatch) {
                 noNearestMatch = nearestClass === "nearest";
             };
