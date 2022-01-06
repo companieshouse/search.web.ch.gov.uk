@@ -9,3 +9,5 @@ routes:
   4: ^/dissolved-search/.*
   5: ^/advanced-search
   6: ^/advanced-search/.*
+  7: /ed
+  8: /ed/.*

@@ -66,15 +66,17 @@ env.addGlobal("CDN_URL", process.env.CDN_HOST);
 
 app.use((req, res, next) => {
     if (req.path.includes("/alphabetical-search")) {
+        console.log("in alpha")
         env.addGlobal("SERVICE_NAME", ALPHABETICAL_SERVICE_NAME);
         env.addGlobal("PIWIK_SERVICE_NAME", PIWIK_ALPHABETICAL_SERVICE_NAME);
         env.addGlobal("RESPONSIVE_TABLE", "");
         env.addGlobal("BACK_LINK", ALPHABETICAL_ROOT);
         env.addGlobal("FEEDBACK_SOURCE", ALPHABETICAL_FEEDBACK_SOURCE);
     } else if (req.path.includes("/dissolved-search")) {
+        console.log("in diss")
         env.addGlobal("SERVICE_NAME", DISSOLVED_SERVICE_NAME);
         env.addGlobal("PIWIK_SERVICE_NAME", PIWIK_DISSOLVED_SERVICE_NAME);
-        env.addGlobal("RESPONSIVE_TABLE", "/alphabetical-search/static/responsive-table.css");
+        env.addGlobal("RESPONSIVE_TABLE", "/ed/static/responsive-table.css");
         env.addGlobal("BACK_LINK", DISSOLVED_ROOT);
         env.addGlobal("FEEDBACK_SOURCE", DISSOLVED_FEEDBACK_SOURCE);
     } else if (req.path.includes("/advanced-search")) {
@@ -91,13 +93,15 @@ app.use((req, res, next) => {
 // serve static assets in development.
 // this will execute in production for now, but we will host these else where in the future.
 if (process.env.NODE_ENV !== "production") {
-    app.use("/alphabetical-search/static", express.static("dist/static"));
-    env.addGlobal("CSS_URL", "/alphabetical-search/static/app.css");
-    env.addGlobal("ALPHABETICAL_SEARCH", "/alphabetical-search/static/alphabetical_search.css");
-    env.addGlobal("NUMBERED_PAGING", "/alphabetical-search/static/numbered_paging.css");
-    env.addGlobal("MATCHER", "/alphabetical-search/static/js/matcher.js");
-    env.addGlobal("ALL", "/alphabetical-search/static/js/all.js");
+    console.log("hi ed")
+    app.use("/ed/static", express.static("dist/static"));
+    env.addGlobal("CSS_URL", "/ed/static/app.css");
+    env.addGlobal("ALPHABETICAL_SEARCH", "/ed/static/alphabetical_search.css");
+    env.addGlobal("NUMBERED_PAGING", "/ed/static/numbered_paging.css");
+    env.addGlobal("MATCHER", "/ed/static/js/matcher.js");
+    env.addGlobal("ALL", "/ed/static/js/all.js");
 } else {
+    console.log("no ed")
     app.use("/alphabetical-search/static", express.static("static"));
     env.addGlobal("CSS_URL", "/alphabetical-search/static/app.css");
     env.addGlobal("ALPHABETICAL_SEARCH", "/alphabetical-search/static/alphabetical_search.css");
