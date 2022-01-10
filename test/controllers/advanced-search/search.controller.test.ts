@@ -687,7 +687,7 @@ describe("search.controller.test", () => {
                 .get("/advanced-search/get-results?companyNameIncludes=test");
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain("<div class=\"one-third-div\">\n            <p class=\"govuk-body\">{{totalResultCounts}} results</p>");
+            chai.expect(resp.text).to.contain("<div class=\"one-third-div\">\n            <p class=\"govuk-body bold\">50 results</p>");
         });
     })
 
