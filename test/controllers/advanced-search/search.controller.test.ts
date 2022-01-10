@@ -678,6 +678,19 @@ describe("search.controller.test", () => {
         });
     });
 
+    describe("Total result counts", () => {
+        it("should show number of results download", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 50)));
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?companyNameIncludes=test");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("<div class=\"one-third-div\">\n            <p class=\"govuk-body\">{{totalResultCounts}} results</p>");
+        });
+    })
+
     describe("Download button", () => {
         it("should show an active download button", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
