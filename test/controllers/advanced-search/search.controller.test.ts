@@ -678,18 +678,18 @@ describe("search.controller.test", () => {
         });
     });
 
-    describe("Total result hits", () => {
+    describe("Total returned hits", () => {
         it("should show the number of total hits returned from the api query", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
-                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 50)));
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 5000)));
 
             const resp = await chai.request(testApp)
                 .get("/advanced-search/get-results?companyNameIncludes=test");
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain("<div class=\"one-third-div\">\n            <p class=\"govuk-heading-m\">50 results</p>");
+            chai.expect(resp.text).to.contain("<div class=\"one-third-div\">\n            <p class=\"govuk-heading-m\">5,000 results</p>");
         });
-    })
+    });
 
     describe("Download button", () => {
         it("should show an active download button", async () => {
