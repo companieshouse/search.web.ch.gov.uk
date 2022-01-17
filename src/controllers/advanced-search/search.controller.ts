@@ -30,13 +30,14 @@ const route = async (req: Request, res: Response) => {
     }
 
     const { companyResource, searchResults } = await getSearchResults(advancedSearchParams, cookies);
+    const totalReturnedHits: number = companyResource.hits;
     const totalReturnedHitsFormatted: string = companyResource.hits.toLocaleString();
     const numberOfPages: number = Math.ceil(companyResource.hits / 20);
     const pagingRange = getPagingRange(page, numberOfPages);
     const partialHref: string = buildPagingUrl(advancedSearchParams, incorporatedFrom, incorporatedTo, dissolvedFrom, dissolvedTo);
 
     return res.render(templatePaths.ADVANCED_SEARCH_RESULTS,
-        { searchResults, advancedSearchParams, page, numberOfPages, pagingRange, partialHref, incorporatedFrom, incorporatedTo, selectedStatusCheckboxes, selectedTypeCheckboxes, dissolvedFrom, dissolvedTo, ADVANCED_SEARCH_NUMBER_OF_RESULTS_TO_DOWNLOAD, totalReturnedHitsFormatted });
+        { searchResults, advancedSearchParams, page, numberOfPages, pagingRange, partialHref, incorporatedFrom, incorporatedTo, selectedStatusCheckboxes, selectedTypeCheckboxes, dissolvedFrom, dissolvedTo, ADVANCED_SEARCH_NUMBER_OF_RESULTS_TO_DOWNLOAD, totalReturnedHitsFormatted, totalReturnedHits });
 };
 
 export default [...advancedSearchValidationRules, route];
