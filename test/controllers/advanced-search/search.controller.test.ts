@@ -679,6 +679,16 @@ describe("search.controller.test", () => {
     });
 
     describe("Total returned hits", () => {
+        it("should update result text if total hits returned from the api query equals one", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 1)));
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?companyNameIncludes=test");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("<div class=\"one-third-div\">\n            <p class=\"govuk-heading-m\">1 result</p>");
+        });
         it("should show the number of total hits returned from the api query", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
                 .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 1001)));
