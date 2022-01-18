@@ -689,7 +689,7 @@ describe("search.controller.test", () => {
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain("<p class=\"govuk-heading-m\">1 result</p>");
         });
-        it("should show the number of total hits returned from the api query with a comma if over 999", async () => {
+        it("should show the number of total hits returned from the api query with a comma if over 999 ", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
                 .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 1001)));
 
