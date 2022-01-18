@@ -678,7 +678,7 @@ describe("search.controller.test", () => {
         });
     });
 
-    describe("Total returned hits", () => {
+    describe("Total returned hits displayed", () => {
         it("should update result text if total hits returned from the api query equals one", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
                 .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 1)));
@@ -687,9 +687,9 @@ describe("search.controller.test", () => {
                 .get("/advanced-search/get-results?companyNameIncludes=test");
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain("<div class=\"one-third-div\">\n            <p class=\"govuk-heading-m\">1 result</p>");
+            chai.expect(resp.text).to.contain("<p class=\"govuk-heading-m\">1 result</p>");
         });
-        it("should show the number of total hits returned from the api query", async () => {
+        it("should show the number of total hits returned from the api query with a comma if over 999", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
                 .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 1001)));
 
@@ -697,7 +697,7 @@ describe("search.controller.test", () => {
                 .get("/advanced-search/get-results?companyNameIncludes=test");
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain("<div class=\"one-third-div\">\n            <p class=\"govuk-heading-m\">1,001 results</p>");
+            chai.expect(resp.text).to.contain("<p class=\"govuk-heading-m\">1,001 results</p>");
         });
     });
 
