@@ -689,6 +689,16 @@ describe("search.controller.test", () => {
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain("<p class=\"govuk-heading-m\">1 result</p>");
         });
+        it("should update result text if total hits returned from the api query is equal or more than 10,000", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 10000)));
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?companyNameIncludes=test");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("<p class=\"govuk-heading-m\">Only 10,000 results can be displayed.</p>");
+        });
         it("should show the number of total hits returned from the api query with a comma if over 999", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
                 .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 1001)));
