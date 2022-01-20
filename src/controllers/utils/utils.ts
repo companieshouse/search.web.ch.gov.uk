@@ -329,7 +329,7 @@ export const changeDateFormat = (inputDate: string) => {
 export const buildPagingUrl = (advancedSearchParams: AdvancedSearchParams, incorporatedFrom: string | null, incorporatedTo: string | null,
     dissolvedFrom: string | null, dissolvedTo: string | null) : string => {
     const pagingUrlBuilder = new URLSearchParams();
-    const companyTypeCheck = advancedSearchParams.companyType?.includes("icvc") ? "icvc" : advancedSearchParams.companyType;
+    const companyTypeCheck = advancedSearchParams.companyType?.includes("icvc") ? advancedSearchParams.companyType.replace("icvc-securities,icvc-warrant,icvc-umbrella", "icvc") : advancedSearchParams.companyType;
 
     urlAppender(pagingUrlBuilder, advancedSearchParams.companyNameIncludes, "companyNameIncludes");
     urlAppender(pagingUrlBuilder, advancedSearchParams.companyNameExcludes, "companyNameExcludes");
