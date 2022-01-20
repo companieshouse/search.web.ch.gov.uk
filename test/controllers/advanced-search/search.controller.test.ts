@@ -209,6 +209,17 @@ describe("search.controller.test", () => {
             chai.expect(resp.text).to.contain("<input class='govuk-input govuk-input--width-10' id='dissolvedFrom' name='dissolvedFrom' type='text' value='01/01/2010'");
             chai.expect(resp.text).to.contain("<input class='govuk-input govuk-input--width-10' id='dissolvedTo' name='dissolvedTo' type='text' value='01/01/2010'");
         });
+
+        it("should display the company types search term is checked", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 20)));
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?type=limited-partnership");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("<input class='govuk-checkboxes__input' id='limited-partnership' name='type' type='checkbox' value='limited-partnership' checked>");
+        });
     });
 
     describe("check that the validation of incorporation dates displays the correct error message", () => {
