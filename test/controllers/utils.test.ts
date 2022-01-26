@@ -2,7 +2,7 @@ import chai from "chai";
 import {
     checkLineBreakRequired, determineReportAvailableBool, getDownloadReportText, mapResponsiveHeaders,
     formatLongDate, formatCompactAddress, changeDateFormat, generateSize, buildPagingUrl, mapCompanyStatusCheckboxes,
-    mapCompanyTypeCheckboxes, buildCompanyStatusHtml, mapCompanyResource, mapAdvancedSearchParams
+    mapCompanyTypeCheckboxes, buildCompanyStatusHtml, mapCompanyResource, mapAdvancedSearchParams, formatNumberWithCommas
 } from "../../src/controllers/utils/utils";
 import { AdvancedSearchParams } from "../../src/model/advanced.search.params";
 import { createDummyAdvancedSearchParams, getDummyAdvancedCompanyResource } from "../MockUtils/advanced-search/mock.util";
@@ -381,6 +381,18 @@ describe("utils.test", () => {
                 "sicCodes", "status", "icvc", "01/01/2010", "01/01/2010", 50);
 
             chai.expect(advancedSearchMappedParams.companyType).to.equal("icvc-securities,icvc-warrant,icvc-umbrella");
+        });
+    });
+
+    describe("formatNumberWithCommas", () => {
+        it("should return a comma separated string for numbers above 1000", async () => {
+            chai.expect(formatNumberWithCommas(1000)).to.equal("1,000");
+        });
+        it("should not insert commas for numbers under 1000", async () => {
+            chai.expect(formatNumberWithCommas(123)).to.equal("123");
+        });
+        it("should insert multiple commas if the number is above 1 million", async () => {
+            chai.expect(formatNumberWithCommas(1000000)).to.equal("1,000,000");
         });
     });
 });
