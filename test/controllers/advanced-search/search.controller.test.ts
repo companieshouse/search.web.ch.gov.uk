@@ -745,5 +745,25 @@ describe("search.controller.test", () => {
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain("<button disabled=\"disabled\" aria-disabled=\"true\" class=\"govuk-button govuk-button--disabled\" data-module=\"govuk-button\" data-event-id=\"advanced-search-results-page-download-results-disabled\">\n            Download results\n          </button>");
         });
+
+        it("the hidden download form fields should have the same values as the search queries from the main search form", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 50)));
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?companyNameIncludes=test&companyNameExcludes=one&registeredOfficeAddress=kings+road&incorporatedFrom=27%2F03%2F2007&incorporatedTo=29%2F03%2F2007&status=active&sicCodes=01120&type=llp&dissolvedFrom=21%2F03%2F2011&dissolvedTo=23%2F03%2F2011");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("<input class='hidden govuk-input govuk-!-width-width-full' name='companyNameIncludes' type='text' value='test'");
+            chai.expect(resp.text).to.contain("<input class='hidden govuk-input govuk-!-width-width-full' name='companyNameExcludes' type='text' value='one'");
+            chai.expect(resp.text).to.contain("<input class='hidden govuk-input govuk-!-width-width-full' name='registeredOfficeAddress' type='text' value='kings road'");
+            chai.expect(resp.text).to.contain("<input class='hidden govuk-input govuk-input--width-10' name='incorporatedFrom' type='text' value='27/03/2007'");
+            chai.expect(resp.text).to.contain("<input class='hidden govuk-input govuk-input--width-10' name='incorporatedTo' type='text' value='29/03/2007'");
+            chai.expect(resp.text).to.contain("<input class='hidden govuk-checkboxes__input' name='status' type='checkbox' value='active'");
+            chai.expect(resp.text).to.contain("<input class='hidden govuk-input govuk-!-width-full' name='sicCodes' type='text' value='01120'");
+            chai.expect(resp.text).to.contain("<input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='llp' checked");
+            chai.expect(resp.text).to.contain("<input class='hidden govuk-input govuk-input--width-10' name='dissolvedFrom' type='text' value='21/03/2011'");
+            chai.expect(resp.text).to.contain("<input class='hidden govuk-input govuk-input--width-10' name='dissolvedTo' type='text' value='23/03/2011'");
+        });
     });
 });
