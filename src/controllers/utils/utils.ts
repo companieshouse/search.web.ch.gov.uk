@@ -464,3 +464,7 @@ export const mapAdvancedSearchParams = (page: number, companyNameIncludes: strin
 
     return advancedSearchParams;
 };
+
+export const formatNumberWithCommas = (num: number) : string => {
+    return String(num).replace(/(.)(?=(\d{3})+$)/g,'$1,');
+}

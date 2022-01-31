@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { getPagingRange, buildPagingUrl, mapCompanyStatusCheckboxes, mapCompanyTypeCheckboxes, mapAdvancedSearchParams } from "../utils/utils";
+import { getPagingRange, buildPagingUrl, mapCompanyStatusCheckboxes, mapCompanyTypeCheckboxes, mapAdvancedSearchParams, formatNumberWithCommas } from "../utils/utils";
 import { advancedSearchValidationRules, validate } from "../utils/advanced-search-validation";
 import { validationResult } from "express-validator";
 import * as templatePaths from "../../model/template.paths";
@@ -24,9 +24,10 @@ const route = async (req: Request, res: Response) => {
     const selectedTypeCheckboxes = mapCompanyTypeCheckboxes(advancedSearchParams.companyType);
     const errors = validationResult(req);
     const errorList = validate(errors);
+    const ADV_SEARCH_NUM_OF_RESULTS_TO_DOWNLOAD = formatNumberWithCommas(ADVANCED_SEARCH_NUMBER_OF_RESULTS_TO_DOWNLOAD);
 
     if (!errors.isEmpty()) {
-        return res.render(templatePaths.ADVANCED_SEARCH_RESULTS, { ...errorList, advancedSearchParams, incorporatedFrom, incorporatedTo, selectedStatusCheckboxes, selectedTypeCheckboxes, dissolvedFrom, dissolvedTo, ADVANCED_SEARCH_NUMBER_OF_RESULTS_TO_DOWNLOAD });
+        return res.render(templatePaths.ADVANCED_SEARCH_RESULTS, { ...errorList, advancedSearchParams, incorporatedFrom, incorporatedTo, selectedStatusCheckboxes, selectedTypeCheckboxes, dissolvedFrom, dissolvedTo, ADV_SEARCH_NUM_OF_RESULTS_TO_DOWNLOAD });
     }
 
     const { companyResource, searchResults } = await getSearchResults(advancedSearchParams, cookies);
@@ -37,7 +38,7 @@ const route = async (req: Request, res: Response) => {
     const partialHref: string = buildPagingUrl(advancedSearchParams, incorporatedFrom, incorporatedTo, dissolvedFrom, dissolvedTo);
 
     return res.render(templatePaths.ADVANCED_SEARCH_RESULTS,
-        { searchResults, advancedSearchParams, page, numberOfPages, pagingRange, partialHref, incorporatedFrom, incorporatedTo, selectedStatusCheckboxes, selectedTypeCheckboxes, dissolvedFrom, dissolvedTo, ADVANCED_SEARCH_NUMBER_OF_RESULTS_TO_DOWNLOAD, totalReturnedHitsFormatted, totalReturnedHits });
+        { searchResults, advancedSearchParams, page, numberOfPages, pagingRange, partialHref, incorporatedFrom, incorporatedTo, selectedStatusCheckboxes, selectedTypeCheckboxes, dissolvedFrom, dissolvedTo, ADV_SEARCH_NUM_OF_RESULTS_TO_DOWNLOAD, totalReturnedHitsFormatted, totalReturnedHits });
 };
 
 export default [...advancedSearchValidationRules, route];
