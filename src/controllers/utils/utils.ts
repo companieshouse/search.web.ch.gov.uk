@@ -327,7 +327,8 @@ export const changeDateFormat = (inputDate: string) => {
 };
 
 export const buildPagingUrl = (advancedSearchParams: AdvancedSearchParams, incorporatedFrom: string | null, incorporatedTo: string | null,
-    dissolvedFrom: string | null, dissolvedTo: string | null) : string => {
+    dissolvedFromDay: string | null, dissolvedFromMonth: string | null, dissolvedFromYear: string | null, dissolvedToDay: string | null,
+    dissolvedToMonth: string | null, dissolvedToYear: string | null) : string => {
     const pagingUrlBuilder = new URLSearchParams();
     const companyTypeCheck = advancedSearchParams.companyType?.includes("icvc") ? advancedSearchParams.companyType.replace("icvc-securities,icvc-warrant,icvc-umbrella", "icvc") : advancedSearchParams.companyType;
 
@@ -339,8 +340,12 @@ export const buildPagingUrl = (advancedSearchParams: AdvancedSearchParams, incor
     urlAppender(pagingUrlBuilder, advancedSearchParams.companyStatus, "status");
     urlAppender(pagingUrlBuilder, advancedSearchParams.sicCodes, "sicCodes");
     urlAppender(pagingUrlBuilder, companyTypeCheck, "type");
-    urlAppender(pagingUrlBuilder, dissolvedFrom, "dissolvedFrom");
-    urlAppender(pagingUrlBuilder, dissolvedTo, "dissolvedTo");
+    urlAppender(pagingUrlBuilder, dissolvedFromDay, "dissolvedFromDay");
+    urlAppender(pagingUrlBuilder, dissolvedFromMonth, "dissolvedFromMonth");
+    urlAppender(pagingUrlBuilder, dissolvedFromYear, "dissolvedFromYear");
+    urlAppender(pagingUrlBuilder, dissolvedToDay, "dissolvedToDay");
+    urlAppender(pagingUrlBuilder, dissolvedToMonth, "dissolvedToMonth");
+    urlAppender(pagingUrlBuilder, dissolvedToYear, "dissolvedToYear");
 
     const pagingUrl: string = "get-results?" + pagingUrlBuilder.toString();
 

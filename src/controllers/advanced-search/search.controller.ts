@@ -13,12 +13,19 @@ const route = async (req: Request, res: Response) => {
     const page = req.query.page ? Number(req.query.page) : 1;
     const incorporatedFrom = req.query.incorporatedFrom as string || null;
     const incorporatedTo = req.query.incorporatedTo as string || null;
-    const dissolvedFrom = req.query.dissolvedFrom as string || null;
-    const dissolvedTo = req.query.dissolvedTo as string || null;
+    const dissolvedFromDay = req.query.dissolvedFromDay as string || null;
+    const dissolvedFromMonth = req.query.dissolvedFromMonth as string || null;
+    const dissolvedFromYear = req.query.dissolvedFromYear as string || null;
+    const dissolvedToDay = req.query.dissolvedToDay as string || null;
+    const dissolvedToMonth = req.query.dissolvedToMonth as string || null;
+    const dissolvedToYear = req.query.dissolvedToYear as string || null;
+
+    const dissolvedFromDate = `${dissolvedFromDay}/${dissolvedFromMonth}/${dissolvedFromYear}`;
+    const dissolvedToDate = `${dissolvedToDay}/${dissolvedToMonth}/${dissolvedToYear}`;
 
     const advancedSearchParams: AdvancedSearchParams = mapAdvancedSearchParams(page, req.query.companyNameIncludes as string || null, req.query.companyNameExcludes as string || null, req.query.registeredOfficeAddress as string || null,
         req.query.incorporatedFrom as string || null, req.query.incorporatedTo as string || null, req.query.sicCodes as string || null, req.query.status as string || null, req.query.type as string || null,
-        req.query.dissolvedFrom as string || null, req.query.dissolvedTo as string || null, null);
+        dissolvedFromDate || null, dissolvedToDate || null, null);
 
     const selectedStatusCheckboxes = mapCompanyStatusCheckboxes(advancedSearchParams.companyStatus);
     const selectedTypeCheckboxes = mapCompanyTypeCheckboxes(advancedSearchParams.companyType);
@@ -27,7 +34,7 @@ const route = async (req: Request, res: Response) => {
     const ADV_SEARCH_NUM_OF_RESULTS_TO_DOWNLOAD = formatNumberWithCommas(ADVANCED_SEARCH_NUMBER_OF_RESULTS_TO_DOWNLOAD);
 
     if (!errors.isEmpty()) {
-        return res.render(templatePaths.ADVANCED_SEARCH_RESULTS, { ...errorList, advancedSearchParams, incorporatedFrom, incorporatedTo, selectedStatusCheckboxes, selectedTypeCheckboxes, dissolvedFrom, dissolvedTo, ADV_SEARCH_NUM_OF_RESULTS_TO_DOWNLOAD });
+        return res.render(templatePaths.ADVANCED_SEARCH_RESULTS, { ...errorList, advancedSearchParams, incorporatedFrom, incorporatedTo, selectedStatusCheckboxes, selectedTypeCheckboxes, dissolvedFromDate, dissolvedToDate, ADV_SEARCH_NUM_OF_RESULTS_TO_DOWNLOAD });
     }
 
     const { companyResource, searchResults } = await getSearchResults(advancedSearchParams, cookies);
@@ -35,10 +42,11 @@ const route = async (req: Request, res: Response) => {
     const totalReturnedHitsFormatted: string = companyResource.hits.toLocaleString();
     const numberOfPages: number = Math.ceil(companyResource.hits / 20);
     const pagingRange = getPagingRange(page, numberOfPages);
-    const partialHref: string = buildPagingUrl(advancedSearchParams, incorporatedFrom, incorporatedTo, dissolvedFrom, dissolvedTo);
+    const partialHref: string = buildPagingUrl(advancedSearchParams, incorporatedFrom, incorporatedTo, dissolvedFromDay, dissolvedFromMonth, dissolvedFromYear, dissolvedToDay, dissolvedToMonth, dissolvedToYear);
 
     return res.render(templatePaths.ADVANCED_SEARCH_RESULTS,
-        { searchResults, advancedSearchParams, page, numberOfPages, pagingRange, partialHref, incorporatedFrom, incorporatedTo, selectedStatusCheckboxes, selectedTypeCheckboxes, dissolvedFrom, dissolvedTo, ADV_SEARCH_NUM_OF_RESULTS_TO_DOWNLOAD, totalReturnedHitsFormatted, totalReturnedHits });
+        { searchResults, advancedSearchParams, page, numberOfPages, pagingRange, partialHref, incorporatedFrom, incorporatedTo, selectedStatusCheckboxes, selectedTypeCheckboxes, dissolvedFromDay, dissolvedFromMonth, dissolvedFromYear,
+             dissolvedToDay, dissolvedToMonth, dissolvedToYear, ADV_SEARCH_NUM_OF_RESULTS_TO_DOWNLOAD, totalReturnedHitsFormatted, totalReturnedHits });
 };
 
 export default [...advancedSearchValidationRules, route];

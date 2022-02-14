@@ -9,10 +9,19 @@ import Cookies = require("cookies");
 const route = async (req: Request, res: Response) => {
     const cookies = new Cookies(req, res);
     const page = 1;
+    const dissolvedFromDay = req.query.dissolvedFromDay as string || null;
+    const dissolvedFromMonth = req.query.dissolvedFromMonth as string || null;
+    const dissolvedFromYear = req.query.dissolvedFromYear as string || null;
+    const dissolvedToDay = req.query.dissolvedToDay as string || null;
+    const dissolvedToMonth = req.query.dissolvedToMonth as string || null;
+    const dissolvedToYear = req.query.dissolvedToYear as string || null;
+
+    const dissolvedFromDate = `${dissolvedFromDay}/${dissolvedFromMonth}/${dissolvedFromYear}`;
+    const dissolvedToDate = `${dissolvedToDay}/${dissolvedToMonth}/${dissolvedToYear}`;
 
     const advancedSearchParams: AdvancedSearchParams = mapAdvancedSearchParams(page, req.query.companyNameIncludes as string || null, req.query.companyNameExcludes as string || null, req.query.registeredOfficeAddress as string || null,
         req.query.incorporatedFrom as string || null, req.query.incorporatedTo as string || null, req.query.sicCodes as string || null, req.query.status as string || null, req.query.type as string || null,
-        req.query.dissolvedFrom as string || null, req.query.dissolvedTo as string || null, ADVANCED_SEARCH_NUMBER_OF_RESULTS_TO_DOWNLOAD);
+        dissolvedFromDate || null, dissolvedToDate || null, ADVANCED_SEARCH_NUMBER_OF_RESULTS_TO_DOWNLOAD);
 
     const companyResource = await getAdvancedCompanies(API_KEY, advancedSearchParams, (cookies.get(SEARCH_WEB_COOKIE_NAME) as string));
     const companyJson = mapCompanyResource(companyResource);
