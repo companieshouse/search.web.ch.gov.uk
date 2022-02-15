@@ -45,8 +45,7 @@ const route = async (req: Request, res: Response) => {
     const partialHref: string = buildPagingUrl(advancedSearchParams, incorporatedFrom, incorporatedTo, dissolvedFromDay, dissolvedFromMonth, dissolvedFromYear, dissolvedToDay, dissolvedToMonth, dissolvedToYear);
 
     return res.render(templatePaths.ADVANCED_SEARCH_RESULTS,
-        { searchResults, advancedSearchParams, page, numberOfPages, pagingRange, partialHref, incorporatedFrom, incorporatedTo, selectedStatusCheckboxes, selectedTypeCheckboxes, dissolvedFromDay, dissolvedFromMonth, dissolvedFromYear,
-             dissolvedToDay, dissolvedToMonth, dissolvedToYear, ADV_SEARCH_NUM_OF_RESULTS_TO_DOWNLOAD, totalReturnedHitsFormatted, totalReturnedHits });
+        { searchResults, advancedSearchParams, page, numberOfPages, pagingRange, partialHref, incorporatedFrom, incorporatedTo, selectedStatusCheckboxes, selectedTypeCheckboxes, dissolvedFromDay, dissolvedFromMonth, dissolvedFromYear, dissolvedToDay, dissolvedToMonth, dissolvedToYear, ADV_SEARCH_NUM_OF_RESULTS_TO_DOWNLOAD, totalReturnedHitsFormatted, totalReturnedHits });
 };
 
 export default [...advancedSearchValidationRules, route];
