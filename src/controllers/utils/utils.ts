@@ -312,18 +312,12 @@ export const getPagingRange = (currentPage : number, numberOfPages : number) : {
     return { start: start, end: end };
 };
 
-export const changeDateFormat = (inputDate: string) => {
-    const pattern = /^\d{2}\/\d{2}\/\d{4}$/;
+export const changeDateFormat = (inputDate: string) : string | null => {
+    const pattern = /^\d{1,2}\/\d{1,2}\/\d{4}$/;
     if (!pattern.test(inputDate)) {
         return null;
     }
-    const splitDate = inputDate.split("/");
-
-    const day = splitDate[0];
-    const month = splitDate[1];
-    const year = splitDate[2];
-
-    return year + "-" + month + "-" + day;
+    return moment(inputDate, "DD/MM/YYYY").format("YYYY-MM-DD");
 };
 
 export const buildPagingUrl = (advancedSearchParams: AdvancedSearchParams, incorporatedFrom: string | null, incorporatedTo: string | null,

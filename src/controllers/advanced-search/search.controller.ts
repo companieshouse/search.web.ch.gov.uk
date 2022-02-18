@@ -34,7 +34,7 @@ const route = async (req: Request, res: Response) => {
     const ADV_SEARCH_NUM_OF_RESULTS_TO_DOWNLOAD = formatNumberWithCommas(ADVANCED_SEARCH_NUMBER_OF_RESULTS_TO_DOWNLOAD);
 
     if (!errors.isEmpty()) {
-        return res.render(templatePaths.ADVANCED_SEARCH_RESULTS, { ...errorList, advancedSearchParams, incorporatedFrom, incorporatedTo, selectedStatusCheckboxes, selectedTypeCheckboxes, dissolvedFromDate, dissolvedToDate, ADV_SEARCH_NUM_OF_RESULTS_TO_DOWNLOAD });
+        return res.render(templatePaths.ADVANCED_SEARCH_RESULTS, { ...errorList, advancedSearchParams, incorporatedFrom, incorporatedTo, selectedStatusCheckboxes, selectedTypeCheckboxes, dissolvedFromDay, dissolvedFromMonth, dissolvedFromYear, dissolvedToDay, dissolvedToMonth, dissolvedToYear, ADV_SEARCH_NUM_OF_RESULTS_TO_DOWNLOAD });
     }
 
     const { companyResource, searchResults } = await getSearchResults(advancedSearchParams, cookies);

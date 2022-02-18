@@ -126,7 +126,46 @@ describe("search.controller.test", () => {
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain("Dissolved on 12 December 1991");
         });
+        it("should display no errors if dissolvedFrom date is a valid leap year", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 3)));
 
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?dissolvedFromDay=29&dissolvedFromMonth=02&dissolvedFromYear=2020");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.not.contain("There is a problem");
+        });
+        it("should display no errors if dissolvedFrom date day and month are entered as single characters", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 3)));
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?dissolvedFromDay=2&dissolvedFromMonth=2&dissolvedFromYear=2020");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.not.contain("There is a problem");
+        });
+        it("should display no errors if dissolvedTo date is a valid leap year", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 3)));
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?dissolvedToDay=29&dissolvedToMonth=02&dissolvedToYear=2020");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.not.contain("There is a problem");
+        });
+        it("should display no errors if dissolvedTo date day and month are entered as single characters", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 3)));
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?dissolvedToDay=2&dissolvedToMonth=2&dissolvedToYear=2020");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.not.contain("There is a problem");
+        });
         it("should show the address", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
                 .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 20)));
@@ -501,197 +540,262 @@ describe("search.controller.test", () => {
         });
     });
 
-    // describe("check that the validation of dissolution dates displays the correct error message", () => {
-    //     it("should display an error if dissolvedFrom is separated by hyphens", async () => {
-    //         getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
-    //             .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 3)));
+    describe("check that the validation of dissolution from dates displays the correct error messages", () => {
+        it("should display an error if dissolvedFrom date has an invalid character", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 3)));
 
-    //         const resp = await chai.request(testApp)
-    //             .get("/advanced-search/get-results?dissolvedFrom=01-01-2009");
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?dissolvedFromDay=e&dissolvedFromMonth=01&dissolvedFromYear=2011");
 
-    //         chai.expect(resp.status).to.equal(200);
-    //         chai.expect(resp.text).to.contain("The dissolution date must include a day, a month and a year");
-    //         chai.expect(resp.text).to.contain("<input class='govuk-input govuk-input--width-10 govuk-input--error' id='dissolvedFrom' name='dissolvedFrom' type='text' value='01-01-2009' aria-describedby='dissolvedFrom-error'>");
-    //     });
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("The dissolution &#39;from&#39; date must be a real date");
+        });
+        it("should display an error if dissolvedFrom date has a month > 12", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 3)));
 
-    //     it("should display an error if dissolvedFrom is yyyy/mm/dd format", async () => {
-    //         getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
-    //             .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 3)));
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?dissolvedFromDay=01&dissolvedFromMonth=13&dissolvedFromYear=2011");
 
-    //         const resp = await chai.request(testApp)
-    //             .get("/advanced-search/get-results?dissolvedFrom=2009/01/01");
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("The dissolution &#39;from&#39; date must be a real date");
+        });
+        it("should display an error if dissolvedFrom date is after the dissolvedTo date", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 3)));
 
-    //         chai.expect(resp.status).to.equal(200);
-    //         chai.expect(resp.text).to.contain("The dissolution date must include a day, a month and a year");
-    //         chai.expect(resp.text).to.contain("<input class='govuk-input govuk-input--width-10 govuk-input--error' id='dissolvedFrom' name='dissolvedFrom' type='text' value='2009/01/01' aria-describedby='dissolvedFrom-error'>");
-    //     });
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?dissolvedFromDay=01&dissolvedFromMonth=01&dissolvedFromYear=2012&dissolvedToDay=02&dissolvedToMonth=02&dissolvedToYear=2011");
 
-    //     it("should display an error if dissolvedFrom is mm/yyyy format", async () => {
-    //         getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
-    //             .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 3)));
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("The dissolution &#39;from&#39; date must be the same as or before the &#39;to&#39; date");
+        });
+        it("should display an error if dissolvedFrom date is in the future", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 3)));
 
-    //         const resp = await chai.request(testApp)
-    //             .get("/advanced-search/get-results?containsCompanyName=test&excludesCompanyName=&dissolvedFrom=01/2009");
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?dissolvedFromDay=01&dissolvedFromMonth=01&dissolvedFromYear=2055");
 
-    //         chai.expect(resp.status).to.equal(200);
-    //         chai.expect(resp.text).to.contain(`<a href="#dissolvedFrom">The dissolution date must include a day, a month and a year</a>`);
-    //         chai.expect(resp.text).to.contain("<input class='govuk-input govuk-input--width-10 govuk-input--error' id='dissolvedFrom' name='dissolvedFrom' type='text' value='01/2009' aria-describedby='dissolvedFrom-error'>");
-    //     });
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("The dissolution date must be in the past");
+        });
+        it("should display an error if dissolvedFrom date is in invalid as it is not a leap year", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 3)));
 
-    //     it("should not display an error if dissolvedFrom is in the correct format", async () => {
-    //         getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
-    //             .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 3)));
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?dissolvedFromDay=29&dissolvedFromMonth=02&dissolvedFromYear=2021");
 
-    //         const resp = await chai.request(testApp)
-    //             .get("/advanced-search/get-results?containsCompanyName=test&excludesCompanyName=&dissolvedFrom=01/01/2009");
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("The dissolution &#39;from&#39; date must be a real date");
+        });
+        it("should display an error if dissolvedFrom date day is missing but the other parts of date are present", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 3)));
 
-    //         chai.expect(resp.status).to.equal(200);
-    //         chai.expect(resp.text).to.contain("<input class='govuk-input govuk-input--width-10' id='dissolvedFrom' name='dissolvedFrom' type='text' value='01/01/2009' aria-describedby='dissolved-date-from-hint'>");
-    //     });
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?dissolvedFromDay=&dissolvedFromMonth=01&dissolvedFromYear=2014");
 
-    //     it("should display an error if dissolvedTo is separated by hyphens", async () => {
-    //         getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
-    //             .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 3)));
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("The dissolved from date must include a day");
+        });
+        it("should display multiple errors if dissolvedFrom date day and month are missing but a year is present", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 3)));
 
-    //         const resp = await chai.request(testApp)
-    //             .get("/advanced-search/get-results?containsCompanyName=test&excludesCompanyName=&dissolvedTo=01-01-2009");
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?dissolvedFromDay=&dissolvedFromMonth=&dissolvedFromYear=2014");
 
-    //         chai.expect(resp.status).to.equal(200);
-    //         chai.expect(resp.text).to.contain(`<a href="#dissolvedTo">The dissolution date must include a day, a month and a year</a>`);
-    //         chai.expect(resp.text).to.contain("<input class='govuk-input govuk-input--width-10 govuk-input--error' id='dissolvedTo' name='dissolvedTo' type='text' value='01-01-2009' aria-describedby='dissolvedTo-error'>");
-    //     });
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("The dissolved from date must include a day");
+            chai.expect(resp.text).to.contain("The dissolved from date must include a month");
+        });
+    });
 
-    //     it("should display an error if dissolvedTo is yyyy/mm/dd format", async () => {
-    //         getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
-    //             .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 3)));
+    describe("Total returned hits displayed", () => {
+        it("should update result text if total hits returned from the api query equals one", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 1)));
 
-    //         const resp = await chai.request(testApp)
-    //             .get("/advanced-search/get-results?containsCompanyName=test&excludesCompanyName=&dissolvedTo=2009/01/01");
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?companyNameIncludes=test");
 
-    //         chai.expect(resp.status).to.equal(200);
-    //         chai.expect(resp.text).to.contain(`<a href="#dissolvedTo">The dissolution date must include a day, a month and a year</a>`);
-    //         chai.expect(resp.text).to.contain("<input class='govuk-input govuk-input--width-10 govuk-input--error' id='dissolvedTo' name='dissolvedTo' type='text' value='2009/01/01' aria-describedby='dissolvedTo-error'>");
-    //     });
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("<p class=\"govuk-heading-m\">1 result</p>");
+        });
+        it("should show the number of total hits returned from the api query with a comma if over 999", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 1001)));
 
-    //     it("should display an error if dissolvedTo is mm/yyyy format", async () => {
-    //         getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
-    //             .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 3)));
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?companyNameIncludes=test");
 
-    //         const resp = await chai.request(testApp)
-    //             .get("/advanced-search/get-results?containsCompanyName=test&excludesCompanyName=&dissolvedTo=01/2009");
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("<p class=\"govuk-heading-m\">1,001 results</p>");
+        });
+    });
 
-    //         chai.expect(resp.status).to.equal(200);
-    //         chai.expect(resp.text).to.contain(`<a href="#dissolvedTo">The dissolution date must include a day, a month and a year</a>`);
-    //         chai.expect(resp.text).to.contain("<input class='govuk-input govuk-input--width-10 govuk-input--error' id='dissolvedTo' name='dissolvedTo' type='text' value='01/2009' aria-describedby='dissolvedTo-error'>");
-    //     });
+    describe("check that the validation of dissolution from dates displays the correct error messages", () => {
+        it("should display an error if dissolvedFrom date has an invalid character", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 3)));
 
-    //     it("should not display an error if dissolvedTo is in the correct format", async () => {
-    //         getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
-    //             .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 3)));
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?dissolvedFromDay=e&dissolvedFromMonth=01&dissolvedFromYear=2011");
 
-    //         const resp = await chai.request(testApp)
-    //             .get("/advanced-search/get-results?containsCompanyName=test&excludesCompanyName=&dissolvedTo=01/01/2009");
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("The dissolution &#39;from&#39; date must be a real date");
+        });
+        it("should display an error if dissolvedFrom date has a month > 12", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 3)));
 
-    //         chai.expect(resp.status).to.equal(200);
-    //         chai.expect(resp.text).to.contain("<input class='govuk-input govuk-input--width-10' id='dissolvedTo' name='dissolvedTo' type='text' value='01/01/2009' aria-describedby='dissolved-date-to-hint'>");
-    //     });
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?dissolvedFromDay=01&dissolvedFromMonth=13&dissolvedFromYear=2011");
 
-    //     it("should display an error if dissolvedFrom is a later date than dissolvedTo", async () => {
-    //         getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
-    //             .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 3)));
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("The dissolution &#39;from&#39; date must be a real date");
+        });
+        it("should display an error if dissolvedFrom date is after the dissolvedTo date", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 3)));
 
-    //         const resp = await chai.request(testApp)
-    //             .get("/advanced-search/get-results?containsCompanyName=test&excludesCompanyName=&dissolvedTo=01/01/2009&dissolvedFrom=01/01/2010");
-    //         chai.expect(resp.status).to.equal(200);
-    //         chai.expect(resp.text).to.contain(`<a href="#dissolvedFrom">The dissolution &#39;from&#39; date must be the same as or before the &#39;to&#39; date</a>`);
-    //         chai.expect(resp.text).to.contain(`<a href="#dissolvedTo">The dissolution &#39;from&#39; date must be the same as or before the &#39;to&#39; date</a>`);
-    //         chai.expect(resp.text).to.contain(`<span id="dissolvedFrom-error" class="govuk-error-message">`);
-    //         chai.expect(resp.text).to.contain(`<span id="dissolvedTo-error" class="govuk-error-message">`);
-    //     });
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?dissolvedFromDay=01&dissolvedFromMonth=01&dissolvedFromYear=2012&dissolvedToDay=02&dissolvedToMonth=02&dissolvedToYear=2011");
 
-    //     it("should display an error if dissolvedFrom is a later date than dissolvedTo", async () => {
-    //         getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
-    //             .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 3)));
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("The dissolution &#39;from&#39; date must be the same as or before the &#39;to&#39; date");
+        });
+        it("should display an error if dissolvedFrom date is in the future", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 3)));
 
-    //         const resp = await chai.request(testApp)
-    //             .get("/advanced-search/get-results?containsCompanyName=test&excludesCompanyName=&dissolvedFrom=01/01/2010&dissolvedTo=01/01/2009");
-    //         chai.expect(resp.status).to.equal(200);
-    //         chai.expect(resp.text).to.contain(`<a href="#dissolvedFrom">The dissolution &#39;from&#39; date must be the same as or before the &#39;to&#39; date</a>`);
-    //         chai.expect(resp.text).to.contain(`<a href="#dissolvedTo">The dissolution &#39;from&#39; date must be the same as or before the &#39;to&#39; date</a>`);
-    //         chai.expect(resp.text).to.contain(`<span id="dissolvedFrom-error" class="govuk-error-message">`);
-    //         chai.expect(resp.text).to.contain(`<span id="dissolvedTo-error" class="govuk-error-message">`);
-    //     });
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?dissolvedFromDay=01&dissolvedFromMonth=01&dissolvedFromYear=2055");
 
-    //     it("should display an error message if dissolvedFrom is in the future", async () => {
-    //         getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
-    //             .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 3)));
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("The dissolution date must be in the past");
+        });
+        it("should display an error if dissolvedFrom date is in invalid as it is not a leap year", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 3)));
 
-    //         const resp = await chai.request(testApp)
-    //             .get("/advanced-search/get-results?containsCompanyName=test&excludesCompanyName=&dissolvedFrom=01/01/2030");
-    //         chai.expect(resp.status).to.equal(200);
-    //         chai.expect(resp.text).to.contain(`<a href="#dissolvedFrom">The dissolution date must be in the past</a>`);
-    //         chai.expect(resp.text).to.contain(`<span id="dissolvedFrom-error" class="govuk-error-message">`);
-    //     });
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?dissolvedFromDay=29&dissolvedFromMonth=02&dissolvedFromYear=2021");
 
-    //     it("should display an error message if dissolvedTo is in the future", async () => {
-    //         getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
-    //             .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 3)));
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("The dissolution &#39;from&#39; date must be a real date");
+        });
+        it("should display an error if dissolvedFrom date day is missing but the other parts of date are present", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 3)));
 
-    //         const resp = await chai.request(testApp)
-    //             .get("/advanced-search/get-results?containsCompanyName=test&excludesCompanyName=&dissolvedTo=01/01/2030");
-    //         chai.expect(resp.status).to.equal(200);
-    //         chai.expect(resp.text).to.contain(`<a href="#dissolvedTo">The dissolution date must be in the past</a>`);
-    //         chai.expect(resp.text).to.contain(`<span id="dissolvedTo-error" class="govuk-error-message">`);
-    //     });
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?dissolvedFromDay=&dissolvedFromMonth=01&dissolvedFromYear=2014");
 
-    //     it("should display an error message if 'from' date is 29 February and not a leap year", async () => {
-    //         getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
-    //             .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 3)));
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("The dissolved from date must include a day");
+        });
+        it("should display multiple errors if dissolvedFrom date day and month are missing but a year is present", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 3)));
 
-    //         const resp = await chai.request(testApp)
-    //             .get("/advanced-search/get-results?containsCompanyName=test&excludesCompanyName=&dissolvedFrom=29/02/2021");
-    //         chai.expect(resp.status).to.equal(200);
-    //         chai.expect(resp.text).to.contain(`<a href="#dissolvedFrom">The dissolution &#39;from&#39; date must be a real date</a>`);
-    //         chai.expect(resp.text).to.contain(`<span id="dissolvedFrom-error" class="govuk-error-message">`);
-    //         chai.expect(resp.text).to.contain(`<span class="govuk-visually-hidden">Error:</span> The dissolution &#39;from&#39; date must be a real date`);
-    //     });
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?dissolvedFromDay=&dissolvedFromMonth=&dissolvedFromYear=2014");
 
-    //     it("should display an error message if 'from' date has a month > 12", async () => {
-    //         getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
-    //             .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 3)));
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("The dissolved from date must include a day");
+            chai.expect(resp.text).to.contain("The dissolved from date must include a month");
+        });
+    });
+    describe("check that the validation of dissolution to dates displays the correct error messages", () => {
+        it("should display an error if dissolvedTo date has an invalid character", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 3)));
 
-    //         const resp = await chai.request(testApp)
-    //             .get("/advanced-search/get-results?containsCompanyName=test&excludesCompanyName=&dissolvedFrom=01/13/2020");
-    //         chai.expect(resp.status).to.equal(200);
-    //         chai.expect(resp.text).to.contain(`<a href="#dissolvedFrom">The dissolution &#39;from&#39; date must be a real date</a>`);
-    //         chai.expect(resp.text).to.contain(`<span id="dissolvedFrom-error" class="govuk-error-message">`);
-    //         chai.expect(resp.text).to.contain(`<span class="govuk-visually-hidden">Error:</span> The dissolution &#39;from&#39; date must be a real date`);
-    //     });
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?dissolvedToDay=e&dissolvedToMonth=01&dissolvedToYear=2011");
 
-    //     it("should display an error message if 'to' date is 29 February and not a leap year", async () => {
-    //         getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
-    //             .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 3)));
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("The dissolution &#39;to&#39; date must be a real date");
+        });
+        it("should display an error if dissolvedTo date has a month > 12", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 3)));
 
-    //         const resp = await chai.request(testApp)
-    //             .get("/advanced-search/get-results?containsCompanyName=test&excludesCompanyName=&dissolvedTo=29/02/2021");
-    //         chai.expect(resp.status).to.equal(200);
-    //         chai.expect(resp.text).to.contain(`<a href="#dissolvedTo">The dissolution &#39;to&#39; date must be a real date</a>`);
-    //         chai.expect(resp.text).to.contain(`<span id="dissolvedTo-error" class="govuk-error-message">`);
-    //         chai.expect(resp.text).to.contain(`<span class="govuk-visually-hidden">Error:</span> The dissolution &#39;to&#39; date must be a real date`);
-    //     });
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?dissolvedToDay=01&dissolvedToMonth=13&dissolvedToYear=2011");
 
-    //     it("should display an error message if 'to' date has a month > 12", async () => {
-    //         getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
-    //             .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 3)));
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("The dissolution &#39;to&#39; date must be a real date");
+        });
+        it("should display an error if dissolvedTo date is in the future", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 3)));
 
-    //         const resp = await chai.request(testApp)
-    //             .get("/advanced-search/get-results?containsCompanyName=test&excludesCompanyName=&dissolvedTo=01/13/2020");
-    //         chai.expect(resp.status).to.equal(200);
-    //         chai.expect(resp.text).to.contain(`<a href="#dissolvedTo">The dissolution &#39;to&#39; date must be a real date</a>`);
-    //         chai.expect(resp.text).to.contain(`<span id="dissolvedTo-error" class="govuk-error-message">`);
-    //         chai.expect(resp.text).to.contain(`<span class="govuk-visually-hidden">Error:</span> The dissolution &#39;to&#39; date must be a real date`);
-    //     });
-    // });
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?dissolvedToDay=01&dissolvedToMonth=01&dissolvedToYear=2055");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("The dissolution date must be in the past");
+        });
+        it("should display an error if dissolvedTo date is in invalid as it is not a leap year", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 3)));
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?dissolvedToDay=29&dissolvedToMonth=02&dissolvedToYear=2021");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("The dissolution &#39;to&#39; date must be a real date");
+        });
+        it("should display an error if dissolvedTo date day is missing but the other parts of date are present", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 3)));
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?dissolvedToDay=&dissolvedToMonth=01&dissolvedToYear=2014");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("The dissolved to date must include a day");
+        });
+        it("should display multiple errors if dissolvedTo date day and month are missing but a year is present", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 3)));
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?dissolvedToDay=&dissolvedToMonth=&dissolvedToYear=2014");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("The dissolved to date must include a day");
+            chai.expect(resp.text).to.contain("The dissolved to date must include a month");
+        });
+    });
+
+    describe("Total returned hits displayed", () => {
+        it("should update result text if total hits returned to the api query equals one", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 1)));
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?companyNameIncludes=test");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("<p class=\"govuk-heading-m\">1 result</p>");
+        });
+        it("should show the number of total hits returned to the api query with a comma if over 999", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 1001)));
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?companyNameIncludes=test");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("<p class=\"govuk-heading-m\">1,001 results</p>");
+        });
+    });
 
     describe("Total returned hits displayed", () => {
         it("should update result text if total hits returned from the api query equals one", async () => {
