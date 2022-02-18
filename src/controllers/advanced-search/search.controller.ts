@@ -4,6 +4,7 @@ import { advancedSearchValidationRules, validate } from "../utils/advanced-searc
 import { validationResult } from "express-validator";
 import * as templatePaths from "../../model/template.paths";
 import { AdvancedSearchParams } from "../../model/advanced.search.params";
+import { DissolvedDates } from "model/dissolved.dates.params";
 import { getSearchResults } from "../../service/advanced-search/search.service";
 import { ADVANCED_SEARCH_NUMBER_OF_RESULTS_TO_DOWNLOAD } from "../../config/config";
 import Cookies = require("cookies");
@@ -42,7 +43,15 @@ const route = async (req: Request, res: Response) => {
     const totalReturnedHitsFormatted: string = companyResource.hits.toLocaleString();
     const numberOfPages: number = Math.ceil(companyResource.hits / 20);
     const pagingRange = getPagingRange(page, numberOfPages);
-    const partialHref: string = buildPagingUrl(advancedSearchParams, incorporatedFrom, incorporatedTo, dissolvedFromDay, dissolvedFromMonth, dissolvedFromYear, dissolvedToDay, dissolvedToMonth, dissolvedToYear);
+    const dissolvedDates: DissolvedDates = {
+        dissolvedFromDay: dissolvedFromDay,
+        dissolvedFromMonth: dissolvedFromMonth,
+        dissolvedFromYear: dissolvedFromYear,
+        dissolvedToDay: dissolvedToDate,
+        dissolvedToMonth: dissolvedToMonth,
+        dissolvedToYear: dissolvedToYear
+    };
+    const partialHref: string = buildPagingUrl(advancedSearchParams, incorporatedFrom, incorporatedTo, dissolvedDates);
 
     return res.render(templatePaths.ADVANCED_SEARCH_RESULTS,
         { searchResults, advancedSearchParams, page, numberOfPages, pagingRange, partialHref, incorporatedFrom, incorporatedTo, selectedStatusCheckboxes, selectedTypeCheckboxes, dissolvedFromDay, dissolvedFromMonth, dissolvedFromYear, dissolvedToDay, dissolvedToMonth, dissolvedToYear, ADV_SEARCH_NUM_OF_RESULTS_TO_DOWNLOAD, totalReturnedHitsFormatted, totalReturnedHits });

@@ -5,6 +5,7 @@ import {
     mapCompanyTypeCheckboxes, buildCompanyStatusHtml, mapCompanyResource, mapAdvancedSearchParams, formatNumberWithCommas
 } from "../../src/controllers/utils/utils";
 import { AdvancedSearchParams } from "../../src/model/advanced.search.params";
+import { DissolvedDates } from "../../src/model/dissolved.dates.params";
 import { createDummyAdvancedSearchParams, getDummyAdvancedCompanyResource } from "../MockUtils/advanced-search/mock.util";
 
 describe("utils.test", () => {
@@ -151,48 +152,64 @@ describe("utils.test", () => {
     });
 
     describe("check that buildPagingUrl constructs the url for paging correctly", () => {
+        const nullDissolvedDates: DissolvedDates = {
+            dissolvedFromDay: null,
+            dissolvedFromMonth: null,
+            dissolvedFromYear: null,
+            dissolvedToDay: null,
+            dissolvedToMonth: null,
+            dissolvedToYear: null
+        };
+        const dissolvedDates: DissolvedDates = {
+            dissolvedFromDay: "testDissolvedFromDay",
+            dissolvedFromMonth: "testDissolvedFromMonth",
+            dissolvedFromYear: "testDissolvedFromYear",
+            dissolvedToDay: "testDissolvedToDay",
+            dissolvedToMonth: "testDissolvedToMonth",
+            dissolvedToYear: "testDissolvedToYear"
+        };
         it("should return a url with a parameter for company name includes", () => {
             const searchParams = createDummyAdvancedSearchParams("1", "testCompanyNameIncludes", null, null, null, null, null, null, null, null, null, null, null, null, null, null);
-            chai.expect(buildPagingUrl(searchParams, null, null, null, null, null, null, null, null))
+            chai.expect(buildPagingUrl(searchParams, null, null, nullDissolvedDates))
                 .to.equal("get-results?companyNameIncludes=testCompanyNameIncludes");
         });
 
         it("should return a url with a parameter for company name excludes", () => {
             const searchParams = createDummyAdvancedSearchParams(null, null, "testCompanyNameExcludes", null, null, null, null, null, null, null, null, null, null, null, null, null);
-            chai.expect(buildPagingUrl(searchParams, null, null, null, null, null, null, null, null))
+            chai.expect(buildPagingUrl(searchParams, null, null, nullDissolvedDates))
                 .to.equal("get-results?companyNameExcludes=testCompanyNameExcludes");
         });
 
         it("should return a url with a parameter for registered office address", () => {
             const searchParams = createDummyAdvancedSearchParams(null, null, null, "testRegisteredOfficeAddress", null, null, null, null, null, null, null, null, null, null, null, null);
-            chai.expect(buildPagingUrl(searchParams, null, null, null, null, null, null, null, null))
+            chai.expect(buildPagingUrl(searchParams, null, null, nullDissolvedDates))
                 .to.equal("get-results?registeredOfficeAddress=testRegisteredOfficeAddress");
         });
 
         it("should return a url with a parameter for company type", () => {
             const searchParams = createDummyAdvancedSearchParams(null, null, null, null, null, null, null, null, "ltd", null, null, null, null, null, null, null);
-            chai.expect(buildPagingUrl(searchParams, null, null, null, null, null, null, null, null)).to.equal("get-results?type=ltd");
+            chai.expect(buildPagingUrl(searchParams, null, null, nullDissolvedDates)).to.equal("get-results?type=ltd");
         });
 
         it("should check if type includes an icvc type and set type to icvc", () => {
             const searchParams = createDummyAdvancedSearchParams(null, null, null, null, null, null, null, null, "icvc-securities,icvc-warrant,icvc-umbrella", null, null, null, null, null, null, null);
-            chai.expect(buildPagingUrl(searchParams, null, null, null, null, null, null, null, null)).to.equal("get-results?type=icvc");
+            chai.expect(buildPagingUrl(searchParams, null, null, nullDissolvedDates)).to.equal("get-results?type=icvc");
         });
 
         it("should check if type includes an icvc type and set type to icvc and retain any other company types selected", () => {
             const searchParams = createDummyAdvancedSearchParams(null, null, null, null, null, null, null, null, "icvc-securities,icvc-warrant,icvc-umbrella, limited-partnership", null, null, null, null, null, null, null);
-            chai.expect(buildPagingUrl(searchParams, null, null, null, null, null, null, null, null)).to.equal("get-results?type=icvc%2C+limited-partnership");
+            chai.expect(buildPagingUrl(searchParams, null, null, nullDissolvedDates)).to.equal("get-results?type=icvc%2C+limited-partnership");
         });
 
         it("should return a url with parameters for dissolvedFrom and DissolvedTo", () => {
             const searchParams = createDummyAdvancedSearchParams(null, null, null, null, null, null, null, null, null, "testDissolvedFromDay", "testDissolvedFromMonth", "testDissolvedFromYear", "testDissolvedToDay", "testDissolvedToMonth", "testDissolvedToYear", null);
-            chai.expect(buildPagingUrl(searchParams, null, null, "testDissolvedFromDay", "testDissolvedFromMonth", "testDissolvedFromYear", "testDissolvedToDay", "testDissolvedToMonth", "testDissolvedToYear"))
+            chai.expect(buildPagingUrl(searchParams, null, null, dissolvedDates))
                 .to.equal("get-results?dissolvedFromDay=testDissolvedFromDay&dissolvedFromMonth=testDissolvedFromMonth&dissolvedFromYear=testDissolvedFromYear&dissolvedToDay=testDissolvedToDay&dissolvedToMonth=testDissolvedToMonth&dissolvedToYear=testDissolvedToYear");
         });
 
         it("should return a url with a parameter for all fields present", () => {
             const searchParams = createDummyAdvancedSearchParams("1", "testCompanyNameIncludes", "testCompanyNameExcludes", "testRegisteredOfficeAddress", "testIncorporatedFrom", "testIncorporatedTo", "07210", "active", "ltd", "testDissolvedFromDay", "testDissolvedFromMonth", "testDissolvedFromYear", "testDissolvedToDay", "testDissolvedToMonth", "testDissolvedToYear", null);
-            chai.expect(buildPagingUrl(searchParams, "testIncorporatedFrom", "testIncorporatedTo", "testDissolvedFromDay", "testDissolvedFromMonth", "testDissolvedFromYear", "testDissolvedToDay", "testDissolvedToMonth", "testDissolvedToYear"))
+            chai.expect(buildPagingUrl(searchParams, "testIncorporatedFrom", "testIncorporatedTo", dissolvedDates))
                 .to.equal("get-results?companyNameIncludes=testCompanyNameIncludes" +
                     "&companyNameExcludes=testCompanyNameExcludes" +
                     "&registeredOfficeAddress=testRegisteredOfficeAddress" +
