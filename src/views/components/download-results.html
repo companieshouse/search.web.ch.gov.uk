@@ -47,26 +47,27 @@
         <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='further-education-or-sixth-form-college-corporation' {{ selectedTypeCheckboxes.furtherEducationOrSixthFormCollegeCorporation }} aria-hidden='true' aria-labelledby='further-education-or-sixth-form-college-corporation'>
         <input class='hidden govuk-input govuk-input--width-10' name='dissolvedFrom' type='text' value='{{ dissolvedFrom }}' aria-hidden='true' aria-labelledby='dissolvedFrom'>
         <input class='hidden govuk-input govuk-input--width-10' name='dissolvedTo' type='text' value='{{ dissolvedTo }}' aria-hidden='true' aria-labelledby='dissolvedTo'>
-        {% if totalReturnedHits === 1 %}
+		{% if totalReturnedHits === 1 %}
             <div class="one-third-div">
                 <p class="govuk-heading-m">{{totalReturnedHitsFormatted}} result</p>
             </div>
         {% elseif totalReturnedHits >= 10000 %}
-            <div class="two-thirds-div">
-                <p class="govuk-heading-m">Only 10,000 results can be displayed.</p>
+            <div class="one-half-div">
+				<p class="govuk-heading-m">{{totalReturnedHitsFormatted}} results</p>
+                <p class="govuk-body-s">Only 10,000 results can be displayed.</p>
             </div>
         {% else %}
             <div class="one-third-div">
                 <p class="govuk-heading-m">{{totalReturnedHitsFormatted}} results</p>
             </div>
         {% endif %}
-        <div class="govuk-button-group download-button">
-            <button class="govuk-button" data-module="govuk-button" data-event-id="advanced-search-results-page-download-results">
-            Download results
-            </button>
-        </div>
-        <div class="flex-end">
-            <p class="govuk-body-s download-text">Results are downloaded as a CSV file. Only the first {{ADV_SEARCH_NUM_OF_RESULTS_TO_DOWNLOAD}} results can be downloaded.</p>
-        </div>
+			<div class="govuk-button-group download-button">
+				<button class="govuk-button" data-module="govuk-button" data-event-id="advanced-search-results-page-download-results">
+					Download results
+				</button>
+			</div>
+			<div class="flex-end">
+				<span class="govuk-body-s download-text">Results are downloaded as a CSV file. Only the first {{ADV_SEARCH_NUM_OF_RESULTS_TO_DOWNLOAD}} results can be downloaded.</span>
+			</div>
     </form>
 </div>
