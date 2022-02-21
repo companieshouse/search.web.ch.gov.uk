@@ -112,9 +112,15 @@ export const createDummyAdvancedSearchParams = (
     sicCodesParam: string | null,
     companyStatusParam: string | null,
     companyTypeParam: string | null,
-    dissolvedFromParam: string | null,
-    dissolvedToParam: string | null,
+    dissolvedFromDayParam: string | null,
+    dissolvedFromMonthParam: string | null,
+    dissolvedFromYearParam: string | null,
+    dissolvedToDayParam: string | null,
+    dissolvedToMonthParam: string | null,
+    dissolvedToYearParam: string | null,
     sizeParam: number | null): AdvancedSearchParams => {
+    const dissolvedFromDate = `${dissolvedFromDayParam}/${dissolvedFromMonthParam}/${dissolvedFromYearParam}`;
+    const dissolvedToDate = `${dissolvedToDayParam}/${dissolvedToMonthParam}/${dissolvedToYearParam}`;
     const dummyAdvancedSearchParams: AdvancedSearchParams = {
         page: Number(pageParam),
         companyNameExcludes: companyNameExcludesParam,
@@ -125,8 +131,8 @@ export const createDummyAdvancedSearchParams = (
         sicCodes: sicCodesParam,
         companyStatus: companyStatusParam,
         companyType: companyTypeParam,
-        dissolvedFrom: dissolvedFromParam,
-        dissolvedTo: dissolvedToParam,
+        dissolvedFrom: dissolvedFromDate,
+        dissolvedTo: dissolvedToDate,
         size: sizeParam
     };
     return dummyAdvancedSearchParams;

@@ -1,5 +1,7 @@
 import { COMPANY_STATUS_CONSTANT, COMPANY_TYPE_CONSTANT, getCompanyConstant } from "../../config/api.enumerations";
 import { AdvancedSearchParams } from "model/advanced.search.params";
+import { DissolvedDates, FullDissolvedDates } from "model/dissolved.dates.params";
+import { Request } from "express";
 import moment from "moment";
 import escape from "escape-html";
 
@@ -312,22 +314,15 @@ export const getPagingRange = (currentPage : number, numberOfPages : number) : {
     return { start: start, end: end };
 };
 
-export const changeDateFormat = (inputDate: string) => {
-    const pattern = /^\d{2}\/\d{2}\/\d{4}$/;
+export const changeDateFormat = (inputDate: string) : string | null => {
+    const pattern = /^\d{1,2}\/\d{1,2}\/\d{4}$/;
     if (!pattern.test(inputDate)) {
         return null;
     }
-    const splitDate = inputDate.split("/");
-
-    const day = splitDate[0];
-    const month = splitDate[1];
-    const year = splitDate[2];
-
-    return year + "-" + month + "-" + day;
+    return moment(inputDate, "DD/MM/YYYY").format("YYYY-MM-DD");
 };
 
-export const buildPagingUrl = (advancedSearchParams: AdvancedSearchParams, incorporatedFrom: string | null, incorporatedTo: string | null,
-    dissolvedFrom: string | null, dissolvedTo: string | null) : string => {
+export const buildPagingUrl = (advancedSearchParams: AdvancedSearchParams, incorporatedFrom: string | null, incorporatedTo: string | null, dissolvedDates: DissolvedDates) : string => {
     const pagingUrlBuilder = new URLSearchParams();
     const companyTypeCheck = advancedSearchParams.companyType?.includes("icvc") ? advancedSearchParams.companyType.replace("icvc-securities,icvc-warrant,icvc-umbrella", "icvc") : advancedSearchParams.companyType;
 
@@ -339,8 +334,12 @@ export const buildPagingUrl = (advancedSearchParams: AdvancedSearchParams, incor
     urlAppender(pagingUrlBuilder, advancedSearchParams.companyStatus, "status");
     urlAppender(pagingUrlBuilder, advancedSearchParams.sicCodes, "sicCodes");
     urlAppender(pagingUrlBuilder, companyTypeCheck, "type");
-    urlAppender(pagingUrlBuilder, dissolvedFrom, "dissolvedFrom");
-    urlAppender(pagingUrlBuilder, dissolvedTo, "dissolvedTo");
+    urlAppender(pagingUrlBuilder, dissolvedDates.dissolvedFromDay, "dissolvedFromDay");
+    urlAppender(pagingUrlBuilder, dissolvedDates.dissolvedFromMonth, "dissolvedFromMonth");
+    urlAppender(pagingUrlBuilder, dissolvedDates.dissolvedFromYear, "dissolvedFromYear");
+    urlAppender(pagingUrlBuilder, dissolvedDates.dissolvedToDay, "dissolvedToDay");
+    urlAppender(pagingUrlBuilder, dissolvedDates.dissolvedToMonth, "dissolvedToMonth");
+    urlAppender(pagingUrlBuilder, dissolvedDates.dissolvedToYear, "dissolvedToYear");
 
     const pagingUrl: string = "get-results?" + pagingUrlBuilder.toString();
 
@@ -467,4 +466,18 @@ export const mapAdvancedSearchParams = (page: number, companyNameIncludes: strin
 
 export const formatNumberWithCommas = (num: number) : string => {
     return String(num).replace(/(.)(?=(\d{3})+$)/g, "$1,");
+};
+
+export const getDissolvedDatesFromParams = (req: Request) : FullDissolvedDates => {
+    const dissolvedFromDay = req.query.dissolvedFromDay as string || null;
+    const dissolvedFromMonth = req.query.dissolvedFromMonth as string || null;
+    const dissolvedFromYear = req.query.dissolvedFromYear as string || null;
+    const dissolvedToDay = req.query.dissolvedToDay as string || null;
+    const dissolvedToMonth = req.query.dissolvedToMonth as string || null;
+    const dissolvedToYear = req.query.dissolvedToYear as string || null;
+
+    const dissolvedFromDate = `${dissolvedFromDay}/${dissolvedFromMonth}/${dissolvedFromYear}`;
+    const dissolvedToDate = `${dissolvedToDay}/${dissolvedToMonth}/${dissolvedToYear}`;
+
+    return { dissolvedFromDate, dissolvedToDate };
 };
