@@ -489,7 +489,7 @@
                   Day
                 </label>
                 {% if dissolvedFromDayError%}
-                  <input class='govuk-input govuk-date-input__input govuk-input--width-2 govuk-input--error' id='dissolved-from-day' name='dissolvedFromDay' value='{{ dissolvedFromDay }}' aria-describedby='dissolved-from-day-hint' type='text'  aria-describedby='dissolvedFromDay-error'>
+                  <input class='govuk-input govuk-date-input__input govuk-input--width-2 govuk-input--error' id='dissolved-from-day' name='dissolvedFromDay' value='{{ dissolvedFromDay }}' aria-describedby='dissolved-from-day-hint' type='text'  aria-describedby='dissolved-from-day-error'>
                 {% else %}
                   <input class='govuk-input govuk-date-input__input govuk-input--width-2' id='dissolved-from-day' name='dissolvedFromDay' value='{{ dissolvedFromDay }}' aria-describedby='dissolved-from-day-hint' type='text' >
                 {% endif %}
@@ -501,7 +501,7 @@
                   Month
                 </label>
                 {% if dissolvedFromMonthError %}
-                  <input class='govuk-input govuk-date-input__input govuk-input--width-2 govuk-input--error' id='dissolved-from-month' name='dissolvedFromMonth' value='{{ dissolvedFromMonth }}' aria-describedby='dissolved-from-day-hint' type='text'  aria-describedby='dissolvedFromMonth-error'>
+                  <input class='govuk-input govuk-date-input__input govuk-input--width-2 govuk-input--error' id='dissolved-from-month' name='dissolvedFromMonth' value='{{ dissolvedFromMonth }}' aria-describedby='dissolved-from-day-hint' type='text'  aria-describedby='dissolved-from-month-error'>
                 {% else %}
                   <input class='govuk-input govuk-date-input__input govuk-input--width-2' id='dissolved-from-month' name='dissolvedFromMonth' value='{{ dissolvedFromMonth }}' aria-describedby='dissolved-from-month-hint' type='text' >
                 {% endif %}
@@ -513,7 +513,7 @@
                   Year
                 </label>
                 {% if dissolvedFromYearError.text %}
-                  <input class='govuk-input govuk-date-input__input govuk-input--width-4 govuk-input--error' id='dissolved-from-year' name='dissolvedFromYear' value='{{ dissolvedFromYear }}' aria-describedby='dissolved-from-year-hint' type='text'  aria-describedby='dissolvedFromYear-error'>
+                  <input class='govuk-input govuk-date-input__input govuk-input--width-4 govuk-input--error' id='dissolved-from-year' name='dissolvedFromYear' value='{{ dissolvedFromYear }}' aria-describedby='dissolved-from-year-hint' type='text'  aria-describedby='dissolved-from-year-error'>
                 {% else %}
                   <input class='govuk-input govuk-date-input__input govuk-input--width-4' id='dissolved-from-year' name='dissolvedFromYear' value='{{ dissolvedFromYear }}' aria-describedby='dissolved-from-year-hint' type='text' >
                 {% endif %}
@@ -542,7 +542,7 @@
                 <label class='govuk-label govuk-date-input__label' for='dissolved-from-day'>
                   Day
                 </label>
-                  <input class='govuk-input govuk-date-input__input govuk-input--width-2 govuk-input--error' id='dissolved-from-day' name='dissolvedFromDay' value='{{ dissolvedFromDay }}' aria-describedby='dissolved-from-day-hint' type='text'  aria-describedby='dissolvedFromDay-error'>
+                  <input class='govuk-input govuk-date-input__input govuk-input--width-2 govuk-input--error' id='dissolved-from-day' name='dissolvedFromDay' value='{{ dissolvedFromDay }}' type='text'  aria-describedby='dissolved-from-day-error'>
               </div>
             </div>
             <div class='govuk-date-input__item'>
@@ -550,7 +550,7 @@
                 <label class='govuk-label govuk-date-input__label' for='dissolved-from-month'>
                   Month
                 </label>
-                  <input class='govuk-input govuk-date-input__input govuk-input--width-2 govuk-input--error' id='dissolved-from-month' name='dissolvedFromMonth' value='{{ dissolvedFromMonth }}' aria-describedby='dissolved-from-day-hint' type='text'  aria-describedby='dissolvedFromMonth-error'>
+                  <input class='govuk-input govuk-date-input__input govuk-input--width-2 govuk-input--error' id='dissolved-from-month' name='dissolvedFromMonth' value='{{ dissolvedFromMonth }}' type='text'  aria-describedby='dissolved-from-month-error'>
               </div>
             </div>
             <div class='govuk-date-input__item'>
@@ -558,7 +558,7 @@
                 <label class='govuk-label govuk-date-input__label' for='dissolved-from-year'>
                   Year
                 </label>
-                  <input class='govuk-input govuk-date-input__input govuk-input--width-4 govuk-input--error' id='dissolved-from-year' name='dissolvedFromYear' value='{{ dissolvedFromYear }}' aria-describedby='dissolved-from-year-hint' type='text'  aria-describedby='dissolvedFromYear-error'>
+                  <input class='govuk-input govuk-date-input__input govuk-input--width-4 govuk-input--error' id='dissolved-from-year' name='dissolvedFromYear' value='{{ dissolvedFromYear }}' type='text'  aria-describedby='dissolved-from-year-error'>
               </div>
             </div>
           </div>
