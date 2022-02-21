@@ -159,7 +159,7 @@ export const advancedSearchValidationRules =
                 const dissolvedToMonth = req.query?.dissolvedToMonth as string;
                 const dissolvedToYear = req.query?.dissolvedToYear as string;
 
-                if (isDayPortionOfDateMissing(dissolvedToDay, dissolvedToMonth, dissolvedToYear)) {
+                if (isMonthPortionOfDateMissing(dissolvedToDay, dissolvedToMonth, dissolvedToYear)) {
                     throw Error(DISSOLVED_TO_DATE_MUST_INCLUDE_MONTH);
                 }
                 return true;
@@ -170,7 +170,7 @@ export const advancedSearchValidationRules =
                 const dissolvedToMonth = req.query?.dissolvedToMonth as string;
                 const dissolvedToYear = req.query?.dissolvedToYear as string;
 
-                if (isDayPortionOfDateMissing(dissolvedToDay, dissolvedToMonth, dissolvedToYear)) {
+                if (isYearPortionOfDateMissing(dissolvedToDay, dissolvedToMonth, dissolvedToYear)) {
                     throw Error(DISSOLVED_TO_DATE_MUST_INCLUDE_YEAR);
                 }
                 return true;
