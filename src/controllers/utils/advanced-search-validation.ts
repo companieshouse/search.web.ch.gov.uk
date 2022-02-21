@@ -91,11 +91,8 @@ export const advancedSearchValidationRules =
                 const dissolvedFromMonth = req.query?.dissolvedFromMonth as string;
                 const dissolvedFromYear = req.query?.dissolvedFromYear as string;
 
-                // check that one part of the date is not empty and check if day is missing
-                if (isStringNotNullOrEmpty(dissolvedFromYear) || isStringNotNullOrEmpty(dissolvedFromMonth)) {
-                    if (!isStringNotNullOrEmpty(dissolvedFromDay)) {
-                        throw Error(DISSOLVED_FROM_DATE_MUST_INCLUDE_DAY);
-                    }
+                if (isDayPortionOfDateMissing(dissolvedFromDay, dissolvedFromMonth, dissolvedFromYear)) {
+                    throw Error(DISSOLVED_FROM_DATE_MUST_INCLUDE_DAY);
                 }
                 return true;
             }),
@@ -105,11 +102,8 @@ export const advancedSearchValidationRules =
                 const dissolvedFromMonth = req.query?.dissolvedFromMonth as string;
                 const dissolvedFromYear = req.query?.dissolvedFromYear as string;
 
-                // check that one part of the date is not empty and check if month is missing
-                if (isStringNotNullOrEmpty(dissolvedFromDay) || isStringNotNullOrEmpty(dissolvedFromYear)) {
-                    if (!isStringNotNullOrEmpty(dissolvedFromMonth)) {
-                        throw Error(DISSOLVED_FROM_DATE_MUST_INCLUDE_MONTH);
-                    }
+                if (isMonthPortionOfDateMissing(dissolvedFromDay, dissolvedFromMonth, dissolvedFromYear)) {
+                    throw Error(DISSOLVED_FROM_DATE_MUST_INCLUDE_MONTH);
                 }
                 return true;
             }),
@@ -119,11 +113,8 @@ export const advancedSearchValidationRules =
                 const dissolvedFromMonth = req.query?.dissolvedFromMonth as string;
                 const dissolvedFromYear = req.query?.dissolvedFromYear as string;
 
-                // check that one part of the date is not empty and check if year is missing
-                if (isStringNotNullOrEmpty(dissolvedFromDay) || isStringNotNullOrEmpty(dissolvedFromMonth)) {
-                    if (!isStringNotNullOrEmpty(dissolvedFromYear)) {
-                        throw Error(DISSOLVED_FROM_DATE_MUST_INCLUDE_YEAR);
-                    }
+                if (isYearPortionOfDateMissing(dissolvedFromDay, dissolvedFromMonth, dissolvedFromYear)) {
+                    throw Error(DISSOLVED_FROM_DATE_MUST_INCLUDE_YEAR);
                 }
                 return true;
             }),
@@ -157,11 +148,8 @@ export const advancedSearchValidationRules =
                 const dissolvedToMonth = req.query?.dissolvedToMonth as string;
                 const dissolvedToYear = req.query?.dissolvedToYear as string;
 
-                // check that one part of the date is not empty and check if day is missing
-                if (isStringNotNullOrEmpty(dissolvedToMonth) || isStringNotNullOrEmpty(dissolvedToYear)) {
-                    if (!isStringNotNullOrEmpty(dissolvedToDay)) {
-                        throw Error(DISSOLVED_TO_DATE_MUST_INCLUDE_DAY);
-                    }
+                if (isDayPortionOfDateMissing(dissolvedToDay, dissolvedToMonth, dissolvedToYear)) {
+                    throw Error(DISSOLVED_TO_DATE_MUST_INCLUDE_DAY);
                 }
                 return true;
             }),
@@ -171,11 +159,8 @@ export const advancedSearchValidationRules =
                 const dissolvedToMonth = req.query?.dissolvedToMonth as string;
                 const dissolvedToYear = req.query?.dissolvedToYear as string;
 
-                // check that one part of the date is not empty and check if month is missing
-                if (isStringNotNullOrEmpty(dissolvedToDay) || isStringNotNullOrEmpty(dissolvedToYear)) {
-                    if (!isStringNotNullOrEmpty(dissolvedToMonth)) {
-                        throw Error(DISSOLVED_TO_DATE_MUST_INCLUDE_MONTH);
-                    }
+                if (isDayPortionOfDateMissing(dissolvedToDay, dissolvedToMonth, dissolvedToYear)) {
+                    throw Error(DISSOLVED_TO_DATE_MUST_INCLUDE_MONTH);
                 }
                 return true;
             }),
@@ -185,11 +170,8 @@ export const advancedSearchValidationRules =
                 const dissolvedToMonth = req.query?.dissolvedToMonth as string;
                 const dissolvedToYear = req.query?.dissolvedToYear as string;
 
-                // check that one part of the date is not empty and check if year is missing
-                if (isStringNotNullOrEmpty(dissolvedToDay) || isStringNotNullOrEmpty(dissolvedToMonth)) {
-                    if (!isStringNotNullOrEmpty(dissolvedToYear)) {
-                        throw Error(DISSOLVED_TO_DATE_MUST_INCLUDE_YEAR);
-                    }
+                if (isDayPortionOfDateMissing(dissolvedToDay, dissolvedToMonth, dissolvedToYear)) {
+                    throw Error(DISSOLVED_TO_DATE_MUST_INCLUDE_YEAR);
                 }
                 return true;
             }),
@@ -322,4 +304,25 @@ function isDateValid (date: string) : boolean {
 function isDateFormattedProperly (date: string) : boolean {
     const pattern = /^\d{1,2}\/\d{1,2}\/\d{4}$/;
     return pattern.test(date);
+}
+
+function isDayPortionOfDateMissing (day: string, month: string, year: string): boolean {
+    if ((isStringNotNullOrEmpty(month) || isStringNotNullOrEmpty(year)) && !isStringNotNullOrEmpty(day)) {
+        return true;
+    }
+    return false;
+}
+
+function isMonthPortionOfDateMissing (day: string, month: string, year: string): boolean {
+    if ((isStringNotNullOrEmpty(day) || isStringNotNullOrEmpty(year)) && !isStringNotNullOrEmpty(month)) {
+        return true;
+    }
+    return false;
+}
+
+function isYearPortionOfDateMissing (day: string, month: string, year: string): boolean {
+    if ((isStringNotNullOrEmpty(day) || isStringNotNullOrEmpty(month)) && !isStringNotNullOrEmpty(year)) {
+        return true;
+    }
+    return false;
 }
