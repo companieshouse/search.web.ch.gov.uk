@@ -2,7 +2,7 @@ import chai from "chai";
 import {
     checkLineBreakRequired, determineReportAvailableBool, getDownloadReportText, mapResponsiveHeaders,
     formatLongDate, formatCompactAddress, changeDateFormat, generateSize, buildPagingUrl, mapCompanyStatusCheckboxes,
-    mapCompanyTypeCheckboxes, buildCompanyStatusHtml, mapCompanyResource, mapAdvancedSearchParams, formatNumberWithCommas
+    mapCompanyTypeCheckboxes, buildCompanyStatusHtml, mapCompanyResource, mapAdvancedSearchParams, formatNumberWithCommas, getDissolvedDatesFromParams
 } from "../../src/controllers/utils/utils";
 import { AdvancedSearchParams } from "../../src/model/advanced.search.params";
 import { DissolvedDates } from "../../src/model/dissolved.dates.params";
@@ -416,6 +416,15 @@ describe("utils.test", () => {
             chai.expect(formatNumberWithCommas(1000000)).to.equal("1,000,000");
         });
     });
+
+    describe("getDatesFromParams", () => {
+        it("should return a FullDissolvedDates object with dissolved to and from dates", () => {
+            chai.expect(getDissolvedDatesFromParams(mockRequestDatesQueries)).to.deep.equal({
+                dissolvedFromDate: "1/1/2014",
+                dissolvedToDate: "2/2/2015"
+            });
+        });
+    });
 });
 
 const compareCheckboxSelections = (expectedSelectedStatusCheckboxes, actualSelectedStatusCheckboxes) => {
@@ -494,3 +503,14 @@ const setUpSelectedCompanyType = () => {
         ukEstablishment: ""
     };
 };
+
+const mockRequestDatesQueries = {
+    query: {
+        dissolvedFromDay: "1",
+        dissolvedFromMonth: "1",
+        dissolvedFromYear: "2014",
+        dissolvedToDay: "2",
+        dissolvedToMonth: "2",
+        dissolvedToYear: "2015"
+    }
+} as any;

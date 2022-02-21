@@ -1,8 +1,9 @@
 import { COMPANY_STATUS_CONSTANT, COMPANY_TYPE_CONSTANT, getCompanyConstant } from "../../config/api.enumerations";
 import { AdvancedSearchParams } from "model/advanced.search.params";
+import { DissolvedDates, FullDissolvedDates } from "model/dissolved.dates.params";
+import { Request } from "express";
 import moment from "moment";
 import escape from "escape-html";
-import { DissolvedDates } from "model/dissolved.dates.params";
 
 export const getDownloadReportText = (signedIn: boolean, reportAvailable: boolean, returnUrl: string, companyNumber: string): string => {
     const signIn = "Sign in to download report";
@@ -465,4 +466,18 @@ export const mapAdvancedSearchParams = (page: number, companyNameIncludes: strin
 
 export const formatNumberWithCommas = (num: number) : string => {
     return String(num).replace(/(.)(?=(\d{3})+$)/g, "$1,");
+};
+
+export const getDissolvedDatesFromParams = (req: Request) : FullDissolvedDates => {
+    const dissolvedFromDay = req.query.dissolvedFromDay as string || null;
+    const dissolvedFromMonth = req.query.dissolvedFromMonth as string || null;
+    const dissolvedFromYear = req.query.dissolvedFromYear as string || null;
+    const dissolvedToDay = req.query.dissolvedToDay as string || null;
+    const dissolvedToMonth = req.query.dissolvedToMonth as string || null;
+    const dissolvedToYear = req.query.dissolvedToYear as string || null;
+
+    const dissolvedFromDate = `${dissolvedFromDay}/${dissolvedFromMonth}/${dissolvedFromYear}`;
+    const dissolvedToDate = `${dissolvedToDay}/${dissolvedToMonth}/${dissolvedToYear}`;
+
+    return { dissolvedFromDate, dissolvedToDate };
 };

@@ -6,3 +6,8 @@ export interface DissolvedDates {
     dissolvedToMonth: string | null,
     dissolvedToYear: string | null
 }
+
+export interface FullDissolvedDates {
+   dissolvedFromDate: string,
+   dissolvedToDate: string
+}
