@@ -250,3 +250,14 @@ padding: 8px 16px;
     float: right;
     width: 50%;;
 }
+.hr-margin {
+  margin-top: 60px;
+  margin-bottom: 0px;
+}
+
+@media screen and (max-width: 768px) {
+  .hr-margin-mobile {
+     margin-top: 100px;
+     margin-bottom: 0px;
+  }
+}
