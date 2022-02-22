@@ -1,57 +1,57 @@
 <div>
-    <form action="/advanced-search/download" method="GET">
-        <input class='hidden govuk-input govuk-!-width-width-full' name='companyNameIncludes' type='text' value='{{ advancedSearchParams.companyNameIncludes }}' aria-hidden='true' aria-labelledby='companyNameIncludes'>
-        <input class='hidden govuk-input govuk-!-width-width-full' name='companyNameExcludes' type='text' value='{{ advancedSearchParams.companyNameExcludes }}' aria-hidden='true' aria-labelledby='companyNameExcludes'>
-        <input class='hidden govuk-input govuk-!-width-width-full' name='registeredOfficeAddress' type='text' value='{{ advancedSearchParams.location }}' aria-hidden='true' aria-labelledby='registeredOfficeAddress'>
-        <input class='hidden govuk-input govuk-input--width-10' name='incorporatedFrom' type='text' value='{{ incorporatedFrom }}' aria-hidden='true' aria-labelledby='incorporatedFrom'>
-        <input class='hidden govuk-input govuk-input--width-10' name='incorporatedTo' type='text' value='{{ incorporatedTo }}' aria-hidden='true' aria-labelledby='incorporatedTo'>
-        <input class='hidden govuk-checkboxes__input' name='status' type='checkbox' value='active' {{ selectedStatusCheckboxes.active }} aria-hidden='true' aria-labelledby='activeCompanies'>
-        <input class='hidden govuk-checkboxes__input' name='status' type='checkbox' value='dissolved' {{ selectedStatusCheckboxes.dissolved }} aria-hidden='true' aria-labelledby='dissolvedCompanies'>
-        <input class='hidden govuk-checkboxes__input' name='status' type='checkbox' value='open' {{ selectedStatusCheckboxes.open }} aria-hidden='true' aria-labelledby='openCompanies'>
-        <input class='hidden govuk-checkboxes__input' name='status' type='checkbox' value='closed' {{  selectedStatusCheckboxes.closed }} aria-hidden='true' aria-labelledby='closedCompanies'>
-        <input class='hidden govuk-checkboxes__input' name='status' type='checkbox' value='converted-closed' {{selectedStatusCheckboxes.convertedClosed }} aria-hidden='true' aria-labelledby='convertedClosedCompanies'>
-        <input class='hidden govuk-checkboxes__input' name='status' type='checkbox' value='receivership' {{ selectedStatusCheckboxes.receivership }} aria-hidden='true' aria-labelledby='receivershipCompanies'>
-        <input class='hidden govuk-checkboxes__input' name='status' type='checkbox' value='liquidation' {{ selectedStatusCheckboxes.liquidation }} aria-hidden='true' aria-labelledby='liquidationCompanies'>
-        <input class='hidden govuk-checkboxes__input' name='status' type='checkbox' value='administration' {{ selectedStatusCheckboxes.administration }} aria-hidden='true' aria-labelledby='administrationCompanies'>
-        <input class='hidden govuk-checkboxes__input' name='status' type='checkbox' value='insolvency-proceedings' {{ selectedStatusCheckboxes.insolvencyProceedings }} aria-hidden='true' aria-labelledby='insolvencyProceedingsCompanies'>
-        <input class='hidden govuk-checkboxes__input' name='status' type='checkbox' value='voluntary-arrangement' {{  selectedStatusCheckboxes.voluntaryArrangement }} aria-hidden='true' aria-labelledby='voluntaryArrangementCompanies'>
-        <input class='hidden govuk-input govuk-!-width-full' name='sicCodes' type='text' value='{{ advancedSearchParams.sicCodes }}' aria-hidden='true' aria-labelledby='sicCodes'>
-        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='private-unlimited' {{ selectedTypeCheckboxes.privateUnlimited }} aria-hidden='true' aria-labelledby='private-unlimited'>
-        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='ltd' {{ selectedTypeCheckboxes.ltd }} aria-hidden='true' aria-labelledby='ltd'>
-        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='plc' {{ selectedTypeCheckboxes.plc }} aria-hidden='true' aria-labelledby='plc'>
-        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='old-public-company' {{ selectedTypeCheckboxes.oldPublicCompany }} aria-hidden='true' aria-labelledby='old-public-company'>
-        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='private-limited-guarant-nsc-limited-exemption' {{ selectedTypeCheckboxes.privateLimitedGuarantNscLimitedExemption }} aria-hidden='true' aria-labelledby='private-limited-guarant-nsc-limited-exemption'>
-        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='limited-partnership' {{ selectedTypeCheckboxes.limitedPartnership }} aria-hidden='true' aria-labelledby='limited-partnership'>
-        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='private-limited-guarant-nsc' {{ selectedTypeCheckboxes.privateLimitedGuarantNsc }} aria-hidden='true' aria-labelledby='private-limited-guarant-nsc'>
-        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='converted-or-closed' {{ selectedTypeCheckboxes.convertedOrClosed }} aria-hidden='true' aria-labelledby='converted-or-closed'>
-        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='private-unlimited-nsc' {{ selectedTypeCheckboxes.privateUnlimitedNsc }} aria-hidden='true' aria-labelledby='private-unlimited-nsc' >
-        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='private-limited-shares-section-30-exemption' {{ selectedTypeCheckboxes.privateLimitedSharesSection30Exemption }} aria-hidden='true' aria-labelledby='private-limited-shares-section-30-exemption'>
-        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='protected-cell-company' {{ selectedTypeCheckboxes.protectedCellCompany }} aria-hidden='true' aria-labelledby='protected-cell-company'>
-        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='assurance-company' {{ selectedTypeCheckboxes.assuranceCompany }} aria-hidden='true' aria-labelledby='assurance-company'>
-        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='oversea-company' {{ selectedTypeCheckboxes.overseaCompany }} aria-hidden='true' aria-labelledby='oversea-company'>
-        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='eeig' {{ selectedTypeCheckboxes.eeig }} aria-hidden='true' aria-labelledby='eeig'>
-        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='icvc' {{ selectedTypeCheckboxes.icvc }} aria-hidden='true' aria-labelledby='icvc'>
-        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='registered-society-non-jurisdictional' {{ selectedTypeCheckboxes.registeredSocietyNonJurisdictional }} aria-hidden='true' aria-labelledby='registered-society-non-jurisdictional'> 
-        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='industrial-and-provident-society' {{ selectedTypeCheckboxes.industrialAndProvidentSociety }} aria-hidden='true' aria-labelledby='industrial-and-provident-society'>
-        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='northern-ireland' {{ selectedTypeCheckboxes.northernIreland }} aria-hidden='true' aria-labelledby='industrial-and-provident-society'>
-        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='northern-ireland-other' {{ selectedTypeCheckboxes.northernIrelandOther }} aria-hidden='true' aria-labelledby='northern-ireland-other'>
-        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='llp' {{ selectedTypeCheckboxes.llp }} aria-hidden='true' aria-labelledby='llp'>
-        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='royal-charter' {{ selectedTypeCheckboxes.royalCharter }} aria-hidden='true' aria-labelledby='royal-charter'>
-        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='unregistered-company' {{ selectedTypeCheckboxes.unregisteredCompany }} aria-hidden='true' aria-labelledby='unregistered-company'>
-        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='unregistered-company' {{ selectedTypeCheckboxes.unregisteredCompany }} aria-hidden='true' aria-labelledby='unregistered-company'>
-        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='european-public-limited-liability-company-se' {{ selectedTypeCheckboxes.europeanPublicLimitedLiabilityCompanySe }} aria-hidden='true' aria-labelledby='european-public-limited-liability-company-se'>
-        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='uk-establishment' {{ selectedTypeCheckboxes.ukEstablishment }} aria-hidden='true' aria-labelledby='uk-establishment'>
-        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='scottish-partnership' {{ selectedTypeCheckboxes.scottishPartnership }} aria-hidden='true' aria-labelledby='scottish-partnership'>
-        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='charitable-incorporated-organisation' {{ selectedTypeCheckboxes.charitableIncorporatedOrganisation }} aria-hidden='true' aria-labelledby='charitable-incorporated-organisation'>
-        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='scottish-charitable-incorporated-organisation' {{ selectedTypeCheckboxes.scottishCharitableIncorporatedOrganisation }} aria-hidden='true' aria-labelledby='scottish-charitable-incorporated-organisation'>
-        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='further-education-or-sixth-form-college-corporation' {{ selectedTypeCheckboxes.furtherEducationOrSixthFormCollegeCorporation }} aria-hidden='true' aria-labelledby='further-education-or-sixth-form-college-corporation'>
-        <input class='hidden govuk-input govuk-input--width-10' name='dissolvedFromDay' type='text' value='{{ dissolvedFromDay }}' aria-hidden='true' aria-labelledby='dissolvedFromDay'>
-        <input class='hidden govuk-input govuk-input--width-10' name='dissolvedFromMonth' type='text' value='{{ dissolvedFromMonth }}' aria-hidden='true' aria-labelledby='dissolvedFromMonth'>
-        <input class='hidden govuk-input govuk-input--width-10' name='dissolvedFromYear' type='text' value='{{ dissolvedFromYear }}' aria-hidden='true' aria-labelledby='dissolvedFromYear'>
-        <input class='hidden govuk-input govuk-input--width-10' name='dissolvedToDay' type='text' value='{{ dissolvedToDay }}' aria-hidden='true' aria-labelledby='dissolvedToDay'>
-        <input class='hidden govuk-input govuk-input--width-10' name='dissolvedToMonth' type='text' value='{{ dissolvedToMonth }}' aria-hidden='true' aria-labelledby='dissolvedToMonth'>
-        <input class='hidden govuk-input govuk-input--width-10' name='dissolvedToYear' type='text' value='{{ dissolvedToYear }}' aria-hidden='true' aria-labelledby='dissolvedToYear'>
-        
+    <form action="/advanced-search/download" method="GET" >
+        <input class='hidden govuk-input govuk-!-width-width-full' name='companyNameIncludes' type='text' value='{{ advancedSearchParams.companyNameIncludes }}' aria-hidden='true' aria-label='companyNameIncludes'>
+        <input class='hidden govuk-input govuk-!-width-width-full' name='companyNameExcludes' type='text' value='{{ advancedSearchParams.companyNameExcludes }}' aria-hidden='true' aria-label='companyNameExcludes'>
+        <input class='hidden govuk-input govuk-!-width-width-full' name='registeredOfficeAddress' type='text' value='{{ advancedSearchParams.location }}' aria-hidden='true' aria-label='registeredOfficeAddress'>
+        <input class='hidden govuk-input govuk-input--width-10' name='incorporatedFrom' type='text' value='{{ incorporatedFrom }}' aria-hidden='true' aria-label='incorporatedFrom'>
+        <input class='hidden govuk-input govuk-input--width-10' name='incorporatedTo' type='text' value='{{ incorporatedTo }}' aria-hidden='true' aria-label='incorporatedTo'>
+        <input class='hidden govuk-checkboxes__input' name='status' type='checkbox' value='active' {{ selectedStatusCheckboxes.active }} aria-hidden='true' aria-label='activeCompanies'>
+        <input class='hidden govuk-checkboxes__input' name='status' type='checkbox' value='dissolved' {{ selectedStatusCheckboxes.dissolved }} aria-hidden='true' aria-label='dissolvedCompanies'>
+        <input class='hidden govuk-checkboxes__input' name='status' type='checkbox' value='open' {{ selectedStatusCheckboxes.open }} aria-hidden='true' aria-label='openCompanies'>
+        <input class='hidden govuk-checkboxes__input' name='status' type='checkbox' value='closed' {{  selectedStatusCheckboxes.closed }} aria-hidden='true' aria-label='closedCompanies'>
+        <input class='hidden govuk-checkboxes__input' name='status' type='checkbox' value='converted-closed' {{selectedStatusCheckboxes.convertedClosed }} aria-hidden='true' aria-label='convertedClosedCompanies'>
+        <input class='hidden govuk-checkboxes__input' name='status' type='checkbox' value='receivership' {{ selectedStatusCheckboxes.receivership }} aria-hidden='true' aria-label='receivershipCompanies'>
+        <input class='hidden govuk-checkboxes__input' name='status' type='checkbox' value='liquidation' {{ selectedStatusCheckboxes.liquidation }} aria-hidden='true' aria-label='liquidationCompanies'>
+        <input class='hidden govuk-checkboxes__input' name='status' type='checkbox' value='administration' {{ selectedStatusCheckboxes.administration }} aria-hidden='true' aria-label='administrationCompanies'>
+        <input class='hidden govuk-checkboxes__input' name='status' type='checkbox' value='insolvency-proceedings' {{ selectedStatusCheckboxes.insolvencyProceedings }} aria-hidden='true' aria-label='insolvencyProceedingsCompanies'>
+        <input class='hidden govuk-checkboxes__input' name='status' type='checkbox' value='voluntary-arrangement' {{  selectedStatusCheckboxes.voluntaryArrangement }} aria-hidden='true' aria-label='voluntaryArrangementCompanies'>
+        <input class='hidden govuk-input govuk-!-width-full' name='sicCodes' type='text' value='{{ advancedSearchParams.sicCodes }}' aria-hidden='true' aria-label='sicCodes'>
+        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='private-unlimited' {{ selectedTypeCheckboxes.privateUnlimited }} aria-hidden='true' aria-label='private-unlimited'>
+        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='ltd' {{ selectedTypeCheckboxes.ltd }} aria-hidden='true' aria-label='ltd'>
+        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='plc' {{ selectedTypeCheckboxes.plc }} aria-hidden='true' aria-label='plc'>
+        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='old-public-company' {{ selectedTypeCheckboxes.oldPublicCompany }} aria-hidden='true' aria-label='old-public-company'>
+        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='private-limited-guarant-nsc-limited-exemption' {{ selectedTypeCheckboxes.privateLimitedGuarantNscLimitedExemption }} aria-hidden='true' aria-label='private-limited-guarant-nsc-limited-exemption'>
+        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='limited-partnership' {{ selectedTypeCheckboxes.limitedPartnership }} aria-hidden='true' aria-label='limited-partnership'>
+        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='private-limited-guarant-nsc' {{ selectedTypeCheckboxes.privateLimitedGuarantNsc }} aria-hidden='true' aria-label='private-limited-guarant-nsc'>
+        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='converted-or-closed' {{ selectedTypeCheckboxes.convertedOrClosed }} aria-hidden='true' aria-label='converted-or-closed'>
+        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='private-unlimited-nsc' {{ selectedTypeCheckboxes.privateUnlimitedNsc }} aria-hidden='true' aria-label='private-unlimited-nsc' >
+        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='private-limited-shares-section-30-exemption' {{ selectedTypeCheckboxes.privateLimitedSharesSection30Exemption }} aria-hidden='true' aria-label='private-limited-shares-section-30-exemption'>
+        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='protected-cell-company' {{ selectedTypeCheckboxes.protectedCellCompany }} aria-hidden='true' aria-label='protected-cell-company'>
+        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='assurance-company' {{ selectedTypeCheckboxes.assuranceCompany }} aria-hidden='true' aria-label='assurance-company'>
+        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='oversea-company' {{ selectedTypeCheckboxes.overseaCompany }} aria-hidden='true' aria-label='oversea-company'>
+        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='eeig' {{ selectedTypeCheckboxes.eeig }} aria-hidden='true' aria-label='eeig'>
+        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='icvc' {{ selectedTypeCheckboxes.icvc }} aria-hidden='true' aria-label='icvc'>
+        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='registered-society-non-jurisdictional' {{ selectedTypeCheckboxes.registeredSocietyNonJurisdictional }} aria-hidden='true' aria-label='registered-society-non-jurisdictional'> 
+        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='industrial-and-provident-society' {{ selectedTypeCheckboxes.industrialAndProvidentSociety }} aria-hidden='true' aria-label='industrial-and-provident-society'>
+        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='northern-ireland' {{ selectedTypeCheckboxes.northernIreland }} aria-hidden='true' aria-label='industrial-and-provident-society'>
+        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='northern-ireland-other' {{ selectedTypeCheckboxes.northernIrelandOther }} aria-hidden='true' aria-label='northern-ireland-other'>
+        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='llp' {{ selectedTypeCheckboxes.llp }} aria-hidden='true' aria-label='llp'>
+        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='royal-charter' {{ selectedTypeCheckboxes.royalCharter }} aria-hidden='true' aria-label='royal-charter'>
+        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='unregistered-company' {{ selectedTypeCheckboxes.unregisteredCompany }} aria-hidden='true' aria-label='unregistered-company'>
+        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='unregistered-company' {{ selectedTypeCheckboxes.unregisteredCompany }} aria-hidden='true' aria-label='unregistered-company'>
+        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='european-public-limited-liability-company-se' {{ selectedTypeCheckboxes.europeanPublicLimitedLiabilityCompanySe }} aria-hidden='true' aria-label='european-public-limited-liability-company-se'>
+        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='uk-establishment' {{ selectedTypeCheckboxes.ukEstablishment }} aria-hidden='true' aria-label='uk-establishment'>
+        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='scottish-partnership' {{ selectedTypeCheckboxes.scottishPartnership }} aria-hidden='true' aria-label='scottish-partnership'>
+        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='charitable-incorporated-organisation' {{ selectedTypeCheckboxes.charitableIncorporatedOrganisation }} aria-hidden='true' aria-label='charitable-incorporated-organisation'>
+        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='scottish-charitable-incorporated-organisation' {{ selectedTypeCheckboxes.scottishCharitableIncorporatedOrganisation }} aria-hidden='true' aria-label='scottish-charitable-incorporated-organisation'>
+        <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='further-education-or-sixth-form-college-corporation' {{ selectedTypeCheckboxes.furtherEducationOrSixthFormCollegeCorporation }} aria-hidden='true' aria-label='further-education-or-sixth-form-college-corporation'>
+        <input class='hidden govuk-input govuk-input--width-10' name='dissolvedFromDay' type='text' value='{{ dissolvedFromDay }}' aria-hidden='true' aria-label='dissolvedFromDay'>
+        <input class='hidden govuk-input govuk-input--width-10' name='dissolvedFromMonth' type='text' value='{{ dissolvedFromMonth }}' aria-hidden='true' aria-label='dissolvedFromMonth'>
+        <input class='hidden govuk-input govuk-input--width-10' name='dissolvedFromYear' type='text' value='{{ dissolvedFromYear }}' aria-hidden='true' aria-label='dissolvedFromYear'>
+        <input class='hidden govuk-input govuk-input--width-10' name='dissolvedToDay' type='text' value='{{ dissolvedToDay }}' aria-hidden='true' aria-label='dissolvedToDay'>
+        <input class='hidden govuk-input govuk-input--width-10' name='dissolvedToMonth' type='text' value='{{ dissolvedToMonth }}' aria-hidden='true' aria-label='dissolvedToMonth'>
+        <input class='hidden govuk-input govuk-input--width-10' name='dissolvedToYear' type='text' value='{{ dissolvedToYear }}' aria-hidden='true' aria-label='dissolvedToYear'>
+
         <div class="govuk-grid-column-one-thirds">
             {% if totalReturnedHits === 1 %}
                 <div class="one-half-div">
