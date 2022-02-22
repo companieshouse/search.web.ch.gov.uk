@@ -816,7 +816,7 @@ describe("search.controller.test", () => {
                 .get("/advanced-search/get-results?companyNameIncludes=test");
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain("<p class=\"govuk-heading-m\">1,001 results</p>");
+            chai.expect(resp.text).to.contain(" <p class=\"govuk-heading-m\">1,001 results</p>");
         });
     });
 

@@ -7,10 +7,10 @@ html, body {
 }
 
 .entire-wrapper {
-	min-height: 95%;
-	height: auto !important;
-	height: 100%;
-	margin: 0 auto -71px; /* the bottom margin is the negative value of the footer's height - plus 11px for border */
+    min-height: 95%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 auto -71px; /* the bottom margin is the negative value of the footer's height - plus 11px for border */
 }
 
 .govuk-footer__inline-list .govuk-footer__link, .govuk-footer__list .govuk-footer__link {
@@ -22,7 +22,7 @@ html, body {
 }
 
 .push {
-	height: 71px;
+    height: 71px;
 }
 
 .hidden {
@@ -233,10 +233,20 @@ padding: 8px 16px;
 }
 
 .download-text {
-  text-align: right; 
+  text-align: right;
   color: #505a5f;
 } 
 
 .flex-end {
   justify-content: flex-end;
+}
+
+.one-half-div {
+    float: left;
+    width: 50%;
+}
+
+.one-half-div-right {
+    float: right;
+    width: 50%;;
 }

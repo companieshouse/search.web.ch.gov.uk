@@ -56,8 +56,9 @@
                 <p class="govuk-heading-m">{{totalReturnedHitsFormatted}} result</p>
             </div>
         {% elseif totalReturnedHits >= 10000 %}
-            <div class="two-thirds-div">
-                <p class="govuk-heading-m">Only 10,000 results can be displayed.</p>
+            <div class="one-half-div">
+                <p class="govuk-heading-m">{{totalReturnedHitsFormatted}} results</p>
+                <p class="govuk-body-s">Only 10,000 results can be displayed.</p>
             </div>
         {% else %}
             <div class="one-third-div">
@@ -70,7 +71,7 @@
             </button>
         </div>
         <div class="flex-end">
-            <p class="govuk-body-s download-text">Results are downloaded as a CSV file. Only the first {{ADV_SEARCH_NUM_OF_RESULTS_TO_DOWNLOAD}} results can be downloaded.</p>
+            <span class="govuk-body-s download-text">Results are downloaded as a CSV file. Only the first {{ADV_SEARCH_NUM_OF_RESULTS_TO_DOWNLOAD}} results can be downloaded.</span>
         </div>
     </form>
 </div>
