@@ -51,26 +51,30 @@
         <input class='hidden govuk-input govuk-input--width-10' name='dissolvedToDay' type='text' value='{{ dissolvedToDay }}' aria-hidden='true' aria-label='dissolvedToDay'>
         <input class='hidden govuk-input govuk-input--width-10' name='dissolvedToMonth' type='text' value='{{ dissolvedToMonth }}' aria-hidden='true' aria-label='dissolvedToMonth'>
         <input class='hidden govuk-input govuk-input--width-10' name='dissolvedToYear' type='text' value='{{ dissolvedToYear }}' aria-hidden='true' aria-label='dissolvedToYear'>
-        {% if totalReturnedHits === 1 %}
-            <div class="one-third-div">
-                <p class="govuk-heading-m">{{totalReturnedHitsFormatted}} result</p>
+
+        <div class="govuk-grid-column-one-thirds">
+            {% if totalReturnedHits === 1 %}
+                <div class="one-half-div">
+                    <p class="govuk-heading-m">{{totalReturnedHitsFormatted}} result</p>
+                </div>
+            {% elseif totalReturnedHits >= 10000 %}
+                <div class="one-half-div">
+                    <p class="govuk-heading-m">{{totalReturnedHitsFormatted}} results</p>
+                    <p class="govuk-body-s">Only 10,000 results can be displayed.</p>
+                </div>
+            {% else %}
+                <div class="one-half-div">
+                    <p class="govuk-heading-m">{{totalReturnedHitsFormatted}} results</p>
+                </div>
+            {% endif %}
+            <div class="govuk-button-group download-button">
+                <button class="govuk-button" data-module="govuk-button" data-event-id="advanced-search-results-page-download-results">
+                Download results
+                </button>
             </div>
-        {% elseif totalReturnedHits >= 10000 %}
-            <div class="two-thirds-div">
-                <p class="govuk-heading-m">Only 10,000 results can be displayed.</p>
+            <div class="flex-end one-half-div-right">
+                <span class="govuk-body-s download-text">Results are downloaded as a CSV file. Only the first {{ADV_SEARCH_NUM_OF_RESULTS_TO_DOWNLOAD}} results can be downloaded.</span>
             </div>
-        {% else %}
-            <div class="one-third-div">
-                <p class="govuk-heading-m">{{totalReturnedHitsFormatted}} results</p>
-            </div>
-        {% endif %}
-        <div class="govuk-button-group download-button">
-            <button class="govuk-button" data-module="govuk-button" data-event-id="advanced-search-results-page-download-results">
-            Download results
-            </button>
-        </div>
-        <div class="flex-end">
-            <p class="govuk-body-s download-text">Results are downloaded as a CSV file. Only the first {{ADV_SEARCH_NUM_OF_RESULTS_TO_DOWNLOAD}} results can be downloaded.</p>
         </div>
     </form>
 </div>
