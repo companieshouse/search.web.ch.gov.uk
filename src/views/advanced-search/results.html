@@ -71,7 +71,7 @@
             <span id="incorporatedFrom-error" class="govuk-error-message">
               <span class="govuk-visually-hidden">Error:</span> {{ incorporatedFromError.text }}
             </span>
-          <input class='govuk-input govuk-input--width-10 govuk-input--error' id='incorporatedFrom' name='incorporatedFrom' type='text' value='{{ incorporatedFrom }}' aria-describedby='incorporatedFrom-error'>
+          <input class='govuk-input govuk-input--width-10 govuk-input--error' id='incorporatedFrom' name='incorporatedFrom' type='text' value='{{ incorporatedFrom }}'>
         </div>
       {% else %}
         <div class='govuk-form-group'>  
@@ -81,7 +81,7 @@
           <div id='incorporation-date-from-hint' class='accordion-hint'>
               For example, 27/03/2007
           </div>
-          <input class='govuk-input govuk-input--width-10' id='incorporatedFrom' name='incorporatedFrom' type='text' value='{{ incorporatedFrom }}' aria-describedby='incorporation-date-from-hint'>
+          <input class='govuk-input govuk-input--width-10' id='incorporatedFrom' name='incorporatedFrom' type='text' value='{{ incorporatedFrom }}'>
         </div>
       {% endif %}
 
@@ -98,7 +98,7 @@
             <span id="incorporatedTo-error" class="govuk-error-message">
               <span class="govuk-visually-hidden">Error:</span> {{ incorporatedToError.text }}
             </span>
-          <input class='govuk-input govuk-input--width-10 govuk-input--error' id='incorporatedTo' name='incorporatedTo' type='text' value='{{ incorporatedTo }}' aria-describedby='incorporatedTo-error'>
+          <input class='govuk-input govuk-input--width-10 govuk-input--error' id='incorporatedTo' name='incorporatedTo' type='text' value='{{ incorporatedTo }}'>
         </div>
       {% else %}
         <div class='govuk-form-group'>
@@ -108,7 +108,7 @@
           <div id='incorporation-date-to-hint' class='accordion-hint'>
               For example, 29/03/2007
           </div>
-          <input class='govuk-input govuk-input--width-10' id='incorporatedTo' name='incorporatedTo' type='text' value='{{ incorporatedTo }}' aria-describedby='incorporation-date-to-hint'>
+          <input class='govuk-input govuk-input--width-10' id='incorporatedTo' name='incorporatedTo' type='text' value='{{ incorporatedTo }}'>
         </div>
       {% endif %}
     {% else %}
@@ -119,7 +119,7 @@
         <div id='incorporation-date-from-hint' class='accordion-hint'>
             For example, 27/03/2007
         </div>
-        <input class='govuk-input govuk-input--width-10' id='incorporatedFrom' name='incorporatedFrom' type='text' value='{{ incorporatedFrom }}' aria-describedby='incorporation-date-from-hint'>
+        <input class='govuk-input govuk-input--width-10' id='incorporatedFrom' name='incorporatedFrom' type='text' value='{{ incorporatedFrom }}'>
       </div>
 
       <hr class='govuk-section-break govuk-section-break--m govuk-section-break--visible'>
@@ -131,7 +131,7 @@
         <div id='incorporation-date-to-hint' class='accordion-hint'>
             For example, 29/03/2007
         </div>
-        <input class='govuk-input govuk-input--width-10' id='incorporatedTo' name='incorporatedTo' type='text' value='{{ incorporatedTo }}' aria-describedby='incorporation-date-to-hint'>
+        <input class='govuk-input govuk-input--width-10' id='incorporatedTo' name='incorporatedTo' type='text' value='{{ incorporatedTo }}'>
       </div>
     {% endif %}
   {% endset %}
@@ -485,37 +485,37 @@
           <div class='govuk-date-input' id='dissolvedFrom'>
             <div class='govuk-date-input__item'>
               <div class='govuk-form-group'>
-                <label class='govuk-label govuk-date-input__label' for='dissolved-from-day'>
+                <label class='govuk-label govuk-date-input__label' for='dissolved-from-day' aria-label='Companies dissolved from day'>
                   Day
                 </label>
                 {% if dissolvedFromDayError%}
-                  <input class='govuk-input govuk-date-input__input govuk-input--width-2 govuk-input--error' id='dissolved-from-day' name='dissolvedFromDay' value='{{ dissolvedFromDay }}' aria-describedby='dissolved-from-day-hint' type='text'  aria-describedby='dissolvedFromDay-error'>
+                  <input class='govuk-input govuk-date-input__input govuk-input--width-2 govuk-input--error' id='dissolved-from-day' name='dissolvedFromDay' value='{{ dissolvedFromDay }}' type='text'>
                 {% else %}
-                  <input class='govuk-input govuk-date-input__input govuk-input--width-2' id='dissolved-from-day' name='dissolvedFromDay' value='{{ dissolvedFromDay }}' aria-describedby='dissolved-from-day-hint' type='text' >
+                  <input class='govuk-input govuk-date-input__input govuk-input--width-2' id='dissolved-from-day' name='dissolvedFromDay' value='{{ dissolvedFromDay }}' type='text' >
                 {% endif %}
               </div>
             </div>
             <div class='govuk-date-input__item'>
               <div class='govuk-form-group'>
-                <label class='govuk-label govuk-date-input__label' for='dissolved-from-month'>
+                <label class='govuk-label govuk-date-input__label' for='dissolved-from-month' aria-label='Companies dissolved from month'>
                   Month
                 </label>
                 {% if dissolvedFromMonthError %}
-                  <input class='govuk-input govuk-date-input__input govuk-input--width-2 govuk-input--error' id='dissolved-from-month' name='dissolvedFromMonth' value='{{ dissolvedFromMonth }}' aria-describedby='dissolved-from-day-hint' type='text'  aria-describedby='dissolvedFromMonth-error'>
+                  <input class='govuk-input govuk-date-input__input govuk-input--width-2 govuk-input--error' id='dissolved-from-month' name='dissolvedFromMonth' value='{{ dissolvedFromMonth }}' type='text'>
                 {% else %}
-                  <input class='govuk-input govuk-date-input__input govuk-input--width-2' id='dissolved-from-month' name='dissolvedFromMonth' value='{{ dissolvedFromMonth }}' aria-describedby='dissolved-from-month-hint' type='text' >
+                  <input class='govuk-input govuk-date-input__input govuk-input--width-2' id='dissolved-from-month' name='dissolvedFromMonth' value='{{ dissolvedFromMonth }}' type='text' >
                 {% endif %}
               </div>
             </div>
             <div class='govuk-date-input__item'>
               <div class='govuk-form-group'>
-                <label class='govuk-label govuk-date-input__label' for='dissolved-from-year'>
+                <label class='govuk-label govuk-date-input__label' for='dissolved-from-year' aria-label='Companies dissolved from year'>
                   Year
                 </label>
                 {% if dissolvedFromYearError.text %}
-                  <input class='govuk-input govuk-date-input__input govuk-input--width-4 govuk-input--error' id='dissolved-from-year' name='dissolvedFromYear' value='{{ dissolvedFromYear }}' aria-describedby='dissolved-from-year-hint' type='text'  aria-describedby='dissolvedFromYear-error'>
+                  <input class='govuk-input govuk-date-input__input govuk-input--width-4 govuk-input--error' id='dissolved-from-year' name='dissolvedFromYear' value='{{ dissolvedFromYear }}' type='text'>
                 {% else %}
-                  <input class='govuk-input govuk-date-input__input govuk-input--width-4' id='dissolved-from-year' name='dissolvedFromYear' value='{{ dissolvedFromYear }}' aria-describedby='dissolved-from-year-hint' type='text' >
+                  <input class='govuk-input govuk-date-input__input govuk-input--width-4' id='dissolved-from-year' name='dissolvedFromYear' value='{{ dissolvedFromYear }}'type='text' >
                 {% endif %}
               </div>
             </div>
@@ -539,26 +539,26 @@
           <div class='govuk-date-input' id='dissolvedFrom'>
             <div class='govuk-date-input__item'>
               <div class='govuk-form-group'>
-                <label class='govuk-label govuk-date-input__label' for='dissolved-from-day'>
+                <label class='govuk-label govuk-date-input__label' for='dissolved-from-day' aria-label='Companies dissolved from day'>
                   Day
                 </label>
-                  <input class='govuk-input govuk-date-input__input govuk-input--width-2 govuk-input--error' id='dissolved-from-day' name='dissolvedFromDay' value='{{ dissolvedFromDay }}' aria-describedby='dissolved-from-day-hint' type='text'  aria-describedby='dissolvedFromDay-error'>
+                  <input class='govuk-input govuk-date-input__input govuk-input--width-2 govuk-input--error' id='dissolved-from-day' name='dissolvedFromDay' value='{{ dissolvedFromDay }}' type='text'>
               </div>
             </div>
             <div class='govuk-date-input__item'>
               <div class='govuk-form-group'>
-                <label class='govuk-label govuk-date-input__label' for='dissolved-from-month'>
+                <label class='govuk-label govuk-date-input__label' for='dissolved-from-month' aria-label='Companies dissolved from month'>
                   Month
                 </label>
-                  <input class='govuk-input govuk-date-input__input govuk-input--width-2 govuk-input--error' id='dissolved-from-month' name='dissolvedFromMonth' value='{{ dissolvedFromMonth }}' aria-describedby='dissolved-from-day-hint' type='text'  aria-describedby='dissolvedFromMonth-error'>
+                  <input class='govuk-input govuk-date-input__input govuk-input--width-2 govuk-input--error' id='dissolved-from-month' name='dissolvedFromMonth' value='{{ dissolvedFromMonth }}' type='text'>
               </div>
             </div>
             <div class='govuk-date-input__item'>
               <div class='govuk-form-group'>
-                <label class='govuk-label govuk-date-input__label' for='dissolved-from-year'>
+                <label class='govuk-label govuk-date-input__label' for='dissolved-from-year' aria-label='Companies dissolved from year'>
                   Year
                 </label>
-                  <input class='govuk-input govuk-date-input__input govuk-input--width-4 govuk-input--error' id='dissolved-from-year' name='dissolvedFromYear' value='{{ dissolvedFromYear }}' aria-describedby='dissolved-from-year-hint' type='text'  aria-describedby='dissolvedFromYear-error'>
+                  <input class='govuk-input govuk-date-input__input govuk-input--width-4 govuk-input--error' id='dissolved-from-year' name='dissolvedFromYear' value='{{ dissolvedFromYear }}' type='text'>
               </div>
             </div>
           </div>
@@ -578,26 +578,26 @@
       <div class='govuk-date-input' id='dissolvedFrom'>
         <div class='govuk-date-input__item'>
           <div class='govuk-form-group'>
-            <label class='govuk-label govuk-date-input__label' for='dissolved-from-day'>
+            <label class='govuk-label govuk-date-input__label' for='dissolved-from-day' aria-label='Companies dissolved from day'>
               Day
             </label>
-            <input class='govuk-input govuk-date-input__input govuk-input--width-2' id='dissolved-from-day' name='dissolvedFromDay' value='{{ dissolvedFromDay }}' aria-describedby='dissolved-from-day-hint' type='text' >
+            <input class='govuk-input govuk-date-input__input govuk-input--width-2' id='dissolved-from-day' name='dissolvedFromDay' value='{{ dissolvedFromDay }}' type='text' >
           </div>
         </div>
         <div class='govuk-date-input__item'>
           <div class='govuk-form-group'>
-            <label class='govuk-label govuk-date-input__label' for='dissolved-from-month'>
+            <label class='govuk-label govuk-date-input__label' for='dissolved-from-month' aria-label='Companies dissolved from month'>
               Month
             </label>
-            <input class='govuk-input govuk-date-input__input govuk-input--width-2' id='dissolved-from-month' name='dissolvedFromMonth' value='{{ dissolvedFromMonth }}' aria-describedby='dissolved-from-month-hint' type='text' >
+            <input class='govuk-input govuk-date-input__input govuk-input--width-2' id='dissolved-from-month' name='dissolvedFromMonth' value='{{ dissolvedFromMonth }}'type='text' >
           </div>
         </div>
         <div class='govuk-date-input__item'>
           <div class='govuk-form-group'>
-            <label class='govuk-label govuk-date-input__label' for='dissolved-from-year'>
+            <label class='govuk-label govuk-date-input__label' for='dissolved-from-year' aria-label='Companies dissolved from year'>
               Year
             </label>
-            <input class='govuk-input govuk-date-input__input govuk-input--width-4' id='dissolved-from-year' name='dissolvedFromYear' value='{{ dissolvedFromYear }}' aria-describedby='dissolved-from-year-hint' type='text' >
+            <input class='govuk-input govuk-date-input__input govuk-input--width-4' id='dissolved-from-year' name='dissolvedFromYear' value='{{ dissolvedFromYear }}'type='text' >
           </div>
         </div>
       </div>
@@ -630,37 +630,37 @@
           <div class='govuk-date-input' id='dissolvedTo'>
             <div class='govuk-date-input__item'>
               <div class='govuk-form-group'>
-                <label class='govuk-label govuk-date-input__label' for='dissolved-to-day'>
+                <label class='govuk-label govuk-date-input__label' for='dissolved-to-day' aria-label='Companies dissolved to day'>
                   Day
                 </label>
                 {% if dissolvedToDayError%}
-                  <input class='govuk-input govuk-date-input__input govuk-input--width-2 govuk-input--error' id='dissolved-to-day' name='dissolvedToDay' value='{{ dissolvedToDay }}' aria-describedby='dissolved-to-day-hint' type='text'  aria-describedby='dissolvedToDay-error'>
+                  <input class='govuk-input govuk-date-input__input govuk-input--width-2 govuk-input--error' id='dissolved-to-day' name='dissolvedToDay' value='{{ dissolvedToDay }}' type='text'>
                 {% else %}
-                  <input class='govuk-input govuk-date-input__input govuk-input--width-2' id='dissolved-to-day' name='dissolvedToDay' value='{{ dissolvedToDay }}' aria-describedby='dissolved-to-day-hint' type='text' >
+                  <input class='govuk-input govuk-date-input__input govuk-input--width-2' id='dissolved-to-day' name='dissolvedToDay' value='{{ dissolvedToDay }}' type='text' >
                 {% endif %}
               </div>
             </div>
             <div class='govuk-date-input__item'>
               <div class='govuk-form-group'>
-                <label class='govuk-label govuk-date-input__label' for='dissolved-to-month'>
+                <label class='govuk-label govuk-date-input__label' for='dissolved-to-month' aria-label='Companies dissolved to month'>
                   Month
                 </label>
                 {% if dissolvedToMonthError %}
-                  <input class='govuk-input govuk-date-input__input govuk-input--width-2 govuk-input--error' id='dissolved-to-month' name='dissolvedToMonth' value='{{ dissolvedToMonth }}' aria-describedby='dissolved-to-day-hint' type='text'  aria-describedby='dissolvedToMonth-error'>
+                  <input class='govuk-input govuk-date-input__input govuk-input--width-2 govuk-input--error' id='dissolved-to-month' name='dissolvedToMonth' value='{{ dissolvedToMonth }}'  type='text'>
                 {% else %}
-                  <input class='govuk-input govuk-date-input__input govuk-input--width-2' id='dissolved-to-month' name='dissolvedToMonth' value='{{ dissolvedToMonth }}' aria-describedby='dissolved-to-month-hint' type='text' >
+                  <input class='govuk-input govuk-date-input__input govuk-input--width-2' id='dissolved-to-month' name='dissolvedToMonth' value='{{ dissolvedToMonth }}'  type='text' >
                 {% endif %}
               </div>
             </div>
             <div class='govuk-date-input__item'>
               <div class='govuk-form-group'>
-                <label class='govuk-label govuk-date-input__label' for='dissolved-to-year'>
+                <label class='govuk-label govuk-date-input__label' for='dissolved-to-year' aria-label='Companies dissolved to year'>
                   Year
                 </label>
                 {% if dissolvedToYearError.text %}
-                  <input class='govuk-input govuk-date-input__input govuk-input--width-4 govuk-input--error' id='dissolved-to-year' name='dissolvedToYear' value='{{ dissolvedToYear }}' aria-describedby='dissolved-to-year-hint' type='text'  aria-describedby='dissolvedToYear-error'>
+                  <input class='govuk-input govuk-date-input__input govuk-input--width-4 govuk-input--error' id='dissolved-to-year' name='dissolvedToYear' value='{{ dissolvedToYear }}' type='text'>
                 {% else %}
-                  <input class='govuk-input govuk-date-input__input govuk-input--width-4' id='dissolved-to-year' name='dissolvedToYear' value='{{ dissolvedToYear }}' aria-describedby='dissolved-to-year-hint' type='text' >
+                  <input class='govuk-input govuk-date-input__input govuk-input--width-4' id='dissolved-to-year' name='dissolvedToYear' value='{{ dissolvedToYear }}' type='text' >
                 {% endif %}
               </div>
             </div>
@@ -681,26 +681,26 @@
           <div class='govuk-date-input' id='dissolvedTo'>
             <div class='govuk-date-input__item'>
               <div class='govuk-form-group'>
-                <label class='govuk-label govuk-date-input__label' for='dissolved-to-day'>
+                <label class='govuk-label govuk-date-input__label' for='dissolved-to-day' aria-label='Companies dissolved to day'>
                   Day
                 </label>
-                  <input class='govuk-input govuk-date-input__input govuk-input--width-2 govuk-input--error' id='dissolved-to-day' name='dissolvedToDay' value='{{ dissolvedToDay }}' aria-describedby='dissolved-to-day-hint' type='text'  aria-describedby='dissolvedToDay-error'>
+                  <input class='govuk-input govuk-date-input__input govuk-input--width-2 govuk-input--error' id='dissolved-to-day' name='dissolvedToDay' value='{{ dissolvedToDay }}' type='text'>
               </div>
             </div>
             <div class='govuk-date-input__item'>
               <div class='govuk-form-group'>
-                <label class='govuk-label govuk-date-input__label' for='dissolved-to-month'>
+                <label class='govuk-label govuk-date-input__label' for='dissolved-to-month' aria-label='Companies dissolved to month'>
                   Month
                 </label>
-                  <input class='govuk-input govuk-date-input__input govuk-input--width-2 govuk-input--error' id='dissolved-to-month' name='dissolvedToMonth' value='{{ dissolvedToMonth }}' aria-describedby='dissolved-to-day-hint' type='text'  aria-describedby='dissolvedToMonth-error'>
+                  <input class='govuk-input govuk-date-input__input govuk-input--width-2 govuk-input--error' id='dissolved-to-month' name='dissolvedToMonth' value='{{ dissolvedToMonth }}' type='text'>
               </div>
             </div>
             <div class='govuk-date-input__item'>
               <div class='govuk-form-group'>
-                <label class='govuk-label govuk-date-input__label' for='dissolved-to-year'>
+                <label class='govuk-label govuk-date-input__label' for='dissolved-to-year' aria-label='Companies dissolved to year'>
                   Year
                 </label>
-                  <input class='govuk-input govuk-date-input__input govuk-input--width-4 govuk-input--error' id='dissolved-to-year' name='dissolvedToYear' value='{{ dissolvedToYear }}' aria-describedby='dissolved-to-year-hint' type='text'  aria-describedby='dissolvedToYear-error'>
+                  <input class='govuk-input govuk-date-input__input govuk-input--width-4 govuk-input--error' id='dissolved-to-year' name='dissolvedToYear' value='{{ dissolvedToYear }}' type='text'>
               </div>
             </div>
           </div>
@@ -717,26 +717,26 @@
       <div class='govuk-date-input' id='dissolvedTo'>
         <div class='govuk-date-input__item'>
           <div class='govuk-form-group'>
-            <label class='govuk-label govuk-date-input__label' for='dissolved-to-day'>
+            <label class='govuk-label govuk-date-input__label' for='dissolved-to-day' aria-label='Companies dissolved to day'>
               Day
             </label>
-            <input class='govuk-input govuk-date-input__input govuk-input--width-2' id='dissolved-to-day' name='dissolvedToDay' value='{{ dissolvedToDay }}' aria-describedby='dissolved-to-day-hint' type='text' >
+            <input class='govuk-input govuk-date-input__input govuk-input--width-2' id='dissolved-to-day' name='dissolvedToDay' value='{{ dissolvedToDay }}' type='text' >
           </div>
         </div>
         <div class='govuk-date-input__item'>
           <div class='govuk-form-group'>
-            <label class='govuk-label govuk-date-input__label' for='dissolved-to-month'>
+            <label class='govuk-label govuk-date-input__label' for='dissolved-to-month' aria-label='Companies dissolved to month'>
               Month
             </label>
-            <input class='govuk-input govuk-date-input__input govuk-input--width-2' id='dissolved-to-month' name='dissolvedToMonth' value='{{ dissolvedToMonth }}' aria-describedby='dissolved-to-month-hint' type='text' >
+            <input class='govuk-input govuk-date-input__input govuk-input--width-2' id='dissolved-to-month' name='dissolvedToMonth' value='{{ dissolvedToMonth }}' type='text' >
           </div>
         </div>
         <div class='govuk-date-input__item'>
           <div class='govuk-form-group'>
-            <label class='govuk-label govuk-date-input__label' for='dissolved-to-year'>
+            <label class='govuk-label govuk-date-input__label' for='dissolved-to-year' aria-label='Companies dissolved to year'>
               Year
             </label>
-            <input class='govuk-input govuk-date-input__input govuk-input--width-4' id='dissolved-to-year' name='dissolvedToYear' value='{{ dissolvedToYear }}' aria-describedby='dissolved-to-year-hint' type='text' >
+            <input class='govuk-input govuk-date-input__input govuk-input--width-4' id='dissolved-to-year' name='dissolvedToYear' value='{{ dissolvedToYear }}' type='text' >
           </div>
         </div>
       </div>
