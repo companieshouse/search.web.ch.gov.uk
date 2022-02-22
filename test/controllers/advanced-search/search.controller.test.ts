@@ -549,7 +549,7 @@ describe("search.controller.test", () => {
                 .get("/advanced-search/get-results?dissolvedFromDay=e&dissolvedFromMonth=01&dissolvedFromYear=2011");
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain("The dissolution &#39;from&#39; date must be a real date");
+            chai.expect(resp.text).to.contain("The dissolved &#39;from&#39; date must be a real date");
         });
         it("should display an error if dissolvedFrom date has a month > 12", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
@@ -559,7 +559,7 @@ describe("search.controller.test", () => {
                 .get("/advanced-search/get-results?dissolvedFromDay=01&dissolvedFromMonth=13&dissolvedFromYear=2011");
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain("The dissolution &#39;from&#39; date must be a real date");
+            chai.expect(resp.text).to.contain("The dissolved &#39;from&#39; date must be a real date");
         });
         it("should display an error if dissolvedFrom date is after the dissolvedTo date", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
@@ -569,7 +569,7 @@ describe("search.controller.test", () => {
                 .get("/advanced-search/get-results?dissolvedFromDay=01&dissolvedFromMonth=01&dissolvedFromYear=2012&dissolvedToDay=02&dissolvedToMonth=02&dissolvedToYear=2011");
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain("The dissolution &#39;from&#39; date must be the same as or before the &#39;to&#39; date");
+            chai.expect(resp.text).to.contain("The dissolved &#39;from&#39; date must be the same as or before the &#39;to&#39; date");
         });
         it("should display an error if dissolvedFrom date is in the future", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
@@ -579,7 +579,7 @@ describe("search.controller.test", () => {
                 .get("/advanced-search/get-results?dissolvedFromDay=01&dissolvedFromMonth=01&dissolvedFromYear=2055");
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain("The dissolution date must be in the past");
+            chai.expect(resp.text).to.contain("The dissolved date must be in the past");
         });
         it("should display an error if dissolvedFrom date is in invalid as it is not a leap year", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
@@ -589,7 +589,7 @@ describe("search.controller.test", () => {
                 .get("/advanced-search/get-results?dissolvedFromDay=29&dissolvedFromMonth=02&dissolvedFromYear=2021");
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain("The dissolution &#39;from&#39; date must be a real date");
+            chai.expect(resp.text).to.contain("The dissolved &#39;from&#39; date must be a real date");
         });
         it("should display an error if dissolvedFrom date day is missing but the other parts of date are present", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
@@ -646,7 +646,7 @@ describe("search.controller.test", () => {
                 .get("/advanced-search/get-results?dissolvedFromDay=e&dissolvedFromMonth=01&dissolvedFromYear=2011");
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain("The dissolution &#39;from&#39; date must be a real date");
+            chai.expect(resp.text).to.contain("The dissolved &#39;from&#39; date must be a real date");
         });
         it("should display an error if dissolvedFrom date has a month > 12", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
@@ -656,7 +656,7 @@ describe("search.controller.test", () => {
                 .get("/advanced-search/get-results?dissolvedFromDay=01&dissolvedFromMonth=13&dissolvedFromYear=2011");
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain("The dissolution &#39;from&#39; date must be a real date");
+            chai.expect(resp.text).to.contain("The dissolved &#39;from&#39; date must be a real date");
         });
         it("should display an error if dissolvedFrom date is after the dissolvedTo date", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
@@ -666,7 +666,7 @@ describe("search.controller.test", () => {
                 .get("/advanced-search/get-results?dissolvedFromDay=01&dissolvedFromMonth=01&dissolvedFromYear=2012&dissolvedToDay=02&dissolvedToMonth=02&dissolvedToYear=2011");
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain("The dissolution &#39;from&#39; date must be the same as or before the &#39;to&#39; date");
+            chai.expect(resp.text).to.contain("The dissolved &#39;from&#39; date must be the same as or before the &#39;to&#39; date");
         });
         it("should display an error if dissolvedFrom date is in the future", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
@@ -676,7 +676,7 @@ describe("search.controller.test", () => {
                 .get("/advanced-search/get-results?dissolvedFromDay=01&dissolvedFromMonth=01&dissolvedFromYear=2055");
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain("The dissolution date must be in the past");
+            chai.expect(resp.text).to.contain("The dissolved date must be in the past");
         });
         it("should display an error if dissolvedFrom date is in invalid as it is not a leap year", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
@@ -686,7 +686,7 @@ describe("search.controller.test", () => {
                 .get("/advanced-search/get-results?dissolvedFromDay=29&dissolvedFromMonth=02&dissolvedFromYear=2021");
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain("The dissolution &#39;from&#39; date must be a real date");
+            chai.expect(resp.text).to.contain("The dissolved &#39;from&#39; date must be a real date");
         });
         it("should display an error if dissolvedFrom date day is missing but the other parts of date are present", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
@@ -719,7 +719,7 @@ describe("search.controller.test", () => {
                 .get("/advanced-search/get-results?dissolvedToDay=e&dissolvedToMonth=01&dissolvedToYear=2011");
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain("The dissolution &#39;to&#39; date must be a real date");
+            chai.expect(resp.text).to.contain("The dissolved &#39;to&#39; date must be a real date");
         });
         it("should display an error if dissolvedTo date has a month > 12", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
@@ -729,7 +729,7 @@ describe("search.controller.test", () => {
                 .get("/advanced-search/get-results?dissolvedToDay=01&dissolvedToMonth=13&dissolvedToYear=2011");
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain("The dissolution &#39;to&#39; date must be a real date");
+            chai.expect(resp.text).to.contain("The dissolved &#39;to&#39; date must be a real date");
         });
         it("should display an error if dissolvedTo date is in the future", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
@@ -739,7 +739,7 @@ describe("search.controller.test", () => {
                 .get("/advanced-search/get-results?dissolvedToDay=01&dissolvedToMonth=01&dissolvedToYear=2055");
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain("The dissolution date must be in the past");
+            chai.expect(resp.text).to.contain("The dissolved date must be in the past");
         });
         it("should display an error if dissolvedTo date is in invalid as it is not a leap year", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
@@ -749,7 +749,7 @@ describe("search.controller.test", () => {
                 .get("/advanced-search/get-results?dissolvedToDay=29&dissolvedToMonth=02&dissolvedToYear=2021");
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain("The dissolution &#39;to&#39; date must be a real date");
+            chai.expect(resp.text).to.contain("The dissolved &#39;to&#39; date must be a real date");
         });
         it("should display an error if dissolvedTo date day is missing but the other parts of date are present", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
