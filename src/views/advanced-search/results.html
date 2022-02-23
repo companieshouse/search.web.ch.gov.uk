@@ -58,13 +58,13 @@
     </div>         
   {% endset %}
 
-  {% set incorporationDateHmtl %}
+  {% set incorporationDateHtml %}
     {# Incorporation From section #}
     {% if errorList.length > 0 and (incorporationFromError or incorporationFromDayError or incorporationFromMonthError or incorporationFromYearError) %}
       {# Section will render if individual incorporation from date fields are missing #}
       {% if incorporationFromDayError or incorporationFromMonthError or incorporationFromYearError %}
         <div class='govuk-form-group govuk-form-group--error'> 
-          <label class='accordion-label' for='incorporationFrom' aria-label='Companies incorporation from'>
+          <label class='accordion-label' for='incorporationFrom' aria-label='Companies incorporation date from'>
             From
           </label>
           <div id='incorporation-date-from-hint' class='accordion-hint'>
@@ -84,7 +84,7 @@
           <div class='govuk-date-input' id='incorporationFrom'>
             <div class='govuk-date-input__item'>
               <div class='govuk-form-group'>
-                <label class='govuk-label govuk-date-input__label' for='incorporation-from-day' aria-label='Companies incorporation from day'>
+                <label class='govuk-label govuk-date-input__label' for='incorporation-from-day' aria-label='Companies incorporation date from day'>
                   Day
                 </label>
                 {% if incorporationFromDayError%}
@@ -96,7 +96,7 @@
             </div>
             <div class='govuk-date-input__item'>
               <div class='govuk-form-group'>
-                <label class='govuk-label govuk-date-input__label' for='incorporation-from-month' aria-label='Companies incorporation from month'>
+                <label class='govuk-label govuk-date-input__label' for='incorporation-from-month' aria-label='Companies incorporation date from month'>
                   Month
                 </label>
                 {% if incorporationFromMonthError %}
@@ -108,7 +108,7 @@
             </div>
             <div class='govuk-date-input__item'>
               <div class='govuk-form-group'>
-                <label class='govuk-label govuk-date-input__label' for='incorporation-from-year' aria-label='Companies incorporation from year'>
+                <label class='govuk-label govuk-date-input__label' for='incorporation-from-year' aria-label='Companies incorporation date from year'>
                   Year
                 </label>
                 {% if incorporationFromYearError.text %}
@@ -123,7 +123,7 @@
       {# Section will render if there's an overall incorporation from date error #}
       {% else %}
         <div class='govuk-form-group govuk-form-group--error'> 
-          <label class='accordion-label' for='incorporationFrom' aria-label='Companies incorporation from'>
+          <label class='accordion-label' for='incorporationFrom' aria-label='Companies incorporation date from'>
             From
           </label>
           <div id='incorporation-date-from-hint' class='accordion-hint'>
@@ -135,7 +135,7 @@
           <div class='govuk-date-input' id='incorporationFrom'>
             <div class='govuk-date-input__item'>
               <div class='govuk-form-group'>
-                <label class='govuk-label govuk-date-input__label' for='incorporation-from-day' aria-label='Companies incorporation from day'>
+                <label class='govuk-label govuk-date-input__label' for='incorporation-from-day' aria-label='Companies incorporation date from day'>
                   Day
                 </label>
                   <input class='govuk-input govuk-date-input__input govuk-input--width-2 govuk-input--error' id='incorporation-from-day' name='incorporationFromDay' value='{{ incorporationFromDay }}' type='text'>
@@ -143,7 +143,7 @@
             </div>
             <div class='govuk-date-input__item'>
               <div class='govuk-form-group'>
-                <label class='govuk-label govuk-date-input__label' for='incorporation-from-month' aria-label='Companies incorporation from month'>
+                <label class='govuk-label govuk-date-input__label' for='incorporation-from-month' aria-label='Companies incorporation date from month'>
                   Month
                 </label>
                   <input class='govuk-input govuk-date-input__input govuk-input--width-2 govuk-input--error' id='incorporation-from-month' name='incorporationFromMonth' value='{{ incorporationFromMonth }}' type='text'>
@@ -151,7 +151,7 @@
             </div>
             <div class='govuk-date-input__item'>
               <div class='govuk-form-group'>
-                <label class='govuk-label govuk-date-input__label' for='incorporation-from-year' aria-label='Companies incorporation from year'>
+                <label class='govuk-label govuk-date-input__label' for='incorporation-from-year' aria-label='Companies incorporation date from year'>
                   Year
                 </label>
                   <input class='govuk-input govuk-date-input__input govuk-input--width-4 govuk-input--error' id='incorporation-from-year' name='incorporationFromYear' value='{{ incorporationFromYear }}' type='text'>
@@ -162,7 +162,7 @@
         {% endif %}
     {% else %}
       {# Section will render if no incorporation from date errors #}
-      <label class='accordion-label' for='incorporationFrom' aria-label='Companies incorporation from'>
+      <label class='accordion-label' for='incorporationFrom' aria-label='Companies incorporation date from'>
         From
       </label>
       <div id='incorporation-date-from-hint' class='accordion-hint'>
@@ -171,7 +171,7 @@
       <div class='govuk-date-input' id='incorporationFrom'>
         <div class='govuk-date-input__item'>
           <div class='govuk-form-group'>
-            <label class='govuk-label govuk-date-input__label' for='incorporation-from-day' aria-label='Companies incorporation from day'>
+            <label class='govuk-label govuk-date-input__label' for='incorporation-from-day' aria-label='Companies incorporation date from day'>
               Day
             </label>
             <input class='govuk-input govuk-date-input__input govuk-input--width-2' id='incorporation-from-day' name='incorporationFromDay' value='{{ incorporationFromDay }}' type='text' >
@@ -179,7 +179,7 @@
         </div>
         <div class='govuk-date-input__item'>
           <div class='govuk-form-group'>
-            <label class='govuk-label govuk-date-input__label' for='incorporation-from-month' aria-label='Companies incorporation from month'>
+            <label class='govuk-label govuk-date-input__label' for='incorporation-from-month' aria-label='Companies incorporation date from month'>
               Month
             </label>
             <input class='govuk-input govuk-date-input__input govuk-input--width-2' id='incorporation-from-month' name='incorporationFromMonth' value='{{ incorporationFromMonth }}'type='text' >
@@ -187,7 +187,7 @@
         </div>
         <div class='govuk-date-input__item'>
           <div class='govuk-form-group'>
-            <label class='govuk-label govuk-date-input__label' for='incorporation-from-year' aria-label='Companies incorporation from year'>
+            <label class='govuk-label govuk-date-input__label' for='incorporation-from-year' aria-label='Companies incorporation date from year'>
               Year
             </label>
             <input class='govuk-input govuk-date-input__input govuk-input--width-4' id='incorporation-from-year' name='incorporationFromYear' value='{{ incorporationFromYear }}'type='text' >
@@ -203,7 +203,7 @@
       {# Section will render if individual incorporation to date fields are missing #}
       {% if incorporationToDayError or incorporationToMonthError or incorporationToYearError %}
         <div class='govuk-form-group govuk-form-group--error'> 
-          <label class='accordion-label' for='incorporationTo' aria-label='Companies incorporation to'>
+          <label class='accordion-label' for='incorporationTo' aria-label='Companies incorporation date to'>
             To
           </label>
           <div id='incorporation-date-to-hint' class='accordion-hint'>
@@ -223,7 +223,7 @@
           <div class='govuk-date-input' id='incorporationTo'>
             <div class='govuk-date-input__item'>
               <div class='govuk-form-group'>
-                <label class='govuk-label govuk-date-input__label' for='incorporation-to-day' aria-label='Companies incorporation to day'>
+                <label class='govuk-label govuk-date-input__label' for='incorporation-to-day' aria-label='Companies incorporation date to day'>
                   Day
                 </label>
                 {% if incorporationToDayError%}
@@ -235,7 +235,7 @@
             </div>
             <div class='govuk-date-input__item'>
               <div class='govuk-form-group'>
-                <label class='govuk-label govuk-date-input__label' for='incorporation-to-month' aria-label='Companies incorporation to month'>
+                <label class='govuk-label govuk-date-input__label' for='incorporation-to-month' aria-label='Companies incorporation date to month'>
                   Month
                 </label>
                 {% if incorporationToMonthError %}
@@ -247,7 +247,7 @@
             </div>
             <div class='govuk-date-input__item'>
               <div class='govuk-form-group'>
-                <label class='govuk-label govuk-date-input__label' for='incorporation-to-year' aria-label='Companies incorporation to year'>
+                <label class='govuk-label govuk-date-input__label' for='incorporation-to-year' aria-label='Companies incorporation date to year'>
                   Year
                 </label>
                 {% if incorporationToYearError.text %}
@@ -262,7 +262,7 @@
       {# Section will render if there's an overall incorporation to date error #}
       {% else %}
         <div class='govuk-form-group govuk-form-group--error'> 
-          <label class='accordion-label' for='incorporationTo' aria-label='Companies incorporation to'>
+          <label class='accordion-label' for='incorporationTo' aria-label='Companies incorporation date to'>
             To
           </label>
           <div id='incorporation-date-to-hint' class='accordion-hint'>
@@ -274,7 +274,7 @@
           <div class='govuk-date-input' id='incorporationTo'>
             <div class='govuk-date-input__item'>
               <div class='govuk-form-group'>
-                <label class='govuk-label govuk-date-input__label' for='incorporation-to-day' aria-label='Companies incorporation to day'>
+                <label class='govuk-label govuk-date-input__label' for='incorporation-to-day' aria-label='Companies incorporation date to day'>
                   Day
                 </label>
                   <input class='govuk-input govuk-date-input__input govuk-input--width-2 govuk-input--error' id='incorporation-to-day' name='incorporationToDay' value='{{ incorporationToDay }}' type='text'>
@@ -282,7 +282,7 @@
             </div>
             <div class='govuk-date-input__item'>
               <div class='govuk-form-group'>
-                <label class='govuk-label govuk-date-input__label' for='incorporation-to-month' aria-label='Companies incorporation to month'>
+                <label class='govuk-label govuk-date-input__label' for='incorporation-to-month' aria-label='Companies incorporation date to month'>
                   Month
                 </label>
                   <input class='govuk-input govuk-date-input__input govuk-input--width-2 govuk-input--error' id='incorporation-to-month' name='incorporationToMonth' value='{{ incorporationToMonth }}' type='text'>
@@ -290,7 +290,7 @@
             </div>
             <div class='govuk-date-input__item'>
               <div class='govuk-form-group'>
-                <label class='govuk-label govuk-date-input__label' for='incorporation-to-year' aria-label='Companies incorporation to year'>
+                <label class='govuk-label govuk-date-input__label' for='incorporation-to-year' aria-label='Companies incorporation date to year'>
                   Year
                 </label>
                   <input class='govuk-input govuk-date-input__input govuk-input--width-4 govuk-input--error' id='incorporation-to-year' name='incorporationToYear' value='{{ incorporationToYear }}' type='text'>
@@ -301,7 +301,7 @@
       {% endif %}
     {% else %}
       {# Section will render if no incorporation to date errors #}
-      <label class='accordion-label' for='incorporationTo' aria-label='Companies incorporation to'>
+      <label class='accordion-label' for='incorporationTo' aria-label='Companies incorporation date to'>
         To
       </label>
       <div id='incorporation-date-to-hint' class='accordion-hint'>
@@ -310,7 +310,7 @@
       <div class='govuk-date-input' id='incorporationTo'>
         <div class='govuk-date-input__item'>
           <div class='govuk-form-group'>
-            <label class='govuk-label govuk-date-input__label' for='incorporation-to-day' aria-label='Companies incorporation to day'>
+            <label class='govuk-label govuk-date-input__label' for='incorporation-to-day' aria-label='Companies incorporation date to day'>
               Day
             </label>
             <input class='govuk-input govuk-date-input__input govuk-input--width-2' id='incorporation-to-day' name='incorporationToDay' value='{{ incorporationToDay }}' type='text' >
@@ -318,7 +318,7 @@
         </div>
         <div class='govuk-date-input__item'>
           <div class='govuk-form-group'>
-            <label class='govuk-label govuk-date-input__label' for='incorporation-to-month' aria-label='Companies incorporation to month'>
+            <label class='govuk-label govuk-date-input__label' for='incorporation-to-month' aria-label='Companies incorporation date to month'>
               Month
             </label>
             <input class='govuk-input govuk-date-input__input govuk-input--width-2' id='incorporation-to-month' name='incorporationToMonth' value='{{ incorporationToMonth }}' type='text' >
@@ -326,7 +326,7 @@
         </div>
         <div class='govuk-date-input__item'>
           <div class='govuk-form-group'>
-            <label class='govuk-label govuk-date-input__label' for='incorporation-to-year' aria-label='Companies incorporation to year'>
+            <label class='govuk-label govuk-date-input__label' for='incorporation-to-year' aria-label='Companies incorporation date to year'>
               Year
             </label>
             <input class='govuk-input govuk-date-input__input govuk-input--width-4' id='incorporation-to-year' name='incorporationToYear' value='{{ incorporationToYear }}' type='text' >
@@ -995,7 +995,7 @@
                 text: "Incorporation date"
               },
               content: {
-                html: incorporationDateHmtl
+                html: incorporationDateHtml
               }
             },
             {
