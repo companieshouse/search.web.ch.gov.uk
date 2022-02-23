@@ -55,6 +55,12 @@ describe("search.controller.test", () => {
 
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain("Incorporation date");
+            chai.expect(resp.text).to.contain("<label class='govuk-label govuk-date-input__label' for='incorporated-from-day' aria-label='Companies incorporated from day'>\n                              Day\n                            </label>");
+            chai.expect(resp.text).to.contain("<label class='govuk-label govuk-date-input__label' for='incorporated-from-month' aria-label='Companies incorporated from month'>\n                              Month\n                            </label>");
+            chai.expect(resp.text).to.contain("<label class='govuk-label govuk-date-input__label' for='incorporated-from-year' aria-label='Companies incorporated from year'>\n                              Year\n                            </label>");
+            chai.expect(resp.text).to.contain("<label class='govuk-label govuk-date-input__label' for='incorporated-to-day' aria-label='Companies incorporated to day'>\n                              Day\n                            </label>");
+            chai.expect(resp.text).to.contain("<label class='govuk-label govuk-date-input__label' for='incorporated-to-month' aria-label='Companies incorporated to month'>\n                              Month\n                            </label>");
+            chai.expect(resp.text).to.contain("<label class='govuk-label govuk-date-input__label' for='incorporated-to-year' aria-label='Companies incorporated to year'>\n                              Year\n                            </label>");
         });
 
         it("should display the company status section", async () => {
