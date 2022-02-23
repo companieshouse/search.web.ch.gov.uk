@@ -1,6 +1,6 @@
 import { COMPANY_STATUS_CONSTANT, COMPANY_TYPE_CONSTANT, getCompanyConstant } from "../../config/api.enumerations";
 import { AdvancedSearchParams } from "model/advanced.search.params";
-import { DissolvedDates, FullDissolvedDates } from "model/dissolved.dates.params";
+import { DissolvedDates, FullDates, FullDissolvedDates, IncorporationDates } from "model/date.params";
 import { Request } from "express";
 import moment from "moment";
 import escape from "escape-html";
@@ -322,15 +322,19 @@ export const changeDateFormat = (inputDate: string) : string | null => {
     return moment(inputDate, "DD/MM/YYYY").format("YYYY-MM-DD");
 };
 
-export const buildPagingUrl = (advancedSearchParams: AdvancedSearchParams, incorporatedFrom: string | null, incorporatedTo: string | null, dissolvedDates: DissolvedDates) : string => {
+export const buildPagingUrl = (advancedSearchParams: AdvancedSearchParams, incorporationDates: IncorporationDates, dissolvedDates: DissolvedDates) : string => {
     const pagingUrlBuilder = new URLSearchParams();
     const companyTypeCheck = advancedSearchParams.companyType?.includes("icvc") ? advancedSearchParams.companyType.replace("icvc-securities,icvc-warrant,icvc-umbrella", "icvc") : advancedSearchParams.companyType;
 
     urlAppender(pagingUrlBuilder, advancedSearchParams.companyNameIncludes, "companyNameIncludes");
     urlAppender(pagingUrlBuilder, advancedSearchParams.companyNameExcludes, "companyNameExcludes");
     urlAppender(pagingUrlBuilder, advancedSearchParams.location, "registeredOfficeAddress");
-    urlAppender(pagingUrlBuilder, incorporatedFrom, "incorporatedFrom");
-    urlAppender(pagingUrlBuilder, incorporatedTo, "incorporatedTo");
+    urlAppender(pagingUrlBuilder, incorporationDates.incorporationFromDay, "incorporationFromDay");
+    urlAppender(pagingUrlBuilder, incorporationDates.incorporationFromMonth, "incorporationFromMonth");
+    urlAppender(pagingUrlBuilder, incorporationDates.incorporationFromYear, "incorporationFromYear");
+    urlAppender(pagingUrlBuilder, incorporationDates.incorporationToDay, "incorporationToDay");
+    urlAppender(pagingUrlBuilder, incorporationDates.incorporationToMonth, "incorporationToMonth");
+    urlAppender(pagingUrlBuilder, incorporationDates.incorporationToYear, "incorporationToYear");
     urlAppender(pagingUrlBuilder, advancedSearchParams.companyStatus, "status");
     urlAppender(pagingUrlBuilder, advancedSearchParams.sicCodes, "sicCodes");
     urlAppender(pagingUrlBuilder, companyTypeCheck, "type");
@@ -468,7 +472,7 @@ export const formatNumberWithCommas = (num: number) : string => {
     return String(num).replace(/(.)(?=(\d{3})+$)/g, "$1,");
 };
 
-export const getDissolvedDatesFromParams = (req: Request) : FullDissolvedDates => {
+export const getDatesFromParams = (req: Request): FullDates => {
     const dissolvedFromDay = req.query.dissolvedFromDay as string || null;
     const dissolvedFromMonth = req.query.dissolvedFromMonth as string || null;
     const dissolvedFromYear = req.query.dissolvedFromYear as string || null;
@@ -479,5 +483,24 @@ export const getDissolvedDatesFromParams = (req: Request) : FullDissolvedDates =
     const dissolvedFromDate = `${dissolvedFromDay}/${dissolvedFromMonth}/${dissolvedFromYear}`;
     const dissolvedToDate = `${dissolvedToDay}/${dissolvedToMonth}/${dissolvedToYear}`;
 
-    return { dissolvedFromDate, dissolvedToDate };
+    const incorporationFromDay = req.query.incorporationFromDay as string || null;
+    const incorporationFromMonth = req.query.incorporationFromMonth as string || null;
+    const incorporationFromYear = req.query.incorporationFromYear as string || null;
+    const incorporationToDay = req.query.incorporationToDay as string || null;
+    const incorporationToMonth = req.query.incorporationToMonth as string || null;
+    const incorporationToYear = req.query.incorporationToYear as string || null;
+
+    const incorporationFromDate = `${incorporationFromDay}/${incorporationFromMonth}/${incorporationFromYear}`;
+    const incorporationToDate = `${incorporationToDay}/${incorporationToMonth}/${incorporationToYear}`;
+
+    return {
+        fullDissolvedDates: {
+            dissolvedFromDate,
+            dissolvedToDate
+        },
+        fullIncorporationDates: {
+            incorporationFromDate,
+            incorporationToDate
+        }
+    };
 };
