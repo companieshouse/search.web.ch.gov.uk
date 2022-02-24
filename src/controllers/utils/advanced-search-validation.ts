@@ -3,8 +3,14 @@ import { createGovUkErrorData, GovUkErrorData } from "../../model/govuk.error.da
 import moment from "moment";
 import { getCompanySicCodes } from "../../config/api.enumerations";
 
-const INCORPORATED_FROM_FIELD: string = "incorporatedFrom";
-const INCORPORATED_TO_FIELD: string = "incorporatedTo";
+const INCORPORATION_FROM_FIELD: string = "incorporationFrom";
+const INCORPORATION_FROM_DAY_FIELD: string = "incorporation-from-day";
+const INCORPORATION_FROM_MONTH_FIELD: string = "incorporation-from-month";
+const INCORPORATION_FROM_YEAR_FIELD: string = "incorporation-from-year";
+const INCORPORATION_TO_FIELD: string = "incorporationTo";
+const INCORPORATION_TO_DAY_FIELD: string = "incorporation-to-day";
+const INCORPORATION_TO_MONTH_FIELD: string = "incorporation-to-month";
+const INCORPORATION_TO_YEAR_FIELD: string = "incorporation-to-year";
 const SIC_CODES_FIELD: string = "sicCodes";
 const DISSOLVED_FROM_FIELD: string = "dissolvedFrom";
 const DISSOLVED_FROM_DAY_FIELD: string = "dissolved-from-day";
@@ -15,11 +21,16 @@ const DISSOLVED_TO_DAY_FIELD: string = "dissolved-to-day";
 const DISSOLVED_TO_MONTH_FIELD: string = "dissolved-to-month";
 const DISSOLVED_TO_YEAR_FIELD: string = "dissolved-to-year";
 
-const INVALID_DATE_ERROR_MESSAGE = "The incorporation date must include a day, a month and a year";
-const TO_DATE_BEFORE_FROM_DATE = "The incorporation 'from' date must be the same as or before the 'to' date";
+const INCORPORATION_TO_DATE_BEFORE_FROM_DATE = "The incorporation 'from' date must be the same as or before the 'to' date";
 const INCORPORATION_DATE_IN_FUTURE = "The incorporation date must be in the past";
-const FROM_MUST_BE_REAL_DATE = "The incorporation 'from' must be a real date";
-const TO_MUST_BE_REAL_DATE = "The incorporation 'to' must be a real date";
+const INCORPORATION_FROM_MUST_BE_REAL_DATE = "The incorporation 'from' date must be a real date";
+const INCORPORATION_TO_MUST_BE_REAL_DATE = "The incorporation 'to' date must be a real date";
+const INCORPORATION_FROM_DATE_MUST_INCLUDE_DAY = "The incorporation from date must include a day";
+const INCORPORATION_FROM_DATE_MUST_INCLUDE_MONTH = "The incorporation from date must include a month";
+const INCORPORATION_FROM_DATE_MUST_INCLUDE_YEAR = "The incorporation from date must include a year";
+const INCORPORATION_TO_DATE_MUST_INCLUDE_DAY = "The incorporation to date must include a day";
+const INCORPORATION_TO_DATE_MUST_INCLUDE_MONTH = "The incorporation to date must include a month";
+const INCORPORATION_TO_DATE_MUST_INCLUDE_YEAR = "The incorporation to date must include a year";
 const INVALID_SIC_CODE_FORMAT = "Enter a valid SIC code";
 const DISSOLVED_TO_DATE_BEFORE_FROM_DATE = "The dissolved 'from' date must be the same as or before the 'to' date";
 const DISSOLVED_DATE_IN_FUTURE = "The dissolved date must be in the past";
@@ -34,43 +45,115 @@ const DISSOLVED_TO_DATE_MUST_INCLUDE_YEAR = "The dissolved to date must include 
 
 export const advancedSearchValidationRules =
     [
-        check(INCORPORATED_FROM_FIELD)
+        check(INCORPORATION_FROM_DAY_FIELD)
             .custom((date, { req }) => {
-                if (isStringNotNullOrEmpty(date)) {
-                    if (!isDateFormattedProperly(date)) {
-                        throw Error(INVALID_DATE_ERROR_MESSAGE);
+                const incorporationFromDay = req.query?.incorporationFromDay as string;
+                const incorporationFromMonth = req.query?.incorporationFromMonth as string;
+                const incorporationFromYear = req.query?.incorporationFromYear as string;
+
+                if (isDayPortionOfDateMissing(incorporationFromDay, incorporationFromMonth, incorporationFromYear)) {
+                    throw Error(INCORPORATION_FROM_DATE_MUST_INCLUDE_DAY);
+                }
+                return true;
+            }),
+        check(INCORPORATION_FROM_MONTH_FIELD)
+            .custom((date, { req }) => {
+                const incorporationFromDay = req.query?.incorporationFromDay as string;
+                const incorporationFromMonth = req.query?.incorporationFromMonth as string;
+                const incorporationFromYear = req.query?.incorporationFromYear as string;
+
+                if (isMonthPortionOfDateMissing(incorporationFromDay, incorporationFromMonth, incorporationFromYear)) {
+                    throw Error(INCORPORATION_FROM_DATE_MUST_INCLUDE_MONTH);
+                }
+                return true;
+            }),
+        check(INCORPORATION_FROM_YEAR_FIELD)
+            .custom((date, { req }) => {
+                const incorporationFromDay = req.query?.incorporationFromDay as string;
+                const incorporationFromMonth = req.query?.incorporationFromMonth as string;
+                const incorporationFromYear = req.query?.incorporationFromYear as string;
+
+                if (isYearPortionOfDateMissing(incorporationFromDay, incorporationFromMonth, incorporationFromYear)) {
+                    throw Error(INCORPORATION_FROM_DATE_MUST_INCLUDE_YEAR);
+                }
+                return true;
+            }),
+        check(INCORPORATION_FROM_FIELD)
+            .custom((date, { req }) => {
+                const incorporationFromDay = req.query?.incorporationFromDay as string;
+                const incorporationFromMonth = req.query?.incorporationFromMonth as string;
+                const incorporationFromYear = req.query?.incorporationFromYear as string;
+                const incorporationToDay = req.query?.incorporationToDay as string;
+                const incorporationToMonth = req.query?.incorporationToMonth as string;
+                const incorporationToYear = req.query?.incorporationToYear as string;
+                const incorporationFromDate = `${incorporationFromDay}/${incorporationFromMonth}/${incorporationFromYear}`;
+                const incorporationToDate = `${incorporationToDay}/${incorporationToMonth}/${incorporationToYear}`;
+
+                if (isStringNotNullOrEmpty(incorporationFromDay) && isStringNotNullOrEmpty(incorporationFromMonth) && isStringNotNullOrEmpty(incorporationFromYear)) {
+                    if (!isDateValid(incorporationFromDate)) {
+                        throw Error(INCORPORATION_FROM_MUST_BE_REAL_DATE);
                     }
-                    if (!isDateValid(date)) {
-                        throw Error(FROM_MUST_BE_REAL_DATE);
+                    if (isDateValid(incorporationToDate) && isDateValid(incorporationFromDate) && isDateBeforeInitial(incorporationToDate, incorporationFromDate)) {
+                        throw Error(INCORPORATION_TO_DATE_BEFORE_FROM_DATE);
                     }
-                    const toDate = req.query?.incorporatedTo;
-                    if (isStringNotNullOrEmpty(toDate)) {
-                        if (isDateBeforeInitial(toDate, date)) {
-                            throw Error(TO_DATE_BEFORE_FROM_DATE);
-                        }
-                    }
-                    if (isDateInFuture(date)) {
+                    if (isDateValid(incorporationFromDate) && isDateInFuture(incorporationFromDate)) {
                         throw Error(INCORPORATION_DATE_IN_FUTURE);
                     }
                 }
                 return true;
             }),
-        check(INCORPORATED_TO_FIELD)
+        check(INCORPORATION_TO_DAY_FIELD)
             .custom((date, { req }) => {
-                if (isStringNotNullOrEmpty(date)) {
-                    if (!isDateFormattedProperly(date)) {
-                        throw Error(INVALID_DATE_ERROR_MESSAGE);
+                const incorporationToDay = req.query?.incorporationToDay as string;
+                const incorporationToMonth = req.query?.incorporationToMonth as string;
+                const incorporationToYear = req.query?.incorporationToYear as string;
+
+                if (isDayPortionOfDateMissing(incorporationToDay, incorporationToMonth, incorporationToYear)) {
+                    throw Error(INCORPORATION_TO_DATE_MUST_INCLUDE_DAY);
+                }
+                return true;
+            }),
+        check(INCORPORATION_TO_MONTH_FIELD)
+            .custom((date, { req }) => {
+                const incorporationToDay = req.query?.incorporationToDay as string;
+                const incorporationToMonth = req.query?.incorporationToMonth as string;
+                const incorporationToYear = req.query?.incorporationToYear as string;
+
+                if (isMonthPortionOfDateMissing(incorporationToDay, incorporationToMonth, incorporationToYear)) {
+                    throw Error(INCORPORATION_TO_DATE_MUST_INCLUDE_MONTH);
+                }
+                return true;
+            }),
+        check(INCORPORATION_TO_YEAR_FIELD)
+            .custom((date, { req }) => {
+                const incorporationToDay = req.query?.incorporationToDay as string;
+                const incorporationToMonth = req.query?.incorporationToMonth as string;
+                const incorporationToYear = req.query?.incorporationToYear as string;
+
+                if (isYearPortionOfDateMissing(incorporationToDay, incorporationToMonth, incorporationToYear)) {
+                    throw Error(INCORPORATION_TO_DATE_MUST_INCLUDE_YEAR);
+                }
+                return true;
+            }),
+        check(INCORPORATION_TO_FIELD)
+            .custom((date, { req }) => {
+                const incorporationFromDay = req.query?.incorporationFromDay as string;
+                const incorporationFromMonth = req.query?.incorporationFromMonth as string;
+                const incorporationFromYear = req.query?.incorporationFromYear as string;
+                const incorporationToDay = req.query?.incorporationToDay as string;
+                const incorporationToMonth = req.query?.incorporationToMonth as string;
+                const incorporationToYear = req.query?.incorporationToYear as string;
+                const incorporationFromDate = `${incorporationFromDay}/${incorporationFromMonth}/${incorporationFromYear}`;
+                const incorporationToDate = `${incorporationToDay}/${incorporationToMonth}/${incorporationToYear}`;
+
+                if (isStringNotNullOrEmpty(incorporationToDay) && isStringNotNullOrEmpty(incorporationToMonth) && isStringNotNullOrEmpty(incorporationToYear)) {
+                    if (!isDateValid(incorporationToDate)) {
+                        throw Error(INCORPORATION_TO_MUST_BE_REAL_DATE);
                     }
-                    if (!isDateValid(date)) {
-                        throw Error(TO_MUST_BE_REAL_DATE);
+                    if (isDateValid(incorporationToDate) && isDateValid(incorporationFromDate) && isDateBeforeInitial(incorporationToDate, incorporationFromDate)) {
+                        throw Error(INCORPORATION_TO_DATE_BEFORE_FROM_DATE);
                     }
-                    const fromDate = req.query?.incorporatedFrom;
-                    if (isStringNotNullOrEmpty(fromDate)) {
-                        if (isDateBeforeInitial(date, fromDate)) {
-                            throw Error(TO_DATE_BEFORE_FROM_DATE);
-                        }
-                    }
-                    if (isDateInFuture(date)) {
+                    if (isDateValid(incorporationToDate) && isDateInFuture(incorporationToDate)) {
                         throw Error(INCORPORATION_DATE_IN_FUTURE);
                     }
                 }
@@ -202,8 +285,14 @@ export const advancedSearchValidationRules =
     ];
 
 export const validate = (validationErrors) => {
-    let incorporatedFromError;
-    let incorporatedToError;
+    let incorporationFromError;
+    let incorporationFromDayError;
+    let incorporationFromMonthError;
+    let incorporationFromYearError;
+    let incorporationToError;
+    let incorporationToDayError;
+    let incorporationToMonthError;
+    let incorporationToYearError;
     let sicCodesError;
     let dissolvedFromError;
     let dissolvedFromDayError;
@@ -216,11 +305,29 @@ export const validate = (validationErrors) => {
     const validationErrorList = validationErrors.array({ onlyFirstError: true }).map((error) => {
         const govUkErrorData: GovUkErrorData = createGovUkErrorData(error.msg, "#" + error.param, true, "");
         switch (error.param) {
-        case INCORPORATED_FROM_FIELD:
-            incorporatedFromError = govUkErrorData;
+        case INCORPORATION_FROM_FIELD:
+            incorporationFromError = govUkErrorData;
             break;
-        case INCORPORATED_TO_FIELD:
-            incorporatedToError = govUkErrorData;
+        case INCORPORATION_FROM_DAY_FIELD:
+            incorporationFromDayError = govUkErrorData;
+            break;
+        case INCORPORATION_FROM_MONTH_FIELD:
+            incorporationFromMonthError = govUkErrorData;
+            break;
+        case INCORPORATION_FROM_YEAR_FIELD:
+            incorporationFromYearError = govUkErrorData;
+            break;
+        case INCORPORATION_TO_FIELD:
+            incorporationToError = govUkErrorData;
+            break;
+        case INCORPORATION_TO_DAY_FIELD:
+            incorporationToDayError = govUkErrorData;
+            break;
+        case INCORPORATION_TO_MONTH_FIELD:
+            incorporationToMonthError = govUkErrorData;
+            break;
+        case INCORPORATION_TO_YEAR_FIELD:
+            incorporationToYearError = govUkErrorData;
             break;
         case SIC_CODES_FIELD:
             sicCodesError = govUkErrorData;
@@ -254,8 +361,14 @@ export const validate = (validationErrors) => {
     });
     return {
         errorList: validationErrorList,
-        incorporatedFromError,
-        incorporatedToError,
+        incorporationFromError,
+        incorporationFromDayError,
+        incorporationFromMonthError,
+        incorporationFromYearError,
+        incorporationToError,
+        incorporationToDayError,
+        incorporationToMonthError,
+        incorporationToYearError,
         sicCodesError,
         dissolvedFromError,
         dissolvedFromDayError,

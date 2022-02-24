@@ -1,10 +1,14 @@
 <div>
-    <form action="/advanced-search/download" method="GET" >
+    <form action="/advanced-search/download" method="GET">
         <input class='hidden govuk-input govuk-!-width-width-full' name='companyNameIncludes' type='text' value='{{ advancedSearchParams.companyNameIncludes }}' aria-hidden='true' aria-label='companyNameIncludes'>
         <input class='hidden govuk-input govuk-!-width-width-full' name='companyNameExcludes' type='text' value='{{ advancedSearchParams.companyNameExcludes }}' aria-hidden='true' aria-label='companyNameExcludes'>
         <input class='hidden govuk-input govuk-!-width-width-full' name='registeredOfficeAddress' type='text' value='{{ advancedSearchParams.location }}' aria-hidden='true' aria-label='registeredOfficeAddress'>
-        <input class='hidden govuk-input govuk-input--width-10' name='incorporatedFrom' type='text' value='{{ incorporatedFrom }}' aria-hidden='true' aria-label='incorporatedFrom'>
-        <input class='hidden govuk-input govuk-input--width-10' name='incorporatedTo' type='text' value='{{ incorporatedTo }}' aria-hidden='true' aria-label='incorporatedTo'>
+        <input class='hidden govuk-input govuk-input--width-10' name='incorporationFromDay' type='text' value='{{ incorporationFromDay }}' aria-hidden='true' aria-label='incorporationFromDay'>
+        <input class='hidden govuk-input govuk-input--width-10' name='incorporationFromMonth' type='text' value='{{ incorporationFromMonth }}' aria-hidden='true' aria-label='incorporationFromMonth'>
+        <input class='hidden govuk-input govuk-input--width-10' name='incorporationFromYear' type='text' value='{{ incorporationFromYear }}' aria-hidden='true' aria-label='incorporationFromYear'>
+        <input class='hidden govuk-input govuk-input--width-10' name='incorporationToDay' type='text' value='{{ incorporationToDay }}' aria-hidden='true' aria-label='incorporationToDay'>
+        <input class='hidden govuk-input govuk-input--width-10' name='incorporationToMonth' type='text' value='{{ incorporationToMonth }}' aria-hidden='true' aria-label='incorporationToMonth'>
+        <input class='hidden govuk-input govuk-input--width-10' name='incorporationToYear' type='text' value='{{ incorporationToYear }}' aria-hidden='true' aria-label='incorporationToYear'>
         <input class='hidden govuk-checkboxes__input' name='status' type='checkbox' value='active' {{ selectedStatusCheckboxes.active }} aria-hidden='true' aria-label='activeCompanies'>
         <input class='hidden govuk-checkboxes__input' name='status' type='checkbox' value='dissolved' {{ selectedStatusCheckboxes.dissolved }} aria-hidden='true' aria-label='dissolvedCompanies'>
         <input class='hidden govuk-checkboxes__input' name='status' type='checkbox' value='open' {{ selectedStatusCheckboxes.open }} aria-hidden='true' aria-label='openCompanies'>

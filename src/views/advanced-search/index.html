@@ -85,31 +85,74 @@
                 },
                 content: {
                   html: "
-                    <fieldset class='govuk-fieldset'>
-
-                      <div class='govuk-form-group'>  
-                        <label class='accordion-label' for='incorporatedFrom' aria-label='Companies incorporated from'>
-                          From
-                        </label>
-                        <div id='incorporation-date-from-hint' class='accordion-hint'>
-                           For example, 27/03/2007
+                    <div class='govuk-form-group'>  
+                      <label class='accordion-label' for='incorporationFrom' aria-label='Companies incorporation from'>
+                        From
+                      </label>
+                      <div id='incorporation-date-from-hint' class='accordion-hint'>
+                          For example, 27 03 2007
+                      </div>
+                      <div class='govuk-date-input' id='incorporationFrom'>
+                        <div class='govuk-date-input__item'>
+                          <div class='govuk-form-group'>
+                            <label class='govuk-label govuk-date-input__label' for='incorporation-from-day' aria-label='Companies incorporation from day'>
+                              Day
+                            </label>
+                            <input class='govuk-input govuk-date-input__input govuk-input--width-2' id='incorporation-from-day' name='incorporationFromDay' type='text'>
+                          </div>
                         </div>
-                        <input class='govuk-input govuk-input--width-10' id='incorporatedFrom' name='incorporatedFrom' type='text' aria-describedby='incorporation-date-from-hint'>
+                        <div class='govuk-date-input__item'>
+                          <div class='govuk-form-group'>
+                            <label class='govuk-label govuk-date-input__label' for='incorporation-from-month' aria-label='Companies incorporation from month'>
+                              Month
+                            </label>
+                            <input class='govuk-input govuk-date-input__input govuk-input--width-2' id='incorporation-from-month' name='incorporationFromMonth' type='text'>
+                          </div>
+                        </div>
+                        <div class='govuk-date-input__item'>
+                          <div class='govuk-form-group'>
+                            <label class='govuk-label govuk-date-input__label' for='incorporation-from-year' aria-label='Companies incorporation from year'>
+                              Year
+                            </label>
+                            <input class='govuk-input govuk-date-input__input govuk-input--width-4' id='incorporation-from-year' name='incorporationFromYear' type='text'>
+                          </div>
+                        </div>
                       </div>
 
                       <hr class='govuk-section-break govuk-section-break--m govuk-section-break--visible'>
-
-                      <div class='govuk-form-group'>
-                        <label class='accordion-label' for='incorporatedTo' aria-label='Companies incorporated to'>
-                          To
-                        </label>
-                        <div id='incorporation-date-to-hint' class='accordion-hint'>
-                           For example, 29/03/2007
-                        </div>
-                        <input class='govuk-input govuk-input--width-10' id='incorporatedTo' name='incorporatedTo' type='text' aria-describedby='incorporation-date-to-hint'>
+                      <label class='accordion-label' for='incorporationTo' aria-label='Companies incorporation to'>
+                        To
+                      </label>
+                      <div id='incorporation-date-to-hint' class='accordion-hint'>
+                          For example, 29 03 2007
                       </div>
-
-                    </fieldset>"
+                      <div class='govuk-date-input' id='incorporationto'>
+                        <div class='govuk-date-input__item'>
+                          <div class='govuk-form-group'>
+                            <label class='govuk-label govuk-date-input__label' for='incorporation-to-day' aria-label='Companies incorporation to day'>
+                              Day
+                            </label>
+                            <input class='govuk-input govuk-date-input__input govuk-input--width-2' id='incorporation-to-day' name='incorporationToDay' type='text'>
+                          </div>
+                        </div>
+                        <div class='govuk-date-input__item'>
+                          <div class='govuk-form-group'>
+                            <label class='govuk-label govuk-date-input__label' for='incorporation-to-month' aria-label='Companies incorporation to month'>
+                              Month
+                            </label>
+                            <input class='govuk-input govuk-date-input__input govuk-input--width-2' id='incorporation-to-month' name='incorporationToMonth' type='text'>
+                          </div>
+                        </div>
+                        <div class='govuk-date-input__item'>
+                          <div class='govuk-form-group'>
+                            <label class='govuk-label govuk-date-input__label' for='incorporation-to-year' aria-label='Companies incorporation to year'>
+                              Year
+                            </label>
+                            <input class='govuk-input govuk-date-input__input govuk-input--width-4' id='incorporation-to-year' name='incorporationToYear' type='text'>
+                          </div>
+                        </div>
+                      </div>
+                    </div>"
                 }
               },
               {
