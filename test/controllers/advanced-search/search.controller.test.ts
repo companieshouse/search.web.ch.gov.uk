@@ -528,6 +528,20 @@ describe("search.controller.test", () => {
             chai.expect(resp.text).to.not.contain("page-4");
         });
 
+        it("should not display any pages beyond 500 due to max ES resource of 10000 company profiles", async () => {
+            const resourceWithHighHits = mockUtils.getDummyAdvancedCompanyResource("test", 50);
+            resourceWithHighHits.hits = 20000;
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(resourceWithHighHits));
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?companyNameIncludes=test&page=500");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("<span class=\"active\">500</span>");
+            chai.expect(resp.text).to.not.contain("page-501");
+        });
+
         it("should check that the correct css class is assigned to the current page", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
                 .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 50)));
