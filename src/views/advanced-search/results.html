@@ -26,11 +26,11 @@
       errorList: errorList
     }) }}
   {% endif %}
-  
-  {% set companyFormHtml %}      
+
+  {% set companyFormHtml %}
     <fieldset class='govuk-fieldset'>
 
-      <div class='govuk-form-group'>  
+      <div class='govuk-form-group'>
         <label class='accordion-label' for='companyNameIncludes'>
           Company names that contain
         </label>
@@ -46,16 +46,16 @@
         <input class='govuk-input govuk-!-width-width-full' id='companyNameExcludes' name='companyNameExcludes' type='text' value='{{ advancedSearchParams.companyNameExcludes }}'>
       </div>
 
-    </fieldset>          
+    </fieldset>
   {% endset %}
 
-  {% set roaFormHtml %}      
-    <div class="govuk-form-group">  
+  {% set roaFormHtml %}
+    <div class="govuk-form-group">
       <label class="accordion-label" for="registeredOfficeAddress">
         Enter a full or partial address
       </label>
       <input class='govuk-input govuk-!-width-width-full' id='registeredOfficeAddress' name='registeredOfficeAddress' type='text' value='{{ advancedSearchParams.location }}'>
-    </div>         
+    </div>
   {% endset %}
 
   {% set incorporationDateHtml %}
@@ -63,7 +63,7 @@
     {% if errorList.length > 0 and (incorporationFromError or incorporationFromDayError or incorporationFromMonthError or incorporationFromYearError) %}
       {# Section will render if individual incorporation from date fields are missing #}
       {% if incorporationFromDayError or incorporationFromMonthError or incorporationFromYearError %}
-        <div class='govuk-form-group govuk-form-group--error'> 
+        <div class='govuk-form-group govuk-form-group--error'>
           <label class='accordion-label' for='incorporationFrom' aria-label='Companies incorporation date from'>
             From
           </label>
@@ -122,7 +122,7 @@
         </div>
       {# Section will render if there's an overall incorporation from date error #}
       {% else %}
-        <div class='govuk-form-group govuk-form-group--error'> 
+        <div class='govuk-form-group govuk-form-group--error'>
           <label class='accordion-label' for='incorporationFrom' aria-label='Companies incorporation date from'>
             From
           </label>
@@ -202,7 +202,7 @@
     {% if errorList.length > 0 and (incorporationToError or incorporationToDayError or incorporationToMonthError or incorporationToYearError) %}
       {# Section will render if individual incorporation to date fields are missing #}
       {% if incorporationToDayError or incorporationToMonthError or incorporationToYearError %}
-        <div class='govuk-form-group govuk-form-group--error'> 
+        <div class='govuk-form-group govuk-form-group--error'>
           <label class='accordion-label' for='incorporationTo' aria-label='Companies incorporation date to'>
             To
           </label>
@@ -261,7 +261,7 @@
         </div>
       {# Section will render if there's an overall incorporation to date error #}
       {% else %}
-        <div class='govuk-form-group govuk-form-group--error'> 
+        <div class='govuk-form-group govuk-form-group--error'>
           <label class='accordion-label' for='incorporationTo' aria-label='Companies incorporation date to'>
             To
           </label>
@@ -456,83 +456,6 @@
           <div class='govuk-checkboxes--small'>
 
             <div class='govuk-checkboxes__item'>
-              <input class='govuk-checkboxes__input' id='private-unlimited' name='type' type='checkbox' value='private-unlimited' {{ selectedTypeCheckboxes.privateUnlimited }}>
-              <label class='govuk-label govuk-checkboxes__label' for='private-unlimited'>
-                Private unlimited company
-              </label>
-            </div>
-
-            <div class='govuk-checkboxes__item'>
-              <input class='govuk-checkboxes__input' id='ltd' name='type' type='checkbox' value='ltd' {{ selectedTypeCheckboxes.ltd }}>
-              <label class='govuk-label govuk-checkboxes__label' for='ltd'>
-                Private limited company
-              </label>
-            </div>
-
-            <div class='govuk-checkboxes__item'>
-              <input class='govuk-checkboxes__input' id='plc' name='type' type='checkbox' value='plc' {{ selectedTypeCheckboxes.plc }}>
-              <label class='govuk-label govuk-checkboxes__label' for='plc'>
-                Public limited company
-              </label>
-            </div>
-
-            <div class='govuk-checkboxes__item'>
-              <input class='govuk-checkboxes__input' id='old-public-company' name='type' type='checkbox' value='old-public-company' {{ selectedTypeCheckboxes.oldPublicCompany }}>
-              <label class='govuk-label govuk-checkboxes__label' for='old-public-company'>
-                Old public company
-              </label>
-            </div>
-
-            <div class='govuk-checkboxes__item'>
-              <input class='govuk-checkboxes__input' id='private-limited-guarant-nsc-limited-exemption' name='type' type='checkbox' value='private-limited-guarant-nsc-limited-exemption' {{ selectedTypeCheckboxes.privateLimitedGuarantNscLimitedExemption }}>
-              <label class='govuk-label govuk-checkboxes__label' for='private-limited-guarant-nsc-limited-exemption'>
-                Private Limited Company by guarantee without share capital, use of 'Limited' exemption
-              </label>
-            </div>
-
-            <div class='govuk-checkboxes__item'>
-              <input class='govuk-checkboxes__input' id='limited-partnership' name='type' type='checkbox' value='limited-partnership' {{ selectedTypeCheckboxes.limitedPartnership }}>
-              <label class='govuk-label govuk-checkboxes__label' for='limited-partnership'>
-                Limited partnership
-              </label>
-            </div>
-
-            <div class='govuk-checkboxes__item'>
-              <input class='govuk-checkboxes__input' id='private-limited-guarant-nsc' name='type' type='checkbox' value='private-limited-guarant-nsc' {{ selectedTypeCheckboxes.privateLimitedGuarantNsc }}>
-              <label class='govuk-label govuk-checkboxes__label' for='private-limited-guarant-nsc'>
-                Private limited by guarantee without share capital
-              </label>
-            </div>
-
-            <div class='govuk-checkboxes__item'>
-              <input class='govuk-checkboxes__input' id='converted-or-closed' name='type' type='checkbox' value='converted-or-closed' {{ selectedTypeCheckboxes.convertedOrClosed }}>
-              <label class='govuk-label govuk-checkboxes__label' for='converted-or-closed'>
-                Converted or closed
-              </label>
-            </div>
-
-            <div class='govuk-checkboxes__item'>
-              <input class='govuk-checkboxes__input' id='private-unlimited-nsc' name='type' type='checkbox' value='private-unlimited-nsc' {{ selectedTypeCheckboxes.privateUnlimitedNsc }}>
-              <label class='govuk-label govuk-checkboxes__label' for='private-unlimited-nsc'>
-                Private unlimited company without share capital
-              </label>
-            </div>
-
-            <div class='govuk-checkboxes__item'>
-              <input class='govuk-checkboxes__input' id='private-limited-shares-section-30-exemption' name='type' type='checkbox' value='private-limited-shares-section-30-exemption' {{ selectedTypeCheckboxes.privateLimitedSharesSection30Exemption }}>
-              <label class='govuk-label govuk-checkboxes__label' for='private-limited-shares-section-30-exemption'>
-                Private Limited Company, use of 'Limited' exemption
-              </label>
-            </div>
-
-            <div class='govuk-checkboxes__item'>
-              <input class='govuk-checkboxes__input' id='protected-cell-company' name='type' type='checkbox' value='protected-cell-company' {{ selectedTypeCheckboxes.protectedCellCompany }}>
-              <label class='govuk-label govuk-checkboxes__label' for='protected-cell-company'>
-                Protected cell company
-              </label>
-            </div>
-
-            <div class='govuk-checkboxes__item'>
               <input class='govuk-checkboxes__input' id='assurance-company' name='type' type='checkbox' value='assurance-company' {{ selectedTypeCheckboxes.assuranceCompany }}>
               <label class='govuk-label govuk-checkboxes__label' for='assurance-company'>
                 Assurance company
@@ -540,9 +463,23 @@
             </div>
 
             <div class='govuk-checkboxes__item'>
-              <input class='govuk-checkboxes__input' id='oversea-company' name='type' type='checkbox' value='oversea-company' {{ selectedTypeCheckboxes.overseaCompany }}>
-              <label class='govuk-label govuk-checkboxes__label' for='oversea-company'>
-                Overseas company
+              <input class='govuk-checkboxes__input' id='charitable-incorporated-organisation' name='type' type='checkbox' value='charitable-incorporated-organisation' {{ selectedTypeCheckboxes.charitableIncorporatedOrganisation }}>
+              <label class='govuk-label govuk-checkboxes__label' for='charitable-incorporated-organisation'>
+                Charitable incorporated organisation
+              </label>
+            </div>
+
+            <div class='govuk-checkboxes__item'>
+              <input class='govuk-checkboxes__input' id='convertedClosedCompanies' name='status' type='checkbox' value='converted-closed' {{selectedStatusCheckboxes.convertedClosed }}>
+              <label class='govuk-label govuk-checkboxes__label' for='convertedClosedCompanies'>
+                Converted closed
+              </label>
+            </div>
+
+            <div class='govuk-checkboxes__item'>
+              <input class='govuk-checkboxes__input' id='northern-ireland-other' name='type' type='checkbox' value='northern-ireland-other' {{ selectedTypeCheckboxes.northernIrelandOther }}>
+              <label class='govuk-label govuk-checkboxes__label' for='northern-ireland-other'>
+                Credit union (Northern Ireland)
               </label>
             </div>
 
@@ -554,16 +491,16 @@
             </div>
 
             <div class='govuk-checkboxes__item'>
-              <input class='govuk-checkboxes__input' id='icvc' name='type' type='checkbox' value='icvc' {{ selectedTypeCheckboxes.icvc }}>
-              <label class='govuk-label govuk-checkboxes__label' for='icvc'>
-                Investment company with variable capital
+              <input class='govuk-checkboxes__input' id='european-public-limited-liability-company-se' name='type' type='checkbox' value='european-public-limited-liability-company-se' {{ selectedTypeCheckboxes.europeanPublicLimitedLiabilityCompanySe }}>
+              <label class='govuk-label govuk-checkboxes__label' for='european-public-limited-liability-company-se'>
+                European public limited liability company (SE)
               </label>
             </div>
 
             <div class='govuk-checkboxes__item'>
-              <input class='govuk-checkboxes__input' id='registered-society-non-jurisdictional' name='type' type='checkbox' value='registered-society-non-jurisdictional' {{ selectedTypeCheckboxes.registeredSocietyNonJurisdictional }}>
-              <label class='govuk-label govuk-checkboxes__label' for='registered-society-non-jurisdictional'>
-                Registered society
+              <input class='govuk-checkboxes__input' id='further-education-or-sixth-form-college-corporation' name='type' type='checkbox' value='further-education-or-sixth-form-college-corporation' {{ selectedTypeCheckboxes.furtherEducationOrSixthFormCollegeCorporation }}>
+              <label class='govuk-label govuk-checkboxes__label' for='further-education-or-sixth-form-college-corporation'>
+                Further education or sixth form college corporation
               </label>
             </div>
 
@@ -575,16 +512,9 @@
             </div>
 
             <div class='govuk-checkboxes__item'>
-              <input class='govuk-checkboxes__input' id='northern-ireland' name='type' type='checkbox' value='northern-ireland' {{ selectedTypeCheckboxes.northernIreland }}>
-              <label class='govuk-label govuk-checkboxes__label' for='northern-ireland'>
-                Northern Ireland company
-              </label>
-            </div>          
-
-            <div class='govuk-checkboxes__item'>
-              <input class='govuk-checkboxes__input' id='northern-ireland-other' name='type' type='checkbox' value='northern-ireland-other' {{ selectedTypeCheckboxes.northernIrelandOther }}>
-              <label class='govuk-label govuk-checkboxes__label' for='northern-ireland-other'>
-                Credit union (Northern Ireland)
+              <input class='govuk-checkboxes__input' id='icvc' name='type' type='checkbox' value='icvc' {{ selectedTypeCheckboxes.icvc }}>
+              <label class='govuk-label govuk-checkboxes__label' for='icvc'>
+                Investment company with variable capital
               </label>
             </div>
 
@@ -596,44 +526,100 @@
             </div>
 
             <div class='govuk-checkboxes__item'>
+              <input class='govuk-checkboxes__input' id='limited-partnership' name='type' type='checkbox' value='limited-partnership' {{ selectedTypeCheckboxes.limitedPartnership }}>
+              <label class='govuk-label govuk-checkboxes__label' for='limited-partnership'>
+                Limited partnership
+              </label>
+            </div>
+
+            <div class='govuk-checkboxes__item'>
+              <input class='govuk-checkboxes__input' id='northern-ireland' name='type' type='checkbox' value='northern-ireland' {{ selectedTypeCheckboxes.northernIreland }}>
+              <label class='govuk-label govuk-checkboxes__label' for='northern-ireland'>
+                Northern Ireland company
+              </label>
+            </div>
+
+            <div class='govuk-checkboxes__item'>
+              <input class='govuk-checkboxes__input' id='old-public-company' name='type' type='checkbox' value='old-public-company' {{ selectedTypeCheckboxes.oldPublicCompany }}>
+              <label class='govuk-label govuk-checkboxes__label' for='old-public-company'>
+                Old public company
+              </label>
+            </div>
+
+            <div class='govuk-checkboxes__item'>
+              <input class='govuk-checkboxes__input' id='oversea-company' name='type' type='checkbox' value='oversea-company' {{ selectedTypeCheckboxes.overseaCompany }}>
+              <label class='govuk-label govuk-checkboxes__label' for='oversea-company'>
+                Overseas company
+              </label>
+            </div>
+
+            <div class='govuk-checkboxes__item'>
+              <input class='govuk-checkboxes__input' id='private-limited-guarant-nsc' name='type' type='checkbox' value='private-limited-guarant-nsc' {{ selectedTypeCheckboxes.privateLimitedGuarantNsc }}>
+              <label class='govuk-label govuk-checkboxes__label' for='private-limited-guarant-nsc'>
+                Private limited by guarantee without share capital
+              </label>
+            </div>
+
+            <div class='govuk-checkboxes__item'>
+              <input class='govuk-checkboxes__input' id='ltd' name='type' type='checkbox' value='ltd' {{ selectedTypeCheckboxes.ltd }}>
+              <label class='govuk-label govuk-checkboxes__label' for='ltd'>
+                Private limited company
+              </label>
+            </div>
+
+            <div class='govuk-checkboxes__item'>
+              <input class='govuk-checkboxes__input' id='private-limited-guarant-nsc-limited-exemption' name='type' type='checkbox' value='private-limited-guarant-nsc-limited-exemption' {{ selectedTypeCheckboxes.privateLimitedGuarantNscLimitedExemption }}>
+              <label class='govuk-label govuk-checkboxes__label' for='private-limited-guarant-nsc-limited-exemption'>
+                Private Limited Company by guarantee without share capital, use of 'Limited' exemption
+              </label>
+            </div>
+
+            <div class='govuk-checkboxes__item'>
+              <input class='govuk-checkboxes__input' id='private-limited-shares-section-30-exemption' name='type' type='checkbox' value='private-limited-shares-section-30-exemption' {{ selectedTypeCheckboxes.privateLimitedSharesSection30Exemption }}>
+              <label class='govuk-label govuk-checkboxes__label' for='private-limited-shares-section-30-exemption'>
+                Private Limited Company, use of 'Limited' exemption
+              </label>
+            </div>
+
+            <div class='govuk-checkboxes__item'>
+              <input class='govuk-checkboxes__input' id='private-unlimited' name='type' type='checkbox' value='private-unlimited' {{ selectedTypeCheckboxes.privateUnlimited }}>
+              <label class='govuk-label govuk-checkboxes__label' for='private-unlimited'>
+                Private unlimited company
+              </label>
+            </div>
+
+            <div class='govuk-checkboxes__item'>
+              <input class='govuk-checkboxes__input' id='private-unlimited-nsc' name='type' type='checkbox' value='private-unlimited-nsc' {{ selectedTypeCheckboxes.privateUnlimitedNsc }}>
+              <label class='govuk-label govuk-checkboxes__label' for='private-unlimited-nsc'>
+                Private unlimited company without share capital
+              </label>
+            </div>
+
+            <div class='govuk-checkboxes__item'>
+              <input class='govuk-checkboxes__input' id='protected-cell-company' name='type' type='checkbox' value='protected-cell-company' {{ selectedTypeCheckboxes.protectedCellCompany }}>
+              <label class='govuk-label govuk-checkboxes__label' for='protected-cell-company'>
+                Protected cell company
+              </label>
+            </div>
+
+            <div class='govuk-checkboxes__item'>
+              <input class='govuk-checkboxes__input' id='plc' name='type' type='checkbox' value='plc' {{ selectedTypeCheckboxes.plc }}>
+              <label class='govuk-label govuk-checkboxes__label' for='plc'>
+                Public limited company
+              </label>
+            </div>
+
+            <div class='govuk-checkboxes__item'>
+              <input class='govuk-checkboxes__input' id='registered-society-non-jurisdictional' name='type' type='checkbox' value='registered-society-non-jurisdictional' {{ selectedTypeCheckboxes.registeredSocietyNonJurisdictional }}>
+              <label class='govuk-label govuk-checkboxes__label' for='registered-society-non-jurisdictional'>
+                Registered society
+              </label>
+            </div>
+
+            <div class='govuk-checkboxes__item'>
               <input class='govuk-checkboxes__input' id='royal-charter' name='type' type='checkbox' value='royal-charter' {{ selectedTypeCheckboxes.royalCharter }}>
               <label class='govuk-label govuk-checkboxes__label' for='royal-charter'>
                 Royal charter company
-              </label>
-            </div>
-
-            <div class='govuk-checkboxes__item'>
-              <input class='govuk-checkboxes__input' id='unregistered-company' name='type' type='checkbox' value='unregistered-company' {{ selectedTypeCheckboxes.unregisteredCompany }}>
-              <label class='govuk-label govuk-checkboxes__label' for='unregistered-company'>
-                Unregistered company
-              </label>
-            </div>
-
-            <div class='govuk-checkboxes__item'>
-              <input class='govuk-checkboxes__input' id='european-public-limited-liability-company-se' name='type' type='checkbox' value='european-public-limited-liability-company-se' {{ selectedTypeCheckboxes.europeanPublicLimitedLiabilityCompanySe }}>
-              <label class='govuk-label govuk-checkboxes__label' for='european-public-limited-liability-company-se'>
-                European public limited liability company (SE)
-              </label>
-            </div>
-
-            <div class='govuk-checkboxes__item'>
-              <input class='govuk-checkboxes__input' id='uk-establishment' name='type' type='checkbox' value='uk-establishment' {{ selectedTypeCheckboxes.ukEstablishment }}>
-              <label class='govuk-label govuk-checkboxes__label' for='uk-establishment'>
-                UK establishment company
-              </label>
-            </div>
-
-            <div class='govuk-checkboxes__item'>
-              <input class='govuk-checkboxes__input' id='scottish-partnership' name='type' type='checkbox' value='scottish-partnership' {{ selectedTypeCheckboxes.scottishPartnership }}>
-              <label class='govuk-label govuk-checkboxes__label' for='scottish-partnership'>
-                Scottish qualifying partnership
-              </label>
-            </div>
-            
-            <div class='govuk-checkboxes__item'>
-              <input class='govuk-checkboxes__input' id='charitable-incorporated-organisation' name='type' type='checkbox' value='charitable-incorporated-organisation' {{ selectedTypeCheckboxes.charitableIncorporatedOrganisation }}>
-              <label class='govuk-label govuk-checkboxes__label' for='charitable-incorporated-organisation'>
-                Charitable incorporated organisation
               </label>
             </div>
 
@@ -645,11 +631,25 @@
             </div>
 
             <div class='govuk-checkboxes__item'>
-              <input class='govuk-checkboxes__input' id='further-education-or-sixth-form-college-corporation' name='type' type='checkbox' value='further-education-or-sixth-form-college-corporation' {{ selectedTypeCheckboxes.furtherEducationOrSixthFormCollegeCorporation }}>
-              <label class='govuk-label govuk-checkboxes__label' for='further-education-or-sixth-form-college-corporation'>
-                Further education or sixth form college corporation
+              <input class='govuk-checkboxes__input' id='scottish-partnership' name='type' type='checkbox' value='scottish-partnership' {{ selectedTypeCheckboxes.scottishPartnership }}>
+              <label class='govuk-label govuk-checkboxes__label' for='scottish-partnership'>
+                Scottish qualifying partnership
               </label>
-            </div>    
+            </div>
+
+            <div class='govuk-checkboxes__item'>
+              <input class='govuk-checkboxes__input' id='uk-establishment' name='type' type='checkbox' value='uk-establishment' {{ selectedTypeCheckboxes.ukEstablishment }}>
+              <label class='govuk-label govuk-checkboxes__label' for='uk-establishment'>
+                UK establishment company
+              </label>
+            </div>
+
+            <div class='govuk-checkboxes__item'>
+              <input class='govuk-checkboxes__input' id='unregistered-company' name='type' type='checkbox' value='unregistered-company' {{ selectedTypeCheckboxes.unregisteredCompany }}>
+              <label class='govuk-label govuk-checkboxes__label' for='unregistered-company'>
+                Unregistered company
+              </label>
+            </div>
           </div>
         </fieldset>
       </div>
@@ -661,7 +661,7 @@
     {% if errorList.length > 0 and (dissolvedFromError or dissolvedFromDayError or dissolvedFromMonthError or dissolvedFromYearError) %}
       {# Section will render if individual dissolved from date fields are missing #}
       {% if dissolvedFromDayError or dissolvedFromMonthError or dissolvedFromYearError %}
-        <div class='govuk-form-group govuk-form-group--error'> 
+        <div class='govuk-form-group govuk-form-group--error'>
           <span class='accordion-label govuk-!-margin-bottom-3'>
             We can only show companies dissolved since 01/01/2010.
           </span>
@@ -723,7 +723,7 @@
         </div>
       {# Section will render if there's an overall dissolved from date error #}
       {% else %}
-        <div class='govuk-form-group govuk-form-group--error'> 
+        <div class='govuk-form-group govuk-form-group--error'>
           <span class='accordion-label govuk-!-margin-bottom-3'>
             We can only show companies dissolved since 01/01/2010.
           </span>
@@ -809,7 +809,7 @@
     {% if errorList.length > 0 and (dissolvedToError or dissolvedToDayError or dissolvedToMonthError or dissolvedToYearError) %}
       {# Section will render if individual dissolved to date fields are missing #}
       {% if dissolvedToDayError or dissolvedToMonthError or dissolvedToYearError %}
-        <div class='govuk-form-group govuk-form-group--error'> 
+        <div class='govuk-form-group govuk-form-group--error'>
           <label class='accordion-label' for='dissolvedTo' aria-label='Companies dissolved to'>
             To
           </label>
@@ -868,7 +868,7 @@
         </div>
       {# Section will render if there's an overall dissolved to date error #}
       {% else %}
-        <div class='govuk-form-group govuk-form-group--error'> 
+        <div class='govuk-form-group govuk-form-group--error'>
           <label class='accordion-label' for='dissolvedTo' aria-label='Companies dissolved to'>
             To
           </label>
@@ -1013,7 +1013,7 @@
               content: {
                 html: sicCodeFormHtml
               }
-            }, 
+            },
             {
               heading: {
                 text: "Company type"
@@ -1032,7 +1032,7 @@
             }
           ]
         }) }}
-        
+
         <div class="govuk-button-group">
             <button class="govuk-button" data-module="govuk-button" data-event-id = "advanced-search-results-page-update">
               Update results
@@ -1078,6 +1078,6 @@
       {% endif %}
 
     </div>
-  </div>   
+  </div>
 </div>
 {% endblock %}
