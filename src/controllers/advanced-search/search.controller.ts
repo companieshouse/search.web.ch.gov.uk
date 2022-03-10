@@ -34,6 +34,7 @@ const route = async (req: Request, res: Response) => {
 
     const advancedSearchParams: AdvancedSearchParams = mapAdvancedSearchParams(page, req.query.companyNameIncludes as string || null, req.query.companyNameExcludes as string || null, req.query.registeredOfficeAddress as string || null,
         fullIncorporationDates.incorporationFromDate || null, fullIncorporationDates.incorporationToDate || null, req.query.sicCodes as string || null, req.query.status as string || null, req.query.type as string || null,
+        req.query.subtype as string || null,
         fullDissolvedDates.dissolvedFromDate || null, fullDissolvedDates.dissolvedToDate || null, null);
 
     const selectedStatusCheckboxes = mapCompanyStatusCheckboxes(advancedSearchParams.companyStatus);

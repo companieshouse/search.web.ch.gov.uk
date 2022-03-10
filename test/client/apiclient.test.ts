@@ -126,6 +126,7 @@ const mockAdvancedResponse: Resource<AdvancedCompanyResource> = {
                 company_number: "0000789",
                 company_status: "active",
                 company_type: "ltd",
+                company_subtype: "community-interest-company",
                 links: {
                     company_profile: "/company_profile/0000789"
                 },
@@ -150,6 +151,7 @@ const mockAdvancedResponse: Resource<AdvancedCompanyResource> = {
             company_number: "0000789",
             company_status: "active",
             company_type: "ltd",
+            company_subtype: "community-interest-company",
             links: {
                 company_profile: "/company_profile/0000789"
             },
@@ -207,7 +209,7 @@ describe("api.client", () => {
                 .returns(Promise.resolve(mockAdvancedResponse));
 
             const searchParams: AdvancedSearchParams = createDummyAdvancedSearchParams("1", "testCompanyNameIncludes", "testCompanyNameExcludes", "testLocation", "01/01/2000",
-                "01/01/2001", "07210", "active", "ltd", "01", "10", "2010", "01", "03", "2010", 20);
+                "01/01/2001", "07210", "active", "ltd", "community-interest-company", "01", "10", "2010", "01", "03", "2010", 20);
 
             const advancedSearchResults = await getAdvancedCompanies("api key", searchParams, "request id");
             chai.expect(advancedSearchResults).to.equal(mockAdvancedResponse.resource);

@@ -49,6 +49,7 @@ export const getAdvancedCompanies =
                 advancedSearchParams.sicCodes,
                 advancedSearchParams.companyStatus,
                 advancedSearchParams.companyType,
+                advancedSearchParams.companySubtype,
                 advancedSearchParams.dissolvedFrom,
                 advancedSearchParams.dissolvedTo,
                 advancedSearchParams.size,

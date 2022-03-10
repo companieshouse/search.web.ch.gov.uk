@@ -25,6 +25,7 @@ export const createDummyItemsArray = (name: string, numberOfCompanies: number): 
             date_of_creation: new Date(1980, 13, 8),
             kind: "kind",
             company_type: "ltd",
+            company_subtype: "community-interest-company",
             sic_codes: ["01120"],
             links: {
                 company_profile: "/065000"
@@ -56,6 +57,7 @@ export const createTopHit = (name): TopHit => {
         date_of_creation: new Date(1980, 13, 8),
         kind: "kind",
         company_type: "ltd",
+        company_subtype: "community-interest-company",
         sic_codes: ["8765"],
         links: {
             company_profile: "/065000"
@@ -83,6 +85,7 @@ export const createEmptyTopHit = (): TopHit => {
         date_of_creation: emptyDate,
         kind: "kind",
         company_type: "",
+        company_subtype: "",
         sic_codes: [""],
         links: {
             company_profile: ""
@@ -112,6 +115,7 @@ export const createDummyAdvancedSearchParams = (
     sicCodesParam: string | null,
     companyStatusParam: string | null,
     companyTypeParam: string | null,
+    companySubtypeParam: string | null,
     dissolvedFromDayParam: string | null,
     dissolvedFromMonthParam: string | null,
     dissolvedFromYearParam: string | null,
@@ -131,6 +135,7 @@ export const createDummyAdvancedSearchParams = (
         sicCodes: sicCodesParam,
         companyStatus: companyStatusParam,
         companyType: companyTypeParam,
+        companySubtype: companySubtypeParam,
         dissolvedFrom: dissolvedFromDate,
         dissolvedTo: dissolvedToDate,
         size: sizeParam
