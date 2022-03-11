@@ -49,6 +49,7 @@ export const getAdvancedCompanies =
                 advancedSearchParams.sicCodes,
                 advancedSearchParams.companyStatus,
                 advancedSearchParams.companyType,
+                advancedSearchParams.companySubtype,
                 advancedSearchParams.dissolvedFrom,
                 advancedSearchParams.dissolvedTo,
                 advancedSearchParams.size,
@@ -60,7 +61,7 @@ export const getAdvancedCompanies =
         logger.info(`Get advanced search results, company_name_includes=${advancedSearchParams.companyNameIncludes},company_name_excludes=${advancedSearchParams.companyNameExcludes},
           location=${advancedSearchParams.location}, incorporated_from=${advancedSearchParams.incorporatedFrom}, incorporated_to=${advancedSearchParams.incorporatedTo},
           company_status=${advancedSearchParams.companyStatus}, sic_codes=${advancedSearchParams.sicCodes}, company_type=${advancedSearchParams.companyType}, 
-          dissolved_from=${advancedSearchParams.dissolvedFrom}, dissolved_to=${advancedSearchParams.dissolvedTo}, size=${advancedSearchParams.size}, 
-          status_code=${companiesResource.httpStatusCode}`);
+          company_subtype=${advancedSearchParams.companySubtype}, dissolved_from=${advancedSearchParams.dissolvedFrom}, dissolved_to=${advancedSearchParams.dissolvedTo}, 
+          size=${advancedSearchParams.size}, status_code=${companiesResource.httpStatusCode}`);
         return companiesResource.resource as AdvancedCompaniesResource;
     };

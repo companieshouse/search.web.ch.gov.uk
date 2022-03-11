@@ -8,6 +8,7 @@ export interface AdvancedSearchParams {
     sicCodes: string | null;
     companyStatus: string | null;
     companyType: string | null;
+    companySubtype: string | null;
     dissolvedFrom: string | null;
     dissolvedTo: string | null;
     size: number | null;

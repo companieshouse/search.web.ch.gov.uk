@@ -446,7 +446,7 @@ export const mapCompanyResource = (companyResource) => {
 
 export const mapAdvancedSearchParams = (page: number, companyNameIncludes: string | null, companyNameExcludes: string | null,
     registeredOfficeAddress: string | null, incorporatedFrom: string | null, incorporatedTo: string | null, sicCodes: string | null,
-    companyStatus: string | null, companyType: string | null, dissolvedFrom: string | null, dissolvedTo: string | null, size: number | null): AdvancedSearchParams => {
+    companyStatus: string | null, companyType: string | null, companySubtype: string | null, dissolvedFrom: string | null, dissolvedTo: string | null, size: number | null): AdvancedSearchParams => {
     if (companyType !== null) {
         companyType = String(companyType).replace("icvc", "icvc-securities,icvc-warrant,icvc-umbrella");
     }
@@ -460,6 +460,7 @@ export const mapAdvancedSearchParams = (page: number, companyNameIncludes: strin
         sicCodes: sicCodes,
         companyStatus: companyStatus,
         companyType: companyType,
+        companySubtype: companySubtype,
         dissolvedFrom: dissolvedFrom !== null ? changeDateFormat(dissolvedFrom) : null,
         dissolvedTo: dissolvedTo !== null ? changeDateFormat(dissolvedTo) : null,
         size: size

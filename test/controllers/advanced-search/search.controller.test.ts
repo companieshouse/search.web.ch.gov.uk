@@ -96,6 +96,17 @@ describe("search.controller.test", () => {
             chai.expect(resp.text).to.contain("Private limited company");
         });
 
+        it("should show the company subtype", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 20)));
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?companyNameIncludes=test&excludesCompanyName=");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("Community Interest Company (CIC)");
+        });
+
         it("should show the company number", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
                 .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 20)));
