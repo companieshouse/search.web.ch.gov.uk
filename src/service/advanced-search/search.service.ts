@@ -52,7 +52,6 @@ export const getSearchResults = async (advancedSearchParams: AdvancedSearchParam
         }
         const companyResource = await getAdvancedCompanies(API_KEY, advancedSearchParams, (cookies.get(SEARCH_WEB_COOKIE_NAME) as string));
         const { items } = companyResource;
-        console.log(JSON.stringify(items.pop()));
 
         const searchResults = items.map(({ company_name, links, company_status, company_type, company_subtype, company_number, date_of_creation, date_of_cessation, registered_office_address, sic_codes }) => {
             const mappedCompanyStatus = buildCompanyStatusHtml(company_status);
