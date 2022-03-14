@@ -656,6 +656,31 @@
     </div>
   {% endset %}
 
+  {% set subtypeFormHtml %}
+    <div class='govuk-form-group'>
+      <div class='govuk-form-group' style='overflow: scroll; height: 120px; width: 300px; padding-left: 5px;'>
+        <fieldset class='govuk-fieldset'>
+          <div class='govuk-checkboxes--small'>
+
+            <div class='govuk-checkboxes__item'>
+              <input class='govuk-checkboxes__input' id='community-interest-company' name='subtype' type='checkbox' value='community-interest-company' {{ selectedSubtypeCheckboxes.communityInterestCompany }}>
+              <label class='govuk-label govuk-checkboxes__label' for='community-interest-company'>
+                Community interest company
+              </label>
+            </div>
+
+            <div class='govuk-checkboxes__item'>
+              <input class='govuk-checkboxes__input' id='private-fund-limited-partnership' name='subtype' type='checkbox' value='private-fund-limited-partnership' {{ selectedSubtypeCheckboxes.privateFundLimitedPartnership }}>
+              <label class='govuk-label govuk-checkboxes__label' for='private-fund-limited-partnership'>
+                Private fund limited partnership
+              </label>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+  {% endset %}
+
   {% set dissolutionDateHtml %}
     {# Dissolved From section #}
     {% if errorList.length > 0 and (dissolvedFromError or dissolvedFromDayError or dissolvedFromMonthError or dissolvedFromYearError) %}
@@ -1020,6 +1045,14 @@
               },
               content: {
                 html: typeFormHtml
+              }
+            },
+            {
+              heading: {
+                text: "Company subtype"
+              },
+              content: {
+                html: subtypeFormHtml
               }
             },
             {
