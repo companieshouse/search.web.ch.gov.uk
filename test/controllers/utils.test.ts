@@ -391,6 +391,7 @@ describe("utils.test", () => {
             chai.expect(mappedCompanies[0].company_number).to.equal("06500000");
             chai.expect(mappedCompanies[0].company_status).to.equal("Active");
             chai.expect(mappedCompanies[0].company_type).to.equal("Private limited company");
+            chai.expect(mappedCompanies[0].company_subtype).to.equal("Community Interest Company (CIC)");
             chai.expect(mappedCompanies[0].dissolution_date).to.deep.equal(new Date(1991, 11, 12));
             chai.expect(mappedCompanies[0].incorporation_date).to.deep.equal(new Date(1980, 13, 8));
             chai.expect(mappedCompanies[0].nature_of_business).to.equal("01120");

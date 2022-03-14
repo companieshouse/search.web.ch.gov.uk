@@ -1,4 +1,9 @@
-import { COMPANY_STATUS_CONSTANT, COMPANY_TYPE_CONSTANT, getCompanyConstant } from "../../config/api.enumerations";
+import {
+    COMPANY_STATUS_CONSTANT,
+    COMPANY_SUBTYPE_CONSTANT,
+    COMPANY_TYPE_CONSTANT,
+    getCompanyConstant
+} from "../../config/api.enumerations";
 import { AdvancedSearchParams } from "model/advanced.search.params";
 import { DissolvedDates, FullDates, FullDissolvedDates, IncorporationDates } from "model/date.params";
 import { Request } from "express";
@@ -452,6 +457,7 @@ export const mapCompanyResource = (companyResource) => {
             company_number: item.company_number,
             company_status: getCompanyConstant(COMPANY_STATUS_CONSTANT, item.company_status),
             company_type: getCompanyConstant(COMPANY_TYPE_CONSTANT, item.company_type),
+            company_subtype: getCompanyConstant(COMPANY_SUBTYPE_CONSTANT, item.company_subtype),
             dissolution_date: item.date_of_cessation,
             incorporation_date: item.date_of_creation,
             nature_of_business: sicCodes,
