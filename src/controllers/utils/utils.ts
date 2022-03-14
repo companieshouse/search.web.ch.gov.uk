@@ -426,6 +426,24 @@ export const mapCompanyTypeCheckboxes = (companyType: string | null | undefined)
     return selectedTypeCheckboxes;
 };
 
+export const mapCompanySubtypeCheckboxes = (companySubtype: string | null | undefined) => {
+    const selectedSubtypeCheckboxes = {
+        communityInterestCompany: "",
+        privateFundLimitedPartnership: ""
+    };
+
+    if (companySubtype === null || companySubtype === undefined) {
+        return selectedSubtypeCheckboxes;
+    }
+
+    const selectedCompanySubtypeArray : string[] = String(companySubtype).split(",");
+
+    selectedSubtypeCheckboxes.communityInterestCompany = (selectedCompanySubtypeArray.includes("community-interest-company")) ? "checked" : "";
+    selectedSubtypeCheckboxes.privateFundLimitedPartnership = (selectedCompanySubtypeArray.includes("private-fund-limited-partnership")) ? "checked" : "";
+
+    return selectedSubtypeCheckboxes;
+};
+
 export const mapCompanyResource = (companyResource) => {
     const listOfCompanies = companyResource.items.map(item => {
         const sicCodes = item.sic_codes !== undefined ? item.sic_codes.toString().replace(/,/g, " ") : " ";
