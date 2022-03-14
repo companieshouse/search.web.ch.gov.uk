@@ -343,6 +343,7 @@ export const buildPagingUrl = (advancedSearchParams: AdvancedSearchParams, incor
     urlAppender(pagingUrlBuilder, advancedSearchParams.companyStatus, "status");
     urlAppender(pagingUrlBuilder, advancedSearchParams.sicCodes, "sicCodes");
     urlAppender(pagingUrlBuilder, companyTypeCheck, "type");
+    urlAppender(pagingUrlBuilder, advancedSearchParams.companySubtype, "subtype");
     urlAppender(pagingUrlBuilder, dissolvedDates.dissolvedFromDay, "dissolvedFromDay");
     urlAppender(pagingUrlBuilder, dissolvedDates.dissolvedFromMonth, "dissolvedFromMonth");
     urlAppender(pagingUrlBuilder, dissolvedDates.dissolvedFromYear, "dissolvedFromYear");

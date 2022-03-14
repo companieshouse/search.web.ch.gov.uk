@@ -225,7 +225,25 @@ describe("utils.test", () => {
         });
 
         it("should return a url with a parameter for all fields present", () => {
-            const searchParams = createDummyAdvancedSearchParams("1", "testCompanyNameIncludes", "testCompanyNameExcludes", "testRegisteredOfficeAddress", "testIncorporatedFrom", "testIncorporatedTo", "07210", "active", "ltd", null, "testDissolvedFromDay", "testDissolvedFromMonth", "testDissolvedFromYear", "testDissolvedToDay", "testDissolvedToMonth", "testDissolvedToYear", null);
+            const searchParams = createDummyAdvancedSearchParams(
+                "1",
+                "testCompanyNameIncludes",
+                "testCompanyNameExcludes",
+                "testRegisteredOfficeAddress",
+                "testIncorporatedFrom",
+                "testIncorporatedTo",
+                "07210",
+                "active",
+                "ltd",
+                "community-interest-company",
+                "testDissolvedFromDay",
+                "testDissolvedFromMonth",
+                "testDissolvedFromYear",
+                "testDissolvedToDay",
+                "testDissolvedToMonth",
+                "testDissolvedToYear",
+                null
+            );
             chai.expect(buildPagingUrl(searchParams, incorporationDates, dissolvedDates))
                 .to.equal("get-results?companyNameIncludes=testCompanyNameIncludes" +
                     "&companyNameExcludes=testCompanyNameExcludes" +
@@ -239,6 +257,7 @@ describe("utils.test", () => {
                     "&status=active" +
                     "&sicCodes=07210" +
                     "&type=ltd" +
+                    "&subtype=community-interest-company" +
                     "&dissolvedFromDay=testDissolvedFromDay" +
                     "&dissolvedFromMonth=testDissolvedFromMonth" +
                     "&dissolvedFromYear=testDissolvedFromYear" +
