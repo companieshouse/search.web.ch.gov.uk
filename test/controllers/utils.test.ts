@@ -1,22 +1,9 @@
 import chai from "chai";
 import {
-    checkLineBreakRequired,
-    determineReportAvailableBool,
-    getDownloadReportText,
-    mapResponsiveHeaders,
-    formatLongDate,
-    formatCompactAddress,
-    changeDateFormat,
-    generateSize,
-    buildPagingUrl,
-    mapCompanyStatusCheckboxes,
-    mapCompanyTypeCheckboxes,
-    buildCompanyStatusHtml,
-    mapCompanyResource,
-    mapAdvancedSearchParams,
-    formatNumberWithCommas,
-    getDatesFromParams,
-    mapCompanySubtypeCheckboxes
+    checkLineBreakRequired, determineReportAvailableBool, getDownloadReportText, mapResponsiveHeaders,
+    formatLongDate, formatCompactAddress, changeDateFormat, generateSize, buildPagingUrl, mapCompanyStatusCheckboxes,
+    mapCompanyTypeCheckboxes, mapCompanySubtypeCheckboxes, buildCompanyStatusHtml, mapCompanyResource,
+    mapAdvancedSearchParams, formatNumberWithCommas, getDatesFromParams
 } from "../../src/controllers/utils/utils";
 import { AdvancedSearchParams } from "../../src/model/advanced.search.params";
 import { DissolvedDates, IncorporationDates } from "../../src/model/date.params";
@@ -398,26 +385,33 @@ describe("utils.test", () => {
 
     describe("ensure that mapCompanySubtypeCheckboxes assigns checked to the correct checkbox entries", () => {
         it("should return an object with all variables set as checked if all company subtype options are included", () => {
-            const expectedSelection = setUpSelectedCompanySubtype();
+            const expectedSelection = setUpSelectedCompanySubType();
             expectedSelection.communityInterestCompany = "checked";
             expectedSelection.privateFundLimitedPartnership = "checked";
+
             const actualSelection = mapCompanySubtypeCheckboxes("community-interest-company,private-fund-limited-partnership");
             checkCompanySubtypeSelections(expectedSelection, actualSelection);
         });
-        it("should return an object with community-interest-company variable set as checked if that is the only companySubtype option passed in", () => {
-            const expectedSelection = setUpSelectedCompanySubtype();
+        it("should return an object with communityInterestCompany variable set as checked if that is the only company subtype option passed in", () => {
+            const expectedSelection = setUpSelectedCompanySubType();
             expectedSelection.communityInterestCompany = "checked";
             const actualSelection = mapCompanySubtypeCheckboxes("community-interest-company");
             checkCompanySubtypeSelections(expectedSelection, actualSelection);
         });
+        it("should return an object with privateFundLimitedPartnership variable set as checked if that is the only company subtype option passed in", () => {
+            const expectedSelection = setUpSelectedCompanySubType();
+            expectedSelection.privateFundLimitedPartnership = "checked";
+            const actualSelection = mapCompanySubtypeCheckboxes("private-fund-limited-partnership");
+            checkCompanySubtypeSelections(expectedSelection, actualSelection);
+        });
         it("should return an object with no variables set as checked if null is provided", () => {
-            const expectedSelection = setUpSelectedCompanySubtype();
-            const actualSelection = mapCompanySubtypeCheckboxes(null);
+            const expectedSelection = setUpSelectedCompanyType();
+            const actualSelection = mapCompanyTypeCheckboxes(null);
             checkCompanySubtypeSelections(expectedSelection, actualSelection);
         });
         it("should return an object with no variables set as checked if undefined is provided", () => {
-            const expectedSelection = setUpSelectedCompanySubtype();
-            const actualSelection = mapCompanySubtypeCheckboxes(undefined);
+            const expectedSelection = setUpSelectedCompanyType();
+            const actualSelection = mapCompanyTypeCheckboxes(undefined);
             checkCompanySubtypeSelections(expectedSelection, actualSelection);
         });
     });

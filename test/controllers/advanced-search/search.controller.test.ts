@@ -107,6 +107,20 @@ describe("search.controller.test", () => {
             chai.expect(resp.text).to.contain("Community Interest Company (CIC)");
         });
 
+        it("should not show the company subtype where undefined", async () => {
+            const resource = mockUtils.getDummyAdvancedCompanyResource("test", 1);
+            // @ts-ignore
+            resource.items[0].company_subtype = undefined;
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(resource));
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?companyNameIncludes=test&excludesCompanyName=");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.not.contain("undefined");
+        });
+
         it("should show the company number", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
                 .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 20)));
@@ -273,6 +287,17 @@ describe("search.controller.test", () => {
 
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain("<input class='govuk-checkboxes__input' id='limited-partnership' name='type' type='checkbox' value='limited-partnership' checked>");
+        });
+
+        it("should display the company subtypes search term is checked", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 20)));
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?subtype=community-interest-company");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("<input class='govuk-checkboxes__input' id='community-interest-company' name='subtype' type='checkbox' value='community-interest-company' checked>");
         });
     });
 
