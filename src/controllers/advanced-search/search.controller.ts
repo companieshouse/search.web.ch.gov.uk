@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
-import { getPagingRange, buildPagingUrl, mapCompanyStatusCheckboxes, mapCompanyTypeCheckboxes,
-    mapCompanySubtypeCheckboxes, mapAdvancedSearchParams, formatNumberWithCommas, getDatesFromParams } from "../utils/utils";
+import {
+    getPagingRange, buildPagingUrl, mapCompanyStatusCheckboxes, mapCompanyTypeCheckboxes,
+    mapCompanySubtypeCheckboxes, mapAdvancedSearchParams, formatNumberWithCommas, getDatesFromParams
+} from "../utils/utils";
 import { advancedSearchValidationRules, validate } from "../utils/advanced-search-validation";
 import { validationResult } from "express-validator";
 import * as templatePaths from "../../model/template.paths";
