@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
-import { getPagingRange, buildPagingUrl, mapCompanyStatusCheckboxes, mapCompanyTypeCheckboxes, mapAdvancedSearchParams, formatNumberWithCommas, getDatesFromParams } from "../utils/utils";
+import { getPagingRange, buildPagingUrl, mapCompanyStatusCheckboxes, mapCompanyTypeCheckboxes,
+    mapCompanySubtypeCheckboxes, mapAdvancedSearchParams, formatNumberWithCommas, getDatesFromParams } from "../utils/utils";
 import { advancedSearchValidationRules, validate } from "../utils/advanced-search-validation";
 import { validationResult } from "express-validator";
 import * as templatePaths from "../../model/template.paths";
@@ -39,12 +40,14 @@ const route = async (req: Request, res: Response) => {
 
     const selectedStatusCheckboxes = mapCompanyStatusCheckboxes(advancedSearchParams.companyStatus);
     const selectedTypeCheckboxes = mapCompanyTypeCheckboxes(advancedSearchParams.companyType);
+    const selectedSubtypeCheckboxes = mapCompanySubtypeCheckboxes(advancedSearchParams.companySubtype);
     const errors = validationResult(req);
     const errorList = validate(errors);
     const ADV_SEARCH_NUM_OF_RESULTS_TO_DOWNLOAD = formatNumberWithCommas(ADVANCED_SEARCH_NUMBER_OF_RESULTS_TO_DOWNLOAD);
 
     if (!errors.isEmpty()) {
-        return res.render(templatePaths.ADVANCED_SEARCH_RESULTS, { ...errorList, ...dissolvedDates, ...incorporationDates, advancedSearchParams, selectedStatusCheckboxes, selectedTypeCheckboxes, ADV_SEARCH_NUM_OF_RESULTS_TO_DOWNLOAD });
+        return res.render(templatePaths.ADVANCED_SEARCH_RESULTS, { ...errorList, ...dissolvedDates, ...incorporationDates, advancedSearchParams, 
+            selectedStatusCheckboxes, selectedTypeCheckboxes, selectedSubtypeCheckboxes, ADV_SEARCH_NUM_OF_RESULTS_TO_DOWNLOAD });
     }
 
     const { companyResource, searchResults } = await getSearchResults(advancedSearchParams, cookies);
@@ -56,7 +59,8 @@ const route = async (req: Request, res: Response) => {
     const partialHref: string = buildPagingUrl(advancedSearchParams, incorporationDates, dissolvedDates);
 
     return res.render(templatePaths.ADVANCED_SEARCH_RESULTS,
-        { ...dissolvedDates, ...incorporationDates, searchResults, advancedSearchParams, page, numberOfPages, pagingRange, partialHref, selectedStatusCheckboxes, selectedTypeCheckboxes, ADV_SEARCH_NUM_OF_RESULTS_TO_DOWNLOAD, totalReturnedHitsFormatted, totalReturnedHits });
+        { ...dissolvedDates, ...incorporationDates, searchResults, advancedSearchParams, page, numberOfPages, pagingRange, partialHref,
+             selectedStatusCheckboxes, selectedTypeCheckboxes, selectedSubtypeCheckboxes, ADV_SEARCH_NUM_OF_RESULTS_TO_DOWNLOAD, totalReturnedHitsFormatted, totalReturnedHits });
 };
 
 export default [...advancedSearchValidationRules, route];
