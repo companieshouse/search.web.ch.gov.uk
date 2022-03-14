@@ -1,4 +1,4 @@
-import sinon, { mock } from "sinon";
+import sinon from "sinon";
 import chai from "chai";
 import ioredis from "ioredis";
 import * as mockUtils from "../../MockUtils/advanced-search/mock.util";
@@ -32,8 +32,8 @@ describe("search.controller.spec.unit", () => {
                 .set("Content-Type", "text/csv");
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain("company_name,company_number,company_status,company_type,dissolution_date,incorporation_date,nature_of_business,registered_office_address");
-            chai.expect(resp.text).to.contain("test0,06500000,Active,Private limited company,1991-12-12T00:00:00.000Z,1981-02-08T00:00:00.000Z,01120,test house test street cardiff cf5 6rb");
+            chai.expect(resp.text).to.contain("company_name,company_number,company_status,company_type,company_subtype,dissolution_date,incorporation_date,nature_of_business,registered_office_address");
+            chai.expect(resp.text).to.contain("test0,06500000,Active,Private limited company,Community Interest Company (CIC),1991-12-12T00:00:00.000Z,1981-02-08T00:00:00.000Z,01120,test house test street cardiff cf5 6rb");
         });
     });
 });

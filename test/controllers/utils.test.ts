@@ -404,7 +404,7 @@ describe("utils.test", () => {
 
     describe("ensure that mapCompanySubtypeCheckboxes assigns checked to the correct checkbox entries", () => {
         it("should return an object with all variables set as checked if all company subtype options are included", () => {
-            const expectedSelection = setUpSelectedCompanySubType();
+            const expectedSelection = setUpSelectedCompanySubtype();
             expectedSelection.communityInterestCompany = "checked";
             expectedSelection.privateFundLimitedPartnership = "checked";
 
@@ -412,25 +412,25 @@ describe("utils.test", () => {
             checkCompanySubtypeSelections(expectedSelection, actualSelection);
         });
         it("should return an object with communityInterestCompany variable set as checked if that is the only company subtype option passed in", () => {
-            const expectedSelection = setUpSelectedCompanySubType();
+            const expectedSelection = setUpSelectedCompanySubtype();
             expectedSelection.communityInterestCompany = "checked";
             const actualSelection = mapCompanySubtypeCheckboxes("community-interest-company");
             checkCompanySubtypeSelections(expectedSelection, actualSelection);
         });
         it("should return an object with privateFundLimitedPartnership variable set as checked if that is the only company subtype option passed in", () => {
-            const expectedSelection = setUpSelectedCompanySubType();
+            const expectedSelection = setUpSelectedCompanySubtype();
             expectedSelection.privateFundLimitedPartnership = "checked";
             const actualSelection = mapCompanySubtypeCheckboxes("private-fund-limited-partnership");
             checkCompanySubtypeSelections(expectedSelection, actualSelection);
         });
         it("should return an object with no variables set as checked if null is provided", () => {
-            const expectedSelection = setUpSelectedCompanyType();
-            const actualSelection = mapCompanyTypeCheckboxes(null);
+            const expectedSelection = setUpSelectedCompanySubtype();
+            const actualSelection = mapCompanySubtypeCheckboxes(null);
             checkCompanySubtypeSelections(expectedSelection, actualSelection);
         });
         it("should return an object with no variables set as checked if undefined is provided", () => {
-            const expectedSelection = setUpSelectedCompanyType();
-            const actualSelection = mapCompanyTypeCheckboxes(undefined);
+            const expectedSelection = setUpSelectedCompanySubtype();
+            const actualSelection = mapCompanySubtypeCheckboxes(undefined);
             checkCompanySubtypeSelections(expectedSelection, actualSelection);
         });
     });
@@ -444,6 +444,7 @@ describe("utils.test", () => {
             chai.expect(mappedCompanies[0].company_number).to.equal("06500000");
             chai.expect(mappedCompanies[0].company_status).to.equal("Active");
             chai.expect(mappedCompanies[0].company_type).to.equal("Private limited company");
+            chai.expect(mappedCompanies[0].company_subtype).to.equal("Community Interest Company (CIC)");
             chai.expect(mappedCompanies[0].dissolution_date).to.deep.equal(new Date(1991, 11, 12));
             chai.expect(mappedCompanies[0].incorporation_date).to.deep.equal(new Date(1980, 13, 8));
             chai.expect(mappedCompanies[0].nature_of_business).to.equal("01120");
@@ -550,6 +551,11 @@ const checkCompanyTypeSelections = (expectedSelection, actualSelection) => {
     chai.expect(expectedSelection.ukEstablishment).to.equal(actualSelection.ukEstablishment);
 };
 
+const checkCompanySubtypeSelections = (expectedSelection, actualSelection) => {
+    chai.expect(expectedSelection.communityInterestCompany).to.equal(actualSelection.communityInterestCompany);
+    chai.expect(expectedSelection.privateFundLimitedPartnership).to.equal(actualSelection.privateFundLimitedPartnership);
+};
+
 const setUpSelectedCompanyType = () => {
     return {
         assuranceCompany: "",
@@ -583,12 +589,7 @@ const setUpSelectedCompanyType = () => {
     };
 };
 
-const checkCompanySubtypeSelections = (expectedSelection, actualSelection) => {
-    chai.expect(expectedSelection.communityInterestCompany).to.equal(actualSelection.communityInterestCompany);
-    chai.expect(expectedSelection.privateFundLimitedPartnership).to.equal(actualSelection.privateFundLimitedPartnership);
-};
-
-const setUpSelectedCompanySubType = () => {
+const setUpSelectedCompanySubtype = () => {
     return {
         communityInterestCompany: "",
         privateFundLimitedPartnership: ""

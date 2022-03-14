@@ -921,7 +921,25 @@ describe("search.controller.test", () => {
                 .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 50)));
 
             const resp = await chai.request(testApp)
-                .get("/advanced-search/get-results?companyNameIncludes=test&companyNameExcludes=one&registeredOfficeAddress=kings+road&incorporationFromDay=13&incorporationFromMonth=4&incorporationFromYear=2011&incorporationToDay=29&incorporationToMonth=05&incorporationToYear=2012&status=active&sicCodes=01120&type=llp&dissolvedFromDay=13&dissolvedFromMonth=4&dissolvedFromYear=2011&dissolvedToDay=29&dissolvedToMonth=05&dissolvedToYear=2012");
+                .get("/advanced-search/get-results?companyNameIncludes=test" +
+                    "&companyNameExcludes=one" +
+                    "&registeredOfficeAddress=kings+road" +
+                    "&incorporationFromDay=13" +
+                    "&incorporationFromMonth=4" +
+                    "&incorporationFromYear=2011" +
+                    "&incorporationToDay=29" +
+                    "&incorporationToMonth=05" +
+                    "&incorporationToYear=2012" +
+                    "&status=active&sicCodes=01120" +
+                    "&type=llp" +
+                    "&subtype=community-interest-company" +
+                    "&subtype=private-fund-limited-partnership" +
+                    "&dissolvedFromDay=13" +
+                    "&dissolvedFromMonth=4" +
+                    "&dissolvedFromYear=2011" +
+                    "&dissolvedToDay=29" +
+                    "&dissolvedToMonth=05" +
+                    "&dissolvedToYear=2012");
 
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain("<input class='hidden govuk-input govuk-!-width-width-full' name='companyNameIncludes' type='text' value='test'");
@@ -936,6 +954,8 @@ describe("search.controller.test", () => {
             chai.expect(resp.text).to.contain("<input class='hidden govuk-checkboxes__input' name='status' type='checkbox' value='active'");
             chai.expect(resp.text).to.contain("<input class='hidden govuk-input govuk-!-width-full' name='sicCodes' type='text' value='01120'");
             chai.expect(resp.text).to.contain("<input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='llp' checked");
+            chai.expect(resp.text).to.contain("<input class='hidden govuk-checkboxes__input' name='subtype' type='checkbox' value='community-interest-company' checked");
+            chai.expect(resp.text).to.contain("<input class='hidden govuk-checkboxes__input' name='subtype' type='checkbox' value='private-fund-limited-partnership' checked");
             chai.expect(resp.text).to.contain("<input class='hidden govuk-input govuk-input--width-10' name='dissolvedFromDay' type='text' value='13'");
             chai.expect(resp.text).to.contain("<input class='hidden govuk-input govuk-input--width-10' name='dissolvedFromMonth' type='text' value='4'");
             chai.expect(resp.text).to.contain("<input class='hidden govuk-input govuk-input--width-10' name='dissolvedFromYear' type='text' value='2011'");

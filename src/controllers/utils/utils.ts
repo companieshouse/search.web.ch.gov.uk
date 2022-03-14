@@ -1,4 +1,9 @@
-import { COMPANY_STATUS_CONSTANT, COMPANY_TYPE_CONSTANT, getCompanyConstant } from "../../config/api.enumerations";
+import {
+    COMPANY_STATUS_CONSTANT,
+    COMPANY_SUBTYPE_CONSTANT,
+    COMPANY_TYPE_CONSTANT,
+    getCompanyConstant
+} from "../../config/api.enumerations";
 import { AdvancedSearchParams } from "model/advanced.search.params";
 import { DissolvedDates, FullDates, FullDissolvedDates, IncorporationDates } from "model/date.params";
 import { Request } from "express";
@@ -427,22 +432,22 @@ export const mapCompanyTypeCheckboxes = (companyType: string | null | undefined)
     return selectedTypeCheckboxes;
 };
 
-export const mapCompanySubtypeCheckboxes = (companySubype: string | null | undefined) => {
-    const selectedSubypeCheckboxes = {
+export const mapCompanySubtypeCheckboxes = (companySubtype: string | null | undefined) => {
+    const selectedSubtypeCheckboxes = {
         communityInterestCompany: "",
         privateFundLimitedPartnership: ""
     };
 
-    if (companySubype === null || companySubype === undefined) {
-        return selectedSubypeCheckboxes;
+    if (companySubtype === null || companySubtype === undefined) {
+        return selectedSubtypeCheckboxes;
     }
 
-    const selectedCompanySubtypeArray : string[] = String(companySubype).split(",");
+    const selectedCompanySubtypeArray : string[] = String(companySubtype).split(",");
 
-    selectedSubypeCheckboxes.communityInterestCompany = (selectedCompanySubtypeArray.includes("community-interest-company")) ? "checked" : "";
-    selectedSubypeCheckboxes.privateFundLimitedPartnership = (selectedCompanySubtypeArray.includes("private-fund-limited-partnership")) ? "checked" : "";
+    selectedSubtypeCheckboxes.communityInterestCompany = (selectedCompanySubtypeArray.includes("community-interest-company")) ? "checked" : "";
+    selectedSubtypeCheckboxes.privateFundLimitedPartnership = (selectedCompanySubtypeArray.includes("private-fund-limited-partnership")) ? "checked" : "";
 
-    return selectedSubypeCheckboxes;
+    return selectedSubtypeCheckboxes;
 };
 
 export const mapCompanyResource = (companyResource) => {
@@ -453,6 +458,7 @@ export const mapCompanyResource = (companyResource) => {
             company_number: item.company_number,
             company_status: getCompanyConstant(COMPANY_STATUS_CONSTANT, item.company_status),
             company_type: getCompanyConstant(COMPANY_TYPE_CONSTANT, item.company_type),
+            company_subtype: getCompanyConstant(COMPANY_SUBTYPE_CONSTANT, item.company_subtype),
             dissolution_date: item.date_of_cessation,
             incorporation_date: item.date_of_creation,
             nature_of_business: sicCodes,
