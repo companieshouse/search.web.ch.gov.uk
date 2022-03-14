@@ -385,7 +385,7 @@ describe("utils.test", () => {
 
     describe("ensure that mapCompanySubtypeCheckboxes assigns checked to the correct checkbox entries", () => {
         it("should return an object with all variables set as checked if all company subtype options are included", () => {
-            const expectedSelection = setUpSelectedCompanySubType();
+            const expectedSelection = setUpSelectedCompanySubtype();
             expectedSelection.communityInterestCompany = "checked";
             expectedSelection.privateFundLimitedPartnership = "checked";
 
@@ -393,25 +393,25 @@ describe("utils.test", () => {
             checkCompanySubtypeSelections(expectedSelection, actualSelection);
         });
         it("should return an object with communityInterestCompany variable set as checked if that is the only company subtype option passed in", () => {
-            const expectedSelection = setUpSelectedCompanySubType();
+            const expectedSelection = setUpSelectedCompanySubtype();
             expectedSelection.communityInterestCompany = "checked";
             const actualSelection = mapCompanySubtypeCheckboxes("community-interest-company");
             checkCompanySubtypeSelections(expectedSelection, actualSelection);
         });
         it("should return an object with privateFundLimitedPartnership variable set as checked if that is the only company subtype option passed in", () => {
-            const expectedSelection = setUpSelectedCompanySubType();
+            const expectedSelection = setUpSelectedCompanySubtype();
             expectedSelection.privateFundLimitedPartnership = "checked";
             const actualSelection = mapCompanySubtypeCheckboxes("private-fund-limited-partnership");
             checkCompanySubtypeSelections(expectedSelection, actualSelection);
         });
         it("should return an object with no variables set as checked if null is provided", () => {
-            const expectedSelection = setUpSelectedCompanyType();
-            const actualSelection = mapCompanyTypeCheckboxes(null);
+            const expectedSelection = setUpSelectedCompanySubtype();
+            const actualSelection = mapCompanySubtypeCheckboxes(null);
             checkCompanySubtypeSelections(expectedSelection, actualSelection);
         });
         it("should return an object with no variables set as checked if undefined is provided", () => {
-            const expectedSelection = setUpSelectedCompanyType();
-            const actualSelection = mapCompanyTypeCheckboxes(undefined);
+            const expectedSelection = setUpSelectedCompanySubtype();
+            const actualSelection = mapCompanySubtypeCheckboxes(undefined);
             checkCompanySubtypeSelections(expectedSelection, actualSelection);
         });
     });
