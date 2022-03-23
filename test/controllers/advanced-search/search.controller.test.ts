@@ -143,8 +143,11 @@ describe("search.controller.test", () => {
         });
 
         it("should show the dissolution date", async () => {
+            const data = Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 1));
+            (await data).items[0].company_status = "dissolved";
+
             getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
-                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 20)));
+                .returns(data);
 
             const resp = await chai.request(testApp)
                 .get("/advanced-search/get-results?companyNameIncludes=test&excludesCompanyName=&dissolvedFromDay=12&dissolvedFromMonth=12&dissolvedFromYear=1991");
@@ -214,8 +217,11 @@ describe("search.controller.test", () => {
         });
 
         it("should display Incorporated on and Dissolved on as company type is not ROE", async () => {
+            const data = Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 1));
+            (await data).items[0].company_status = "dissolved";
+
             getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
-                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 1)));
+                .returns(data);
 
             const resp = await chai.request(testApp)
                 .get("/advanced-search/get-results?companyNameIncludes=test");
@@ -228,6 +234,7 @@ describe("search.controller.test", () => {
         it("should display Registered on and Removed on as company type is ROE", async () => {
             const data = Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 1));
             (await data).items[0].company_type = "registered-overseas-entity";
+            (await data).items[0].company_status = "removed";
 
             getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
                 .returns(data);
