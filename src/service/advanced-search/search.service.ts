@@ -57,8 +57,8 @@ export const getSearchResults = async (advancedSearchParams: AdvancedSearchParam
             const mappedCompanyStatus = buildCompanyStatusHtml(company_status);
             const mappedCompanyType = getCompanyConstant(COMPANY_TYPE_CONSTANT, company_type);
             const mappedCompanySubtype = getCompanyConstant(COMPANY_SUBTYPE_CONSTANT, company_subtype) || "";
-            const formattedIncorporationDate = formatLongDate("- Incorporated on", date_of_creation);
-            const formattedDissolvedDate = checkLineBreakRequired(formatLongDate("Dissolved on", date_of_cessation));
+            const formattedIncorpOrRegDate = company_type !== "registered-overseas-entity" ? formatLongDate("- Incorporated on", date_of_creation) : formatLongDate("- Registered on", date_of_creation);
+            const formattedDissOrRemovedDate = company_type !== "registered-overseas-entity" ? checkLineBreakRequired(formatLongDate("Dissolved on", date_of_cessation)) : checkLineBreakRequired(formatLongDate("Removed on", date_of_cessation));
             const addressString = formatCompactAddress(registered_office_address);
             const sicCodeString = (sic_codes === undefined) ? "" : "SIC codes - " + sic_codes.join(", ");
             return [
@@ -70,8 +70,8 @@ export const getSearchResults = async (advancedSearchParams: AdvancedSearchParam
                             <ul class="govuk-list govuk-!-font-size-16">
                             <li>${mappedCompanyType}</li>
                             <li>${mappedCompanySubtype}</li>
-                            <li>${company_number} ${formattedIncorporationDate}</li>
-                            <li>${formattedDissolvedDate}</li>
+                            <li>${company_number} ${formattedIncorpOrRegDate}</li>
+                            <li>${formattedDissOrRemovedDate}</li>
                             <li>${addressString}</li>
                             <li>${sicCodeString}</li>
                             </ul>`

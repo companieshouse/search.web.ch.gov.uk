@@ -212,6 +212,33 @@ describe("search.controller.test", () => {
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain("SIC codes - 01120");
         });
+
+        it("should display Incorporated on and Dissolved on as company type is not ROE", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 1)));
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?companyNameIncludes=test");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("Incorporated on");
+            chai.expect(resp.text).to.contain("Dissolved on");
+        });
+
+        it("should display Registered on and Removed on as company type is ROE", async () => {
+            const data = Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 1));
+            (await data).items[0].company_type = "registered-overseas-entity";
+
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(data);
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?companyNameIncludes=test");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("Registered on");
+            chai.expect(resp.text).to.contain("Removed on");
+        });
     });
 
     describe("check form values on results page", () => {
