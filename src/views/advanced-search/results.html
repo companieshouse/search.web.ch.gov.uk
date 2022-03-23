@@ -609,6 +609,15 @@
               </label>
             </div>
 
+            {% if ROE_FEATURE_FLAG %}
+            <div class='govuk-checkboxes__item'>
+              <input class='govuk-checkboxes__input' id='registered-overseas-entity' name='type' type='checkbox' value='registered-overseas-entity' {{ selectedTypeCheckboxes.registeredOverseasEntity }}>
+              <label class='govuk-label govuk-checkboxes__label' for='registered-overseas-entity'>
+                Registered overseas entity
+              </label>
+            </div>
+            {% endif %}
+
             <div class='govuk-checkboxes__item'>
               <input class='govuk-checkboxes__input' id='registered-society-non-jurisdictional' name='type' type='checkbox' value='registered-society-non-jurisdictional' {{ selectedTypeCheckboxes.registeredSocietyNonJurisdictional }}>
               <label class='govuk-label govuk-checkboxes__label' for='registered-society-non-jurisdictional'>
