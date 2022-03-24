@@ -1,6 +1,6 @@
 import { CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/advanced-search/types";
 import { getAdvancedCompanies } from "../../client/apiclient";
-import { getCompanyConstant, COMPANY_TYPE_CONSTANT, COMPANY_SUBTYPE_CONSTANT } from "../../config/api.enumerations";
+import { getCompanyConstant, COMPANY_TYPE_CONSTANT, COMPANY_SUBTYPE_CONSTANT, COMPANY_BIRTH_TYPE_CONSTANT, CESSATION_LABEL_CONSTANT } from "../../config/api.enumerations";
 import { API_KEY, APPLICATION_NAME, SEARCH_WEB_COOKIE_NAME } from "../../config/config";
 import { formatLongDate, checkLineBreakRequired, formatCompactAddress, buildCompanyStatusHtml } from "../../controllers/utils/utils";
 import { AdvancedSearchParams } from "../../model/advanced.search.params";
@@ -57,8 +57,10 @@ export const getSearchResults = async (advancedSearchParams: AdvancedSearchParam
             const mappedCompanyStatus = buildCompanyStatusHtml(company_status);
             const mappedCompanyType = getCompanyConstant(COMPANY_TYPE_CONSTANT, company_type);
             const mappedCompanySubtype = getCompanyConstant(COMPANY_SUBTYPE_CONSTANT, company_subtype) || "";
-            const formattedIncorporationDate = formatLongDate("- Incorporated on", date_of_creation);
-            const formattedDissolvedDate = checkLineBreakRequired(formatLongDate("Dissolved on", date_of_cessation));
+            const mappedCompanyBirthType = getCompanyConstant(COMPANY_BIRTH_TYPE_CONSTANT, company_type);
+            const mappedCessationLabel = getCompanyConstant(CESSATION_LABEL_CONSTANT, company_status);
+            const formattedIncorpOrRegDate = formatLongDate(`- ${mappedCompanyBirthType}`, date_of_creation);
+            const formattedDissOrRemovedDate = checkLineBreakRequired(formatLongDate(mappedCessationLabel, date_of_cessation));
             const addressString = formatCompactAddress(registered_office_address);
             const sicCodeString = (sic_codes === undefined) ? "" : "SIC codes - " + sic_codes.join(", ");
             return [
@@ -70,8 +72,8 @@ export const getSearchResults = async (advancedSearchParams: AdvancedSearchParam
                             <ul class="govuk-list govuk-!-font-size-16">
                             <li>${mappedCompanyType}</li>
                             <li>${mappedCompanySubtype}</li>
-                            <li>${company_number} ${formattedIncorporationDate}</li>
-                            <li>${formattedDissolvedDate}</li>
+                            <li>${company_number} ${formattedIncorpOrRegDate}</li>
+                            <li>${formattedDissOrRemovedDate}</li>
                             <li>${addressString}</li>
                             <li>${sicCodeString}</li>
                             </ul>`
