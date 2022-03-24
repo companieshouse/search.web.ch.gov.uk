@@ -28,7 +28,8 @@ import {
     ALPHABETICAL_FEEDBACK_SOURCE,
     DISSOLVED_FEEDBACK_SOURCE,
     ADVANCED_FEEDBACK_SOURCE,
-    PIWIK_ADVANCED_SERVICE_NAME
+    PIWIK_ADVANCED_SERVICE_NAME,
+    ROE_FEATURE_FLAG
 } from "./config/config";
 
 const app = express();
@@ -82,6 +83,7 @@ app.use((req, res, next) => {
         env.addGlobal("FEEDBACK_SOURCE", ADVANCED_FEEDBACK_SOURCE);
         env.addGlobal("PIWIK_SERVICE_NAME", PIWIK_ADVANCED_SERVICE_NAME);
         env.addGlobal("RESPONSIVE_TABLE", "");
+        env.addGlobal("ROE_FEATURE_FLAG", ROE_FEATURE_FLAG);
     } else {
         env.addGlobal("SERVICE_NAME", SERVICE_NAME_GENERIC);
         env.addGlobal("SERVICE_PATH", "");

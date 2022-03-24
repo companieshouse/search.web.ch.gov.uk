@@ -386,6 +386,7 @@ export const mapCompanyTypeCheckboxes = (companyType: string | null | undefined)
         privateUnlimited: "",
         privateUnlimitedNsc: "",
         protectedCellCompany: "",
+        registeredOverseasEntity: "",
         registeredSocietyNonJurisdictional: "",
         royalCharter: "",
         scottishCharitableIncorporatedOrganisation: "",
@@ -422,6 +423,7 @@ export const mapCompanyTypeCheckboxes = (companyType: string | null | undefined)
     selectedTypeCheckboxes.privateUnlimited = (selectedCompanyTypeArray.includes("private-unlimited")) ? "checked" : "";
     selectedTypeCheckboxes.privateUnlimitedNsc = (selectedCompanyTypeArray.includes("private-unlimited-nsc")) ? "checked" : "";
     selectedTypeCheckboxes.protectedCellCompany = (selectedCompanyTypeArray.includes("protected-cell-company")) ? "checked" : "";
+    selectedTypeCheckboxes.registeredOverseasEntity = (selectedCompanyTypeArray.includes("registered-overseas-entity")) ? "checked" : "";
     selectedTypeCheckboxes.registeredSocietyNonJurisdictional = (selectedCompanyTypeArray.includes("registered-society-non-jurisdictional")) ? "checked" : "";
     selectedTypeCheckboxes.royalCharter = (selectedCompanyTypeArray.includes("royal-charter")) ? "checked" : "";
     selectedTypeCheckboxes.scottishCharitableIncorporatedOrganisation = (selectedCompanyTypeArray.includes("scottish-charitable-incorporated-organisation")) ? "checked" : "";
