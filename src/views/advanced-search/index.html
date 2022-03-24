@@ -14,6 +14,223 @@
   }) }}
 {% endblock %}
 
+{% set companyStatusHmtl %}
+  <fieldset class='govuk-fieldset'>
+    <div class='govuk-form-group'>
+      <div class='govuk-form-group' style='overflow: scroll; height: 200px; width: 623px; padding-left: 5px;'>
+        <fieldset class='govuk-fieldset'>
+          <div class='govuk-checkboxes--small'>
+
+            <div class='govuk-checkboxes__item'>
+              <input class='govuk-checkboxes__input' id='assurance-company' name='type' type='checkbox' value='assurance-company'>
+              <label class='govuk-label govuk-checkboxes__label' for='assurance-company'>
+                Assurance company
+              </label>
+            </div>
+
+            <div class='govuk-checkboxes__item'>
+              <input class='govuk-checkboxes__input' id='charitable-incorporated-organisation' name='type' type='checkbox' value='charitable-incorporated-organisation'>
+              <label class='govuk-label govuk-checkboxes__label' for='charitable-incorporated-organisation'>
+                Charitable incorporated organisation
+              </label>
+            </div>
+
+            <div class='govuk-checkboxes__item'>
+              <input class='govuk-checkboxes__input' id='converted-or-closed' name='type' type='checkbox' value='converted-or-closed'>
+              <label class='govuk-label govuk-checkboxes__label' for='converted-or-closed'>
+                Converted or closed
+              </label>
+            </div>
+
+            <div class='govuk-checkboxes__item'>
+              <input class='govuk-checkboxes__input' id='northern-ireland-other' name='type' type='checkbox' value='northern-ireland-other'>
+              <label class='govuk-label govuk-checkboxes__label' for='northern-ireland-other'>
+                Credit union (Northern Ireland)
+              </label>
+            </div>
+
+            <div class='govuk-checkboxes__item'>
+              <input class='govuk-checkboxes__input' id='eeig' name='type' type='checkbox' value='eeig'>
+              <label class='govuk-label govuk-checkboxes__label' for='eeig'>
+                European Economic Interest Grouping (EEIG)
+              </label>
+            </div>
+
+            <div class='govuk-checkboxes__item'>
+              <input class='govuk-checkboxes__input' id='european-public-limited-liability-company-se' name='type' type='checkbox' value='european-public-limited-liability-company-se'>
+              <label class='govuk-label govuk-checkboxes__label' for='european-public-limited-liability-company-se'>
+                European public limited liability company (SE)
+              </label>
+            </div>
+
+            <div class='govuk-checkboxes__item'>
+              <input class='govuk-checkboxes__input' id='further-education-or-sixth-form-college-corporation' name='type' type='checkbox' value='further-education-or-sixth-form-college-corporation'>
+              <label class='govuk-label govuk-checkboxes__label' for='further-education-or-sixth-form-college-corporation'>
+                Further education or sixth form college corporation
+              </label>
+            </div>
+
+            <div class='govuk-checkboxes__item'>
+              <input class='govuk-checkboxes__input' id='industrial-and-provident-society' name='type' type='checkbox' value='industrial-and-provident-society'>
+              <label class='govuk-label govuk-checkboxes__label' for='industrial-and-provident-society'>
+                Industrial and Provident society
+              </label>
+            </div>
+
+            <div class='govuk-checkboxes__item'>
+              <input class='govuk-checkboxes__input' id='icvc' name='type' type='checkbox' value='icvc'>
+              <label class='govuk-label govuk-checkboxes__label' for='icvc'>
+                Investment company with variable capital
+              </label>
+            </div>
+
+            <div class='govuk-checkboxes__item'>
+              <input class='govuk-checkboxes__input' id='llp' name='type' type='checkbox' value='llp'>
+              <label class='govuk-label govuk-checkboxes__label' for='llp'>
+                Limited liability partnership
+              </label>
+            </div>
+
+            <div class='govuk-checkboxes__item'>
+              <input class='govuk-checkboxes__input' id='limited-partnership' name='type' type='checkbox' value='limited-partnership'>
+              <label class='govuk-label govuk-checkboxes__label' for='limited-partnership'>
+                Limited partnership
+              </label>
+            </div>
+
+            <div class='govuk-checkboxes__item'>
+              <input class='govuk-checkboxes__input' id='northern-ireland' name='type' type='checkbox' value='northern-ireland'>
+              <label class='govuk-label govuk-checkboxes__label' for='northern-ireland'>
+                Northern Ireland company
+              </label>
+            </div>
+
+            <div class='govuk-checkboxes__item'>
+              <input class='govuk-checkboxes__input' id='old-public-company' name='type' type='checkbox' value='old-public-company'>
+              <label class='govuk-label govuk-checkboxes__label' for='old-public-company'>
+                Old public company
+              </label>
+            </div>
+
+            <div class='govuk-checkboxes__item'>
+              <input class='govuk-checkboxes__input' id='oversea-company' name='type' type='checkbox' value='oversea-company'>
+              <label class='govuk-label govuk-checkboxes__label' for='oversea-company'>
+                Overseas company
+              </label>
+            </div>
+
+            <div class='govuk-checkboxes__item'>
+              <input class='govuk-checkboxes__input' id='private-limited-guarant-nsc' name='type' type='checkbox' value='private-limited-guarant-nsc'>
+              <label class='govuk-label govuk-checkboxes__label' for='private-limited-guarant-nsc'>
+                Private limited by guarantee without share capital
+              </label>
+            </div>
+
+            <div class='govuk-checkboxes__item'>
+              <input class='govuk-checkboxes__input' id='ltd' name='type' type='checkbox' value='ltd'>
+              <label class='govuk-label govuk-checkboxes__label' for='ltd'>
+                Private limited company
+              </label>
+            </div>
+
+            <div class='govuk-checkboxes__item'>
+              <input class='govuk-checkboxes__input' id='private-limited-guarant-nsc-limited-exemption' name='type' type='checkbox' value='private-limited-guarant-nsc-limited-exemption'>
+              <label class='govuk-label govuk-checkboxes__label' for='private-limited-guarant-nsc-limited-exemption'>
+                Private Limited Company by guarantee without share capital, use of 'Limited' exemption
+              </label>
+            </div>
+
+            <div class='govuk-checkboxes__item'>
+              <input class='govuk-checkboxes__input' id='private-limited-shares-section-30-exemption' name='type' type='checkbox' value='private-limited-shares-section-30-exemption'>
+              <label class='govuk-label govuk-checkboxes__label' for='private-limited-shares-section-30-exemption'>
+                Private Limited Company, use of 'Limited' exemption
+              </label>
+            </div>
+
+            <div class='govuk-checkboxes__item'>
+              <input class='govuk-checkboxes__input' id='private-unlimited' name='type' type='checkbox' value='private-unlimited'>
+              <label class='govuk-label govuk-checkboxes__label' for='private-unlimited'>
+                Private unlimited company
+              </label>
+            </div>
+
+            <div class='govuk-checkboxes__item'>
+              <input class='govuk-checkboxes__input' id='private-unlimited-nsc' name='type' type='checkbox' value='private-unlimited-nsc'>
+              <label class='govuk-label govuk-checkboxes__label' for='private-unlimited-nsc'>
+                Private unlimited company without share capital
+              </label>
+            </div>
+
+            <div class='govuk-checkboxes__item'>
+              <input class='govuk-checkboxes__input' id='protected-cell-company' name='type' type='checkbox' value='protected-cell-company'>
+              <label class='govuk-label govuk-checkboxes__label' for='protected-cell-company'>
+                Protected cell company
+              </label>
+            </div>
+
+            <div class='govuk-checkboxes__item'>
+              <input class='govuk-checkboxes__input' id='plc' name='type' type='checkbox' value='plc'>
+              <label class='govuk-label govuk-checkboxes__label' for='plc'>
+                Public limited company
+              </label>
+            </div>
+
+            {% if ROE_FEATURE_FLAG === "1" %}
+            <div class='govuk-checkboxes__item'>
+              <input class='govuk-checkboxes__input' id='registered-overseas-entity' name='type' type='checkbox' value='registered-overseas-entity'>
+              <label class='govuk-label govuk-checkboxes__label' for='registered-overseas-entity'>
+                Registered overseas entity
+              </label>
+            </div>
+            {% endif %}
+            
+            <div class='govuk-checkboxes__item'>
+              <input class='govuk-checkboxes__input' id='registered-society-non-jurisdictional' name='type' type='checkbox' value='registered-society-non-jurisdictional'>
+              <label class='govuk-label govuk-checkboxes__label' for='registered-society-non-jurisdictional'>
+                Registered society
+              </label>
+            </div>
+
+            <div class='govuk-checkboxes__item'>
+              <input class='govuk-checkboxes__input' id='royal-charter' name='type' type='checkbox' value='royal-charter'>
+              <label class='govuk-label govuk-checkboxes__label' for='royal-charter'>
+                Royal charter company
+              </label>
+            </div>
+
+            <div class='govuk-checkboxes__item'>
+              <input class='govuk-checkboxes__input' id='scottish-charitable-incorporated-organisation' name='type' type='checkbox' value='scottish-charitable-incorporated-organisation'>
+              <label class='govuk-label govuk-checkboxes__label' for='scottish-charitable-incorporated-organisation'>
+                Scottish charitable incorporated organisation
+              </label>
+            </div>
+
+            <div class='govuk-checkboxes__item'>
+              <input class='govuk-checkboxes__input' id='scottish-partnership' name='type' type='checkbox' value='scottish-partnership'>
+              <label class='govuk-label govuk-checkboxes__label' for='scottish-partnership'>
+                Scottish qualifying partnership
+              </label>
+            </div>
+
+            <div class='govuk-checkboxes__item'>
+              <input class='govuk-checkboxes__input' id='uk-establishment' name='type' type='checkbox' value='uk-establishment'>
+              <label class='govuk-label govuk-checkboxes__label' for='uk-establishment'>
+                UK establishment company
+              </label>
+            </div>
+            <div class='govuk-checkboxes__item'>
+              <input class='govuk-checkboxes__input' id='unregistered-company' name='type' type='checkbox' value='unregistered-company'>
+              <label class='govuk-label govuk-checkboxes__label' for='unregistered-company'>
+                Unregistered company
+              </label>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+  </fieldset> 
+{% endset %}
+
 {% block content %}
 
 {# reloads the page if the user uses the navigation buttons in chrome or IE, the search fields will be populated correctly with the queries #}
@@ -268,221 +485,7 @@
                   text: "Company type"
                 },
                 content: {
-                  html: "
-                    <fieldset class='govuk-fieldset'>
-                      <div class='govuk-form-group'>
-                        <div class='govuk-form-group' style='overflow: scroll; height: 200px; width: 623px; padding-left: 5px;'>
-                          <fieldset class='govuk-fieldset'>
-                            <div class='govuk-checkboxes--small'>
-
-                              <div class='govuk-checkboxes__item'>
-                                <input class='govuk-checkboxes__input' id='assurance-company' name='type' type='checkbox' value='assurance-company'>
-                                <label class='govuk-label govuk-checkboxes__label' for='assurance-company'>
-                                  Assurance company
-                                </label>
-                              </div>
-
-                              <div class='govuk-checkboxes__item'>
-                                <input class='govuk-checkboxes__input' id='charitable-incorporated-organisation' name='type' type='checkbox' value='charitable-incorporated-organisation'>
-                                <label class='govuk-label govuk-checkboxes__label' for='charitable-incorporated-organisation'>
-                                  Charitable incorporated organisation
-                                </label>
-                              </div>
-
-                              <div class='govuk-checkboxes__item'>
-                                <input class='govuk-checkboxes__input' id='converted-or-closed' name='type' type='checkbox' value='converted-or-closed'>
-                                <label class='govuk-label govuk-checkboxes__label' for='converted-or-closed'>
-                                  Converted or closed
-                                </label>
-                              </div>
-
-                              <div class='govuk-checkboxes__item'>
-                                <input class='govuk-checkboxes__input' id='northern-ireland-other' name='type' type='checkbox' value='northern-ireland-other'>
-                                <label class='govuk-label govuk-checkboxes__label' for='northern-ireland-other'>
-                                  Credit union (Northern Ireland)
-                                </label>
-                              </div>
-
-                              <div class='govuk-checkboxes__item'>
-                                <input class='govuk-checkboxes__input' id='eeig' name='type' type='checkbox' value='eeig'>
-                                <label class='govuk-label govuk-checkboxes__label' for='eeig'>
-                                  European Economic Interest Grouping (EEIG)
-                                </label>
-                              </div>
-
-                              <div class='govuk-checkboxes__item'>
-                                <input class='govuk-checkboxes__input' id='european-public-limited-liability-company-se' name='type' type='checkbox' value='european-public-limited-liability-company-se'>
-                                <label class='govuk-label govuk-checkboxes__label' for='european-public-limited-liability-company-se'>
-                                  European public limited liability company (SE)
-                                </label>
-                              </div>
-
-                              <div class='govuk-checkboxes__item'>
-                                <input class='govuk-checkboxes__input' id='further-education-or-sixth-form-college-corporation' name='type' type='checkbox' value='further-education-or-sixth-form-college-corporation'>
-                                <label class='govuk-label govuk-checkboxes__label' for='further-education-or-sixth-form-college-corporation'>
-                                  Further education or sixth form college corporation
-                                </label>
-                              </div>
-
-                              <div class='govuk-checkboxes__item'>
-                                <input class='govuk-checkboxes__input' id='industrial-and-provident-society' name='type' type='checkbox' value='industrial-and-provident-society'>
-                                <label class='govuk-label govuk-checkboxes__label' for='industrial-and-provident-society'>
-                                  Industrial and Provident society
-                                </label>
-                              </div>
-
-                              <div class='govuk-checkboxes__item'>
-                                <input class='govuk-checkboxes__input' id='icvc' name='type' type='checkbox' value='icvc'>
-                                <label class='govuk-label govuk-checkboxes__label' for='icvc'>
-                                  Investment company with variable capital
-                                </label>
-                              </div>
-
-                              <div class='govuk-checkboxes__item'>
-                                <input class='govuk-checkboxes__input' id='llp' name='type' type='checkbox' value='llp'>
-                                <label class='govuk-label govuk-checkboxes__label' for='llp'>
-                                  Limited liability partnership
-                                </label>
-                              </div>
-
-                              <div class='govuk-checkboxes__item'>
-                                <input class='govuk-checkboxes__input' id='limited-partnership' name='type' type='checkbox' value='limited-partnership'>
-                                <label class='govuk-label govuk-checkboxes__label' for='limited-partnership'>
-                                  Limited partnership
-                                </label>
-                              </div>
-
-                              <div class='govuk-checkboxes__item'>
-                                <input class='govuk-checkboxes__input' id='northern-ireland' name='type' type='checkbox' value='northern-ireland'>
-                                <label class='govuk-label govuk-checkboxes__label' for='northern-ireland'>
-                                  Northern Ireland company
-                                </label>
-                              </div>
-
-                              <div class='govuk-checkboxes__item'>
-                                <input class='govuk-checkboxes__input' id='old-public-company' name='type' type='checkbox' value='old-public-company'>
-                                <label class='govuk-label govuk-checkboxes__label' for='old-public-company'>
-                                  Old public company
-                                </label>
-                              </div>
-
-                              <div class='govuk-checkboxes__item'>
-                                <input class='govuk-checkboxes__input' id='oversea-company' name='type' type='checkbox' value='oversea-company'>
-                                <label class='govuk-label govuk-checkboxes__label' for='oversea-company'>
-                                  Overseas company
-                                </label>
-                              </div>
-
-                              <div class='govuk-checkboxes__item'>
-                                <input class='govuk-checkboxes__input' id='private-limited-guarant-nsc' name='type' type='checkbox' value='private-limited-guarant-nsc'>
-                                <label class='govuk-label govuk-checkboxes__label' for='private-limited-guarant-nsc'>
-                                  Private limited by guarantee without share capital
-                                </label>
-                              </div>
-
-                              <div class='govuk-checkboxes__item'>
-                                <input class='govuk-checkboxes__input' id='ltd' name='type' type='checkbox' value='ltd'>
-                                <label class='govuk-label govuk-checkboxes__label' for='ltd'>
-                                  Private limited company
-                                </label>
-                              </div>
-
-                              <div class='govuk-checkboxes__item'>
-                                <input class='govuk-checkboxes__input' id='private-limited-guarant-nsc-limited-exemption' name='type' type='checkbox' value='private-limited-guarant-nsc-limited-exemption'>
-                                <label class='govuk-label govuk-checkboxes__label' for='private-limited-guarant-nsc-limited-exemption'>
-                                  Private Limited Company by guarantee without share capital, use of 'Limited' exemption
-                                </label>
-                              </div>
-
-                              <div class='govuk-checkboxes__item'>
-                                <input class='govuk-checkboxes__input' id='private-limited-shares-section-30-exemption' name='type' type='checkbox' value='private-limited-shares-section-30-exemption'>
-                                <label class='govuk-label govuk-checkboxes__label' for='private-limited-shares-section-30-exemption'>
-                                  Private Limited Company, use of 'Limited' exemption
-                                </label>
-                              </div>
-
-                              <div class='govuk-checkboxes__item'>
-                                <input class='govuk-checkboxes__input' id='private-unlimited' name='type' type='checkbox' value='private-unlimited'>
-                                <label class='govuk-label govuk-checkboxes__label' for='private-unlimited'>
-                                  Private unlimited company
-                                </label>
-                              </div>
-
-                              <div class='govuk-checkboxes__item'>
-                                <input class='govuk-checkboxes__input' id='private-unlimited-nsc' name='type' type='checkbox' value='private-unlimited-nsc'>
-                                <label class='govuk-label govuk-checkboxes__label' for='private-unlimited-nsc'>
-                                  Private unlimited company without share capital
-                                </label>
-                              </div>
-
-                              <div class='govuk-checkboxes__item'>
-                                <input class='govuk-checkboxes__input' id='protected-cell-company' name='type' type='checkbox' value='protected-cell-company'>
-                                <label class='govuk-label govuk-checkboxes__label' for='protected-cell-company'>
-                                  Protected cell company
-                                </label>
-                              </div>
-
-                              <div class='govuk-checkboxes__item'>
-                                <input class='govuk-checkboxes__input' id='plc' name='type' type='checkbox' value='plc'>
-                                <label class='govuk-label govuk-checkboxes__label' for='plc'>
-                                  Public limited company
-                                </label>
-                              </div>
-
-                              {% if ROE_FEATURE_FLAG %}
-                              <div class='govuk-checkboxes__item'>
-                                <input class='govuk-checkboxes__input' id='registered-overseas-entity' name='type' type='checkbox' value='registered-overseas-entity'>
-                                <label class='govuk-label govuk-checkboxes__label' for='registered-overseas-entity'>
-                                  Registered overseas entity
-                                </label>
-                              </div>
-                              {% endif %}
-                              
-                              <div class='govuk-checkboxes__item'>
-                                <input class='govuk-checkboxes__input' id='registered-society-non-jurisdictional' name='type' type='checkbox' value='registered-society-non-jurisdictional'>
-                                <label class='govuk-label govuk-checkboxes__label' for='registered-society-non-jurisdictional'>
-                                  Registered society
-                                </label>
-                              </div>
-
-                              <div class='govuk-checkboxes__item'>
-                                <input class='govuk-checkboxes__input' id='royal-charter' name='type' type='checkbox' value='royal-charter'>
-                                <label class='govuk-label govuk-checkboxes__label' for='royal-charter'>
-                                  Royal charter company
-                                </label>
-                              </div>
-
-                              <div class='govuk-checkboxes__item'>
-                                <input class='govuk-checkboxes__input' id='scottish-charitable-incorporated-organisation' name='type' type='checkbox' value='scottish-charitable-incorporated-organisation'>
-                                <label class='govuk-label govuk-checkboxes__label' for='scottish-charitable-incorporated-organisation'>
-                                  Scottish charitable incorporated organisation
-                                </label>
-                              </div>
-
-                              <div class='govuk-checkboxes__item'>
-                                <input class='govuk-checkboxes__input' id='scottish-partnership' name='type' type='checkbox' value='scottish-partnership'>
-                                <label class='govuk-label govuk-checkboxes__label' for='scottish-partnership'>
-                                  Scottish qualifying partnership
-                                </label>
-                              </div>
-
-                              <div class='govuk-checkboxes__item'>
-                                <input class='govuk-checkboxes__input' id='uk-establishment' name='type' type='checkbox' value='uk-establishment'>
-                                <label class='govuk-label govuk-checkboxes__label' for='uk-establishment'>
-                                  UK establishment company
-                                </label>
-                              </div>
-                              <div class='govuk-checkboxes__item'>
-                                <input class='govuk-checkboxes__input' id='unregistered-company' name='type' type='checkbox' value='unregistered-company'>
-                                <label class='govuk-label govuk-checkboxes__label' for='unregistered-company'>
-                                  Unregistered company
-                                </label>
-                              </div>
-                            </div>
-                          </fieldset>
-                        </div>
-                      </div>
-                    </fieldset> "
+                  html: companyStatusHmtl
                 }
               },
               {
