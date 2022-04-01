@@ -453,10 +453,11 @@ export const mapCompanySubtypeCheckboxes = (companySubtype: string | null | unde
 };
 
 export const mapCompanyResource = (companyResource) => {
+    const excludedCompanyTypeIncorpDates = ["registered-overseas-entity", "protected-cell-company"];
     const listOfCompanies = companyResource.items.map(item => {
         const sicCodes = item.sic_codes !== undefined ? item.sic_codes.toString().replace(/,/g, " ") : " ";
         const dissolutionDate = item.company_type !== "registered-overseas-entity" ? item.date_of_cessation : "";
-        const incorporationDate = item.company_type !== "registered-overseas-entity" ? item.date_of_creation : "";
+        const incorporationDate = excludedCompanyTypeIncorpDates.includes(item.company_type) === false ? item.date_of_creation : "";
         const removedOnDate = item.company_type === "registered-overseas-entity" ? item.date_of_cessation : "";
         const registeredOnDate = item.company_type === "registered-overseas-entity" ? item.date_of_creation : "";
         const companyData = {
