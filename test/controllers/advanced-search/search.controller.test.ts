@@ -247,7 +247,7 @@ describe("search.controller.test", () => {
             chai.expect(resp.text).to.contain("Removed on");
         });
 
-        it("should not display Incorporation date  as company type is protected cell company", async () => {
+        it("should not display Incorporation date as company type is protected cell company", async () => {
             const data = Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 1));
             (await data).items[0].company_type = "protected-cell-company";
 
