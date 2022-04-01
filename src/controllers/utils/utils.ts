@@ -364,7 +364,6 @@ const urlAppender = (urlBuilder: URLSearchParams, field: string | null, urlParam
 
 export const mapCompanyTypeCheckboxes = (companyType: string | null | undefined) => {
     const selectedTypeCheckboxes = {
-        roe: "",
         assuranceCompany: "",
         charitableIncorporatedOrganisation: "",
         convertedOrClosed: "",
@@ -402,7 +401,6 @@ export const mapCompanyTypeCheckboxes = (companyType: string | null | undefined)
 
     const selectedCompanyTypeArray : string[] = String(companyType).split(",");
 
-    selectedTypeCheckboxes.roe = (selectedCompanyTypeArray.includes("registered-overseas-entity")) ? "checked" : "";
     selectedTypeCheckboxes.assuranceCompany = (selectedCompanyTypeArray.includes("assurance-company")) ? "checked" : "";
     selectedTypeCheckboxes.charitableIncorporatedOrganisation = (selectedCompanyTypeArray.includes("charitable-incorporated-organisation")) ? "checked" : "";
     selectedTypeCheckboxes.convertedOrClosed = (selectedCompanyTypeArray.includes("converted-or-closed")) ? "checked" : "";
