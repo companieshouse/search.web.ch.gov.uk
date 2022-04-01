@@ -59,7 +59,7 @@ export const getSearchResults = async (advancedSearchParams: AdvancedSearchParam
             const mappedCompanySubtype = getCompanyConstant(COMPANY_SUBTYPE_CONSTANT, company_subtype) || "";
             const mappedCompanyBirthType = getCompanyConstant(COMPANY_BIRTH_TYPE_CONSTANT, company_type);
             const mappedCessationLabel = getCompanyConstant(CESSATION_LABEL_CONSTANT, company_status);
-            const formattedIncorpOrRegDate = formatLongDate(`- ${mappedCompanyBirthType}`, date_of_creation);
+            const formattedIncorpOrRegDate = company_type !== "protected-cell-company" ? formatLongDate(`- ${mappedCompanyBirthType}`, date_of_creation) : "";
             const formattedDissOrRemovedDate = checkLineBreakRequired(formatLongDate(mappedCessationLabel, date_of_cessation));
             const addressString = formatCompactAddress(registered_office_address);
             const sicCodeString = (sic_codes === undefined) ? "" : "SIC codes - " + sic_codes.join(", ");

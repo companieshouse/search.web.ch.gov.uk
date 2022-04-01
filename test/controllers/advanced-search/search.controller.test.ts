@@ -246,6 +246,20 @@ describe("search.controller.test", () => {
             chai.expect(resp.text).to.contain("Registered on");
             chai.expect(resp.text).to.contain("Removed on");
         });
+
+        it("should not display Incorporation date as company type is protected cell company", async () => {
+            const data = Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 1));
+            (await data).items[0].company_type = "protected-cell-company";
+
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(data);
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?companyNameIncludes=test");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.not.contain("13 August 1980");
+        });
     });
 
     describe("check form values on results page", () => {
