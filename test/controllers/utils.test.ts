@@ -438,6 +438,8 @@ describe("utils.test", () => {
     describe("check that the mapCompanyResource maps the company resource correctly ready for csv download", () => {
         it("should map the input company resource correctly", () => {
             const listOfCompanies = getDummyAdvancedCompanyResource("test", 10);
+            listOfCompanies.items[1].company_type = "registered-overseas-entity";
+            listOfCompanies.items[1].company_status = "removed";
             const mappedCompanies = mapCompanyResource(listOfCompanies);
 
             chai.expect(mappedCompanies[0].company_name).to.equal("test0");
@@ -447,8 +449,16 @@ describe("utils.test", () => {
             chai.expect(mappedCompanies[0].company_subtype).to.equal("Community Interest Company (CIC)");
             chai.expect(mappedCompanies[0].dissolution_date).to.deep.equal(new Date(1991, 11, 12));
             chai.expect(mappedCompanies[0].incorporation_date).to.deep.equal(new Date(1980, 13, 8));
-            chai.expect(mappedCompanies[0].nature_of_business).to.equal("01120");
+            chai.expect(mappedCompanies[0].removed_date).to.deep.equal("");
+            chai.expect(mappedCompanies[0].registered_date).to.deep.equal("");
             chai.expect(mappedCompanies[0].registered_office_address).to.equal("test house test street cardiff cf5 6rb");
+            chai.expect(mappedCompanies[1].company_name).to.equal("test1");
+            chai.expect(mappedCompanies[1].company_status).to.equal("Removed");
+            chai.expect(mappedCompanies[1].company_type).to.equal("Registered overseas entity");
+            chai.expect(mappedCompanies[1].removed_date).to.deep.equal(new Date(1991, 11, 12));
+            chai.expect(mappedCompanies[1].registered_date).to.deep.equal(new Date(1980, 13, 8));
+            chai.expect(mappedCompanies[1].dissolution_date).to.deep.equal("");
+            chai.expect(mappedCompanies[1].incorporation_date).to.deep.equal("");
         });
     });
 

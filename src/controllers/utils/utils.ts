@@ -455,14 +455,20 @@ export const mapCompanySubtypeCheckboxes = (companySubtype: string | null | unde
 export const mapCompanyResource = (companyResource) => {
     const listOfCompanies = companyResource.items.map(item => {
         const sicCodes = item.sic_codes !== undefined ? item.sic_codes.toString().replace(/,/g, " ") : " ";
+        const dissolutionDate = item.company_type !== "registered-overseas-entity" ? item.date_of_cessation : "";
+        const incorporationDate = item.company_type !== "registered-overseas-entity" ? item.date_of_creation : "";
+        const removedOnDate = item.company_type === "registered-overseas-entity" ? item.date_of_cessation : "";
+        const registeredOnDate = item.company_type === "registered-overseas-entity" ? item.date_of_creation : "";
         const companyData = {
             company_name: item.company_name,
             company_number: item.company_number,
             company_status: getCompanyConstant(COMPANY_STATUS_CONSTANT, item.company_status),
             company_type: getCompanyConstant(COMPANY_TYPE_CONSTANT, item.company_type),
             company_subtype: getCompanyConstant(COMPANY_SUBTYPE_CONSTANT, item.company_subtype),
-            dissolution_date: item.date_of_cessation,
-            incorporation_date: item.date_of_creation,
+            dissolution_date: dissolutionDate,
+            incorporation_date: incorporationDate,
+            removed_date: removedOnDate,
+            registered_date: registeredOnDate,
             nature_of_business: sicCodes,
             registered_office_address: generateROAddress(item.registered_office_address)
         };
