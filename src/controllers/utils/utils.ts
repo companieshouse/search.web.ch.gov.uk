@@ -5,7 +5,7 @@ import {
     getCompanyConstant
 } from "../../config/api.enumerations";
 import { AdvancedSearchParams } from "model/advanced.search.params";
-import { DissolvedDates, FullDates, FullDissolvedDates, IncorporationDates } from "model/date.params";
+import { DissolvedDates, FullDates, IncorporationDates } from "model/date.params";
 import { Request } from "express";
 import moment from "moment";
 import escape from "escape-html";
