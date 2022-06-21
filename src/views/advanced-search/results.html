@@ -553,6 +553,15 @@
               </label>
             </div>
 
+            {% if ROE_FEATURE_FLAG === "1" %}
+              <div class='govuk-checkboxes__item'>
+                <input class='govuk-checkboxes__input' id='registered-overseas-entity' name='type' type='checkbox' value='registered-overseas-entity' {{ selectedTypeCheckboxes.registeredOverseasEntity }}>
+                <label class='govuk-label govuk-checkboxes__label' for='registered-overseas-entity'>
+                  Overseas entity
+                </label>
+              </div>
+            {% endif %}
+
             <div class='govuk-checkboxes__item'>
               <input class='govuk-checkboxes__input' id='private-limited-guarant-nsc' name='type' type='checkbox' value='private-limited-guarant-nsc' {{ selectedTypeCheckboxes.privateLimitedGuarantNsc }}>
               <label class='govuk-label govuk-checkboxes__label' for='private-limited-guarant-nsc'>
@@ -608,15 +617,6 @@
                 Public limited company
               </label>
             </div>
-
-            {% if ROE_FEATURE_FLAG === "1" %}
-            <div class='govuk-checkboxes__item'>
-              <input class='govuk-checkboxes__input' id='registered-overseas-entity' name='type' type='checkbox' value='registered-overseas-entity' {{ selectedTypeCheckboxes.registeredOverseasEntity }}>
-              <label class='govuk-label govuk-checkboxes__label' for='registered-overseas-entity'>
-                Overseas entity
-              </label>
-            </div>
-            {% endif %}
 
             <div class='govuk-checkboxes__item'>
               <input class='govuk-checkboxes__input' id='registered-society-non-jurisdictional' name='type' type='checkbox' value='registered-society-non-jurisdictional' {{ selectedTypeCheckboxes.registeredSocietyNonJurisdictional }}>
