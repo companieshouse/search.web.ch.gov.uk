@@ -454,7 +454,7 @@ describe("utils.test", () => {
             chai.expect(mappedCompanies[0].registered_office_address).to.equal("test house test street cardiff cf5 6rb");
             chai.expect(mappedCompanies[1].company_name).to.equal("test1");
             chai.expect(mappedCompanies[1].company_status).to.equal("Removed");
-            chai.expect(mappedCompanies[1].company_type).to.equal("Registered overseas entity");
+            chai.expect(mappedCompanies[1].company_type).to.equal("Overseas entity");
             chai.expect(mappedCompanies[1].removed_date).to.deep.equal(new Date(1991, 11, 12));
             chai.expect(mappedCompanies[1].registered_date).to.deep.equal(new Date(1980, 13, 8));
             chai.expect(mappedCompanies[1].dissolution_date).to.deep.equal("");
