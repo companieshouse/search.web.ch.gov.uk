@@ -555,7 +555,7 @@
 
             {% if ROE_FEATURE_FLAG === "1" %}
               <div class='govuk-checkboxes__item'>
-                <input class='govuk-checkboxes__input' id='registered-overseas-entity' name='type' type='checkbox' value='registered-overseas-entity' {{ selectedTypeCheckboxes.registeredOverseasEntity }}>
+                <input class='govuk-checkboxes__input' id='registered-overseas-entity' name='type' type='checkbox' value='registered-overseas-entity' {{ selectedTypeCheckboxes.registeredOverseasEntity }} data-event-id='advanced-search-overseas-entity-selected-results-page'>
                 <label class='govuk-label govuk-checkboxes__label' for='registered-overseas-entity'>
                   Overseas entity
                 </label>
