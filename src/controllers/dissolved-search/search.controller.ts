@@ -8,7 +8,7 @@ import { Session } from "@companieshouse/node-session-handler";
 import { SessionKey } from "@companieshouse/node-session-handler/lib/session/keys/SessionKey";
 import { SignInInfoKeys } from "@companieshouse/node-session-handler/lib/session/keys/SignInInfoKeys";
 
-import { SEARCH_WEB_COOKIE_NAME, API_KEY, APPLICATION_NAME, LAST_UPDATED_MESSAGE, DISSOLVED_SEARCH_NUMBER_OF_RESULTS } from "../../config/config";
+import { SEARCH_WEB_COOKIE_NAME, API_KEY, APPLICATION_NAME, LAST_UPDATED_MESSAGE, DISSOLVED_SEARCH_NUMBER_OF_RESULTS, ACCOUNT_URL, CHS_MONITOR_GUI_URL } from "../../config/config";
 import { detectNearestMatch, formatDate, sanitiseCompanyName, generateROAddress, determineReturnToUrl, getDownloadReportText, determineReportAvailableBool, mapResponsiveHeaders, getPagingRange } from "../utils/utils";
 import * as templatePaths from "../../model/template.paths";
 import * as errorMessages from "../../model/error.messages";
@@ -26,6 +26,8 @@ const DISSOLVED_ON_TABLE_HEADING: string = "Dissolved on";
 const ROA_TABLE_HEADING: string = "Registered office address at dissolution";
 const DOWNLOAD_REPORT_TABLE_HEADING: string = "Download Report";
 const PREVIOUS_COMPANY_NAME_TABLE_HEADING: string = "Previous company name";
+const accountUrl = ACCOUNT_URL;
+const followUrl = CHS_MONITOR_GUI_URL;
 
 const validators = [
     query("alphabetical").custom((value, { req }) => {
@@ -39,6 +41,8 @@ const validators = [
 const route = async (req: Request, res: Response) => {
     const cookies = new Cookies(req, res);
     const errors = validationResult(req);
+    const signedIn = req.session?.data?.[SessionKey.SignInInfo]?.[SignInInfoKeys.SignedIn] === 1;
+    const userEmail = req.session?.data?.signin_info?.user_profile?.email;
 
     if (errors.isEmpty()) {
         const companyNameRequestParam: string = req.query.companyName as string;
@@ -53,7 +57,6 @@ const route = async (req: Request, res: Response) => {
         const encodedCompanyName: string = encodeURIComponent(companyName);
         const lastUpdatedMessage: string = LAST_UPDATED_MESSAGE;
         const page = searchTypeRequestParam === ALPHABETICAL_SEARCH_TYPE ? 0 : req.query.page ? Number(req.query.page) : 1;
-        const signedIn = req.session?.data?.[SessionKey.SignInInfo]?.[SignInInfoKeys.SignedIn] === 1;
         const returnToUrl = determineReturnToUrl(req);
 
         let prevLink = "";
@@ -90,7 +93,7 @@ const route = async (req: Request, res: Response) => {
 
         if (changeNameTypeParam === PREVIOUS_NAME_SEARCH_TYPE) {
             return res.render(templatePaths.DISSOLVED_SEARCH_RESULTS_PREVIOUS_NAME, {
-                searchResults, searchedName: companyName, templateName: templatePaths.DISSOLVED_SEARCH_RESULTS_PREVIOUS_NAME, lastUpdatedMessage, partialHref, numberOfPages, page, pagingRange
+                signedIn, searchResults, accountUrl, followUrl, searchedName: companyName, templateName: templatePaths.DISSOLVED_SEARCH_RESULTS_PREVIOUS_NAME, lastUpdatedMessage, partialHref, numberOfPages, page, pagingRange
             });
         }
 
@@ -105,14 +108,18 @@ const route = async (req: Request, res: Response) => {
         }
 
         return res.render(templatePaths.DISSOLVED_SEARCH_RESULTS, {
-            searchResults, searchedName: companyName, templateName: templatePaths.DISSOLVED_SEARCH_RESULTS, lastUpdatedMessage, partialHref, numberOfPages, page, previousUrl, nextUrl, prevLink, nextLink, searchTypeFlag, pagingRange
+            signedIn, userEmail ,searchResults, searchedName: companyName, templateName: templatePaths.DISSOLVED_SEARCH_RESULTS, lastUpdatedMessage, partialHref, numberOfPages, page, previousUrl, nextUrl, prevLink, nextLink, searchTypeFlag, pagingRange
         });
     } else {
         const errorText = errors.array().map((err) => err.msg).pop() as string;
         const dissolvedSearchOptionsErrorData: GovUkErrorData = createGovUkErrorData(errorText, "#changed-name", true, "");
         return res.render(templatePaths.DISSOLVED_INDEX, {
             dissolvedSearchOptionsErrorData,
-            errorList: [dissolvedSearchOptionsErrorData]
+            errorList: [dissolvedSearchOptionsErrorData],
+            signedIn,
+            userEmail,
+            accountUrl, 
+            followUrl
         });
     }
 };

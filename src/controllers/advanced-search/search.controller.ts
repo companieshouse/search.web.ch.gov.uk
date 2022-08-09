@@ -67,7 +67,6 @@ const route = async (req: Request, res: Response) => {
     const numberOfPages: number = Math.ceil(maximumDisplayableResults / 20);
     const pagingRange = getPagingRange(page, numberOfPages);
     const partialHref: string = buildPagingUrl(advancedSearchParams, incorporationDates, dissolvedDates);
-    console.log(advancedSearchParams.companyType)
     const downloadResultsMatomoEventId: string = advancedSearchParams.companyType === "registered-overseas-entity" ? 
         "advanced-search-results-page-roe-download-results" : "advanced-search-results-page-download-results";
 
