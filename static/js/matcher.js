@@ -47,22 +47,3 @@ function reloadPage() {
       });
     };
 };
-
-define(["jquery"], function( $ ) {
-	$(document).ready(function() {
-	    $( "ul#navigation" ).addClass('mobile-hidden');
-	    $( ".js-toggle-nav .js-header-toggle" ).click(function() {
-	        // event? === arguments[0]? ie 'e'?
-	        event.preventDefault();
-	        $( "ul#navigation" ).toggleClass('mobile-hidden');
-	        $( "#global-nav" ).toggleClass('open');
-	    });
-
-	    $( ".search-toggle" ).click(function() {
-	        // event? === arguments[0]? ie 'e'?
-	        event.preventDefault();
-	        $( "form#search" ).show();
-	        $( ".search-toggle" ).toggleClass('visuallyhidden');
-	    });
-	});
-});

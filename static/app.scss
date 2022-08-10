@@ -318,3 +318,10 @@ padding: 12px 20px;
 padding-left: 16px;
 border-left: 4px solid #1d70b8;
 }
+
+@media (max-width: 640px) {
+    /* line 270, ../../../app/assets/stylesheets/ch_helpers/elements.scss */
+    .mobile-hidden {
+      display: none;
+    }
+  }

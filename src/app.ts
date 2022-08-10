@@ -112,6 +112,7 @@ if (process.env.NODE_ENV !== "production") {
     env.addGlobal("NUMBERED_PAGING", "/search-assets/static/numbered_paging.css");
     env.addGlobal("MATCHER", "/search-assets/static/js/matcher.js");
     env.addGlobal("ALL", "/search-assets/static/js/all.js");
+    env.addGlobal("MOBILE_MENU", "/search-assets/static/js/MobileMenu.js");
 } else {
     app.use("/search-assets/static", express.static("static"));
     env.addGlobal("CSS_URL", "/search-assets/static/app.css");
@@ -119,6 +120,7 @@ if (process.env.NODE_ENV !== "production") {
     env.addGlobal("NUMBERED_PAGING", "/search-assets/static/numbered_paging.css");
     env.addGlobal("MATCHER", "/search-assets/static/js/matcher.js");
     env.addGlobal("ALL", "/search-assets/static/js/all.js");
+    env.addGlobal("MOBILE_MENU", "/search-assets/static/js/mobile-menu.js");
 }
 // apply our default router to /
 app.use("/", alphabeticalRouter);
