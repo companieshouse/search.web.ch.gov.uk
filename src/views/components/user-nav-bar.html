@@ -1,0 +1,29 @@
+<div class="js-toggle-nav" id="global-nav">
+<div id="user_bar">
+    <nav role="navigation" class="content">
+    <ul id="navigation">
+        {% if signedIn %}
+        <li id="signed-in-user" class="user">
+            {{ userEmail }}
+        </li>
+        <li>
+            <a id="user-account" href="{{ ACCOUNT_URL }}">Your details</a>
+        </li>
+        <li>
+            <a id="user-transactions" href="/user/transactions">Your filings</a>
+        </li>
+        <li>
+            <a id="user-follow" href="{{ CHS_MONITOR_GUI_URL }}">Companies you follow</a>
+        </li>
+        <li>
+            <a id="user-signout" href="/signout">Sign out</a>
+        </li>
+        {% else  %}
+        <li>
+            <a id="user-signout" href="/signin">Sign in / Register</a>
+        </li>
+        {% endif %}
+    </ul>
+    </nav>
+</div>
+</div>

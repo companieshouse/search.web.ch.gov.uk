@@ -26,8 +26,7 @@ const DISSOLVED_ON_TABLE_HEADING: string = "Dissolved on";
 const ROA_TABLE_HEADING: string = "Registered office address at dissolution";
 const DOWNLOAD_REPORT_TABLE_HEADING: string = "Download Report";
 const PREVIOUS_COMPANY_NAME_TABLE_HEADING: string = "Previous company name";
-const accountUrl = ACCOUNT_URL;
-const followUrl = CHS_MONITOR_GUI_URL;
+
 
 const validators = [
     query("alphabetical").custom((value, { req }) => {
@@ -41,8 +40,6 @@ const validators = [
 const route = async (req: Request, res: Response) => {
     const cookies = new Cookies(req, res);
     const errors = validationResult(req);
-    const signedIn = req.session?.data?.[SessionKey.SignInInfo]?.[SignInInfoKeys.SignedIn] === 1;
-    const userEmail = req.session?.data?.signin_info?.user_profile?.email;
 
     if (errors.isEmpty()) {
         const companyNameRequestParam: string = req.query.companyName as string;
@@ -50,6 +47,7 @@ const route = async (req: Request, res: Response) => {
         const changeNameTypeParam: string = req.query.changedName as string;
         const searchBefore = req.query.searchBefore as string || null;
         const searchAfter = req.query.searchAfter as string || null;
+        const signedIn = req.session?.data?.[SessionKey.SignInInfo]?.[SignInInfoKeys.SignedIn] === 1;
         // Currently not allowing users to specify a size parameter, will leave this here for possible future implementation
         // const size = generateSize(req.query.size as string || null, searchBefore, searchAfter);
         const size = null;
@@ -93,7 +91,7 @@ const route = async (req: Request, res: Response) => {
 
         if (changeNameTypeParam === PREVIOUS_NAME_SEARCH_TYPE) {
             return res.render(templatePaths.DISSOLVED_SEARCH_RESULTS_PREVIOUS_NAME, {
-                signedIn, searchResults, accountUrl, followUrl, searchedName: companyName, templateName: templatePaths.DISSOLVED_SEARCH_RESULTS_PREVIOUS_NAME, lastUpdatedMessage, partialHref, numberOfPages, page, pagingRange
+               searchResults, searchedName: companyName, templateName: templatePaths.DISSOLVED_SEARCH_RESULTS_PREVIOUS_NAME, lastUpdatedMessage, partialHref, numberOfPages, page, pagingRange
             });
         }
 
@@ -108,18 +106,14 @@ const route = async (req: Request, res: Response) => {
         }
 
         return res.render(templatePaths.DISSOLVED_SEARCH_RESULTS, {
-            signedIn, userEmail ,searchResults, searchedName: companyName, templateName: templatePaths.DISSOLVED_SEARCH_RESULTS, lastUpdatedMessage, partialHref, numberOfPages, page, previousUrl, nextUrl, prevLink, nextLink, searchTypeFlag, pagingRange
+            searchResults, searchedName: companyName, templateName: templatePaths.DISSOLVED_SEARCH_RESULTS, lastUpdatedMessage, partialHref, numberOfPages, page, previousUrl, nextUrl, prevLink, nextLink, searchTypeFlag, pagingRange
         });
     } else {
         const errorText = errors.array().map((err) => err.msg).pop() as string;
         const dissolvedSearchOptionsErrorData: GovUkErrorData = createGovUkErrorData(errorText, "#changed-name", true, "");
         return res.render(templatePaths.DISSOLVED_INDEX, {
             dissolvedSearchOptionsErrorData,
-            errorList: [dissolvedSearchOptionsErrorData],
-            signedIn,
-            userEmail,
-            accountUrl, 
-            followUrl
+            errorList: [dissolvedSearchOptionsErrorData]
         });
     }
 };
