@@ -9,7 +9,7 @@ import dissolvedRouter from "./routes/dissolved-search/routes";
 import advancedRouter from "./routes/advanced-search/routes";
 import { ERROR_SUMMARY_TITLE } from "./model/error.messages";
 import errorHandlers from "./controllers/error.controller";
-import { ALPHABETICAL_ROOT, DISSOLVED_ROOT } from "./model/page.urls";
+import { ADVANCED_ROOT, ALPHABETICAL_ROOT, DISSOLVED_ROOT } from "./model/page.urls";
 import { CookieConfig } from "@companieshouse/node-session-handler/lib/config/CookieConfig";
 import { SessionMiddleware, SessionStore } from "@companieshouse/node-session-handler";
 import {
@@ -56,6 +56,8 @@ const cookieConfig: CookieConfig = { cookieName: "__SID", cookieSecret: COOKIE_S
 const sessionStore = new SessionStore(new Redis(`redis://${CACHE_SERVER}`));
 
 app.use(DISSOLVED_ROOT, SessionMiddleware(cookieConfig, sessionStore));
+app.use(ADVANCED_ROOT, SessionMiddleware(cookieConfig, sessionStore));
+app.use(ALPHABETICAL_ROOT, SessionMiddleware(cookieConfig, sessionStore));
 
 app.set("views", viewPath);
 app.set("view engine", "html");
