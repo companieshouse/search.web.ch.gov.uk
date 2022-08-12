@@ -8,7 +8,7 @@ import { Session } from "@companieshouse/node-session-handler";
 import { SessionKey } from "@companieshouse/node-session-handler/lib/session/keys/SessionKey";
 import { SignInInfoKeys } from "@companieshouse/node-session-handler/lib/session/keys/SignInInfoKeys";
 
-import { SEARCH_WEB_COOKIE_NAME, API_KEY, APPLICATION_NAME, LAST_UPDATED_MESSAGE, DISSOLVED_SEARCH_NUMBER_OF_RESULTS } from "../../config/config";
+import { SEARCH_WEB_COOKIE_NAME, API_KEY, APPLICATION_NAME, LAST_UPDATED_MESSAGE, DISSOLVED_SEARCH_NUMBER_OF_RESULTS, ACCOUNT_URL, CHS_MONITOR_GUI_URL } from "../../config/config";
 import { detectNearestMatch, formatDate, sanitiseCompanyName, generateROAddress, determineReturnToUrl, getDownloadReportText, determineReportAvailableBool, mapResponsiveHeaders, getPagingRange } from "../utils/utils";
 import * as templatePaths from "../../model/template.paths";
 import * as errorMessages from "../../model/error.messages";
@@ -26,6 +26,7 @@ const DISSOLVED_ON_TABLE_HEADING: string = "Dissolved on";
 const ROA_TABLE_HEADING: string = "Registered office address at dissolution";
 const DOWNLOAD_REPORT_TABLE_HEADING: string = "Download Report";
 const PREVIOUS_COMPANY_NAME_TABLE_HEADING: string = "Previous company name";
+
 
 const validators = [
     query("alphabetical").custom((value, { req }) => {
@@ -46,6 +47,7 @@ const route = async (req: Request, res: Response) => {
         const changeNameTypeParam: string = req.query.changedName as string;
         const searchBefore = req.query.searchBefore as string || null;
         const searchAfter = req.query.searchAfter as string || null;
+        const signedIn = req.session?.data?.[SessionKey.SignInInfo]?.[SignInInfoKeys.SignedIn] === 1;
         // Currently not allowing users to specify a size parameter, will leave this here for possible future implementation
         // const size = generateSize(req.query.size as string || null, searchBefore, searchAfter);
         const size = null;
@@ -53,7 +55,6 @@ const route = async (req: Request, res: Response) => {
         const encodedCompanyName: string = encodeURIComponent(companyName);
         const lastUpdatedMessage: string = LAST_UPDATED_MESSAGE;
         const page = searchTypeRequestParam === ALPHABETICAL_SEARCH_TYPE ? 0 : req.query.page ? Number(req.query.page) : 1;
-        const signedIn = req.session?.data?.[SessionKey.SignInInfo]?.[SignInInfoKeys.SignedIn] === 1;
         const returnToUrl = determineReturnToUrl(req);
 
         let prevLink = "";
@@ -90,7 +91,7 @@ const route = async (req: Request, res: Response) => {
 
         if (changeNameTypeParam === PREVIOUS_NAME_SEARCH_TYPE) {
             return res.render(templatePaths.DISSOLVED_SEARCH_RESULTS_PREVIOUS_NAME, {
-                searchResults, searchedName: companyName, templateName: templatePaths.DISSOLVED_SEARCH_RESULTS_PREVIOUS_NAME, lastUpdatedMessage, partialHref, numberOfPages, page, pagingRange
+               searchResults, searchedName: companyName, templateName: templatePaths.DISSOLVED_SEARCH_RESULTS_PREVIOUS_NAME, lastUpdatedMessage, partialHref, numberOfPages, page, pagingRange
             });
         }
 

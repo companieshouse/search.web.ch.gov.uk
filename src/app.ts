@@ -9,7 +9,7 @@ import dissolvedRouter from "./routes/dissolved-search/routes";
 import advancedRouter from "./routes/advanced-search/routes";
 import { ERROR_SUMMARY_TITLE } from "./model/error.messages";
 import errorHandlers from "./controllers/error.controller";
-import { ALPHABETICAL_ROOT, DISSOLVED_ROOT } from "./model/page.urls";
+import { ADVANCED_ROOT, ALPHABETICAL_ROOT, DISSOLVED_ROOT } from "./model/page.urls";
 import { CookieConfig } from "@companieshouse/node-session-handler/lib/config/CookieConfig";
 import { SessionMiddleware, SessionStore } from "@companieshouse/node-session-handler";
 import {
@@ -31,6 +31,8 @@ import {
     PIWIK_ADVANCED_SERVICE_NAME,
     ROE_FEATURE_FLAG
 } from "./config/config";
+import { SessionKey } from "@companieshouse/node-session-handler/lib/session/keys/SessionKey";
+import { SignInInfoKeys } from "@companieshouse/node-session-handler/lib/session/keys/SignInInfoKeys";
 
 const app = express();
 
@@ -54,6 +56,8 @@ const cookieConfig: CookieConfig = { cookieName: "__SID", cookieSecret: COOKIE_S
 const sessionStore = new SessionStore(new Redis(`redis://${CACHE_SERVER}`));
 
 app.use(DISSOLVED_ROOT, SessionMiddleware(cookieConfig, sessionStore));
+app.use(ADVANCED_ROOT, SessionMiddleware(cookieConfig, sessionStore));
+app.use(ALPHABETICAL_ROOT, SessionMiddleware(cookieConfig, sessionStore));
 
 app.set("views", viewPath);
 app.set("view engine", "html");
@@ -64,6 +68,14 @@ env.addGlobal("ERROR_SUMMARY_TITLE", ERROR_SUMMARY_TITLE);
 env.addGlobal("PIWIK_URL", PIWIK_URL);
 env.addGlobal("PIWIK_SITE_ID", PIWIK_SITE_ID);
 env.addGlobal("CDN_URL", process.env.CDN_HOST);
+env.addGlobal("ACCOUNT_URL", process.env.ACCOUNT_URL);
+env.addGlobal("CHS_MONITOR_GUI_URL", process.env.CHS_MONITOR_GUI_URL);
+
+app.use((req, res, next) => {
+    env.addGlobal("signedIn", req.session?.data?.[SessionKey.SignInInfo]?.[SignInInfoKeys.SignedIn] === 1);
+    env.addGlobal("userEmail", req.session?.data?.signin_info?.user_profile?.email);
+    next();
+});
 
 app.use((req, res, next) => {
     if (req.path.includes("/alphabetical-search")) {
@@ -100,6 +112,7 @@ if (process.env.NODE_ENV !== "production") {
     env.addGlobal("NUMBERED_PAGING", "/search-assets/static/numbered_paging.css");
     env.addGlobal("MATCHER", "/search-assets/static/js/matcher.js");
     env.addGlobal("ALL", "/search-assets/static/js/all.js");
+    env.addGlobal("MOBILE_MENU", "/search-assets/static/js/mobile-menu.js");
 } else {
     app.use("/search-assets/static", express.static("static"));
     env.addGlobal("CSS_URL", "/search-assets/static/app.css");
@@ -107,6 +120,7 @@ if (process.env.NODE_ENV !== "production") {
     env.addGlobal("NUMBERED_PAGING", "/search-assets/static/numbered_paging.css");
     env.addGlobal("MATCHER", "/search-assets/static/js/matcher.js");
     env.addGlobal("ALL", "/search-assets/static/js/all.js");
+    env.addGlobal("MOBILE_MENU", "/search-assets/static/js/mobile-menu.js");
 }
 // apply our default router to /
 app.use("/", alphabeticalRouter);
