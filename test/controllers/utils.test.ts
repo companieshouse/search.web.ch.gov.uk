@@ -209,12 +209,12 @@ describe("utils.test", () => {
         });
 
         it("should check if type includes an icvc type and set type to icvc", () => {
-            const searchParams = createDummyAdvancedSearchParams(null, null, null, null, null, null, null, null, "icvc-securities,icvc-warrant,icvc-umbrella", null, null, null, null, null, null, null, null);
+            const searchParams = createDummyAdvancedSearchParams(null, null, null, null, null, null, null, null, "icvc-securities,icvc-warrant,icvc-umbrella,investment-company-with-variable-capital", null, null, null, null, null, null, null, null);
             chai.expect(buildPagingUrl(searchParams, nullIncorporationDates, nullDissolvedDates)).to.equal("get-results?type=icvc");
         });
 
         it("should check if type includes an icvc type and set type to icvc and retain any other company types selected", () => {
-            const searchParams = createDummyAdvancedSearchParams(null, null, null, null, null, null, null, null, "icvc-securities,icvc-warrant,icvc-umbrella, limited-partnership", null, null, null, null, null, null, null, null);
+            const searchParams = createDummyAdvancedSearchParams(null, null, null, null, null, null, null, null, "icvc-securities,icvc-warrant,icvc-umbrella,investment-company-with-variable-capital, limited-partnership", null, null, null, null, null, null, null, null);
             chai.expect(buildPagingUrl(searchParams, nullIncorporationDates, nullDissolvedDates)).to.equal("get-results?type=icvc%2C+limited-partnership");
         });
 
@@ -485,7 +485,7 @@ describe("utils.test", () => {
             const advancedSearchMappedParams: AdvancedSearchParams = mapAdvancedSearchParams(1, "companyNameIncludes", "companyNameExcludes", "address", "01/01/2010", "01/01/2010",
                 "sicCodes", "status", "icvc", null, "01/01/2010", "01/01/2010", 50);
 
-            chai.expect(advancedSearchMappedParams.companyType).to.equal("icvc-securities,icvc-warrant,icvc-umbrella");
+            chai.expect(advancedSearchMappedParams.companyType).to.equal("icvc-securities,icvc-warrant,icvc-umbrella,investment-company-with-variable-capital");
         });
     });
 

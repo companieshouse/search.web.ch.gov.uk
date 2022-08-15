@@ -329,7 +329,7 @@ export const changeDateFormat = (inputDate: string) : string | null => {
 
 export const buildPagingUrl = (advancedSearchParams: AdvancedSearchParams, incorporationDates: IncorporationDates, dissolvedDates: DissolvedDates) : string => {
     const pagingUrlBuilder = new URLSearchParams();
-    const companyTypeCheck = advancedSearchParams.companyType?.includes("icvc") ? advancedSearchParams.companyType.replace("icvc-securities,icvc-warrant,icvc-umbrella", "icvc") : advancedSearchParams.companyType;
+    const companyTypeCheck = advancedSearchParams.companyType?.includes("icvc") ? advancedSearchParams.companyType.replace("icvc-securities,icvc-warrant,icvc-umbrella,investment-company-with-variable-capital", "icvc") : advancedSearchParams.companyType;
 
     urlAppender(pagingUrlBuilder, advancedSearchParams.companyNameIncludes, "companyNameIncludes");
     urlAppender(pagingUrlBuilder, advancedSearchParams.companyNameExcludes, "companyNameExcludes");
@@ -482,7 +482,7 @@ export const mapAdvancedSearchParams = (page: number, companyNameIncludes: strin
     registeredOfficeAddress: string | null, incorporatedFrom: string | null, incorporatedTo: string | null, sicCodes: string | null,
     companyStatus: string | null, companyType: string | null, companySubtype: string | null, dissolvedFrom: string | null, dissolvedTo: string | null, size: number | null): AdvancedSearchParams => {
     if (companyType !== null) {
-        companyType = String(companyType).replace("icvc", "icvc-securities,icvc-warrant,icvc-umbrella");
+        companyType = String(companyType).replace("icvc", "icvc-securities,icvc-warrant,icvc-umbrella,investment-company-with-variable-capital");
     }
     const advancedSearchParams: AdvancedSearchParams = {
         page: page,
