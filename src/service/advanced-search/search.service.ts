@@ -61,7 +61,7 @@ export const getSearchResults = async (advancedSearchParams: AdvancedSearchParam
             const mappedCessationLabel = getCompanyConstant(CESSATION_LABEL_CONSTANT, company_status);
             const formattedIncorpOrRegDate = company_type !== "protected-cell-company" ? formatLongDate(`- ${mappedCompanyBirthType}`, date_of_creation) : "";
             const formattedDissOrRemovedDate = checkLineBreakRequired(formatLongDate(mappedCessationLabel, date_of_cessation));
-            const addressString = registered_office_address ? formatCompactAddress(registered_office_address) : "";
+            const addressString = formatCompactAddress(registered_office_address);
             const sicCodeString = (sic_codes === undefined) ? "" : "SIC codes - " + sic_codes.join(", ");
             return [
                 {
