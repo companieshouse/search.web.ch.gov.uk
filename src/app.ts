@@ -55,6 +55,10 @@ const env = nunjucks.configure([
 const cookieConfig: CookieConfig = { cookieName: "__SID", cookieSecret: COOKIE_SECRET, cookieDomain: COOKIE_DOMAIN };
 const sessionStore = new SessionStore(new Redis(`redis://${CACHE_SERVER}`));
 
+app.use(function (req, res, next) {
+    res.header("Cache-Control", "no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0");
+    next();
+});
 app.use(DISSOLVED_ROOT, SessionMiddleware(cookieConfig, sessionStore));
 app.use(ADVANCED_ROOT, SessionMiddleware(cookieConfig, sessionStore));
 app.use(ALPHABETICAL_ROOT, SessionMiddleware(cookieConfig, sessionStore));
