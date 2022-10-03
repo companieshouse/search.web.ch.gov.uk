@@ -88,7 +88,9 @@
         <p class="govuk-body">Data is updated daily.</p>
       </div>
     {% else %}
-      <h2 class="govuk-heading-l" style="overflow-wrap: break-word;">No results found</h2>
+      <div id="no-results" role="status">
+        <h2 class="govuk-heading-l" style="overflow-wrap: break-word;">No results found</h2>
+      </div>
       <p class="govuk-body">There are no companies that match your search. Try searching again using different search criteria.</p>
     {% endif %}
   </div>
