@@ -96,7 +96,7 @@ const getSearchResults = async (encodedCompanyName: string, cookies: Cookies, se
             return [
                 {
                     classes: nearestClass,
-                    html: `<a href="${links.company_profile}">${sanitisedCompanyName}</a>`
+                    html: `<a href="${links.company_profile}" class="govuk-link">${sanitisedCompanyName}</a>`
                 },
                 {
                     text: company_number
