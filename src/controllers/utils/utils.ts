@@ -31,7 +31,8 @@ export const getDownloadReportText = (signedIn: boolean, reportAvailable: boolea
         if (signedIn === true) {
             return downloadReportText;
         } else {
-            downloadReportText = signIn.link(signInLink + returnUrl);
+            let signInUrl = signInLink+returnUrl;
+            downloadReportText=`<a href="${signInUrl}" class="govuk-link">Sign in to download report</a>`;
         }
     } else {
         downloadReportText = "Not available";

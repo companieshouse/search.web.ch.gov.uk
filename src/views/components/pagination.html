@@ -2,7 +2,7 @@
     <ul class="pager" id="pager">
         {% if page > 1 %}
         <li>
-            <a class="page govuk-link" id="previous-page" href="{{partialHref}}&page={{page - 1}}">
+            <a class="govuk-link" id="previous-page" href="{{partialHref}}&page={{page - 1}}">
                 Previous
             </a>
         </li>
@@ -14,14 +14,14 @@
                 </li>
             {% else %}
                 <li>
-                    <a id="page-{{ i }}" class="class govuk-link" href="{{partialHref}}&page={{i}}">{{ i }}</a>
+                    <a id="page-{{ i }}" class="govuk-link" href="{{partialHref}}&page={{i}}">{{ i }}</a>
                 </li>
             {% endif %}
         {%- endfor %}
 
         {% if page < numberOfPages %}
         <li>
-            <a class="page govuk-link" id="next-page" href="{{partialHref}}&page={{page + 1}}">
+            <a class="govuk-link" id="next-page" href="{{partialHref}}&page={{page + 1}}">
                 Next
             </a>
         </li>
