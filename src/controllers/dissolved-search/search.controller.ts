@@ -207,7 +207,6 @@ const previousNameResults = (company_name, company_number, date_of_cessation, da
         },
         {
             html: mapResponsiveHeaders(DOWNLOAD_REPORT_TABLE_HEADING, downloadReportText),
-            classes: "govuk-link"
         }
     ];
 };
@@ -233,7 +232,6 @@ const alphabeticalMapping = (nearestClass, company_name, company_number, date_of
         },
         {
             html: mapResponsiveHeaders(DOWNLOAD_REPORT_TABLE_HEADING, downloadReportText),
-            classes: "govuk-link"
         }
     ];
 };
@@ -258,7 +256,6 @@ const bestMatchMapping = (company_name, company_number, date_of_cessation, date_
         },
         {
             html: mapResponsiveHeaders(DOWNLOAD_REPORT_TABLE_HEADING, downloadReportText),
-            classes: "govuk-link"
         }
     ];
 };
