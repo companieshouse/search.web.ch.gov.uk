@@ -16,11 +16,16 @@ const router = Router();
 const renderTemplate = (template: string) => (req: Request, res: Response) => {
     const cookies = new Cookies(req, res);
 
+    // TODO BI-11895 Get these values properly.
+    const showBasketLink: boolean = true;
+    const basketWebUrl: string = "http://blah";
+    const basketItems: number = 4;
+
     if (cookies === undefined || cookies.get(SEARCH_WEB_COOKIE_NAME) === undefined) {
         cookies.set(SEARCH_WEB_COOKIE_NAME, uuid());
     }
 
-    return res.render(template);
+    return res.render(template, { showBasketLink, basketWebUrl, basketItems });
 };
 
 router.get(pageUrls.DISSOLVED_ROOT, renderTemplate(templatePaths.DISSOLVED_INDEX));
