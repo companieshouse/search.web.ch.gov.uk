@@ -41,6 +41,11 @@ const route = async (req: Request, res: Response) => {
     const cookies = new Cookies(req, res);
     const errors = validationResult(req);
 
+    // TODO BI-11895 Get these values properly.
+    const showBasketLink: boolean = true;
+    const basketWebUrl: string = "http://blah";
+    const basketItems: number = 4;
+
     if (errors.isEmpty()) {
         const companyNameRequestParam: string = req.query.companyName as string;
         const searchTypeRequestParam: string = req.query.searchType as string;
@@ -63,7 +68,8 @@ const route = async (req: Request, res: Response) => {
         let searchType: string;
 
         if (companyNameRequestParam === "") {
-            return res.render(templatePaths.DISSOLVED_INDEX);
+            return res.render(templatePaths.DISSOLVED_INDEX,
+                { showBasketLink, basketWebUrl, basketItems });
         }
 
         if (searchTypeRequestParam === ALPHABETICAL_SEARCH_TYPE) {
@@ -91,7 +97,17 @@ const route = async (req: Request, res: Response) => {
 
         if (changeNameTypeParam === PREVIOUS_NAME_SEARCH_TYPE) {
             return res.render(templatePaths.DISSOLVED_SEARCH_RESULTS_PREVIOUS_NAME, {
-               searchResults, searchedName: companyName, templateName: templatePaths.DISSOLVED_SEARCH_RESULTS_PREVIOUS_NAME, lastUpdatedMessage, partialHref, numberOfPages, page, pagingRange
+                searchResults,
+                searchedName: companyName,
+                templateName: templatePaths.DISSOLVED_SEARCH_RESULTS_PREVIOUS_NAME,
+                lastUpdatedMessage,
+                partialHref,
+                numberOfPages,
+                page,
+                pagingRange,
+                showBasketLink,
+                basketWebUrl,
+                basketItems
             });
         }
 
@@ -106,14 +122,32 @@ const route = async (req: Request, res: Response) => {
         }
 
         return res.render(templatePaths.DISSOLVED_SEARCH_RESULTS, {
-            searchResults, searchedName: companyName, templateName: templatePaths.DISSOLVED_SEARCH_RESULTS, lastUpdatedMessage, partialHref, numberOfPages, page, previousUrl, nextUrl, prevLink, nextLink, searchTypeFlag, pagingRange
+            searchResults,
+            searchedName: companyName,
+            templateName: templatePaths.DISSOLVED_SEARCH_RESULTS,
+            lastUpdatedMessage,
+            partialHref,
+            numberOfPages,
+            page,
+            previousUrl,
+            nextUrl,
+            prevLink,
+            nextLink,
+            searchTypeFlag,
+            pagingRange,
+            showBasketLink,
+            basketWebUrl,
+            basketItems
         });
     } else {
         const errorText = errors.array().map((err) => err.msg).pop() as string;
         const dissolvedSearchOptionsErrorData: GovUkErrorData = createGovUkErrorData(errorText, "#changed-name", true, "");
         return res.render(templatePaths.DISSOLVED_INDEX, {
             dissolvedSearchOptionsErrorData,
-            errorList: [dissolvedSearchOptionsErrorData]
+            errorList: [dissolvedSearchOptionsErrorData],
+            showBasketLink,
+            basketWebUrl,
+            basketItems
         });
     }
 };
