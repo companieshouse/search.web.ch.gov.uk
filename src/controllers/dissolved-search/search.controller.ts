@@ -4,7 +4,6 @@ import { createGovUkErrorData, GovUkErrorData } from "../../model/govuk.error.da
 import { CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/dissolved-search/types";
 import { createLogger } from "@companieshouse/structured-logging-node";
 import { getDissolvedCompanies } from "../../client/apiclient";
-import { Session } from "@companieshouse/node-session-handler";
 import { SessionKey } from "@companieshouse/node-session-handler/lib/session/keys/SessionKey";
 import { SignInInfoKeys } from "@companieshouse/node-session-handler/lib/session/keys/SignInInfoKeys";
 
@@ -52,7 +51,7 @@ const route = async (req: Request, res: Response) => {
     const cookies = new Cookies(req, res);
     const errors = validationResult(req);
 
-    const basketLink: BasketLink = getBasketLink();
+    const basketLink: BasketLink = await getBasketLink(req);
 
     if (errors.isEmpty()) {
         const companyNameRequestParam: string = req.query.companyName as string;

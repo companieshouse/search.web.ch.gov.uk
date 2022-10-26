@@ -14,9 +14,10 @@ const router = Router();
  *ß
  * @param template the template name
  */
-const renderTemplate = (template: string) => (req: Request, res: Response) => {
+const renderTemplate = (template: string) => async (req: Request, res: Response) => {
     const cookies = new Cookies(req, res);
-    const basketLink: BasketLink = getBasketLink();
+
+    const basketLink: BasketLink = await getBasketLink(req);
 
     if (cookies === undefined || cookies.get(SEARCH_WEB_COOKIE_NAME) === undefined) {
         cookies.set(SEARCH_WEB_COOKIE_NAME, uuid());

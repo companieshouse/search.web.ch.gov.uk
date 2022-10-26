@@ -22,7 +22,8 @@ export const COOKIE_SECRET = getEnvironmentValue("COOKIE_SECRET");
 export const COOKIE_DOMAIN = getEnvironmentValue("COOKIE_DOMAIN");
 export const CACHE_SERVER = getEnvironmentValue("CACHE_SERVER");
 export const ACCOUNT_URL = getEnvironmentValue("ACCOUNT_URL");
-export const CHS_MONITOR_GUI_URL = getEnvironmentValue("CHS_MONITOR_GUI_URL")
+export const CHS_MONITOR_GUI_URL = getEnvironmentValue("CHS_MONITOR_GUI_URL");
+export const BASKET_WEB_URL = `${CHS_URL}/basket`;
 
 export const ALPHABETICAL_SERVICE_NAME = "Alphabetical company search";
 export const ADVANCED_SERVICE_NAME = "Advanced company search";
