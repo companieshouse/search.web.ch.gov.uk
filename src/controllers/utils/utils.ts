@@ -540,3 +540,17 @@ export const getDatesFromParams = (req: Request): FullDates => {
         }
     };
 };
+
+export interface BasketLink {
+    showBasketLink: boolean
+    basketWebUrl: string
+    basketItems: number
+}
+
+export const getBasketLink = () : BasketLink => {
+    // TODO BI-11895 Get these values properly.
+    const showBasketLink: boolean = true;
+    const basketWebUrl: string = "http://blah";
+    const basketItems: number = 4;
+    return { showBasketLink: showBasketLink, basketWebUrl: basketWebUrl, basketItems: basketItems } as BasketLink;
+};

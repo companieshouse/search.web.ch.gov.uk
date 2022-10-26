@@ -3,6 +3,7 @@ import { searchController } from "../../controllers/dissolved-search/index.contr
 import { SEARCH_WEB_COOKIE_NAME } from "../../config/config";
 import * as pageUrls from "../../model/page.urls";
 import * as templatePaths from "../../model/template.paths";
+import { BasketLink, getBasketLink } from "../../controllers/utils/utils";
 import uuid = require("uuid/v4");
 import Cookies = require("cookies");
 
@@ -15,17 +16,12 @@ const router = Router();
  */
 const renderTemplate = (template: string) => (req: Request, res: Response) => {
     const cookies = new Cookies(req, res);
-
-    // TODO BI-11895 Get these values properly.
-    const showBasketLink: boolean = true;
-    const basketWebUrl: string = "http://blah";
-    const basketItems: number = 4;
+    const basketLink: BasketLink = getBasketLink();
 
     if (cookies === undefined || cookies.get(SEARCH_WEB_COOKIE_NAME) === undefined) {
         cookies.set(SEARCH_WEB_COOKIE_NAME, uuid());
     }
-
-    return res.render(template, { showBasketLink, basketWebUrl, basketItems });
+    return res.render(template, basketLink);
 };
 
 router.get(pageUrls.DISSOLVED_ROOT, renderTemplate(templatePaths.DISSOLVED_INDEX));

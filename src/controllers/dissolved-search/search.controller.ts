@@ -9,7 +9,19 @@ import { SessionKey } from "@companieshouse/node-session-handler/lib/session/key
 import { SignInInfoKeys } from "@companieshouse/node-session-handler/lib/session/keys/SignInInfoKeys";
 
 import { SEARCH_WEB_COOKIE_NAME, API_KEY, APPLICATION_NAME, LAST_UPDATED_MESSAGE, DISSOLVED_SEARCH_NUMBER_OF_RESULTS, ACCOUNT_URL, CHS_MONITOR_GUI_URL } from "../../config/config";
-import { detectNearestMatch, formatDate, sanitiseCompanyName, generateROAddress, determineReturnToUrl, getDownloadReportText, determineReportAvailableBool, mapResponsiveHeaders, getPagingRange } from "../utils/utils";
+import {
+    detectNearestMatch,
+    formatDate,
+    sanitiseCompanyName,
+    generateROAddress,
+    determineReturnToUrl,
+    getDownloadReportText,
+    determineReportAvailableBool,
+    mapResponsiveHeaders,
+    getPagingRange,
+    getBasketLink,
+    BasketLink
+} from "../utils/utils";
 import * as templatePaths from "../../model/template.paths";
 import * as errorMessages from "../../model/error.messages";
 import Cookies = require("cookies");
@@ -27,7 +39,6 @@ const ROA_TABLE_HEADING: string = "Registered office address at dissolution";
 const DOWNLOAD_REPORT_TABLE_HEADING: string = "Download Report";
 const PREVIOUS_COMPANY_NAME_TABLE_HEADING: string = "Previous company name";
 
-
 const validators = [
     query("alphabetical").custom((value, { req }) => {
         if (req.query?.searchType === ALPHABETICAL_SEARCH_TYPE && req.query?.changedName === PREVIOUS_NAME_SEARCH_TYPE) {
@@ -41,10 +52,7 @@ const route = async (req: Request, res: Response) => {
     const cookies = new Cookies(req, res);
     const errors = validationResult(req);
 
-    // TODO BI-11895 Get these values properly.
-    const showBasketLink: boolean = true;
-    const basketWebUrl: string = "http://blah";
-    const basketItems: number = 4;
+    const basketLink: BasketLink = getBasketLink();
 
     if (errors.isEmpty()) {
         const companyNameRequestParam: string = req.query.companyName as string;
@@ -68,8 +76,7 @@ const route = async (req: Request, res: Response) => {
         let searchType: string;
 
         if (companyNameRequestParam === "") {
-            return res.render(templatePaths.DISSOLVED_INDEX,
-                { showBasketLink, basketWebUrl, basketItems });
+            return res.render(templatePaths.DISSOLVED_INDEX, basketLink);
         }
 
         if (searchTypeRequestParam === ALPHABETICAL_SEARCH_TYPE) {
@@ -105,9 +112,7 @@ const route = async (req: Request, res: Response) => {
                 numberOfPages,
                 page,
                 pagingRange,
-                showBasketLink,
-                basketWebUrl,
-                basketItems
+                ...basketLink
             });
         }
 
@@ -135,9 +140,7 @@ const route = async (req: Request, res: Response) => {
             nextLink,
             searchTypeFlag,
             pagingRange,
-            showBasketLink,
-            basketWebUrl,
-            basketItems
+            ...basketLink
         });
     } else {
         const errorText = errors.array().map((err) => err.msg).pop() as string;
@@ -145,9 +148,7 @@ const route = async (req: Request, res: Response) => {
         return res.render(templatePaths.DISSOLVED_INDEX, {
             dissolvedSearchOptionsErrorData,
             errorList: [dissolvedSearchOptionsErrorData],
-            showBasketLink,
-            basketWebUrl,
-            basketItems
+            ...basketLink
         });
     }
 };
