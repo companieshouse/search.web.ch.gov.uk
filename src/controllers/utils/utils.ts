@@ -562,5 +562,5 @@ export const getBasketLink = async (req: Request) : Promise<BasketLink> => {
 
     const basket: Basket = await getBasket(accessToken);
 
-    return { showBasketLink: signedIn, basketWebUrl: BASKET_WEB_URL, basketItems: basket.items?.length } as BasketLink;
+    return { showBasketLink: signedIn, basketWebUrl: BASKET_WEB_URL, basketItems: basket.items?.length };
 };
