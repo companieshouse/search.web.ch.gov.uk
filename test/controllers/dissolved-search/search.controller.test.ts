@@ -595,7 +595,7 @@ describe("search.controller.test", () => {
 
     describe("check the sign in/sign out nav bar on dissolved search results page", () => {
         it("should show the sign in/sign out nav bar for signed in user", async () => {
-            getCompanyItemStub = sandbox.stub(apiClient, "getDissolvedCompanies")
+            sandbox.stub(apiClient, "getDissolvedCompanies")
                 .returns(Promise.resolve(mockUtils.getDummyDissolvedCompanyResource("tetso", 50, 2)));
             sandbox.stub(apiClient, "getBasket").returns(Promise.resolve(getDummyBasket()));
 
@@ -612,7 +612,7 @@ describe("search.controller.test", () => {
         });
 
         it("should not show the sign in/sign out nav bar for signed out user", async () => {
-            getCompanyItemStub = sandbox.stub(apiClient, "getDissolvedCompanies")
+            sandbox.stub(apiClient, "getDissolvedCompanies")
                 .returns(Promise.resolve(mockUtils.getDummyDissolvedCompanyResource("tetso", 50, 2)));
             sandbox.stub(apiClient, "getBasket").returns(Promise.resolve(getDummyBasket()));
 
