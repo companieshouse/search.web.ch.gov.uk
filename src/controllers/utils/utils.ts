@@ -10,7 +10,7 @@ import { Request } from "express";
 import moment from "moment";
 import escape from "escape-html";
 
-export const getDownloadReportText = (signedIn: boolean, reportAvailable: boolean, returnUrl: string, companyNumber: string): string => {
+export const getDownloadReportText = (signedIn: boolean, reportAvailable: boolean, returnUrl: string, companyNumber: string, companyName: string): string => {
     const signIn = "Sign in to download report";
     const signInLink = "/signin?return_to=";
     let downloadReportText = `<div class="onlyJS">
@@ -32,7 +32,7 @@ export const getDownloadReportText = (signedIn: boolean, reportAvailable: boolea
             return downloadReportText;
         } else {
             let signInUrl = signInLink+returnUrl;
-            downloadReportText=`<a href="${signInUrl}" class="govuk-link">Sign in to download report</a>`;
+            downloadReportText=`<a href="${signInUrl}" class="govuk-link">Sign in to download report <span class="govuk-visually-hidden">${companyName} ${companyNumber}</span></a>`;
         }
     } else {
         downloadReportText = "Not available";
