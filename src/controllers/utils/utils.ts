@@ -555,11 +555,11 @@ export interface BasketLink {
 
 export const getBasketLink = async (req: Request) : Promise<BasketLink> => {
     const signedIn = req.session?.data?.[SessionKey.SignInInfo]?.[SignInInfoKeys.SignedIn] === 1;
-    const signInInfo = req.session?.data[SessionKey.SignInInfo];
-    const accessToken = signInInfo?.[SignInInfoKeys.AccessToken]?.[SignInInfoKeys.AccessToken]!;
     if (!signedIn) {
         return { showBasketLink: false };
     }
+    const signInInfo = req.session?.data[SessionKey.SignInInfo];
+    const accessToken = signInInfo?.[SignInInfoKeys.AccessToken]?.[SignInInfoKeys.AccessToken]!;
 
     const basket: Basket = await getBasket(accessToken);
 
