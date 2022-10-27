@@ -1,7 +1,10 @@
-import chai from "chai";
 import sinon from "sinon";
 import ioredis from "ioredis";
 import { signedInSession } from "../MockUtils/redis.mocks";
+
+import * as chai from "chai";
+import chaiHttp = require("chai-http");
+chai.use(chaiHttp);
 
 let testApp = null;
 const sandbox = sinon.createSandbox();
