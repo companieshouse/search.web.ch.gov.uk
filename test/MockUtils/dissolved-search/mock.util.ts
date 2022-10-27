@@ -1,4 +1,5 @@
 import { Address, CompaniesResource, Items, MatchedPreviousCompanyName, PreviousCompanyNames, TopHit } from "@companieshouse/api-sdk-node/dist/services/search/dissolved-search/types";
+import { Basket } from "@companieshouse/api-sdk-node/dist/services/order/basket";
 
 export const getDummyDissolvedCompanyResource = (name: string, numberOfCompanies: number, numberOfPreviousCompanyNames: number): CompaniesResource => {
     return {
@@ -70,5 +71,11 @@ export const createTopHit = (name, numberOfPreviousCompanyNames): TopHit => {
         ordered_alpha_key_with_id: "testcompany:1234",
         previous_company_names: createPreviousCompanyNameArray(numberOfPreviousCompanyNames),
         matched_previous_company_name: createMatchedPreviousName()
+    };
+};
+
+export const getDummyBasket = (): Basket => {
+    return {
+        enrolled: false
     };
 };

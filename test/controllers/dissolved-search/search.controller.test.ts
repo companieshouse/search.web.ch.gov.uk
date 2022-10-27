@@ -6,6 +6,7 @@ import * as apiClient from "../../../src/client/apiclient";
 import { CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/dissolved-search/types";
 import { formatDate, sanitiseCompanyName, generateROAddress, determineReportAvailableBool } from "../../../src/controllers/utils/utils";
 import { signedInSession, SIGNED_IN_COOKIE } from "../../MockUtils/redis.mocks";
+import { getDummyBasket } from "../../MockUtils/dissolved-search/mock.util";
 
 const sandbox = sinon.createSandbox();
 let testApp = null;
@@ -545,6 +546,7 @@ describe("search.controller.test", () => {
         it("should return the correct company number in download uri for 5 company results being returned", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getDissolvedCompanies")
                 .returns(Promise.resolve(mockUtils.getDummyDissolvedCompanyResource("tetso", 5, 0)));
+            sandbox.stub(apiClient, "getBasket").returns(Promise.resolve(getDummyBasket()));
 
             const resp = await chai.request(testApp)
                 .get("/dissolved-search/get-results?companyName=company&searchType=alphabetical&changedName=name-at-dissolution")
