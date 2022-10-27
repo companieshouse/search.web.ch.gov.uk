@@ -4,7 +4,14 @@ import ioredis from "ioredis";
 import * as apiClient from "../../../src/client/apiclient";
 import { CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/dissolved-search/types";
 import { formatDate, sanitiseCompanyName, generateROAddress, determineReportAvailableBool } from "../../../src/controllers/utils/utils";
-import { signedInSession, SIGNED_IN_COOKIE } from "../../MockUtils/redis.mocks";
+import {
+    signedInSession,
+    SIGNED_IN_COOKIE,
+    SIGNED_OUT_COOKIE,
+    signedOutSession,
+    SIGNED_IN_ID,
+    SIGNED_OUT_ID
+} from "../../MockUtils/redis.mocks";
 import { getDummyBasket } from "../../MockUtils/dissolved-search/mock.util";
 
 import * as chai from "chai";
@@ -117,7 +124,9 @@ const emptyMockResponseBody : CompaniesResource = ({
 describe("search.controller.test", () => {
     beforeEach((done) => {
         sandbox.stub(ioredis.prototype, "connect").returns(Promise.resolve());
-        sandbox.stub(ioredis.prototype, "get").returns(Promise.resolve(signedInSession));
+        sandbox.stub(ioredis.prototype, "get")
+            .withArgs(SIGNED_IN_ID).returns(Promise.resolve(signedInSession))
+            .withArgs(SIGNED_OUT_ID).returns(Promise.resolve(signedOutSession));
         testApp = require("../../../src/app").default;
         done();
     });
@@ -581,6 +590,38 @@ describe("search.controller.test", () => {
 
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain(`<a href="/signin?return_to=%2Fdissolved-search%2Fget-results%3FcompanyName%3Dtesto%26changedName%3Dname-at-dissolution" class="govuk-link">Sign in to download report</a>`);
+        });
+    });
+
+    describe("check the sign in/sign out nav bar on dissolved search results page", () => {
+        it("should show the sign in/sign out nav bar for signed in user", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getDissolvedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyDissolvedCompanyResource("tetso", 50, 2)));
+            sandbox.stub(apiClient, "getBasket").returns(Promise.resolve(getDummyBasket()));
+
+            const resp = await chai.request(testApp)
+                .get("/dissolved-search/get-results")
+                .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text)
+                .to.contain("Your details").and
+                .to.contain("Your filings").and
+                .to.contain("Companies you follow").and
+                .to.contain("Sign out");
+        });
+
+        it("should not show the sign in/sign out nav bar for signed out user", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getDissolvedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyDissolvedCompanyResource("tetso", 50, 2)));
+            sandbox.stub(apiClient, "getBasket").returns(Promise.resolve(getDummyBasket()));
+
+            const resp = await chai.request(testApp)
+                .get("/dissolved-search/get-results")
+                .set("Cookie", [`__SID=${SIGNED_OUT_COOKIE}`]);
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("Sign in / Register");
         });
     });
 });

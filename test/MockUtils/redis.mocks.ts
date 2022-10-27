@@ -1,6 +1,6 @@
 import { Encoding } from "@companieshouse/node-session-handler/lib/encoding/Encoding";
 
-const SIGNED_IN_ID = "4ZhJ6pAmB5NAJbjy/6fU1DWMqqrk";
+export const SIGNED_IN_ID = "4ZhJ6pAmB5NAJbjy/6fU1DWMqqrk";
 const SIGNED_IN_SIGNATURE = "Ak4CCqkfPTY7VN6f9Lo5jHCUYpM";
 export const SIGNED_IN_COOKIE = SIGNED_IN_ID + SIGNED_IN_SIGNATURE;
 
@@ -19,7 +19,7 @@ export const signedInSession = Encoding.encode({
     }
 });
 
-const SIGNED_OUT_ID = "2VsqkD1ILMqzO0NyuL+ubx4crUCP";
+export const SIGNED_OUT_ID = "2VsqkD1ILMqzO0NyuL+ubx4crUCP";
 const SIGNED_OUT_SIGNATURE = "9L9X4DGu5LOaE2yaGjPk+vGZcMw";
 export const SIGNED_OUT_COOKIE = SIGNED_OUT_ID + SIGNED_OUT_SIGNATURE;
 
