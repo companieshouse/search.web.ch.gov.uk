@@ -74,7 +74,7 @@ export const checkSignInSignOutNavBar = (sandbox: SinonSandbox, pageName: string
         it("should show the service error page for a 404 response from the basket API?", async () => {
             sandbox.stub(apiClient, "getDissolvedCompanies")
                 .returns(Promise.resolve(mockUtils.getDummyDissolvedCompanyResource("tetso", 1, 2)));
-            sandbox.stub(apiClient, "getBasket").returns(Promise.reject(createError(404)));
+            sandbox.stub(apiClient, "getBasket").rejects(createError(404));
 
             const resp = await chai.request(testApp)
                 .get(pagePath)
@@ -87,7 +87,7 @@ export const checkSignInSignOutNavBar = (sandbox: SinonSandbox, pageName: string
         it("should show the service error page for a 502 response from the basket API?", async () => {
             sandbox.stub(apiClient, "getDissolvedCompanies")
                 .returns(Promise.resolve(mockUtils.getDummyDissolvedCompanyResource("tetso", 1, 2)));
-            sandbox.stub(apiClient, "getBasket").returns(Promise.reject(createError(502)));
+            sandbox.stub(apiClient, "getBasket").rejects(createError(502));
 
             const resp = await chai.request(testApp)
                 .get(pagePath)
