@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { query, validationResult } from "express-validator";
 import { createGovUkErrorData, GovUkErrorData } from "../../model/govuk.error.data";
 import { CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/dissolved-search/types";
@@ -47,7 +47,15 @@ const validators = [
     })
 ];
 
-const route = async (req: Request, res: Response) => {
+const route = async (req: Request, res: Response, next:NextFunction) => {
+    try {
+        await wrappedRoute(req, res);
+    } catch (error) {
+        next(error);
+    }
+};
+
+const wrappedRoute = async (req: Request, res: Response) => {
     const cookies = new Cookies(req, res);
     const errors = validationResult(req);
 

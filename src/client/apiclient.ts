@@ -71,9 +71,9 @@ export const getBasket =
     async (oAuth: string): Promise<Basket> => {
         const api = createApiClient(undefined, oAuth, API_URL);
         const basketResource: Resource<Basket> = await api.basket.getBasket();
+        logger.info(`Get basket, status_code = ${basketResource.httpStatusCode}`);
         if (basketResource.httpStatusCode !== 200 && basketResource.httpStatusCode !== 201) {
             throw createError(basketResource.httpStatusCode, basketResource.httpStatusCode.toString());
         }
-        logger.info(`Get basket, status_code = ${basketResource.httpStatusCode}`);
         return basketResource.resource as Basket;
     };
