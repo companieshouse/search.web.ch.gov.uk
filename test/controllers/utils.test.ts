@@ -60,8 +60,8 @@ describe("utils.test", () => {
 
     describe("check that the mapResponsiveHeaders returns the correct string of html", () => {
         it("should return a html string which includes the field name and field value", () => {
-            const expectedString = "<span class=\"responsive-table__heading\" aria-hidden=\"true\">Company name</span>" +
-            "<span class=\"responsive-table__cell\" aria-hidden=\"true\">Test Company</span>";
+            const expectedString = "<span class=\"responsive-table__heading\" aria-hidden=\"false\">Company name</span>" +
+            "<span class=\"responsive-table__cell\" aria-hidden=\"false\">Test Company</span>";
 
             chai.expect(mapResponsiveHeaders("Company name", "Test Company")).to.equal(expectedString);
         });

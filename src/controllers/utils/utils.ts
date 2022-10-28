@@ -214,8 +214,8 @@ export const generateSize = (size: string | null, searchBefore: string | null, s
 };
 
 export const mapResponsiveHeaders = (fieldHeading : string, fieldValue : string): string => {
-    return "<span class=\"responsive-table__heading\" aria-hidden=\"true\">" + fieldHeading + "</span>" +
-    "<span class=\"responsive-table__cell\" aria-hidden=\"true\">" + fieldValue + "</span>";
+    return "<span class=\"responsive-table__heading\" aria-hidden=\"false\">" + fieldHeading + "</span>" +
+    "<span class=\"responsive-table__cell\" aria-hidden=\"false\">" + fieldValue + "</span>";
 };
 
 export const formatLongDate = (message: string, date: Date | null | undefined): string => {
