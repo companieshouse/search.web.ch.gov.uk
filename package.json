@@ -38,6 +38,7 @@
   },
   "devDependencies": {
     "@types/chai": "~4.2.11",
+    "@types/chai-as-promised": "^7.1.5",
     "@types/chai-http": "~4.2.0",
     "@types/cheerio": "~0.22.18",
     "@types/cookies": "^0.7.4",
@@ -53,6 +54,7 @@
     "@typescript-eslint/eslint-plugin": "2.29.0",
     "@typescript-eslint/parser": "2.29.0",
     "chai": "~4.2.0",
+    "chai-as-promised": "^7.1.1",
     "chai-http": "~4.3.0",
     "cheerio": "~1.0.0-rc.3",
     "eslint": "6.8.0",
