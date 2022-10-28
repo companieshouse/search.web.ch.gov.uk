@@ -17,8 +17,8 @@ export const checkSignInSignOutNavBar = (sandbox: SinonSandbox, pageName: string
     describe(`check the sign in/sign out nav bar on dissolved search ${pageName} page`, () => {
         it("should show the sign in/sign out nav bar for signed in user", async () => {
             sandbox.stub(apiClient, "getDissolvedCompanies")
-                .returns(Promise.resolve(mockUtils.getDummyDissolvedCompanyResource("tetso", 1, 2)));
-            sandbox.stub(apiClient, "getBasket").returns(Promise.resolve(getDummyBasket(false)));
+                .resolves(mockUtils.getDummyDissolvedCompanyResource("tetso", 1, 2));
+            sandbox.stub(apiClient, "getBasket").resolves(getDummyBasket(false));
 
             const resp = await chai.request(testApp)
                 .get(pagePath)
@@ -34,8 +34,8 @@ export const checkSignInSignOutNavBar = (sandbox: SinonSandbox, pageName: string
 
         it("should not show the sign in/sign out nav bar for signed out user", async () => {
             sandbox.stub(apiClient, "getDissolvedCompanies")
-                .returns(Promise.resolve(mockUtils.getDummyDissolvedCompanyResource("tetso", 1, 2)));
-            sandbox.stub(apiClient, "getBasket").returns(Promise.resolve(getDummyBasket(false)));
+                .resolves(mockUtils.getDummyDissolvedCompanyResource("tetso", 1, 2));
+            sandbox.stub(apiClient, "getBasket").resolves(getDummyBasket(false));
 
             const resp = await chai.request(testApp)
                 .get(pagePath)
@@ -47,8 +47,8 @@ export const checkSignInSignOutNavBar = (sandbox: SinonSandbox, pageName: string
 
         it("should show basket link for enrolled user", async () => {
             sandbox.stub(apiClient, "getDissolvedCompanies")
-                .returns(Promise.resolve(mockUtils.getDummyDissolvedCompanyResource("tetso", 1, 2)));
-            sandbox.stub(apiClient, "getBasket").returns(Promise.resolve(getDummyBasket(true)));
+                .resolves(mockUtils.getDummyDissolvedCompanyResource("tetso", 1, 2));
+            sandbox.stub(apiClient, "getBasket").resolves(getDummyBasket(true));
 
             const resp = await chai.request(testApp)
                 .get(pagePath)
@@ -60,8 +60,8 @@ export const checkSignInSignOutNavBar = (sandbox: SinonSandbox, pageName: string
 
         it("should not show basket link for un-enrolled user", async () => {
             sandbox.stub(apiClient, "getDissolvedCompanies")
-                .returns(Promise.resolve(mockUtils.getDummyDissolvedCompanyResource("tetso", 1, 2)));
-            sandbox.stub(apiClient, "getBasket").returns(Promise.resolve(getDummyBasket(false)));
+                .resolves(mockUtils.getDummyDissolvedCompanyResource("tetso", 1, 2));
+            sandbox.stub(apiClient, "getBasket").resolves(getDummyBasket(false));
 
             const resp = await chai.request(testApp)
                 .get(pagePath)
@@ -73,7 +73,7 @@ export const checkSignInSignOutNavBar = (sandbox: SinonSandbox, pageName: string
 
         it("should show the service error page for a 404 response from the basket API?", async () => {
             sandbox.stub(apiClient, "getDissolvedCompanies")
-                .returns(Promise.resolve(mockUtils.getDummyDissolvedCompanyResource("tetso", 1, 2)));
+                .resolves(mockUtils.getDummyDissolvedCompanyResource("tetso", 1, 2));
             sandbox.stub(apiClient, "getBasket").rejects(createError(404));
 
             const resp = await chai.request(testApp)
@@ -86,7 +86,7 @@ export const checkSignInSignOutNavBar = (sandbox: SinonSandbox, pageName: string
 
         it("should show the service error page for a 502 response from the basket API?", async () => {
             sandbox.stub(apiClient, "getDissolvedCompanies")
-                .returns(Promise.resolve(mockUtils.getDummyDissolvedCompanyResource("tetso", 1, 2)));
+                .resolves(mockUtils.getDummyDissolvedCompanyResource("tetso", 1, 2));
             sandbox.stub(apiClient, "getBasket").rejects(createError(502));
 
             const resp = await chai.request(testApp)
