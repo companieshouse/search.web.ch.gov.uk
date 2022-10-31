@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { query, validationResult } from "express-validator";
+import {query, Result, ValidationError, validationResult} from "express-validator";
 import { createGovUkErrorData, GovUkErrorData } from "../../model/govuk.error.data";
 import { CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/dissolved-search/types";
 import { createLogger } from "@companieshouse/structured-logging-node";
@@ -61,103 +61,107 @@ const wrappedRoute = async (req: Request, res: Response) => {
 
     const basketLink: BasketLink = await getBasketLink(req);
 
-    if (errors.isEmpty()) {
-        const companyNameRequestParam: string = req.query.companyName as string;
-        const searchTypeRequestParam: string = req.query.searchType as string;
-        const changeNameTypeParam: string = req.query.changedName as string;
-        const searchBefore = req.query.searchBefore as string || null;
-        const searchAfter = req.query.searchAfter as string || null;
-        const signedIn = req.session?.data?.[SessionKey.SignInInfo]?.[SignInInfoKeys.SignedIn] === 1;
-        // Currently not allowing users to specify a size parameter, will leave this here for possible future implementation
-        // const size = generateSize(req.query.size as string || null, searchBefore, searchAfter);
-        const size = null;
-        const companyName: string = companyNameRequestParam;
-        const encodedCompanyName: string = encodeURIComponent(companyName);
-        const lastUpdatedMessage: string = LAST_UPDATED_MESSAGE;
-        const page = searchTypeRequestParam === ALPHABETICAL_SEARCH_TYPE ? 0 : req.query.page ? Number(req.query.page) : 1;
-        const returnToUrl = determineReturnToUrl(req);
+    if (!errors.isEmpty()) {
+        return reportErrors(errors, res, basketLink);
+    }
 
-        let prevLink = "";
-        let nextLink = "";
+    const companyNameRequestParam: string = req.query.companyName as string;
+    const searchTypeRequestParam: string = req.query.searchType as string;
+    const changeNameTypeParam: string = req.query.changedName as string;
+    const searchBefore = req.query.searchBefore as string || null;
+    const searchAfter = req.query.searchAfter as string || null;
+    const signedIn = req.session?.data?.[SessionKey.SignInInfo]?.[SignInInfoKeys.SignedIn] === 1;
+    // Currently not allowing users to specify a size parameter, will leave this here for possible future implementation
+    // const size = generateSize(req.query.size as string || null, searchBefore, searchAfter);
+    const size = null;
+    const companyName: string = companyNameRequestParam;
+    const encodedCompanyName: string = encodeURIComponent(companyName);
+    const lastUpdatedMessage: string = LAST_UPDATED_MESSAGE;
+    const page = searchTypeRequestParam === ALPHABETICAL_SEARCH_TYPE ? 0 : req.query.page ? Number(req.query.page) : 1;
+    const returnToUrl = determineReturnToUrl(req);
 
-        let searchType: string;
+    let prevLink = "";
+    let nextLink = "";
 
-        if (companyNameRequestParam === "") {
-            return res.render(templatePaths.DISSOLVED_INDEX, basketLink);
-        }
+    let searchType: string;
 
-        if (searchTypeRequestParam === ALPHABETICAL_SEARCH_TYPE) {
-            searchType = ALPHABETICAL_SEARCH_TYPE;
-        } else if (changeNameTypeParam === PREVIOUS_NAME_SEARCH_TYPE) {
-            searchType = PREVIOUS_NAME_SEARCH_TYPE;
-        } else {
-            searchType = BEST_MATCH_SEARCH_TYPE;
-        };
+    if (companyNameRequestParam === "") {
+        return res.render(templatePaths.DISSOLVED_INDEX, basketLink);
+    }
 
-        const { companyResource, searchResults } = await getSearchResults(encodedCompanyName, cookies, searchType, page, searchBefore, searchAfter, size, signedIn, returnToUrl);
+    if (searchTypeRequestParam === ALPHABETICAL_SEARCH_TYPE) {
+        searchType = ALPHABETICAL_SEARCH_TYPE;
+    } else if (changeNameTypeParam === PREVIOUS_NAME_SEARCH_TYPE) {
+        searchType = PREVIOUS_NAME_SEARCH_TYPE;
+    } else {
+        searchType = BEST_MATCH_SEARCH_TYPE;
+    };
 
-        const { items } = companyResource;
+    const { companyResource, searchResults } = await getSearchResults(encodedCompanyName, cookies, searchType, page, searchBefore, searchAfter, size, signedIn, returnToUrl);
 
-        const numberOfPages: number = Math.ceil(companyResource.hits / DISSOLVED_SEARCH_NUMBER_OF_RESULTS);
+    const { items } = companyResource;
 
-        const partialHref: string = "get-results?companyName=" + encodeURIComponent(companyNameRequestParam) + "&changedName=" + changeNameTypeParam;
+    const numberOfPages: number = Math.ceil(companyResource.hits / DISSOLVED_SEARCH_NUMBER_OF_RESULTS);
 
-        const searchBeforeAlphaKey = items[0]?.ordered_alpha_key_with_id;
-        const searchAfterAlphaKey = items[items.length - 1]?.ordered_alpha_key_with_id;
-        const previousUrl = searchBeforeAlphaKey ? `get-results?companyName=${encodedCompanyName}&searchType=${ALPHABETICAL_SEARCH_TYPE}&searchBefore=${encodeURIComponent(searchBeforeAlphaKey)}` : "";
-        const nextUrl = searchAfterAlphaKey ? `get-results?companyName=${encodedCompanyName}&searchType=${ALPHABETICAL_SEARCH_TYPE}&searchAfter=${encodeURIComponent(searchAfterAlphaKey)}` : "";
-        const searchTypeFlag = searchType === ALPHABETICAL_SEARCH_TYPE;
-        const pagingRange = getPagingRange(page, numberOfPages);
+    const partialHref: string = "get-results?companyName=" + encodeURIComponent(companyNameRequestParam) + "&changedName=" + changeNameTypeParam;
 
-        if (changeNameTypeParam === PREVIOUS_NAME_SEARCH_TYPE) {
-            return res.render(templatePaths.DISSOLVED_SEARCH_RESULTS_PREVIOUS_NAME, {
-                searchResults,
-                searchedName: companyName,
-                templateName: templatePaths.DISSOLVED_SEARCH_RESULTS_PREVIOUS_NAME,
-                lastUpdatedMessage,
-                partialHref,
-                numberOfPages,
-                page,
-                pagingRange,
-                ...basketLink
-            });
-        }
+    const searchBeforeAlphaKey = items[0]?.ordered_alpha_key_with_id;
+    const searchAfterAlphaKey = items[items.length - 1]?.ordered_alpha_key_with_id;
+    const previousUrl = searchBeforeAlphaKey ? `get-results?companyName=${encodedCompanyName}&searchType=${ALPHABETICAL_SEARCH_TYPE}&searchBefore=${encodeURIComponent(searchBeforeAlphaKey)}` : "";
+    const nextUrl = searchAfterAlphaKey ? `get-results?companyName=${encodedCompanyName}&searchType=${ALPHABETICAL_SEARCH_TYPE}&searchAfter=${encodeURIComponent(searchAfterAlphaKey)}` : "";
+    const searchTypeFlag = searchType === ALPHABETICAL_SEARCH_TYPE;
+    const pagingRange = getPagingRange(page, numberOfPages);
 
-        const searchResultsPreviousLink = await getSearchResults(encodedCompanyName, cookies, searchType, page, searchBeforeAlphaKey, searchAfter, size, signedIn, returnToUrl);
-        const searchResultsNextLink = await getSearchResults(encodedCompanyName, cookies, searchType, page, searchBefore, searchAfterAlphaKey, size, signedIn, returnToUrl);
-
-        if (searchResultsPreviousLink.searchResults.length > 0) {
-            prevLink = "resultsPresent";
-        }
-        if (searchResultsNextLink.searchResults.length > 0) {
-            nextLink = "resultsPresent";
-        }
-
-        return res.render(templatePaths.DISSOLVED_SEARCH_RESULTS, {
+    if (changeNameTypeParam === PREVIOUS_NAME_SEARCH_TYPE) {
+        return res.render(templatePaths.DISSOLVED_SEARCH_RESULTS_PREVIOUS_NAME, {
             searchResults,
             searchedName: companyName,
-            templateName: templatePaths.DISSOLVED_SEARCH_RESULTS,
+            templateName: templatePaths.DISSOLVED_SEARCH_RESULTS_PREVIOUS_NAME,
             lastUpdatedMessage,
             partialHref,
             numberOfPages,
             page,
-            previousUrl,
-            nextUrl,
-            prevLink,
-            nextLink,
-            searchTypeFlag,
             pagingRange,
             ...basketLink
         });
-    } else {
-        const errorText = errors.array().map((err) => err.msg).pop() as string;
-        const dissolvedSearchOptionsErrorData: GovUkErrorData = createGovUkErrorData(errorText, "#changed-name", true, "");
-        return res.render(templatePaths.DISSOLVED_INDEX, {
-            dissolvedSearchOptionsErrorData,
-            errorList: [dissolvedSearchOptionsErrorData],
-            ...basketLink
-        });
     }
+
+    const searchResultsPreviousLink = await getSearchResults(encodedCompanyName, cookies, searchType, page, searchBeforeAlphaKey, searchAfter, size, signedIn, returnToUrl);
+    const searchResultsNextLink = await getSearchResults(encodedCompanyName, cookies, searchType, page, searchBefore, searchAfterAlphaKey, size, signedIn, returnToUrl);
+
+    if (searchResultsPreviousLink.searchResults.length > 0) {
+        prevLink = "resultsPresent";
+    }
+    if (searchResultsNextLink.searchResults.length > 0) {
+        nextLink = "resultsPresent";
+    }
+
+    return res.render(templatePaths.DISSOLVED_SEARCH_RESULTS, {
+        searchResults,
+        searchedName: companyName,
+        templateName: templatePaths.DISSOLVED_SEARCH_RESULTS,
+        lastUpdatedMessage,
+        partialHref,
+        numberOfPages,
+        page,
+        previousUrl,
+        nextUrl,
+        prevLink,
+        nextLink,
+        searchTypeFlag,
+        pagingRange,
+        ...basketLink
+    });
+};
+
+const reportErrors = (errors: Result<ValidationError>, res: Response, basketLink: BasketLink) => {
+    const errorText = errors.array().map((err) => err.msg).pop() as string;
+    const dissolvedSearchOptionsErrorData: GovUkErrorData = createGovUkErrorData(errorText, "#changed-name", true, "");
+    return res.render(templatePaths.DISSOLVED_INDEX, {
+        dissolvedSearchOptionsErrorData,
+        errorList: [dissolvedSearchOptionsErrorData],
+        ...basketLink
+    });
 };
 
 const getSearchResults = async (encodedCompanyName: string, cookies: Cookies, searchType: string, page: number, searchBefore: string | null, searchAfter: string | null, size: number | null, signedIn: boolean, returnToUrl: string): Promise<{
