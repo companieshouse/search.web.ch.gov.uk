@@ -13,6 +13,8 @@ import { signedInSessionData, signedOutSessionData } from "../MockUtils/redis.mo
 import * as apiClient from "../../src/client/apiclient";
 import { getDummyBasket } from "../MockUtils/dissolved-search/mock.util";
 import sinon from "sinon";
+// Without this import these tests will not compile.
+import { Session } from "@companieshouse/node-session-handler";
 
 const sandbox = sinon.createSandbox();
 
