@@ -15,7 +15,7 @@ import { BASKET_WEB_URL } from "../../config/config";
 import { Basket } from "@companieshouse/api-sdk-node/dist/services/order/basket";
 import { getBasket } from "../../client/apiclient";
 
-export const getDownloadReportText = (signedIn: boolean, reportAvailable: boolean, returnUrl: string, companyNumber: string): string => {
+export const getDownloadReportText = (signedIn: boolean, reportAvailable: boolean, returnUrl: string, companyNumber: string, companyName: string): string => {
     const signIn = "Sign in to download report";
     const signInLink = "/signin?return_to=";
     let downloadReportText = `<div class="onlyJS">
@@ -37,7 +37,7 @@ export const getDownloadReportText = (signedIn: boolean, reportAvailable: boolea
             return downloadReportText;
         } else {
             let signInUrl = signInLink+returnUrl;
-            downloadReportText=`<a href="${signInUrl}" class="govuk-link">Sign in to download report</a>`;
+            downloadReportText=`<a href="${signInUrl}" class="govuk-link">Sign in to download report <span class="govuk-visually-hidden">${companyName} ${companyNumber}</span></a>`;
         }
     } else {
         downloadReportText = "Not available";
@@ -219,8 +219,8 @@ export const generateSize = (size: string | null, searchBefore: string | null, s
 };
 
 export const mapResponsiveHeaders = (fieldHeading : string, fieldValue : string): string => {
-    return "<span class=\"responsive-table__heading\" aria-hidden=\"true\">" + fieldHeading + "</span>" +
-    "<span class=\"responsive-table__cell\" aria-hidden=\"true\">" + fieldValue + "</span>";
+    return "<span class=\"responsive-table__heading\" aria-hidden=\"false\">" + fieldHeading + "</span>" +
+    "<span class=\"responsive-table__cell\" aria-hidden=\"false\">" + fieldValue + "</span>";
 };
 
 export const formatLongDate = (message: string, date: Date | null | undefined): string => {

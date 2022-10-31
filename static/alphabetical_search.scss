@@ -261,3 +261,21 @@ padding: 8px 16px;
      margin-bottom: 0px;
   }
 }
+
+.nearest .govuk-link {
+  color: white;
+}
+.nearest .govuk-link:focus {
+  color: black !important;
+}
+
+.near .govuk-link {
+  color: white;
+}
+.near .govuk-link:focus {
+  color: black !important;
+}
+
+.pager .govuk-link:focus {
+  border-bottom: 4px solid black;
+}

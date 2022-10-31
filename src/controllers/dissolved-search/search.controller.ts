@@ -173,7 +173,7 @@ const getSearchResults = async (encodedCompanyName: string, cookies: Cookies, se
         const searchResults = items.map(({ company_name, company_number, date_of_cessation, date_of_creation, registered_office_address, previous_company_names, ordered_alpha_key_with_id, matched_previous_company_name }) => {
             const nearestClass = detectNearestMatch(ordered_alpha_key_with_id, top_hit.ordered_alpha_key_with_id, noNearestMatch);
             const reportAvailable: boolean = determineReportAvailableBool(company_number, date_of_cessation);
-            const downloadReportText: string = getDownloadReportText(signedIn, reportAvailable, returnToUrl, company_number);
+            const downloadReportText: string = getDownloadReportText(signedIn, reportAvailable, returnToUrl, company_number, company_name);
             if (!noNearestMatch) {
                 noNearestMatch = nearestClass === "nearest";
             };

@@ -42,33 +42,33 @@ describe("utils.test", () => {
         it("should display Download report if the user is signed in with the correct company number", () => {
             const returnUrl = "/dissolved-search/get-results?companyName=test";
 
-            chai.expect(getDownloadReportText(true, true, returnUrl, "00000008")).to.include(`data-resource-url="/dissolved-company-number/00000008"`);
+            chai.expect(getDownloadReportText(true, true, returnUrl, "00000008","")).to.include(`data-resource-url="/dissolved-company-number/00000008"`);
         });
 
         it("should display Sign in to download report and provide the correct return url if the user is not signed in", () => {
             const returnUrl = "/dissolved-search/get-results?companyName=test";
 
-            chai.expect(getDownloadReportText(false, true, returnUrl, "00000000")).to.equal("<a href=\"/signin?return_to=/dissolved-search/get-results?companyName=test\" class=\"govuk-link\">Sign in to download report</a>");
+            chai.expect(getDownloadReportText(false, true, returnUrl, "00000000","test")).to.equal("<a href=\"/signin?return_to=/dissolved-search/get-results?companyName=test\" class=\"govuk-link\">Sign in to download report <span class=\"govuk-visually-hidden\">test 00000000</span></a>");
         });
 
         it("should have a the full return to url concatenated to the sign in page link", () => {
             const returnUrl = "/dissolved-search/get-results?companyName=test&searchType=alphabetical&searchAfter=testNUK%3A06336551";
 
-            chai.expect(getDownloadReportText(false, true, returnUrl, "00000000"))
-                .to.equal("<a href=\"/signin?return_to=/dissolved-search/get-results?companyName=test&searchType=alphabetical&searchAfter=testNUK%3A06336551\" class=\"govuk-link\">Sign in to download report</a>");
+            chai.expect(getDownloadReportText(false, true, returnUrl, "00000000","test"))
+                .to.equal("<a href=\"/signin?return_to=/dissolved-search/get-results?companyName=test&searchType=alphabetical&searchAfter=testNUK%3A06336551\" class=\"govuk-link\">Sign in to download report <span class=\"govuk-visually-hidden\">test 00000000</span></a>");
         });
 
         it("should display Not available if the company was dissolved greater than 20 years ago", () => {
             const returnUrl = "/dissolved-search/get-results?companyName=test";
 
-            chai.expect(getDownloadReportText(true, false, returnUrl, "00000000")).to.equal("Not available");
+            chai.expect(getDownloadReportText(true, false, returnUrl, "00000000","")).to.equal("Not available");
         });
     });
 
     describe("check that the mapResponsiveHeaders returns the correct string of html", () => {
         it("should return a html string which includes the field name and field value", () => {
-            const expectedString = "<span class=\"responsive-table__heading\" aria-hidden=\"true\">Company name</span>" +
-            "<span class=\"responsive-table__cell\" aria-hidden=\"true\">Test Company</span>";
+            const expectedString = "<span class=\"responsive-table__heading\" aria-hidden=\"false\">Company name</span>" +
+            "<span class=\"responsive-table__cell\" aria-hidden=\"false\">Test Company</span>";
 
             chai.expect(mapResponsiveHeaders("Company name", "Test Company")).to.equal(expectedString);
         });
