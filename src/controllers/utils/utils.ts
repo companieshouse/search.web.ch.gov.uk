@@ -9,7 +9,6 @@ import { DissolvedDates, FullDates, IncorporationDates } from "model/date.params
 import { Request } from "express";
 import moment from "moment";
 import escape from "escape-html";
-import { Session } from "@companieshouse/node-session-handler";
 import { SessionKey } from "@companieshouse/node-session-handler/lib/session/keys/SessionKey";
 import { SignInInfoKeys } from "@companieshouse/node-session-handler/lib/session/keys/SignInInfoKeys";
 import { BASKET_WEB_URL } from "../../config/config";
