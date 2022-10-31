@@ -1,7 +1,16 @@
-import chai from "chai";
 import sinon from "sinon";
 import ioredis from "ioredis";
-import { signedInSession } from "../MockUtils/redis.mocks";
+import {
+    SIGNED_IN_ID,
+    SIGNED_OUT_ID,
+    signedInSession,
+    signedOutSession
+} from "../MockUtils/redis.mocks";
+import { checkSignInSignOutNavBar } from "../test.utils";
+
+import * as chai from "chai";
+import chaiHttp = require("chai-http");
+chai.use(chaiHttp);
 
 let testApp = null;
 const sandbox = sinon.createSandbox();
@@ -9,7 +18,9 @@ const sandbox = sinon.createSandbox();
 describe("routes.test", () => {
     beforeEach((done) => {
         sandbox.stub(ioredis.prototype, "connect").returns(Promise.resolve());
-        sandbox.stub(ioredis.prototype, "get").returns(Promise.resolve(signedInSession));
+        sandbox.stub(ioredis.prototype, "get")
+            .withArgs(SIGNED_IN_ID).returns(Promise.resolve(signedInSession))
+            .withArgs(SIGNED_OUT_ID).returns(Promise.resolve(signedOutSession));
 
         testApp = require("../../src/app").default;
         done();
@@ -46,4 +57,6 @@ describe("routes.test", () => {
             chai.expect(response.status).to.equal(404);
         });
     });
+
+    checkSignInSignOutNavBar(sandbox, "home", "/dissolved-search");
 });

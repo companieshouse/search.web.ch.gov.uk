@@ -9,6 +9,11 @@ import { DissolvedDates, FullDates, IncorporationDates } from "model/date.params
 import { Request } from "express";
 import moment from "moment";
 import escape from "escape-html";
+import { SessionKey } from "@companieshouse/node-session-handler/lib/session/keys/SessionKey";
+import { SignInInfoKeys } from "@companieshouse/node-session-handler/lib/session/keys/SignInInfoKeys";
+import { BASKET_WEB_URL } from "../../config/config";
+import { Basket } from "@companieshouse/api-sdk-node/dist/services/order/basket";
+import { getBasket } from "../../client/apiclient";
 
 export const getDownloadReportText = (signedIn: boolean, reportAvailable: boolean, returnUrl: string, companyNumber: string, companyName: string): string => {
     const signIn = "Sign in to download report";
@@ -539,4 +544,23 @@ export const getDatesFromParams = (req: Request): FullDates => {
             incorporationToDate
         }
     };
+};
+
+export interface BasketLink {
+    showBasketLink: boolean
+    basketWebUrl?: string
+    basketItems?: number
+}
+
+export const getBasketLink = async (req: Request) : Promise<BasketLink> => {
+    const signedIn = req.session?.data?.[SessionKey.SignInInfo]?.[SignInInfoKeys.SignedIn] === 1;
+    if (!signedIn) {
+        return { showBasketLink: false };
+    }
+    const signInInfo = req.session?.data[SessionKey.SignInInfo];
+    const accessToken = signInInfo?.[SignInInfoKeys.AccessToken]?.[SignInInfoKeys.AccessToken]!;
+
+    const basket: Basket = await getBasket(accessToken);
+
+    return { showBasketLink: basket.enrolled, basketWebUrl: BASKET_WEB_URL, basketItems: basket.items?.length };
 };

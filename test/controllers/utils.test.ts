@@ -3,11 +3,20 @@ import {
     checkLineBreakRequired, determineReportAvailableBool, getDownloadReportText, mapResponsiveHeaders,
     formatLongDate, formatCompactAddress, changeDateFormat, generateSize, buildPagingUrl, mapCompanyStatusCheckboxes,
     mapCompanyTypeCheckboxes, mapCompanySubtypeCheckboxes, buildCompanyStatusHtml, mapCompanyResource,
-    mapAdvancedSearchParams, formatNumberWithCommas, getDatesFromParams
+    mapAdvancedSearchParams, formatNumberWithCommas, getDatesFromParams, getBasketLink
 } from "../../src/controllers/utils/utils";
 import { AdvancedSearchParams } from "../../src/model/advanced.search.params";
 import { DissolvedDates, IncorporationDates } from "../../src/model/date.params";
 import { createDummyAdvancedSearchParams, getDummyAdvancedCompanyResource } from "../MockUtils/advanced-search/mock.util";
+import { Request } from "express";
+import { signedInSessionData, signedOutSessionData } from "../MockUtils/redis.mocks";
+import * as apiClient from "../../src/client/apiclient";
+import { getDummyBasket } from "../MockUtils/dissolved-search/mock.util";
+import sinon from "sinon";
+// Without this import these tests will not compile.
+import { Session } from "@companieshouse/node-session-handler";
+
+const sandbox = sinon.createSandbox();
 
 describe("utils.test", () => {
     describe("check that reports are only available if within the last 20 years", () => {
@@ -513,6 +522,53 @@ describe("utils.test", () => {
                     incorporationToDate: "2/2/2015"
                 }
             });
+        });
+    });
+
+    describe("getBasketLink", () => {
+        afterEach(() => {
+            sandbox.reset();
+            sandbox.restore();
+        });
+
+        it("should indicate that basket link is not to be rendered where no session present in request", async () => {
+            chai.expect(await getBasketLink({} as Request)).to.deep.equal(
+                { showBasketLink: false }
+            );
+        });
+
+        it("should indicate that basket link is not to be rendered where no session data present in request", async () => {
+            chai.expect(await getBasketLink({ session: {} } as Request)).to.deep.equal(
+                { showBasketLink: false }
+            );
+        });
+
+        it("should indicate that basket link is not to be rendered where no sign in present in request", async () => {
+            chai.expect(await getBasketLink({ session: { data: signedOutSessionData } } as Request)).to.deep.equal(
+                { showBasketLink: false }
+            );
+        });
+
+        it("should indicate that basket link is not to be rendered where the user is not enrolled", async () => {
+            sandbox.stub(apiClient, "getBasket").resolves(getDummyBasket(false));
+            chai.expect(await getBasketLink({ session: { data: signedInSessionData } } as Request)).to.deep.equal(
+                {
+                    showBasketLink: false,
+                    basketWebUrl: "http://chs-url//basket",
+                    basketItems: 1
+                }
+            );
+        });
+
+        it("should indicate that basket link is to be rendered where the user is enrolled", async () => {
+            sandbox.stub(apiClient, "getBasket").resolves(getDummyBasket(true));
+            chai.expect(await getBasketLink({ session: { data: signedInSessionData } } as Request)).to.deep.equal(
+                {
+                    showBasketLink: true,
+                    basketWebUrl: "http://chs-url//basket",
+                    basketItems: 1
+                }
+            );
         });
     });
 });

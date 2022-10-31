@@ -19,6 +19,9 @@
             <li>
                 <a id="user-follow" href="{{ CHS_MONITOR_GUI_URL }}" class="govuk-link">Companies you follow</a>
             </li>
+            {% if showBasketLink %}
+                <li><a class="govuk-link" id="basket" href="{{ basketWebUrl }}">Basket ({{ basketItems }})</a></li>
+            {% endif %}
             <li>
                 <a id="user-signout" href="/signout" class="govuk-link">Sign out</a>
             </li>

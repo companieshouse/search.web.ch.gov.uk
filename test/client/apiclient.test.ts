@@ -1,15 +1,23 @@
 import sinon from "sinon";
 import chai from "chai";
+import chaiAsPromised from "chai-as-promised";
+
 import Resource from "@companieshouse/api-sdk-node/dist/services/resource";
 import { CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/alphabetical-search/types";
 import { CompaniesResource as DissolvedCompanyResource } from "@companieshouse/api-sdk-node/dist/services/search/dissolved-search/types";
 import { CompaniesResource as AdvancedCompanyResource } from "@companieshouse/api-sdk-node/dist/services/search/advanced-search/types";
-import { getCompanies, getDissolvedCompanies, getAdvancedCompanies } from "../../src/client/apiclient";
+import { getCompanies, getDissolvedCompanies, getAdvancedCompanies, getBasket } from "../../src/client/apiclient";
 import AlphabeticalSearchService from "@companieshouse/api-sdk-node/dist/services/search/alphabetical-search/service";
 import DissolvedSearchService from "@companieshouse/api-sdk-node/dist/services/search/dissolved-search/service";
 import AdvancedSearchService from "@companieshouse/api-sdk-node/dist/services/search/advanced-search/service";
 import { createDummyAdvancedSearchParams } from "../MockUtils/advanced-search/mock.util";
 import { AdvancedSearchParams } from "../../src/model/advanced.search.params";
+import { BasketService } from "@companieshouse/api-sdk-node/dist/services/order";
+import { getDummyBasket } from "../MockUtils/dissolved-search/mock.util";
+import { Basket } from "@companieshouse/api-sdk-node/dist/services/order/basket";
+import createError from "http-errors";
+
+chai.use(chaiAsPromised);
 
 const mockResponse: Resource<CompaniesResource> = {
     httpStatusCode: 200,
@@ -164,6 +172,11 @@ const mockAdvancedResponse: Resource<AdvancedCompanyResource> = {
     }
 };
 
+const mockBasketResponse: Resource<Basket> = {
+    httpStatusCode: 200,
+    resource: getDummyBasket(false)
+};
+
 const mockRequestID: string = "ID";
 const hits: number = 20;
 
@@ -200,6 +213,24 @@ describe("api.client", () => {
 
             const dissolvedAlphabeticalSearchResults = await getDissolvedCompanies("api key", "test company", mockRequestID, "", 1, "testcompany:1234", null, 20);
             chai.expect(dissolvedAlphabeticalSearchResults).to.equal(mockDissolvedResponse.resource);
+        });
+
+        it("getBasket returns Basket from response payload (resource)", async () => {
+            sandbox.stub(BasketService.prototype, "getBasket").resolves(mockBasketResponse);
+            const basket: Basket = await getBasket("oAuth");
+            chai.expect(basket).to.equal(mockBasketResponse.resource);
+        });
+
+        it("getBasket throws error on 404 response from the API", async () => {
+            const error = createError(404);
+            sandbox.stub(BasketService.prototype, "getBasket").rejects(error);
+            return chai.expect(getBasket("oAuth")).to.be.rejectedWith(error.message);
+        });
+
+        it("getBasket throws error on 502 response from the API", async () => {
+            const error = createError(502);
+            sandbox.stub(BasketService.prototype, "getBasket").rejects(error);
+            return chai.expect(getBasket("oAuth")).to.be.rejectedWith(error.message);
         });
     });
 

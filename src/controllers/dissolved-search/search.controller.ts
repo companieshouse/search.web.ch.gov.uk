@@ -1,15 +1,26 @@
-import { Request, Response } from "express";
-import { query, validationResult } from "express-validator";
+import { NextFunction, Request, Response } from "express";
+import {query, Result, ValidationError, validationResult} from "express-validator";
 import { createGovUkErrorData, GovUkErrorData } from "../../model/govuk.error.data";
 import { CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/dissolved-search/types";
 import { createLogger } from "@companieshouse/structured-logging-node";
 import { getDissolvedCompanies } from "../../client/apiclient";
-import { Session } from "@companieshouse/node-session-handler";
 import { SessionKey } from "@companieshouse/node-session-handler/lib/session/keys/SessionKey";
 import { SignInInfoKeys } from "@companieshouse/node-session-handler/lib/session/keys/SignInInfoKeys";
 
 import { SEARCH_WEB_COOKIE_NAME, API_KEY, APPLICATION_NAME, LAST_UPDATED_MESSAGE, DISSOLVED_SEARCH_NUMBER_OF_RESULTS, ACCOUNT_URL, CHS_MONITOR_GUI_URL } from "../../config/config";
-import { detectNearestMatch, formatDate, sanitiseCompanyName, generateROAddress, determineReturnToUrl, getDownloadReportText, determineReportAvailableBool, mapResponsiveHeaders, getPagingRange } from "../utils/utils";
+import {
+    detectNearestMatch,
+    formatDate,
+    sanitiseCompanyName,
+    generateROAddress,
+    determineReturnToUrl,
+    getDownloadReportText,
+    determineReportAvailableBool,
+    mapResponsiveHeaders,
+    getPagingRange,
+    getBasketLink,
+    BasketLink
+} from "../utils/utils";
 import * as templatePaths from "../../model/template.paths";
 import * as errorMessages from "../../model/error.messages";
 import Cookies = require("cookies");
@@ -27,7 +38,6 @@ const ROA_TABLE_HEADING: string = "Registered office address at dissolution";
 const DOWNLOAD_REPORT_TABLE_HEADING: string = "Download Report";
 const PREVIOUS_COMPANY_NAME_TABLE_HEADING: string = "Previous company name";
 
-
 const validators = [
     query("alphabetical").custom((value, { req }) => {
         if (req.query?.searchType === ALPHABETICAL_SEARCH_TYPE && req.query?.changedName === PREVIOUS_NAME_SEARCH_TYPE) {
@@ -37,85 +47,121 @@ const validators = [
     })
 ];
 
-const route = async (req: Request, res: Response) => {
+const route = async (req: Request, res: Response, next:NextFunction) => {
+    try {
+        await wrappedRoute(req, res);
+    } catch (error) {
+        next(error);
+    }
+};
+
+const wrappedRoute = async (req: Request, res: Response) => {
     const cookies = new Cookies(req, res);
     const errors = validationResult(req);
 
-    if (errors.isEmpty()) {
-        const companyNameRequestParam: string = req.query.companyName as string;
-        const searchTypeRequestParam: string = req.query.searchType as string;
-        const changeNameTypeParam: string = req.query.changedName as string;
-        const searchBefore = req.query.searchBefore as string || null;
-        const searchAfter = req.query.searchAfter as string || null;
-        const signedIn = req.session?.data?.[SessionKey.SignInInfo]?.[SignInInfoKeys.SignedIn] === 1;
-        // Currently not allowing users to specify a size parameter, will leave this here for possible future implementation
-        // const size = generateSize(req.query.size as string || null, searchBefore, searchAfter);
-        const size = null;
-        const companyName: string = companyNameRequestParam;
-        const encodedCompanyName: string = encodeURIComponent(companyName);
-        const lastUpdatedMessage: string = LAST_UPDATED_MESSAGE;
-        const page = searchTypeRequestParam === ALPHABETICAL_SEARCH_TYPE ? 0 : req.query.page ? Number(req.query.page) : 1;
-        const returnToUrl = determineReturnToUrl(req);
+    const basketLink: BasketLink = await getBasketLink(req);
 
-        let prevLink = "";
-        let nextLink = "";
+    if (!errors.isEmpty()) {
+        return reportErrors(errors, res, basketLink);
+    }
 
-        let searchType: string;
+    const companyNameRequestParam: string = req.query.companyName as string;
+    const searchTypeRequestParam: string = req.query.searchType as string;
+    const changeNameTypeParam: string = req.query.changedName as string;
+    const searchBefore = req.query.searchBefore as string || null;
+    const searchAfter = req.query.searchAfter as string || null;
+    const signedIn = req.session?.data?.[SessionKey.SignInInfo]?.[SignInInfoKeys.SignedIn] === 1;
+    // Currently not allowing users to specify a size parameter, will leave this here for possible future implementation
+    // const size = generateSize(req.query.size as string || null, searchBefore, searchAfter);
+    const size = null;
+    const companyName: string = companyNameRequestParam;
+    const encodedCompanyName: string = encodeURIComponent(companyName);
+    const lastUpdatedMessage: string = LAST_UPDATED_MESSAGE;
+    const page = searchTypeRequestParam === ALPHABETICAL_SEARCH_TYPE ? 0 : req.query.page ? Number(req.query.page) : 1;
+    const returnToUrl = determineReturnToUrl(req);
 
-        if (companyNameRequestParam === "") {
-            return res.render(templatePaths.DISSOLVED_INDEX);
-        }
+    let prevLink = "";
+    let nextLink = "";
 
-        if (searchTypeRequestParam === ALPHABETICAL_SEARCH_TYPE) {
-            searchType = ALPHABETICAL_SEARCH_TYPE;
-        } else if (changeNameTypeParam === PREVIOUS_NAME_SEARCH_TYPE) {
-            searchType = PREVIOUS_NAME_SEARCH_TYPE;
-        } else {
-            searchType = BEST_MATCH_SEARCH_TYPE;
-        };
+    let searchType: string;
 
-        const { companyResource, searchResults } = await getSearchResults(encodedCompanyName, cookies, searchType, page, searchBefore, searchAfter, size, signedIn, returnToUrl);
+    if (companyNameRequestParam === "") {
+        return res.render(templatePaths.DISSOLVED_INDEX, basketLink);
+    }
 
-        const { items } = companyResource;
-
-        const numberOfPages: number = Math.ceil(companyResource.hits / DISSOLVED_SEARCH_NUMBER_OF_RESULTS);
-
-        const partialHref: string = "get-results?companyName=" + encodeURIComponent(companyNameRequestParam) + "&changedName=" + changeNameTypeParam;
-
-        const searchBeforeAlphaKey = items[0]?.ordered_alpha_key_with_id;
-        const searchAfterAlphaKey = items[items.length - 1]?.ordered_alpha_key_with_id;
-        const previousUrl = searchBeforeAlphaKey ? `get-results?companyName=${encodedCompanyName}&searchType=${ALPHABETICAL_SEARCH_TYPE}&searchBefore=${encodeURIComponent(searchBeforeAlphaKey)}` : "";
-        const nextUrl = searchAfterAlphaKey ? `get-results?companyName=${encodedCompanyName}&searchType=${ALPHABETICAL_SEARCH_TYPE}&searchAfter=${encodeURIComponent(searchAfterAlphaKey)}` : "";
-        const searchTypeFlag = searchType === ALPHABETICAL_SEARCH_TYPE;
-        const pagingRange = getPagingRange(page, numberOfPages);
-
-        if (changeNameTypeParam === PREVIOUS_NAME_SEARCH_TYPE) {
-            return res.render(templatePaths.DISSOLVED_SEARCH_RESULTS_PREVIOUS_NAME, {
-               searchResults, searchedName: companyName, templateName: templatePaths.DISSOLVED_SEARCH_RESULTS_PREVIOUS_NAME, lastUpdatedMessage, partialHref, numberOfPages, page, pagingRange
-            });
-        }
-
-        const searchResultsPreviousLink = await getSearchResults(encodedCompanyName, cookies, searchType, page, searchBeforeAlphaKey, searchAfter, size, signedIn, returnToUrl);
-        const searchResultsNextLink = await getSearchResults(encodedCompanyName, cookies, searchType, page, searchBefore, searchAfterAlphaKey, size, signedIn, returnToUrl);
-
-        if (searchResultsPreviousLink.searchResults.length > 0) {
-            prevLink = "resultsPresent";
-        }
-        if (searchResultsNextLink.searchResults.length > 0) {
-            nextLink = "resultsPresent";
-        }
-
-        return res.render(templatePaths.DISSOLVED_SEARCH_RESULTS, {
-            searchResults, searchedName: companyName, templateName: templatePaths.DISSOLVED_SEARCH_RESULTS, lastUpdatedMessage, partialHref, numberOfPages, page, previousUrl, nextUrl, prevLink, nextLink, searchTypeFlag, pagingRange
-        });
+    if (searchTypeRequestParam === ALPHABETICAL_SEARCH_TYPE) {
+        searchType = ALPHABETICAL_SEARCH_TYPE;
+    } else if (changeNameTypeParam === PREVIOUS_NAME_SEARCH_TYPE) {
+        searchType = PREVIOUS_NAME_SEARCH_TYPE;
     } else {
-        const errorText = errors.array().map((err) => err.msg).pop() as string;
-        const dissolvedSearchOptionsErrorData: GovUkErrorData = createGovUkErrorData(errorText, "#changed-name", true, "");
-        return res.render(templatePaths.DISSOLVED_INDEX, {
-            dissolvedSearchOptionsErrorData,
-            errorList: [dissolvedSearchOptionsErrorData]
+        searchType = BEST_MATCH_SEARCH_TYPE;
+    };
+
+    const { companyResource, searchResults } = await getSearchResults(encodedCompanyName, cookies, searchType, page, searchBefore, searchAfter, size, signedIn, returnToUrl);
+
+    const { items } = companyResource;
+
+    const numberOfPages: number = Math.ceil(companyResource.hits / DISSOLVED_SEARCH_NUMBER_OF_RESULTS);
+
+    const partialHref: string = "get-results?companyName=" + encodeURIComponent(companyNameRequestParam) + "&changedName=" + changeNameTypeParam;
+
+    const searchBeforeAlphaKey = items[0]?.ordered_alpha_key_with_id;
+    const searchAfterAlphaKey = items[items.length - 1]?.ordered_alpha_key_with_id;
+    const previousUrl = searchBeforeAlphaKey ? `get-results?companyName=${encodedCompanyName}&searchType=${ALPHABETICAL_SEARCH_TYPE}&searchBefore=${encodeURIComponent(searchBeforeAlphaKey)}` : "";
+    const nextUrl = searchAfterAlphaKey ? `get-results?companyName=${encodedCompanyName}&searchType=${ALPHABETICAL_SEARCH_TYPE}&searchAfter=${encodeURIComponent(searchAfterAlphaKey)}` : "";
+    const searchTypeFlag = searchType === ALPHABETICAL_SEARCH_TYPE;
+    const pagingRange = getPagingRange(page, numberOfPages);
+
+    if (changeNameTypeParam === PREVIOUS_NAME_SEARCH_TYPE) {
+        return res.render(templatePaths.DISSOLVED_SEARCH_RESULTS_PREVIOUS_NAME, {
+            searchResults,
+            searchedName: companyName,
+            templateName: templatePaths.DISSOLVED_SEARCH_RESULTS_PREVIOUS_NAME,
+            lastUpdatedMessage,
+            partialHref,
+            numberOfPages,
+            page,
+            pagingRange,
+            ...basketLink
         });
     }
+
+    const searchResultsPreviousLink = await getSearchResults(encodedCompanyName, cookies, searchType, page, searchBeforeAlphaKey, searchAfter, size, signedIn, returnToUrl);
+    const searchResultsNextLink = await getSearchResults(encodedCompanyName, cookies, searchType, page, searchBefore, searchAfterAlphaKey, size, signedIn, returnToUrl);
+
+    if (searchResultsPreviousLink.searchResults.length > 0) {
+        prevLink = "resultsPresent";
+    }
+    if (searchResultsNextLink.searchResults.length > 0) {
+        nextLink = "resultsPresent";
+    }
+
+    return res.render(templatePaths.DISSOLVED_SEARCH_RESULTS, {
+        searchResults,
+        searchedName: companyName,
+        templateName: templatePaths.DISSOLVED_SEARCH_RESULTS,
+        lastUpdatedMessage,
+        partialHref,
+        numberOfPages,
+        page,
+        previousUrl,
+        nextUrl,
+        prevLink,
+        nextLink,
+        searchTypeFlag,
+        pagingRange,
+        ...basketLink
+    });
+};
+
+const reportErrors = (errors: Result<ValidationError>, res: Response, basketLink: BasketLink) => {
+    const errorText = errors.array().map((err) => err.msg).pop() as string;
+    const dissolvedSearchOptionsErrorData: GovUkErrorData = createGovUkErrorData(errorText, "#changed-name", true, "");
+    return res.render(templatePaths.DISSOLVED_INDEX, {
+        dissolvedSearchOptionsErrorData,
+        errorList: [dissolvedSearchOptionsErrorData],
+        ...basketLink
+    });
 };
 
 const getSearchResults = async (encodedCompanyName: string, cookies: Cookies, searchType: string, page: number, searchBefore: string | null, searchAfter: string | null, size: number | null, signedIn: boolean, returnToUrl: string): Promise<{

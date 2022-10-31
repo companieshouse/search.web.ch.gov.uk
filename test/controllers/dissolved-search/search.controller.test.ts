@@ -1,11 +1,22 @@
 import * as mockUtils from "../../MockUtils/dissolved-search/mock.util";
 import sinon from "sinon";
-import chai from "chai";
 import ioredis from "ioredis";
 import * as apiClient from "../../../src/client/apiclient";
 import { CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/dissolved-search/types";
 import { formatDate, sanitiseCompanyName, generateROAddress, determineReportAvailableBool } from "../../../src/controllers/utils/utils";
-import { signedInSession, SIGNED_IN_COOKIE } from "../../MockUtils/redis.mocks";
+import {
+    signedInSession,
+    SIGNED_IN_COOKIE,
+    signedOutSession,
+    SIGNED_IN_ID,
+    SIGNED_OUT_ID
+} from "../../MockUtils/redis.mocks";
+import { getDummyBasket } from "../../MockUtils/dissolved-search/mock.util";
+import { checkSignInSignOutNavBar } from "../../test.utils";
+
+import * as chai from "chai";
+import chaiHttp = require("chai-http");
+chai.use(chaiHttp);
 
 const sandbox = sinon.createSandbox();
 let testApp = null;
@@ -113,7 +124,9 @@ const emptyMockResponseBody : CompaniesResource = ({
 describe("search.controller.test", () => {
     beforeEach((done) => {
         sandbox.stub(ioredis.prototype, "connect").returns(Promise.resolve());
-        sandbox.stub(ioredis.prototype, "get").returns(Promise.resolve(signedInSession));
+        sandbox.stub(ioredis.prototype, "get")
+            .withArgs(SIGNED_IN_ID).returns(Promise.resolve(signedInSession))
+            .withArgs(SIGNED_OUT_ID).returns(Promise.resolve(signedOutSession));
         testApp = require("../../../src/app").default;
         done();
     });
@@ -545,6 +558,7 @@ describe("search.controller.test", () => {
         it("should return the correct company number in download uri for 5 company results being returned", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getDissolvedCompanies")
                 .returns(Promise.resolve(mockUtils.getDummyDissolvedCompanyResource("tetso", 5, 0)));
+            sandbox.stub(apiClient, "getBasket").returns(Promise.resolve(getDummyBasket(false)));
 
             const resp = await chai.request(testApp)
                 .get("/dissolved-search/get-results?companyName=company&searchType=alphabetical&changedName=name-at-dissolution")
@@ -578,4 +592,6 @@ describe("search.controller.test", () => {
             chai.expect(resp.text).to.contain(`<a href="/signin?return_to=%2Fdissolved-search%2Fget-results%3FcompanyName%3Dtesto%26changedName%3Dname-at-dissolution" class="govuk-link">Sign in to download report <span class="govuk-visually-hidden">tetso1 06500001</span></a>`);
         });
     });
+
+    checkSignInSignOutNavBar(sandbox, "results", "/dissolved-search/get-results");
 });

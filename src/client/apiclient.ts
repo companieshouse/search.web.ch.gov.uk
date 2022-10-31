@@ -7,6 +7,7 @@ import { createLogger } from "@companieshouse/structured-logging-node";
 import Resource from "@companieshouse/api-sdk-node/dist/services/resource";
 import createError from "http-errors";
 import { AdvancedSearchParams } from "model/advanced.search.params";
+import { Basket } from "@companieshouse/api-sdk-node/dist/services/order/basket";
 
 const logger = createLogger(APPLICATION_NAME);
 
@@ -64,4 +65,15 @@ export const getAdvancedCompanies =
           company_subtype=${advancedSearchParams.companySubtype}, dissolved_from=${advancedSearchParams.dissolvedFrom}, dissolved_to=${advancedSearchParams.dissolvedTo}, 
           size=${advancedSearchParams.size}, status_code=${companiesResource.httpStatusCode}`);
         return companiesResource.resource as AdvancedCompaniesResource;
+    };
+
+export const getBasket =
+    async (oAuth: string): Promise<Basket> => {
+        const api = createApiClient(undefined, oAuth, API_URL);
+        const basketResource: Resource<Basket> = await api.basket.getBasket();
+        logger.info(`Get basket, status_code = ${basketResource.httpStatusCode}`);
+        if (basketResource.httpStatusCode !== 200 && basketResource.httpStatusCode !== 201) {
+            throw createError(basketResource.httpStatusCode, basketResource.httpStatusCode.toString());
+        }
+        return basketResource.resource as Basket;
     };
