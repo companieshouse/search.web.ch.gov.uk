@@ -1,9 +1,10 @@
-import sinon, { mock } from "sinon";
+import sinon from "sinon";
 import chai from "chai";
 import ioredis from "ioredis";
 import * as mockUtils from "../../MockUtils/advanced-search/mock.util";
 import * as apiClient from "../../../src/client/apiclient";
-import { signedInSession } from "../../MockUtils/redis.mocks";
+import { SIGNED_IN_ID, SIGNED_OUT_ID, signedInSession, signedOutSession } from "../../MockUtils/redis.mocks";
+import { checkSignInSignOutNavBar } from "../../test.utils";
 
 const sandbox = sinon.createSandbox();
 let testApp = null;
@@ -12,7 +13,9 @@ let getCompanyItemStub;
 describe("advanced search search.controller.test", () => {
     beforeEach((done) => {
         sandbox.stub(ioredis.prototype, "connect").returns(Promise.resolve());
-        sandbox.stub(ioredis.prototype, "get").returns(Promise.resolve(signedInSession));
+        sandbox.stub(ioredis.prototype, "get")
+            .withArgs(SIGNED_IN_ID).returns(Promise.resolve(signedInSession))
+            .withArgs(SIGNED_OUT_ID).returns(Promise.resolve(signedOutSession));
         testApp = require("../../../src/app").default;
         done();
     });
@@ -1012,4 +1015,6 @@ describe("advanced search search.controller.test", () => {
             chai.expect(resp.text).to.contain("<input class='hidden govuk-input govuk-input--width-10' name='dissolvedToYear' type='text' value='2012'");
         });
     });
+
+    checkSignInSignOutNavBar(sandbox, "advanced search", "results", "/advanced-search/get-results");
 });

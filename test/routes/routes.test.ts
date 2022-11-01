@@ -60,4 +60,5 @@ describe("routes.test", () => {
 
     checkSignInSignOutNavBar(sandbox, "dissolved search", "home", "/dissolved-search");
     checkSignInSignOutNavBar(sandbox, "alphabetical search", "home", "/alphabetical-search");
+    checkSignInSignOutNavBar(sandbox, "advanced search", "home", "/advanced-search");
 });
