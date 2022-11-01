@@ -1,4 +1,4 @@
-import sinon, { mock } from "sinon";
+import sinon from "sinon";
 import chai from "chai";
 import ioredis from "ioredis";
 import cheerio from "cheerio";
@@ -6,9 +6,7 @@ import { signedInSession } from "../../MockUtils/redis.mocks";
 
 const sandbox = sinon.createSandbox();
 let testApp = null;
-let getCompanyItemStub;
-
-describe("search.controller.test", () => {
+describe("advanced search search.controller.test", () => {
     beforeEach((done) => {
         sandbox.stub(ioredis.prototype, "connect").returns(Promise.resolve());
         sandbox.stub(ioredis.prototype, "get").returns(Promise.resolve(signedInSession));
@@ -93,9 +91,7 @@ describe("search.controller.test", () => {
         it("should contain dissolved-search", async () => {
             const resp = await chai.request(testApp)
                 .get("/advanced-search");
-
-            const $ = cheerio.load(resp.text);
-
+            cheerio.load(resp.text);
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain("help/feedback?sourceurl=advanced-search");
         });
