@@ -9,7 +9,7 @@ const sandbox = sinon.createSandbox();
 let testApp = null;
 let getCompanyItemStub;
 
-describe("search.controller.test", () => {
+describe("advanced search search.controller.test", () => {
     beforeEach((done) => {
         sandbox.stub(ioredis.prototype, "connect").returns(Promise.resolve());
         sandbox.stub(ioredis.prototype, "get").returns(Promise.resolve(signedInSession));

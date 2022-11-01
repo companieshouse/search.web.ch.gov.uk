@@ -1,5 +1,4 @@
 import * as apiClient from "../src/client/apiclient";
-import * as mockUtils from "./MockUtils/dissolved-search/mock.util";
 import { getDummyBasket } from "./MockUtils/dissolved-search/mock.util";
 import { SIGNED_IN_COOKIE, SIGNED_OUT_COOKIE } from "./MockUtils/redis.mocks";
 import { SinonSandbox } from "sinon";
@@ -11,13 +10,15 @@ chai.use(chaiHttp);
 
 let testApp = null;
 
-export const checkSignInSignOutNavBar = (sandbox: SinonSandbox, pageName: string, pagePath: string) => {
+export const checkSignInSignOutNavBar = (
+    sandbox: SinonSandbox,
+    searchName: string,
+    pageName: string,
+    pagePath: string) => {
     testApp = require("../src/app").default;
 
-    describe(`check the sign in/sign out nav bar on dissolved search ${pageName} page`, () => {
+    describe(`check the sign in/sign out nav bar on ${searchName} ${pageName} page`, () => {
         it("should show the sign in/sign out nav bar for signed in user", async () => {
-            sandbox.stub(apiClient, "getDissolvedCompanies")
-                .resolves(mockUtils.getDummyDissolvedCompanyResource("tetso", 1, 2));
             sandbox.stub(apiClient, "getBasket").resolves(getDummyBasket(false));
 
             const resp = await chai.request(testApp)
@@ -33,8 +34,6 @@ export const checkSignInSignOutNavBar = (sandbox: SinonSandbox, pageName: string
         });
 
         it("should not show the sign in/sign out nav bar for signed out user", async () => {
-            sandbox.stub(apiClient, "getDissolvedCompanies")
-                .resolves(mockUtils.getDummyDissolvedCompanyResource("tetso", 1, 2));
             sandbox.stub(apiClient, "getBasket").resolves(getDummyBasket(false));
 
             const resp = await chai.request(testApp)
@@ -46,8 +45,6 @@ export const checkSignInSignOutNavBar = (sandbox: SinonSandbox, pageName: string
         });
 
         it("should show basket link for enrolled user", async () => {
-            sandbox.stub(apiClient, "getDissolvedCompanies")
-                .resolves(mockUtils.getDummyDissolvedCompanyResource("tetso", 1, 2));
             sandbox.stub(apiClient, "getBasket").resolves(getDummyBasket(true));
 
             const resp = await chai.request(testApp)
@@ -59,8 +56,6 @@ export const checkSignInSignOutNavBar = (sandbox: SinonSandbox, pageName: string
         });
 
         it("should not show basket link for un-enrolled user", async () => {
-            sandbox.stub(apiClient, "getDissolvedCompanies")
-                .resolves(mockUtils.getDummyDissolvedCompanyResource("tetso", 1, 2));
             sandbox.stub(apiClient, "getBasket").resolves(getDummyBasket(false));
 
             const resp = await chai.request(testApp)
@@ -71,9 +66,7 @@ export const checkSignInSignOutNavBar = (sandbox: SinonSandbox, pageName: string
             chai.expect(resp.text).to.not.contain(`Basket (`);
         });
 
-        it("should show the service error page for a 404 response from the basket API?", async () => {
-            sandbox.stub(apiClient, "getDissolvedCompanies")
-                .resolves(mockUtils.getDummyDissolvedCompanyResource("tetso", 1, 2));
+        it("should show the service error page for a 404 response from the basket API", async () => {
             sandbox.stub(apiClient, "getBasket").rejects(createError(404));
 
             const resp = await chai.request(testApp)
@@ -84,9 +77,7 @@ export const checkSignInSignOutNavBar = (sandbox: SinonSandbox, pageName: string
             chai.expect(resp.text).to.contain("Sorry, there is a problem with the service");
         });
 
-        it("should show the service error page for a 502 response from the basket API?", async () => {
-            sandbox.stub(apiClient, "getDissolvedCompanies")
-                .resolves(mockUtils.getDummyDissolvedCompanyResource("tetso", 1, 2));
+        it("should show the service error page for a 502 response from the basket API", async () => {
             sandbox.stub(apiClient, "getBasket").rejects(createError(502));
 
             const resp = await chai.request(testApp)

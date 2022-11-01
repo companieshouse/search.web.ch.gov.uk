@@ -58,5 +58,6 @@ describe("routes.test", () => {
         });
     });
 
-    checkSignInSignOutNavBar(sandbox, "home", "/dissolved-search");
+    checkSignInSignOutNavBar(sandbox, "dissolved search", "home", "/dissolved-search");
+    checkSignInSignOutNavBar(sandbox, "alphabetical search", "home", "/alphabetical-search");
 });

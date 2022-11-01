@@ -121,7 +121,7 @@ const emptyMockResponseBody : CompaniesResource = ({
     }
 });
 
-describe("search.controller.test", () => {
+describe("dissolved search search.controller.test", () => {
     beforeEach((done) => {
         sandbox.stub(ioredis.prototype, "connect").returns(Promise.resolve());
         sandbox.stub(ioredis.prototype, "get")
@@ -593,5 +593,5 @@ describe("search.controller.test", () => {
         });
     });
 
-    checkSignInSignOutNavBar(sandbox, "results", "/dissolved-search/get-results");
+    checkSignInSignOutNavBar(sandbox, "dissolved search", "results", "/dissolved-search/get-results");
 });
