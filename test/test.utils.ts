@@ -11,10 +11,10 @@ chai.use(chaiHttp);
 
 let testApp = null;
 
-export const checkSignInSignOutNavBar = (sandbox: SinonSandbox, pageName: string, pagePath: string) => {
+export const checkSignInSignOutNavBar = (sandbox: SinonSandbox, searchName: string, pageName: string, pagePath: string) => {
     testApp = require("../src/app").default;
 
-    describe(`check the sign in/sign out nav bar on dissolved search ${pageName} page`, () => {
+    describe(`check the sign in/sign out nav bar on ${searchName} ${pageName} page`, () => {
         it("should show the sign in/sign out nav bar for signed in user", async () => {
             sandbox.stub(apiClient, "getDissolvedCompanies")
                 .resolves(mockUtils.getDummyDissolvedCompanyResource("tetso", 1, 2));

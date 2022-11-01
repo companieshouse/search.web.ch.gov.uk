@@ -593,5 +593,5 @@ describe("search.controller.test", () => {
         });
     });
 
-    checkSignInSignOutNavBar(sandbox, "results", "/dissolved-search/get-results");
+    checkSignInSignOutNavBar(sandbox, "dissolved search", "results", "/dissolved-search/get-results");
 });

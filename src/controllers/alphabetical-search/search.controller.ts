@@ -1,11 +1,11 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { check, validationResult } from "express-validator";
 import { createGovUkErrorData } from "../../model/govuk.error.data";
 import { createLogger } from "@companieshouse/structured-logging-node";
 import { SEARCH_WEB_COOKIE_NAME, API_KEY, APPLICATION_NAME } from "../../config/config";
 import { getCompanies } from "../../client/apiclient";
 import { CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/alphabetical-search/types";
-import { detectNearestMatch, toTitleCase } from "../utils/utils";
+import { BasketLink, detectNearestMatch, getBasketLink, toTitleCase } from "../utils/utils";
 import * as templatePaths from "../../model/template.paths";
 import * as errorMessages from "../../model/error.messages";
 
@@ -18,9 +18,19 @@ const validators = [
     check("companyName").not().isEmpty().withMessage(errorMessages.COMPANY_NAME_EMPTY)
 ];
 
-const route = async (req: Request, res: Response) => {
+const route = async (req: Request, res: Response, next:NextFunction) => {
+    try {
+        await wrappedRoute(req, res);
+    } catch (error) {
+        next(error);
+    }
+};
+
+const wrappedRoute = async (req: Request, res: Response) => {
     const cookies = new Cookies(req, res);
     const errors = validationResult(req);
+
+    const basketLink: BasketLink = await getBasketLink(req);
 
     if (errors.isEmpty()) {
         const companyNameRequestParam = req.query.companyName as string;
@@ -61,7 +71,8 @@ const route = async (req: Request, res: Response) => {
             searchTerm: companyName,
             prevLink,
             nextLink,
-            templateName: templatePaths.ALPHABETICAL_SEARCH_RESULTS
+            templateName: templatePaths.ALPHABETICAL_SEARCH_RESULTS,
+            ...basketLink
         });
     } else {
         const errorArray = errors.array();
@@ -69,7 +80,8 @@ const route = async (req: Request, res: Response) => {
         const companyNameErrorData = createGovUkErrorData(errorText, "#companyName", true, "");
         return res.render(templatePaths.ALPHABETICAL_INDEX, {
             companyNameErrorData,
-            errorList: [companyNameErrorData]
+            errorList: [companyNameErrorData],
+            ...basketLink
         });
     }
 };
