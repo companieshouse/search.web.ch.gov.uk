@@ -66,7 +66,7 @@ export const checkSignInSignOutNavBar = (
             chai.expect(resp.text).to.not.contain(`Basket (`);
         });
 
-        it("should show the service error page for a 404 response from the basket API?", async () => {
+        it("should show the service error page for a 404 response from the basket API", async () => {
             sandbox.stub(apiClient, "getBasket").rejects(createError(404));
 
             const resp = await chai.request(testApp)
@@ -77,7 +77,7 @@ export const checkSignInSignOutNavBar = (
             chai.expect(resp.text).to.contain("Sorry, there is a problem with the service");
         });
 
-        it("should show the service error page for a 502 response from the basket API?", async () => {
+        it("should show the service error page for a 502 response from the basket API", async () => {
             sandbox.stub(apiClient, "getBasket").rejects(createError(502));
 
             const resp = await chai.request(testApp)
