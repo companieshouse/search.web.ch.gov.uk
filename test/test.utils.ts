@@ -66,26 +66,26 @@ export const checkSignInSignOutNavBar = (
             chai.expect(resp.text).to.not.contain(`Basket (`);
         });
 
-        it("should show the service error page for a 404 response from the basket API", async () => {
+        it("should not show basket link for a 404 response from the basket API", async () => {
             sandbox.stub(apiClient, "getBasket").rejects(createError(404));
 
             const resp = await chai.request(testApp)
                 .get(pagePath)
                 .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
 
-            chai.expect(resp.status).to.equal(500);
-            chai.expect(resp.text).to.contain("Sorry, there is a problem with the service");
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.not.contain(`Basket (`);
         });
 
-        it("should show the service error page for a 502 response from the basket API", async () => {
+        it("should not show basket link for a  502 response from the basket API", async () => {
             sandbox.stub(apiClient, "getBasket").rejects(createError(502));
 
             const resp = await chai.request(testApp)
                 .get(pagePath)
                 .set("Cookie", [`__SID=${SIGNED_IN_COOKIE}`]);
 
-            chai.expect(resp.status).to.equal(500);
-            chai.expect(resp.text).to.contain("Sorry, there is a problem with the service");
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.not.contain(`Basket (`);
         });
     });
 };

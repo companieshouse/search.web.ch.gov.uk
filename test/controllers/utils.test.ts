@@ -15,6 +15,7 @@ import { getDummyBasket } from "../MockUtils/dissolved-search/mock.util";
 import sinon from "sinon";
 // Without this import these tests will not compile.
 import { Session } from "@companieshouse/node-session-handler";
+import createError from "http-errors";
 
 const sandbox = sinon.createSandbox();
 
@@ -556,6 +557,24 @@ describe("utils.test", () => {
                     showBasketLink: false,
                     basketWebUrl: "http://chs-url//basket",
                     basketItems: 1
+                }
+            );
+        });
+
+        it("should indicate that basket link is not to be rendered for a 404 response from the basket API", async () => {
+            sandbox.stub(apiClient, "getBasket").rejects(createError(404));
+            chai.expect(await getBasketLink({ session: { data: signedInSessionData } } as Request)).to.deep.equal(
+                {
+                    showBasketLink: false
+                }
+            );
+        });
+
+        it("should indicate that basket link is not to be rendered for a 502 response from the basket API", async () => {
+            sandbox.stub(apiClient, "getBasket").rejects(createError(502));
+            chai.expect(await getBasketLink({ session: { data: signedInSessionData } } as Request)).to.deep.equal(
+                {
+                    showBasketLink: false
                 }
             );
         });
