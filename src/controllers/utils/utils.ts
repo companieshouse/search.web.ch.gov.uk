@@ -11,9 +11,12 @@ import moment from "moment";
 import escape from "escape-html";
 import { SessionKey } from "@companieshouse/node-session-handler/lib/session/keys/SessionKey";
 import { SignInInfoKeys } from "@companieshouse/node-session-handler/lib/session/keys/SignInInfoKeys";
-import { BASKET_WEB_URL } from "../../config/config";
+import { APPLICATION_NAME, BASKET_WEB_URL } from "../../config/config";
 import { Basket } from "@companieshouse/api-sdk-node/dist/services/order/basket";
 import { getBasket } from "../../client/apiclient";
+import {createLogger} from "@companieshouse/structured-logging-node";
+
+const logger = createLogger(APPLICATION_NAME);
 
 export const getDownloadReportText = (signedIn: boolean, reportAvailable: boolean, returnUrl: string, companyNumber: string, companyName: string): string => {
     const signIn = "Sign in to download report";
@@ -560,7 +563,13 @@ export const getBasketLink = async (req: Request) : Promise<BasketLink> => {
     const signInInfo = req.session?.data[SessionKey.SignInInfo];
     const accessToken = signInInfo?.[SignInInfoKeys.AccessToken]?.[SignInInfoKeys.AccessToken]!;
 
-    const basket: Basket = await getBasket(accessToken);
-
-    return { showBasketLink: basket.enrolled, basketWebUrl: BASKET_WEB_URL, basketItems: basket.items?.length };
+    try {
+        const basket: Basket = await getBasket(accessToken);
+        return { showBasketLink: basket.enrolled, basketWebUrl: BASKET_WEB_URL, basketItems: basket.items?.length };
+    } catch (error) {
+        // All basket access issues are logged and buried, because they should not prevent the user
+        // from using the unaffected core functionality of this application.
+        logger.error(`Will not render link, encountered [${error}] getting basket link.`);
+        return { showBasketLink: false };
+    }
 };
