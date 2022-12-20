@@ -10,6 +10,8 @@ import * as templatePaths from "../../model/template.paths";
 import * as errorMessages from "../../model/error.messages";
 
 import escape from "escape-html";
+
+import { mapPageHeader } from "../../utils/page.header.utils";
 import Cookies = require("cookies");
 
 const logger = createLogger(APPLICATION_NAME);
@@ -31,6 +33,7 @@ const wrappedRoute = async (req: Request, res: Response) => {
     const errors = validationResult(req);
 
     const basketLink: BasketLink = await getBasketLink(req);
+    const pageHeader = mapPageHeader(req);
 
     if (errors.isEmpty()) {
         const companyNameRequestParam = req.query.companyName as string;
@@ -72,7 +75,8 @@ const wrappedRoute = async (req: Request, res: Response) => {
             prevLink,
             nextLink,
             templateName: templatePaths.ALPHABETICAL_SEARCH_RESULTS,
-            ...basketLink
+            ...basketLink,
+            ...pageHeader
         });
     } else {
         const errorArray = errors.array();
@@ -81,7 +85,8 @@ const wrappedRoute = async (req: Request, res: Response) => {
         return res.render(templatePaths.ALPHABETICAL_INDEX, {
             companyNameErrorData,
             errorList: [companyNameErrorData],
-            ...basketLink
+            ...basketLink,
+            ...pageHeader
         });
     }
 };

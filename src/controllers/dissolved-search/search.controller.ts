@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import {query, Result, ValidationError, validationResult} from "express-validator";
+import { query, Result, ValidationError, validationResult } from "express-validator";
 import { createGovUkErrorData, GovUkErrorData } from "../../model/govuk.error.data";
 import { CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/dissolved-search/types";
 import { createLogger } from "@companieshouse/structured-logging-node";
@@ -23,6 +23,8 @@ import {
 } from "../utils/utils";
 import * as templatePaths from "../../model/template.paths";
 import * as errorMessages from "../../model/error.messages";
+import { mapPageHeader } from "../../utils/page.header.utils";
+import { PageHeader } from "../../model/PageHeader";
 import Cookies = require("cookies");
 
 const logger = createLogger(APPLICATION_NAME);
@@ -60,9 +62,10 @@ const wrappedRoute = async (req: Request, res: Response) => {
     const errors = validationResult(req);
 
     const basketLink: BasketLink = await getBasketLink(req);
+    const pageHeader = mapPageHeader(req);
 
     if (!errors.isEmpty()) {
-        return reportErrors(errors, res, basketLink);
+        return reportErrors(errors, res, basketLink, pageHeader);
     }
 
     const companyNameRequestParam: string = req.query.companyName as string;
@@ -86,7 +89,7 @@ const wrappedRoute = async (req: Request, res: Response) => {
     let searchType: string;
 
     if (companyNameRequestParam === "") {
-        return res.render(templatePaths.DISSOLVED_INDEX, basketLink);
+        return res.render(templatePaths.DISSOLVED_INDEX, { ...basketLink, ...pageHeader });
     }
 
     if (searchTypeRequestParam === ALPHABETICAL_SEARCH_TYPE) {
@@ -122,7 +125,8 @@ const wrappedRoute = async (req: Request, res: Response) => {
             numberOfPages,
             page,
             pagingRange,
-            ...basketLink
+            ...basketLink,
+            ...pageHeader
         });
     }
 
@@ -150,17 +154,19 @@ const wrappedRoute = async (req: Request, res: Response) => {
         nextLink,
         searchTypeFlag,
         pagingRange,
-        ...basketLink
+        ...basketLink,
+        ...pageHeader
     });
 };
 
-const reportErrors = (errors: Result<ValidationError>, res: Response, basketLink: BasketLink) => {
+const reportErrors = (errors: Result<ValidationError>, res: Response, basketLink: BasketLink, pageHeader: PageHeader) => {
     const errorText = errors.array().map((err) => err.msg).pop() as string;
     const dissolvedSearchOptionsErrorData: GovUkErrorData = createGovUkErrorData(errorText, "#changed-name", true, "");
     return res.render(templatePaths.DISSOLVED_INDEX, {
         dissolvedSearchOptionsErrorData,
         errorList: [dissolvedSearchOptionsErrorData],
-        ...basketLink
+        ...basketLink,
+        ...pageHeader
     });
 };
 

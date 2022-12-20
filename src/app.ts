@@ -31,8 +31,6 @@ import {
     PIWIK_ADVANCED_SERVICE_NAME,
     ROE_FEATURE_FLAG
 } from "./config/config";
-import { SessionKey } from "@companieshouse/node-session-handler/lib/session/keys/SessionKey";
-import { SignInInfoKeys } from "@companieshouse/node-session-handler/lib/session/keys/SignInInfoKeys";
 
 const app = express();
 
@@ -74,12 +72,6 @@ env.addGlobal("PIWIK_SITE_ID", PIWIK_SITE_ID);
 env.addGlobal("CDN_URL", process.env.CDN_HOST);
 env.addGlobal("ACCOUNT_URL", process.env.ACCOUNT_URL);
 env.addGlobal("CHS_MONITOR_GUI_URL", process.env.CHS_MONITOR_GUI_URL);
-
-app.use((req, res, next) => {
-    env.addGlobal("signedIn", req.session?.data?.[SessionKey.SignInInfo]?.[SignInInfoKeys.SignedIn] === 1);
-    env.addGlobal("userEmail", req.session?.data?.signin_info?.user_profile?.email);
-    next();
-});
 
 app.use((req, res, next) => {
     if (req.path.includes("/alphabetical-search")) {

@@ -4,6 +4,7 @@ import { SEARCH_WEB_COOKIE_NAME } from "../../config/config";
 import * as pageUrls from "../../model/page.urls";
 import * as templatePaths from "../../model/template.paths";
 import { BasketLink, getBasketLink } from "../../controllers/utils/utils";
+import { mapPageHeader } from "../../utils/page.header.utils";
 import uuid = require("uuid/v4");
 import Cookies = require("cookies");
 
@@ -18,12 +19,13 @@ const renderTemplate = (template: string) => async (req: Request, res: Response,
     try {
         const cookies = new Cookies(req, res);
         const basketLink: BasketLink = await getBasketLink(req);
+        const pageHeader = mapPageHeader(req);
 
         if (cookies === undefined || cookies.get(SEARCH_WEB_COOKIE_NAME) === undefined) {
             cookies.set(SEARCH_WEB_COOKIE_NAME, uuid());
         }
 
-        return res.render(template, basketLink);
+        return res.render(template, { ...basketLink, ...pageHeader });
     } catch (error) {
         next(error);
     }

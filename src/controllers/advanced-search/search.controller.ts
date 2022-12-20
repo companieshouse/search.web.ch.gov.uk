@@ -18,6 +18,7 @@ import { AdvancedSearchParams } from "../../model/advanced.search.params";
 import { DissolvedDates, IncorporationDates } from "model/date.params";
 import { getSearchResults } from "../../service/advanced-search/search.service";
 import { ADVANCED_SEARCH_NUMBER_OF_RESULTS_TO_DOWNLOAD } from "../../config/config";
+import { mapPageHeader } from "../../utils/page.header.utils";
 import Cookies = require("cookies");
 
 const route = async (req: Request, res: Response, next:NextFunction) => {
@@ -62,6 +63,7 @@ const wrappedRoute = async (req: Request, res: Response) => {
     const errors = validationResult(req);
 
     const basketLink: BasketLink = await getBasketLink(req);
+    const pageHeader = mapPageHeader(req);
 
     const errorList = validate(errors);
     const ADV_SEARCH_NUM_OF_RESULTS_TO_DOWNLOAD = formatNumberWithCommas(ADVANCED_SEARCH_NUMBER_OF_RESULTS_TO_DOWNLOAD);
@@ -76,7 +78,8 @@ const wrappedRoute = async (req: Request, res: Response) => {
             selectedTypeCheckboxes,
             selectedSubtypeCheckboxes,
             ADV_SEARCH_NUM_OF_RESULTS_TO_DOWNLOAD,
-            ...basketLink
+            ...basketLink,
+            ...pageHeader
         });
     }
 
@@ -106,7 +109,8 @@ const wrappedRoute = async (req: Request, res: Response) => {
         totalReturnedHitsFormatted,
         totalReturnedHits,
         downloadResultsMatomoEventId,
-        ...basketLink
+        ...basketLink,
+        ...pageHeader
     });
 };
 
