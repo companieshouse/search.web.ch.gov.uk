@@ -4,9 +4,7 @@ import path from "path";
 import Redis from "ioredis";
 import cookieParser from "cookie-parser";
 
-import alphabeticalRouter from "./routes/alphabetical-search/routes";
-import dissolvedRouter from "./routes/dissolved-search/routes";
-import advancedRouter from "./routes/advanced-search/routes";
+import router from "./routes/routes";
 import { ERROR_SUMMARY_TITLE } from "./model/error.messages";
 import errorHandlers from "./controllers/error.controller";
 import { ADVANCED_ROOT, ALPHABETICAL_ROOT, DISSOLVED_ROOT } from "./model/page.urls";
@@ -119,9 +117,7 @@ if (process.env.NODE_ENV !== "production") {
     env.addGlobal("MOBILE_MENU", "/search-assets/static/js/mobile-menu.js");
 }
 // apply our default router to /
-app.use("/", alphabeticalRouter);
-app.use("/", dissolvedRouter);
-app.use("/", advancedRouter);
+app.use("/", router);
 app.use(...errorHandlers);
 
 export default app;
