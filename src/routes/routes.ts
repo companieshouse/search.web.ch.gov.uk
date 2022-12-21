@@ -15,7 +15,7 @@ const router = Router();
 
 /**
  * Simply renders a view template.
- *ß
+ *
  * @param template the template name
  */
 const renderTemplate = (template: string) => async (req: Request, res: Response, next: NextFunction) => {
