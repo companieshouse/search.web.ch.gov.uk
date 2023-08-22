@@ -9,10 +9,10 @@ export const COMPANY_BIRTH_TYPE_CONSTANT: string = "company_birth_type";
 export const CESSATION_LABEL_CONSTANT: string = "cessation_label_for_status";
 export const COMPANY_SIC_CODES_CONSTANT: string = "sic_descriptions";
 
-const companyConstants = yaml.safeLoad(fs.readFileSync(COMPANY_CONSTANTS_PATH, "utf8"));
+const companyConstants = yaml.load(fs.readFileSync(COMPANY_CONSTANTS_PATH, "utf8"));
 
 export const getCompanyConstant = (enumerationCategory: string, descriptionKey: string): string => {
-    if (companyConstants === undefined) {
+    if (companyConstants === undefined || companyConstants === null) {
         return descriptionKey;
     } else {
         return companyConstants[enumerationCategory][descriptionKey] || descriptionKey;
@@ -20,7 +20,7 @@ export const getCompanyConstant = (enumerationCategory: string, descriptionKey: 
 };
 
 export const getCompanySicCodes = (): string[] | null => {
-    if (companyConstants === undefined) {
+    if (companyConstants === undefined || companyConstants === null) {
         return null;
     } else {
         const sicCodeList = Object.keys(companyConstants[COMPANY_SIC_CODES_CONSTANT]);
