@@ -23,7 +23,7 @@
     "cookie-parser": "~1.4.6",
     "cookies": "^0.8.0",
     "escape-html": "^1.0.3",
-    "express": "^4.18.2",
+    "express": "~4.18.2",
     "express-validator": "^7.0.1",
     "govuk-frontend": "^4.7.0",
     "http-errors": "~2.0.0",
@@ -38,7 +38,7 @@
   },
   "devDependencies": {
     "@types/chai": "~4.3.5",
-    "@types/chai-as-promised": "^7.1.5",
+    "@types/chai-as-promised": "~7.1.5",
     "@types/chai-http": "~4.2.0",
     "@types/cheerio": "~0.22.31",
     "@types/cookies": "^0.7.4",
@@ -67,12 +67,12 @@
     "gulp-sass": "^5.1.0",
     "mocha": "^10.2.0",
     "sass": "^1.64.2",
-    "nodemon": "^1.19.3",
+    "nodemon": "~2.0.4",
     "nyc": "^15.1.0",
     "papaparse": "^5.3.1",
     "sinon": "~9.0.2",
     "sonarqube-scanner": "^2.8.1",
-    "ts-node": "^8.4.1",
+    "ts-node": "~8.8.2",
     "typescript": "~5.1.6"
   },
   "nodemonConfig": {
