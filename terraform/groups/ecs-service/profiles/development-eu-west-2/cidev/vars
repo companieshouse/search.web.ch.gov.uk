@@ -1,0 +1,24 @@
+
+# Account environment variables
+aws_profile = "development-eu-west-2"
+environment = "cidev"
+kms_alias = "alias/development-eu-west-2/environment-services-kms"
+
+# Service environment variables
+basket_item_limit = 10
+certificate_piwik_start_goal_id = 1
+certified_copies_piwik_start_goal_id = 2
+cookie_name = "__sid"
+default_session_expiration = 3600
+dispatch_days = 10
+dissolved_certificate_piwik_start_goal_id = 4
+human_log = 1
+log_level = "debug"
+missing_image_delivery_piwik_start_goal_id = 3
+tz = "Europe/London"
+dynamic_lp_certificate_orders_enabled = true
+dynamic_llp_certificate_orders_enabled = true
+lp_certificate_piwik_start_goal_id = 5
+llp_certificate_piwik_start_goal_id = 6
+liquidated_company_certificates_enabled = true
+administrator_company_certificates_enabled = true
