@@ -49,7 +49,7 @@ variable "required_memory" {
 # ------------------------------------------------------------------------------
 # Service environment variable configs
 # ------------------------------------------------------------------------------
-variable "certificates_orders_web_version" {
+variable "search_web_version" {
   type        = string
   description = "The version of the certificates orders web container to run."
 }
@@ -58,7 +58,7 @@ variable "basket_item_limit" {
   type = number
 }
 
-variable "certificate_piwik_start_goal_id" {
+variable "search_piwik_start_goal_id" {
   type = number
 }
 
@@ -78,7 +78,7 @@ variable "dispatch_days" {
   type = number
 }
 
-variable "dissolved_certificate_piwik_start_goal_id" {
+variable "dissolved_search_piwik_start_goal_id" {
   type = number
 }
 
@@ -98,19 +98,19 @@ variable "tz" {
   type = string
 }
 
-variable "dynamic_lp_certificate_orders_enabled" {
+variable "dynamic_lp_search_enabled" {
   type = bool
 }
 
-variable "dynamic_llp_certificate_orders_enabled" {
+variable "dynamic_llp_search_enabled" {
   type = bool
 }
 
-variable "lp_certificate_piwik_start_goal_id" {
+variable "lp_search_piwik_start_goal_id" {
   type = number
 }
 
-variable "llp_certificate_piwik_start_goal_id" {
+variable "llp_search_piwik_start_goal_id" {
   type = number
 }
 
