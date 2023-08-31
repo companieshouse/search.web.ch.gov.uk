@@ -47,6 +47,7 @@ locals {
 
   task_secrets = [
     { "name" : "ACCOUNT_URL", "valueFrom" : "${local.service_secrets_arn_map.account_url}" },
+    { "name" : "ALPHABETICAL_SEARCH_URL", "value" : "${local.alphabetical_search_url}" },
     { "name" : "API_URL", "valueFrom" : "${local.service_secrets_arn_map.api_url}" },
     { "name" : "CACHE_SERVER", "valueFrom" : "${local.service_secrets_arn_map.cache_server}" },
     { "name" : "CDN_HOST", "valueFrom" : "${local.service_secrets_arn_map.cdn_host}" },
@@ -56,30 +57,19 @@ locals {
     { "name" : "COOKIE_DOMAIN", "valueFrom" : "${local.service_secrets_arn_map.cookie_domain}" },
     { "name" : "COOKIE_SECRET", "valueFrom" : "${local.service_secrets_arn_map.cookie_secret}" },
     { "name" : "PIWIK_SITE_ID", "valueFrom" : "${local.service_secrets_arn_map.piwik_site_id}" },
-    { "name" : "PIWIK_URL", "valueFrom" : "${local.service_secrets_arn_map.piwik_url}" },
-    { "name" : "CHS_DEVELOPER_CLIENT_ID", "valueFrom" : "${local.secrets_arn_map.web-oauth2-client-id}" },
-    { "name" : "CHS_DEVELOPER_CLIENT_SECRET", "valueFrom" : "${local.secrets_arn_map.web-oauth2-client-secret}" },
-    { "name" : "DEVELOPER_OAUTH2_REQUEST_KEY", "valueFrom" : "${local.secrets_arn_map.web-oauth2-request-key}" }
+    { "name" : "PIWIK_URL", "valueFrom" : "${local.service_secrets_arn_map.piwik_url}" }
   ]
 
   task_environment = [
-    { "name" : "NODE_PORT", "value" : "${local.container_port}" },
-    { "name" : "BASKET_ITEM_LIMIT", "value" : "${var.basket_item_limit}" },
-    { "name" : "search_piwik_start_goal_id", "value" : "${var.search_piwik_start_goal_id}" },
-    { "name" : "CERTIFIED_COPIES_PIWIK_START_GOAL_ID", "value" : "${var.certified_copies_piwik_start_goal_id}" },
-    { "name" : "COOKIE_NAME", "value" : "${var.cookie_name}" },
+    { "name" : "ADVANCED_SEARCH_NUMBER_OF_RESULTS_TO_DOWNLOAD", "value" : "${var.advanced_search_number_of_results_to_download}" },
     { "name" : "DEFAULT_SESSION_EXPIRATION", "value" : "${var.default_session_expiration}" },
-    { "name" : "DISPATCH_DAYS", "value" : "${var.dispatch_days}" },
-    { "name" : "DISSOLVED_search_piwik_start_goal_id", "value" : "${var.dissolved_search_piwik_start_goal_id}" },
+    { "name" : "DISSOLVED_SEARCH_NUMBER_OF_RESULTS", "value" : "${var.dissolved_search_number_of_results}" },
     { "name" : "HUMAN_LOG", "value" : "${var.human_log}" },
+    { "name" : "LAST_UPDATED_MESSAGE", "value" : "${var.last_updated_message}" },
     { "name" : "LOG_LEVEL", "value" : "${var.log_level}" },
-    { "name" : "MISSING_IMAGE_DELIVERY_PIWIK_START_GOAL_ID", "value" : "${var.missing_image_delivery_piwik_start_goal_id}" },
-    { "name" : "TZ", "value" : "${var.tz}" },
-    { "name" : "DYNAMIC_LP_SEARCH_ENABLED", "value" : "${var.dynamic_lp_search_enabled}" },
-    { "name" : "DYNAMIC_LLP_SEARCH_ENABLED", "value" : "${var.dynamic_llp_search_enabled}" },
-    { "name" : "LP_search_piwik_start_goal_id", "value" : "${var.lp_search_piwik_start_goal_id}" },
-    { "name" : "LLP_search_piwik_start_goal_id", "value" : "${var.llp_search_piwik_start_goal_id}" },
-    { "name" : "LIQUIDATED_COMPANY_CERTIFICATES_ENABLED", "value" : "${var.liquidated_company_certificates_enabled}" },
-    { "name" : "ADMINISTRATOR_COMPANY_CERTIFICATES_ENABLED", "value" : "${var.administrator_company_certificates_enabled}" }
+    { "name" : "NODE_PORT", "value" : "${local.container_port}" },
+    { "name" : "ROE_FEATURE_FLAG", "value" : "${var.roe_feature_flag}" },
+    { "name" : "SEARCH_WEB_COOKIE_NAME", "value" : "${var.search_web_cookie_name}" },
+    { "name" : "TZ", "value" : "${var.tz}" }
   ]
 }
