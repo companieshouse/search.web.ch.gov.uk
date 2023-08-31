@@ -5,20 +5,12 @@ environment = "cidev"
 kms_alias = "alias/development-eu-west-2/environment-services-kms"
 
 # Service environment variables
-basket_item_limit = 10
-certificate_piwik_start_goal_id = 1
-certified_copies_piwik_start_goal_id = 2
+advanced_search_number_of_results_to_download = 5000
 cookie_name = "__sid"
 default_session_expiration = 3600
-dispatch_days = 10
-dissolved_certificate_piwik_start_goal_id = 4
+dissolved_search_number_of_results = 20
 human_log = 1
+last_updated_message = "Data last updated on 01/03/2021"
 log_level = "debug"
-missing_image_delivery_piwik_start_goal_id = 3
+roe_feature_flag = 1
 tz = "Europe/London"
-dynamic_lp_certificate_orders_enabled = true
-dynamic_llp_certificate_orders_enabled = true
-lp_certificate_piwik_start_goal_id = 5
-llp_certificate_piwik_start_goal_id = 6
-liquidated_company_certificates_enabled = true
-administrator_company_certificates_enabled = true
