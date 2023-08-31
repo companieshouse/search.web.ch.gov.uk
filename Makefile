@@ -38,6 +38,10 @@ test-unit:
 sonar:
 	npm run analyse-code
 
+.PHONY: security-check
+security-check:
+	npm audit
+
 .PHONY: package
 package: build
 ifndef version
