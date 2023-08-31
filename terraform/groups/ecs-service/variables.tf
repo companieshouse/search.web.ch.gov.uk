@@ -62,10 +62,6 @@ variable "search_piwik_start_goal_id" {
   type = number
 }
 
-variable "certified_copies_piwik_start_goal_id" {
-  type = number
-}
-
 variable "cookie_name" {
   type = string
 }
