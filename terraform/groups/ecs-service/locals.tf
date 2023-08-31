@@ -1,18 +1,18 @@
 # Define all hardcoded local variable and local variables looked up from data resources
 locals {
-  stack_name                = "order-service" # this must match the stack name the service deploys into
+  stack_name                = "search-service" # this must match the stack name the service deploys into
   name_prefix               = "${local.stack_name}-${var.environment}"
-  service_name              = "certificates-orders-web" # testing service name
+  service_name              = "search-web" # testing service name
   container_port            = "3000"                    # default node port required here until prod docker container is built allowing port change via env var
-  docker_repo               = "certificates.orders.web.ch.gov.uk"
+  docker_repo               = "search.web.ch.gov.uk"
   lb_listener_rule_priority = 11
   lb_listener_paths         = [
-    "/company/*/orderable/*",
-    "/orderable/*",
-    "/certificates-orders-web/health"
+    "/*search",
+    "/search*/",
+    "/search-web/health"
   ]
-  healthcheck_path          = "/certificates-orders-web/health" # healthcheck path for certificates orders web
-  healthcheck_matcher       = "200"                             # no explicit healthcheck in this service yet, change this when added!
+  healthcheck_path          = "/search-web/health" # healthcheck path for search web
+  healthcheck_matcher       = "200"
 
   service_secrets = jsondecode(data.vault_generic_secret.service_secrets.data_json)
 
