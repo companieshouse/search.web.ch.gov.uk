@@ -54,27 +54,11 @@ variable "search_web_version" {
   description = "The version of the certificates orders web container to run."
 }
 
-variable "basket_item_limit" {
-  type = number
-}
-
-variable "search_piwik_start_goal_id" {
-  type = number
-}
-
 variable "cookie_name" {
   type = string
 }
 
 variable "default_session_expiration" {
-  type = number
-}
-
-variable "dispatch_days" {
-  type = number
-}
-
-variable "dissolved_search_piwik_start_goal_id" {
   type = number
 }
 
@@ -86,34 +70,6 @@ variable "log_level" {
   type = string
 }
 
-variable "missing_image_delivery_piwik_start_goal_id" {
-  type = number
-}
-
 variable "tz" {
   type = string
-}
-
-variable "dynamic_lp_search_enabled" {
-  type = bool
-}
-
-variable "dynamic_llp_search_enabled" {
-  type = bool
-}
-
-variable "lp_search_piwik_start_goal_id" {
-  type = number
-}
-
-variable "llp_search_piwik_start_goal_id" {
-  type = number
-}
-
-variable "liquidated_company_certificates_enabled" {
-  type = bool
-}
-
-variable "administrator_company_certificates_enabled" {
-  type = bool
 }
