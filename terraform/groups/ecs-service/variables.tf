@@ -49,9 +49,9 @@ variable "required_memory" {
 # ------------------------------------------------------------------------------
 # Service environment variable configs
 # ------------------------------------------------------------------------------
-variable "search_web_version" {
-  type        = string
-  description = "The version of the certificates orders web container to run."
+
+variable "alphabetical_search_url" {
+  type = string
 }
 
 variable "cookie_name" {
@@ -68,6 +68,11 @@ variable "human_log" {
 
 variable "log_level" {
   type = string
+}
+
+variable "search_web_version" {
+  type        = string
+  description = "The version of the certificates orders web container to run."
 }
 
 variable "tz" {
