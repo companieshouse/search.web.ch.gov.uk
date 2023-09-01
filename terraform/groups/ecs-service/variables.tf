@@ -54,10 +54,6 @@ variable "advanced_search_number_of_results_to_download" {
   type = number
 }
 
-variable "cookie_name" {
-  type = string
-}
-
 variable "default_session_expiration" {
   type = number
 }
