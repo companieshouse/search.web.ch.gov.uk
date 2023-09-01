@@ -50,10 +50,6 @@ variable "required_memory" {
 # Service environment variable configs
 # ------------------------------------------------------------------------------
 
-variable "alphabetical_search_url" {
-  type = string
-}
-
 variable "cookie_name" {
   type = string
 }
