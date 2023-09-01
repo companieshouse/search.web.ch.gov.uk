@@ -6,11 +6,11 @@ kms_alias = "alias/development-eu-west-2/environment-services-kms"
 
 # Service environment variables
 advanced_search_number_of_results_to_download = 5000
-cookie_name = "__sid"
 default_session_expiration = 3600
 dissolved_search_number_of_results = 20
 human_log = 1
 last_updated_message = "Data last updated on 01/03/2021"
 log_level = "debug"
 roe_feature_flag = 1
+search_web_cookie_name = "__sid"
 tz = "Europe/London"
