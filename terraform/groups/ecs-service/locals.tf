@@ -47,18 +47,18 @@ locals {
   }
 
   task_secrets = [
-    { "name" : "ACCOUNT_URL", "valueFrom"           : "${local.service_secrets_arn_map.account_url}" },
-    { "name" : "ALPHABETICAL_SEARCH_URL", "value"   : "${local.service_secrets_arn_map.alphabetical_search_url}" },
-    { "name" : "API_URL", "valueFrom"               : "${local.service_secrets_arn_map.api_url}" },
-    { "name" : "CACHE_SERVER", "valueFrom"          : "${local.service_secrets_arn_map.cache_server}" },
-    { "name" : "CDN_HOST", "valueFrom"              : "${local.service_secrets_arn_map.cdn_host}" },
-    { "name" : "CHS_API_KEY", "valueFrom"           : "${local.service_secrets_arn_map.chs_api_key}" },
-    { "name" : "CHS_MONITOR_GUI_URL", "valueFrom"   : "${local.service_secrets_arn_map.chs_monitor_gui_url}" },
-    { "name" : "CHS_URL", "valueFrom"               : "${local.service_secrets_arn_map.chs_url}" },
-    { "name" : "COOKIE_DOMAIN", "valueFrom"         : "${local.service_secrets_arn_map.cookie_domain}" },
-    { "name" : "COOKIE_SECRET", "valueFrom"         : "${local.service_secrets_arn_map.cookie_secret}" },
-    { "name" : "PIWIK_SITE_ID", "valueFrom"         : "${local.service_secrets_arn_map.piwik_site_id}" },
-    { "name" : "PIWIK_URL", "valueFrom"             : "${local.service_secrets_arn_map.piwik_url}" }
+    { "name" : "ACCOUNT_URL", "valueFrom"               : "${local.service_secrets_arn_map.account_url}" },
+    { "name" : "ALPHABETICAL_SEARCH_URL", "valueFrom"   : "${local.service_secrets_arn_map.alphabetical_search_url}" },
+    { "name" : "API_URL", "valueFrom"                   : "${local.service_secrets_arn_map.api_url}" },
+    { "name" : "CACHE_SERVER", "valueFrom"              : "${local.service_secrets_arn_map.cache_server}" },
+    { "name" : "CDN_HOST", "valueFrom"                  : "${local.service_secrets_arn_map.cdn_host}" },
+    { "name" : "CHS_API_KEY", "valueFrom"               : "${local.service_secrets_arn_map.chs_api_key}" },
+    { "name" : "CHS_MONITOR_GUI_URL", "valueFrom"       : "${local.service_secrets_arn_map.chs_monitor_gui_url}" },
+    { "name" : "CHS_URL", "valueFrom"                   : "${local.service_secrets_arn_map.chs_url}" },
+    { "name" : "COOKIE_DOMAIN", "valueFrom"             : "${local.service_secrets_arn_map.cookie_domain}" },
+    { "name" : "COOKIE_SECRET", "valueFrom"             : "${local.service_secrets_arn_map.cookie_secret}" },
+    { "name" : "PIWIK_SITE_ID", "valueFrom"             : "${local.service_secrets_arn_map.piwik_site_id}" },
+    { "name" : "PIWIK_URL", "valueFrom"                 : "${local.service_secrets_arn_map.piwik_url}" }
   ]
 
   task_environment = [
