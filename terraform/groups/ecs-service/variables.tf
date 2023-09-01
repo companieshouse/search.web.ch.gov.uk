@@ -50,6 +50,10 @@ variable "required_memory" {
 # Service environment variable configs
 # ------------------------------------------------------------------------------
 
+variable "advanced_search_number_of_results_to_download" {
+  type = number
+}
+
 variable "cookie_name" {
   type = string
 }
@@ -58,11 +62,27 @@ variable "default_session_expiration" {
   type = number
 }
 
+variable "dissolved_search_number_of_results" {
+  type = number
+}
+
 variable "human_log" {
   type = number
 }
 
+variable "last_updated_message" {
+  type = string
+}
+
 variable "log_level" {
+  type = string
+}
+
+variable "roe_feature_flag" {
+  type = number
+}
+
+variable "search_web_cookie_name" {
   type = string
 }
 

@@ -47,30 +47,30 @@ locals {
   }
 
   task_secrets = [
-    { "name" : "ACCOUNT_URL", "valueFrom" : "${local.service_secrets_arn_map.account_url}" },
-    { "name" : "ALPHABETICAL_SEARCH_URL", "value" : "${local.alphabetical_search_url}" },
-    { "name" : "API_URL", "valueFrom" : "${local.service_secrets_arn_map.api_url}" },
-    { "name" : "CACHE_SERVER", "valueFrom" : "${local.service_secrets_arn_map.cache_server}" },
-    { "name" : "CDN_HOST", "valueFrom" : "${local.service_secrets_arn_map.cdn_host}" },
-    { "name" : "CHS_API_KEY", "valueFrom" : "${local.service_secrets_arn_map.chs_api_key}" },
-    { "name" : "CHS_MONITOR_GUI_URL", "valueFrom" : "${local.service_secrets_arn_map.chs_monitor_gui_url}" },
-    { "name" : "CHS_URL", "valueFrom" : "${local.service_secrets_arn_map.chs_url}" },
-    { "name" : "COOKIE_DOMAIN", "valueFrom" : "${local.service_secrets_arn_map.cookie_domain}" },
-    { "name" : "COOKIE_SECRET", "valueFrom" : "${local.service_secrets_arn_map.cookie_secret}" },
-    { "name" : "PIWIK_SITE_ID", "valueFrom" : "${local.service_secrets_arn_map.piwik_site_id}" },
-    { "name" : "PIWIK_URL", "valueFrom" : "${local.service_secrets_arn_map.piwik_url}" }
+    { "name" : "ACCOUNT_URL", "valueFrom"           : "${local.service_secrets_arn_map.account_url}" },
+    { "name" : "ALPHABETICAL_SEARCH_URL", "value"   : "${local.service_secrets_arn_map.alphabetical_search_url}" },
+    { "name" : "API_URL", "valueFrom"               : "${local.service_secrets_arn_map.api_url}" },
+    { "name" : "CACHE_SERVER", "valueFrom"          : "${local.service_secrets_arn_map.cache_server}" },
+    { "name" : "CDN_HOST", "valueFrom"              : "${local.service_secrets_arn_map.cdn_host}" },
+    { "name" : "CHS_API_KEY", "valueFrom"           : "${local.service_secrets_arn_map.chs_api_key}" },
+    { "name" : "CHS_MONITOR_GUI_URL", "valueFrom"   : "${local.service_secrets_arn_map.chs_monitor_gui_url}" },
+    { "name" : "CHS_URL", "valueFrom"               : "${local.service_secrets_arn_map.chs_url}" },
+    { "name" : "COOKIE_DOMAIN", "valueFrom"         : "${local.service_secrets_arn_map.cookie_domain}" },
+    { "name" : "COOKIE_SECRET", "valueFrom"         : "${local.service_secrets_arn_map.cookie_secret}" },
+    { "name" : "PIWIK_SITE_ID", "valueFrom"         : "${local.service_secrets_arn_map.piwik_site_id}" },
+    { "name" : "PIWIK_URL", "valueFrom"             : "${local.service_secrets_arn_map.piwik_url}" }
   ]
 
   task_environment = [
-    { "name" : "ADVANCED_SEARCH_NUMBER_OF_RESULTS_TO_DOWNLOAD", "value" : "${var.advanced_search_number_of_results_to_download}" },
-    { "name" : "DEFAULT_SESSION_EXPIRATION", "value" : "${var.default_session_expiration}" },
-    { "name" : "DISSOLVED_SEARCH_NUMBER_OF_RESULTS", "value" : "${var.dissolved_search_number_of_results}" },
-    { "name" : "HUMAN_LOG", "value" : "${var.human_log}" },
-    { "name" : "LAST_UPDATED_MESSAGE", "value" : "${var.last_updated_message}" },
-    { "name" : "LOG_LEVEL", "value" : "${var.log_level}" },
-    { "name" : "NODE_PORT", "value" : "${local.container_port}" },
-    { "name" : "ROE_FEATURE_FLAG", "value" : "${var.roe_feature_flag}" },
-    { "name" : "SEARCH_WEB_COOKIE_NAME", "value" : "${var.search_web_cookie_name}" },
-    { "name" : "TZ", "value" : "${var.tz}" }
+    { "name" : "ADVANCED_SEARCH_NUMBER_OF_RESULTS_TO_DOWNLOAD", "value"   : "${var.advanced_search_number_of_results_to_download}" },
+    { "name" : "DEFAULT_SESSION_EXPIRATION", "value"                      : "${var.default_session_expiration}" },
+    { "name" : "DISSOLVED_SEARCH_NUMBER_OF_RESULTS", "value"              : "${var.dissolved_search_number_of_results}" },
+    { "name" : "HUMAN_LOG", "value"                                       : "${var.human_log}" },
+    { "name" : "LAST_UPDATED_MESSAGE", "value"                            : "${var.last_updated_message}" },
+    { "name" : "LOG_LEVEL", "value"                                       : "${var.log_level}" },
+    { "name" : "NODE_PORT", "value"                                       : "${local.container_port}" },
+    { "name" : "ROE_FEATURE_FLAG", "value"                                : "${var.roe_feature_flag}" },
+    { "name" : "SEARCH_WEB_COOKIE_NAME", "value"                          : "${var.search_web_cookie_name}" },
+    { "name" : "TZ", "value"                                              : "${var.tz}" }
   ]
 }
