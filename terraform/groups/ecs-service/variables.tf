@@ -55,7 +55,8 @@ variable "advanced_search_number_of_results_to_download" {
 }
 
 variable "container_port" {
-  type = number
+  type        = string
+  description = "The port the container exposes. This must match the port used by the service in its environment variables."
 }
 
 variable "default_session_expiration" {
