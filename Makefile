@@ -3,6 +3,10 @@ artifact_name       := search.web.ch.gov.uk
 .PHONY: build
 build: clean init submodules build-app
 
+.PHONY: lint
+lint:
+	npm run lint
+
 .PHONY: submodules
 submodules:
 	git submodule init
@@ -60,3 +64,6 @@ endif
 	rm $(tmpdir)/package.json $(tmpdir)/package-lock.json
 	cd $(tmpdir) && zip -r ../$(artifact_name)-$(version).zip .
 	rm -rf $(tmpdir)
+
+.PHONY: dist
+dist: lint test-unit clean package
