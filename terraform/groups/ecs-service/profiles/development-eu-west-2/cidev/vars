@@ -14,5 +14,3 @@ log_level = "debug"
 roe_feature_flag = 1
 search_web_cookie_name = "__sid"
 tz = "Europe/London"
-
-node_port=3000
