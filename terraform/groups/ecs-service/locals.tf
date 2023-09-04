@@ -7,7 +7,7 @@ locals {
   docker_repo               = "search.web.ch.gov.uk"
   lb_listener_rule_priority = 11
   lb_listener_paths         = [
-    "/*search",
+    "/*search",   # THIS NEEDS TO BE CHANGED! CHECK IT IS CORRECT FOR REQUIRED PATHS!!!
     "/*search",
     "/search-web/health"
   ]
