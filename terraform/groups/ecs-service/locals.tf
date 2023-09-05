@@ -1,6 +1,6 @@
 # Define all hardcoded local variable and local variables looked up from data resources
 locals {
-  stack_name                = "search-service"  # this must match the stack name the service deploys into
+  stack_name                = "certificates-orders-service"  # this must match the stack name the service deploys into
   name_prefix               = "${local.stack_name}-${var.environment}"
   service_name              = "search-web"      # testing service name
   container_port            = "3000"            # default node port required here until prod docker container is built allowing port change via env var
@@ -68,7 +68,7 @@ locals {
     { "name" : "HUMAN_LOG", "value"                                       : "${var.human_log}" },
     { "name" : "LAST_UPDATED_MESSAGE", "value"                            : "${var.last_updated_message}" },
     { "name" : "LOG_LEVEL", "value"                                       : "${var.log_level}" },
-    { "name" : "NODE_PORT", "value"                                       : "${var.container_port}" },
+    { "name" : "NODE_PORT", "value"                                       : "${local.container_port}" },
     { "name" : "ROE_FEATURE_FLAG", "value"                                : "${var.roe_feature_flag}" },
     { "name" : "SEARCH_WEB_COOKIE_NAME", "value"                          : "${var.search_web_cookie_name}" },
     { "name" : "TZ", "value"                                              : "${var.tz}" }
