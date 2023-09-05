@@ -3,6 +3,7 @@ import nunjucks from "nunjucks";
 import path from "path";
 import Redis from "ioredis";
 import cookieParser from "cookie-parser";
+import actuator from "express-actuator";
 
 import router from "./routes/routes";
 import { ERROR_SUMMARY_TITLE } from "./model/error.messages";
@@ -34,6 +35,12 @@ const app = express();
 
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+const actuatorOptions = {
+    basePath: "/search-web"
+};
+
+app.use(actuator(actuatorOptions));
 
 // where nunjucks templates should resolve to
 const viewPath = path.join(__dirname, "views");

@@ -79,3 +79,15 @@ You can also autofix minor linting errors by running `npm run lint:fix`
 Tests can be found in the directory [test](./test). The framework used is [Mocha](https://mochajs.org/) along with [Chai](https://www.chaijs.com/) to dispatch handlers that can have assertions made against the responses and [Sinon] (https://sinonjs.org/) to stub the rest calls. Execute the following to run the tests;
 
     npm t
+
+### Health check endpoint
+
+| Path                                | Method | Description                                                         |
+|-------------------------------------|--------|---------------------------------------------------------------------|
+| *`/search-web/health`* | GET    | Returns HTTP OK (`200`) to indicate a healthy application instance. |
+
+#### Health check implementation note
+
+* The healthcheck endpoint uses the [`express-actuator`](https://www.npmjs.com/package/express-actuator?activeTab=readme)
+package. This means the app also provides `/search-web/info` and `/search-web/metrics`
+endpoints. These should probably not be exposed.

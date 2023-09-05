@@ -11,3 +11,4 @@ routes:
   6: ^/advanced-search/.*
   7: ^/search-assets
   8: ^/search-assets/.*
+  9: /search-web/health
