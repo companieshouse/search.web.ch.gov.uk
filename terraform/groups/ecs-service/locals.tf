@@ -5,7 +5,7 @@ locals {
   service_name              = "search-web"      # testing service name
   container_port            = "3000"            # default node port required here until prod docker container is built allowing port change via env var
   docker_repo               = "search.web.ch.gov.uk"
-  lb_listener_rule_priority = 11
+  lb_listener_rule_priority = 68
   lb_listener_paths         = [
     "/*search",   # THIS NEEDS TO BE CHANGED! CHECK IT IS CORRECT FOR REQUIRED PATHS!!!
     "/*search",
