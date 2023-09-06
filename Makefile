@@ -3,10 +3,6 @@ artifact_name       := search.web.ch.gov.uk
 .PHONY: build
 build: clean init submodules build-app
 
-.PHONY: lint
-lint:
-	npm run lint
-
 .PHONY: submodules
 submodules:
 	git submodule init
@@ -38,6 +34,10 @@ test: test-unit
 test-unit:
 	npm run test:coverage
 
+.PHONY: lint
+lint:
+	npm run lint
+
 .PHONY: sonar
 sonar:
 	npm run analyse-code
@@ -48,6 +48,7 @@ security-check:
 
 .PHONY: package
 package: build
+
 ifndef version
 	$(error No version given. Aborting)
 endif
