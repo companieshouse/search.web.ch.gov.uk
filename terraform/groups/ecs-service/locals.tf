@@ -8,7 +8,7 @@ locals {
   lb_listener_rule_priority = 68
   lb_listener_paths         = [
     "/*-search",
-    "/search-assets*",
+    "/search-*",
     "/search-web/health"
   ]
   healthcheck_path          = "/search-web/health" # healthcheck path for search web
