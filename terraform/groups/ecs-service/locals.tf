@@ -9,7 +9,7 @@ locals {
 
   lb_listener_paths         = [
     "/*-search",
-    "/search-*",
+    "/search-assets/*",
     "/search-web/health"
   ]
   
