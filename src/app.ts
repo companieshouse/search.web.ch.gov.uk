@@ -106,6 +106,7 @@ app.use((req, res, next) => {
 
 // serve static assets in development.
 // this will execute in production for now, but we will host these else where in the future.
+/*
 if (process.env.NODE_ENV !== "production") {
     app.use("/search-assets/static", express.static("dist/static"));
     env.addGlobal("CSS_URL", "/search-assets/static/app.css");
@@ -123,6 +124,15 @@ if (process.env.NODE_ENV !== "production") {
     env.addGlobal("ALL", "/search-assets/static/js/all.js");
     env.addGlobal("MOBILE_MENU", "/search-assets/static/js/mobile-menu.js");
 }
+ */
+app.use("/search-assets/static", express.static("dist/static"));
+env.addGlobal("CSS_URL", "/search-assets/static/app.css");
+env.addGlobal("ALPHABETICAL_SEARCH", "/search-assets/static/alphabetical_search.css");
+env.addGlobal("NUMBERED_PAGING", "/search-assets/static/numbered_paging.css");
+env.addGlobal("MATCHER", "/search-assets/static/js/matcher.js");
+env.addGlobal("ALL", "/search-assets/static/js/all.js");
+env.addGlobal("MOBILE_MENU", "/search-assets/static/js/mobile-menu.js");
+
 // apply our default router to /
 app.use("/", router);
 app.use(...errorHandlers);
