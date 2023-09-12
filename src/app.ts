@@ -127,6 +127,7 @@ if (process.env.NODE_ENV !== "production") {
  */
 
 // This ia another frivolous comment...
+// This ia another frivolous comment...
 app.use("/search-assets/static", express.static("static"));
 env.addGlobal("CSS_URL", "/search-assets/static/app.css");
 env.addGlobal("ALPHABETICAL_SEARCH", "/search-assets/static/alphabetical_search.css");

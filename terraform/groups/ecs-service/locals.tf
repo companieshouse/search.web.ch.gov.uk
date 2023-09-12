@@ -49,7 +49,6 @@ locals {
   }
 
   # This is a comment that can be removed, just to trigger cidev-apply...
-  # This is a comment that can be removed, just to trigger cidev-apply...
   task_secrets = [
     { "name" : "ACCOUNT_URL", "valueFrom"               : "${local.service_secrets_arn_map.account_url}" },
     { "name" : "ALPHABETICAL_SEARCH_URL", "valueFrom"   : "${local.service_secrets_arn_map.alphabetical_search_url}" },
