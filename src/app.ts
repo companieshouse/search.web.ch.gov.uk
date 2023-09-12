@@ -125,7 +125,7 @@ if (process.env.NODE_ENV !== "production") {
     env.addGlobal("MOBILE_MENU", "/search-assets/static/js/mobile-menu.js");
 }
  */
-app.use("/search-assets/static", express.static("dist/static"));
+app.use("/search-assets/static", express.static("static"));
 env.addGlobal("CSS_URL", "/search-assets/static/app.css");
 env.addGlobal("ALPHABETICAL_SEARCH", "/search-assets/static/alphabetical_search.css");
 env.addGlobal("NUMBERED_PAGING", "/search-assets/static/numbered_paging.css");
