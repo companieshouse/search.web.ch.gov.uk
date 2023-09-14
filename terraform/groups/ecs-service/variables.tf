@@ -15,9 +15,6 @@ variable "aws_profile" {
   type        = string
   description = "The AWS profile to use for deployment."
 }
-variable "kms_alias" {
-  type = string
-}
 
 # ------------------------------------------------------------------------------
 # Docker Container
@@ -52,11 +49,6 @@ variable "required_memory" {
 
 variable "advanced_search_number_of_results_to_download" {
   type = number
-}
-
-variable "container_port" {
-  type        = string
-  description = "The port the container exposes. This must match the port used by the service in its environment variables."
 }
 
 variable "default_session_expiration" {
@@ -94,4 +86,14 @@ variable "search_web_version" {
 
 variable "tz" {
   type = string
+}
+
+variable "piwik_site_id" {
+  description = "The site ID to use when connecting to piwik_url"
+  type        = string
+}
+
+variable "piwik_url" {
+  description = "The URL to use to connect to Piwik / Matomo"
+  type        = string
 }

@@ -16,6 +16,7 @@ locals {
   healthcheck_path          = "/search-web/health" # healthcheck path for search web
   healthcheck_matcher       = "200"
 
+  kms_alias       = "alias/${var.aws_profile}/environment-services-kms"
   service_secrets = jsondecode(data.vault_generic_secret.service_secrets.data_json)
 
   vpc_name = local.service_secrets["vpc_name"]
@@ -31,8 +32,6 @@ locals {
     "chs_url"                   = local.service_secrets["chs_url"]
     "cookie_domain"             = local.service_secrets["cookie_domain"]
     "cookie_secret"             = local.service_secrets["cookie_secret"]
-    "piwik_site_id"             = local.service_secrets["piwik_site_id"]
-    "piwik_url"                 = local.service_secrets["piwik_url"]
     "vpc_name"                  = local.service_secrets["vpc_name"]
   }
 
@@ -58,9 +57,7 @@ locals {
     { "name" : "CHS_MONITOR_GUI_URL", "valueFrom"       : "${local.service_secrets_arn_map.chs_monitor_gui_url}" },
     { "name" : "CHS_URL", "valueFrom"                   : "${local.service_secrets_arn_map.chs_url}" },
     { "name" : "COOKIE_DOMAIN", "valueFrom"             : "${local.service_secrets_arn_map.cookie_domain}" },
-    { "name" : "COOKIE_SECRET", "valueFrom"             : "${local.service_secrets_arn_map.cookie_secret}" },
-    { "name" : "PIWIK_SITE_ID", "valueFrom"             : "${local.service_secrets_arn_map.piwik_site_id}" },
-    { "name" : "PIWIK_URL", "valueFrom"                 : "${local.service_secrets_arn_map.piwik_url}" }
+    { "name" : "COOKIE_SECRET", "valueFrom"             : "${local.service_secrets_arn_map.cookie_secret}" }
   ]
 
   task_environment = [
@@ -73,6 +70,8 @@ locals {
     { "name" : "NODE_PORT", "value"                                       : "${local.container_port}" },
     { "name" : "ROE_FEATURE_FLAG", "value"                                : "${var.roe_feature_flag}" },
     { "name" : "SEARCH_WEB_COOKIE_NAME", "value"                          : "${var.search_web_cookie_name}" },
-    { "name" : "TZ", "value"                                              : "${var.tz}" }
+    { "name" : "TZ", "value"                                              : "${var.tz}" },
+    { "name" : "PIWIK_SITE_ID", "value"                                   : "${var.piwik_site_id}" },
+    { "name" : "PIWIK_URL", "value"                                        : "${var.piwik_url}" }
   ]
 }
