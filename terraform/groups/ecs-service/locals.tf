@@ -48,7 +48,6 @@ locals {
     trimprefix(sec.name, "/${local.service_name}-${var.environment}/") => sec.arn
   }
 
-  // Remove : added to trigger cidev-plan / cidev-apply
   task_secrets = [
     { "name" : "ACCOUNT_URL", "valueFrom"               : "${local.service_secrets_arn_map.account_url}" },
     { "name" : "ALPHABETICAL_SEARCH_URL", "valueFrom"   : "${local.service_secrets_arn_map.alphabetical_search_url}" },
