@@ -1,1 +1,1 @@
-vault-providers/token
+vault-providers/userpass
