@@ -3,6 +3,7 @@ import nunjucks from "nunjucks";
 import path from "path";
 import Redis from "ioredis";
 import cookieParser from "cookie-parser";
+import actuator from "express-actuator";
 
 import router from "./routes/routes";
 import { ERROR_SUMMARY_TITLE } from "./model/error.messages";
@@ -34,6 +35,12 @@ const app = express();
 
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+const actuatorOptions = {
+    basePath: "/search-web"
+};
+
+app.use(actuator(actuatorOptions));
 
 // where nunjucks templates should resolve to
 const viewPath = path.join(__dirname, "views");
@@ -97,25 +104,14 @@ app.use((req, res, next) => {
     next();
 });
 
-// serve static assets in development.
-// this will execute in production for now, but we will host these else where in the future.
-if (process.env.NODE_ENV !== "production") {
-    app.use("/search-assets/static", express.static("dist/static"));
-    env.addGlobal("CSS_URL", "/search-assets/static/app.css");
-    env.addGlobal("ALPHABETICAL_SEARCH", "/search-assets/static/alphabetical_search.css");
-    env.addGlobal("NUMBERED_PAGING", "/search-assets/static/numbered_paging.css");
-    env.addGlobal("MATCHER", "/search-assets/static/js/matcher.js");
-    env.addGlobal("ALL", "/search-assets/static/js/all.js");
-    env.addGlobal("MOBILE_MENU", "/search-assets/static/js/mobile-menu.js");
-} else {
-    app.use("/search-assets/static", express.static("static"));
-    env.addGlobal("CSS_URL", "/search-assets/static/app.css");
-    env.addGlobal("ALPHABETICAL_SEARCH", "/search-assets/static/alphabetical_search.css");
-    env.addGlobal("NUMBERED_PAGING", "/search-assets/static/numbered_paging.css");
-    env.addGlobal("MATCHER", "/search-assets/static/js/matcher.js");
-    env.addGlobal("ALL", "/search-assets/static/js/all.js");
-    env.addGlobal("MOBILE_MENU", "/search-assets/static/js/mobile-menu.js");
-}
+app.use("/search-assets/static", express.static("static"));
+env.addGlobal("CSS_URL", "/search-assets/static/app.css");
+env.addGlobal("ALPHABETICAL_SEARCH", "/search-assets/static/alphabetical_search.css");
+env.addGlobal("NUMBERED_PAGING", "/search-assets/static/numbered_paging.css");
+env.addGlobal("MATCHER", "/search-assets/static/js/matcher.js");
+env.addGlobal("ALL", "/search-assets/static/js/all.js");
+env.addGlobal("MOBILE_MENU", "/search-assets/static/js/mobile-menu.js");
+
 // apply our default router to /
 app.use("/", router);
 app.use(...errorHandlers);

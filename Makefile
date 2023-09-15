@@ -34,12 +34,21 @@ test: test-unit
 test-unit:
 	npm run test:coverage
 
+.PHONY: lint
+lint:
+	npm run lint
+
 .PHONY: sonar
 sonar:
 	npm run analyse-code
 
+.PHONY: security-check
+security-check:
+	npm audit
+
 .PHONY: package
 package: build
+
 ifndef version
 	$(error No version given. Aborting)
 endif
@@ -56,3 +65,6 @@ endif
 	rm $(tmpdir)/package.json $(tmpdir)/package-lock.json
 	cd $(tmpdir) && zip -r ../$(artifact_name)-$(version).zip .
 	rm -rf $(tmpdir)
+
+.PHONY: dist
+dist: lint test-unit clean package
