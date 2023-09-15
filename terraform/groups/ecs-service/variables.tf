@@ -81,7 +81,7 @@ variable "search_web_cookie_name" {
 
 variable "search_web_version" {
   type        = string
-  description = "The version of the certificates orders web container to run."
+  description = "The version of the search web container to run."
 }
 
 variable "tz" {
