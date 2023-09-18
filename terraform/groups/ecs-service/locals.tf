@@ -72,6 +72,6 @@ locals {
     { "name" : "SEARCH_WEB_COOKIE_NAME", "value"                          : "${var.search_web_cookie_name}" },
     { "name" : "TZ", "value"                                              : "${var.tz}" },
     { "name" : "PIWIK_SITE_ID", "value"                                   : "${var.piwik_site_id}" },
-    { "name" : "PIWIK_URL", "value"                                        : "${var.piwik_url}" }
+    { "name" : "PIWIK_URL", "value"                                       : "${var.piwik_url}" }
   ]
 }
