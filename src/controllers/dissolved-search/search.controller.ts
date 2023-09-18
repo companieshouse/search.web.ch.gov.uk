@@ -258,7 +258,7 @@ const previousNameResults = (company_name, company_number, date_of_cessation, da
             html: mapResponsiveHeaders(ROA_TABLE_HEADING, generateROAddress(registered_office_address))
         },
         {
-            html: mapResponsiveHeaders(DOWNLOAD_REPORT_TABLE_HEADING, downloadReportText),
+            html: mapResponsiveHeaders(DOWNLOAD_REPORT_TABLE_HEADING, downloadReportText)
         }
     ];
 };
@@ -283,7 +283,7 @@ const alphabeticalMapping = (nearestClass, company_name, company_number, date_of
             html: mapResponsiveHeaders(ROA_TABLE_HEADING, generateROAddress(registered_office_address))
         },
         {
-            html: mapResponsiveHeaders(DOWNLOAD_REPORT_TABLE_HEADING, downloadReportText),
+            html: mapResponsiveHeaders(DOWNLOAD_REPORT_TABLE_HEADING, downloadReportText)
         }
     ];
 };
@@ -307,7 +307,7 @@ const bestMatchMapping = (company_name, company_number, date_of_cessation, date_
             html: mapResponsiveHeaders(ROA_TABLE_HEADING, generateROAddress(registered_office_address))
         },
         {
-            html: mapResponsiveHeaders(DOWNLOAD_REPORT_TABLE_HEADING, downloadReportText),
+            html: mapResponsiveHeaders(DOWNLOAD_REPORT_TABLE_HEADING, downloadReportText)
         }
     ];
 };

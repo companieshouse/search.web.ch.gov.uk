@@ -403,7 +403,7 @@ function isDateInFuture (date: string) : boolean {
 function checkSicCode (value: string): boolean {
     const SIC_CODES = getCompanySicCodes();
     const trimmedValue = value.trim();
-    return SIC_CODES?.includes(trimmedValue) ? true : false;
+    return SIC_CODES?.includes(trimmedValue) ??false;
 }
 
 function isDateValid (date: string) : boolean {
