@@ -1,18 +1,13 @@
-aws_bucket = "staging-eu-west-2.terraform-state.ch.gov.uk"
-remote_state_bucket = "ch-service-staging-terraform-state"
-environment = "staging"
-deploy_to = "staging"
-state_prefix = "env:/staging"
+# Account environment variables
 aws_profile = "staging-eu-west-2"
-kms_alias = "alias/staging-eu-west-2/environment-services-kms"
+environment = "staging"
 
-# scaling configs
+# Scaling configs
 desired_task_count = 2 # use multi instance in staging
 
-# service configs
+# Service environment variables
 advanced_search_number_of_results_to_download = 5000
-container_port="3000"
-default_session_expiration = 3600
+default_session_expiration = 1200
 dissolved_search_number_of_results = 20
 human_log = 1
 last_updated_message = "Data last updated on 01/03/2021"
@@ -20,3 +15,5 @@ log_level = "debug"
 roe_feature_flag = 1
 search_web_cookie_name = "__SID"
 tz = "Europe/London"
+piwik_site_id = "15"
+piwik_url = "https://matomo.platform.aws.chdev.org"
