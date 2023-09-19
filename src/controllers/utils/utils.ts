@@ -14,7 +14,7 @@ import { SignInInfoKeys } from "@companieshouse/node-session-handler/lib/session
 import { APPLICATION_NAME, BASKET_WEB_URL } from "../../config/config";
 import { Basket } from "@companieshouse/api-sdk-node/dist/services/order/basket";
 import { getBasket } from "../../client/apiclient";
-import {createLogger} from "@companieshouse/structured-logging-node";
+import { createLogger } from "@companieshouse/structured-logging-node";
 
 const logger = createLogger(APPLICATION_NAME);
 
@@ -39,8 +39,8 @@ export const getDownloadReportText = (signedIn: boolean, reportAvailable: boolea
         if (signedIn === true) {
             return downloadReportText;
         } else {
-            let signInUrl = signInLink+returnUrl;
-            downloadReportText=`<a href="${signInUrl}" class="govuk-link">Sign in to download report <span class="govuk-visually-hidden">${companyName} ${companyNumber}</span></a>`;
+            const signInUrl = signInLink + returnUrl;
+            downloadReportText = `<a href="${signInUrl}" class="govuk-link">Sign in to download report <span class="govuk-visually-hidden">${companyName} ${companyNumber}</span></a>`;
         }
     } else {
         downloadReportText = "Not available";
