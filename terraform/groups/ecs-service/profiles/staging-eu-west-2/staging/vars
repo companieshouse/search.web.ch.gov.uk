@@ -1,3 +1,4 @@
+# Account environment variables
 aws_bucket = "staging-eu-west-2.terraform-state.ch.gov.uk"
 remote_state_bucket = "ch-service-staging-terraform-state"
 environment = "staging"
