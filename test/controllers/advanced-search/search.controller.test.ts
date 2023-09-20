@@ -573,7 +573,8 @@ describe("advanced search search.controller.test", () => {
                 .get("/advanced-search/get-results?sicCodes=1");
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain(`Enter a valid SIC code`);
+            chai.expect(resp.text).to.contain(`<a href="#sicCodes">Enter a valid SIC code</a>`);
+            chai.expect(resp.text).to.contain("<span id='sicCodes-error'class='govuk-error-message'>");
         });
 
         it("should display an error if sicCode provided is is invalid with greater than 5 digits", async () => {
@@ -584,7 +585,8 @@ describe("advanced search search.controller.test", () => {
                 .get("/advanced-search/get-results?sicCodes=1234567");
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain(`Enter a valid SIC code`);
+            chai.expect(resp.text).to.contain(`<a href="#sicCodes">Enter a valid SIC code</a>`);
+            chai.expect(resp.text).to.contain("<span id='sicCodes-error'class='govuk-error-message'>");
         });
 
         it("should display an error if sicCode provided is invalid with non numeric", async () => {
@@ -595,7 +597,8 @@ describe("advanced search search.controller.test", () => {
                 .get("/advanced-search/get-results?sicCodes=ABCDE");
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain(`Enter a valid SIC code`);
+            chai.expect(resp.text).to.contain(`<a href="#sicCodes">Enter a valid SIC code</a>`);
+            chai.expect(resp.text).to.contain("<span id='sicCodes-error'class='govuk-error-message'>");
         });
     });
 
