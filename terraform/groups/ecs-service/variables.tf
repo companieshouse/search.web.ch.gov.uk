@@ -97,3 +97,8 @@ variable "piwik_url" {
   description = "The URL to use to connect to Piwik / Matomo"
   type        = string
 }
+
+variable "index_date" {
+  description = "The date of the index"
+  type        = string
+}
