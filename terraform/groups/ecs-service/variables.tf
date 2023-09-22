@@ -97,3 +97,13 @@ variable "piwik_url" {
   description = "The URL to use to connect to Piwik / Matomo"
   type        = string
 }
+
+variable "index_date" {
+  description = "The date of the index"
+  type        = string
+}
+
+variable "advanced_search_last_updated" {
+  description = "Last update date for advanced search"
+  type        = string
+}
