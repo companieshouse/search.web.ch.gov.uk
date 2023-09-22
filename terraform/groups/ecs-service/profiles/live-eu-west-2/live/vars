@@ -18,4 +18,4 @@ tz = "Europe/London"
 piwik_site_id = "2"
 piwik_url = "https://matomo.platform.aws.chdev.org"
 index_date = "09 April 2020"
-advanced_search_last_updated = 'Data as at 23/11/2021'
+advanced_search_last_updated = "Data as at 23/11/2021"
