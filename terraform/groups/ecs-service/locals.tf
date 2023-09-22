@@ -74,6 +74,7 @@ locals {
     { "name" : "TZ", "value"                                              : "${var.tz}" },
     { "name" : "PIWIK_SITE_ID", "value"                                   : "${var.piwik_site_id}" },
     { "name" : "PIWIK_URL", "value"                                       : "${var.piwik_url}" },
-    { "name" : "INDEX_DATE", "value"                                      : "${var.index_date}" }
+    { "name" : "INDEX_DATE", "value"                                      : "${var.index_date}" },
+    { "name" : "ADVANCED_SEARCH_LAST_UPDATED", "value"                    : "${var.advanced_search_last_updated}" }
   ]
 }
