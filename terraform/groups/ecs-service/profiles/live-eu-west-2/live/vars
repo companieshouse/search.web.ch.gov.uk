@@ -1,5 +1,5 @@
 # Account environment variables
-aws_profile = "staging-eu-west-2"
+aws_profile = "live-eu-west-2"
 environment = "live"
 # scaling configs
 desired_task_count = 2 # use multi instance in live
