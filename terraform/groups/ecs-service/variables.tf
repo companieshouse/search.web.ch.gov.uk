@@ -98,12 +98,12 @@ variable "piwik_url" {
   type        = string
 }
 
-# variable "index_date" {
-#   description = "The date of the index"
-#   type        = string
-# }
+variable "index_date" {
+  description = "The date of the index"
+  type        = string
+}
 
-# variable "advanced_search_last_updated" {
-#   description = "Last update date for advanced search"
-#   type        = string
-# }
+variable "advanced_search_last_updated" {
+  description = "Last update date for advanced search"
+  type        = string
+}
