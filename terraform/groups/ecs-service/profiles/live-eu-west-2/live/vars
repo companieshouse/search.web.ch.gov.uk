@@ -16,6 +16,6 @@ roe_feature_flag = 1
 search_web_cookie_name = "search.web.user"
 tz = "Europe/London"
 piwik_site_id = "2"
-piwik_url = "https://matomo.platform.aws.chdev.org"
+piwik_url = "https://matomo.companieshouse.gov.uk"
 index_date = "09 April 2020"
 advanced_search_last_updated = "Data as at 23/11/2021"
