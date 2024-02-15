@@ -4,10 +4,10 @@
 !dist
 !docker_start.sh
 !gulpfile.js
-!routes.yaml
 !src
 !views
 !package-lock.json
 !package.json
 !static
 !tsconfig.json
+!node_modules
