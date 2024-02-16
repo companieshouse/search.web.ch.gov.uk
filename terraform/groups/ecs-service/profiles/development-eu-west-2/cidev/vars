@@ -2,24 +2,5 @@
 aws_profile = "development-eu-west-2"
 environment = "cidev"
 
-# FIXME: Remove
-docker_registry = "416670754337.dkr.ecr.eu-west-2.amazonaws.com"
-search_web_version = "1.0.3"
-
 # service configs
 use_set_environment_files = true
-
-# Service environment variables
-advanced_search_number_of_results_to_download = 5000
-default_session_expiration = 1200
-dissolved_search_number_of_results = 20
-human_log = 1
-last_updated_message = "Data last updated on 01/03/2021"
-log_level = "debug"
-roe_feature_flag = 1
-search_web_cookie_name = "__SID"
-tz = "Europe/London"
-piwik_site_id = "7"
-piwik_url = "https://matomo.platform.aws.chdev.org"
-index_date = "01 April 2020"
-advanced_search_last_updated = "Data as at 22/11/2021"
