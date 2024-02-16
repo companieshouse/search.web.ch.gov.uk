@@ -2,6 +2,9 @@
 aws_profile = "live-eu-west-2"
 environment = "live"
 
+# service configs
+use_set_environment_files = true
+
 # Scaling configs
 desired_task_count = 2 # use multi instance in live
 
