@@ -12,17 +12,3 @@ desired_task_count = 2 # use multi instance in staging
 service_scaledown_schedule = "55 19 * * ? *"
 service_scaleup_schedule   = "5 6 * * ? *"
 
-# Service environment variables
-advanced_search_number_of_results_to_download = 5000
-default_session_expiration = 3600
-dissolved_search_number_of_results = 20
-human_log = 1
-last_updated_message = "Data last updated on 01/03/2021"
-log_level = "debug"
-roe_feature_flag = 1
-search_web_cookie_name = "search.web.user"
-tz = "Europe/London"
-piwik_site_id = "15"
-piwik_url = "https://matomo.platform.aws.chdev.org"
-index_date = "06 April 2020"
-advanced_search_last_updated = "Data as at 22/11/2021"
