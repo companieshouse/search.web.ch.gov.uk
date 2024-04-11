@@ -17,10 +17,10 @@
               To avoid having in the CDN a separate SVG file with an explicit fill=white, we revert black -> white
               via inline CSS (which for this case seems preferred than passing via a separate CSS config)
           -->
-          <img src="{{ params.assetsPath | default('/assets/images') }}/govuk-logotype-crown.svg" alt="" style="filter: invert(100%);" >
+          <img src="//{{CDN_URL}}/images/govuk-logotype-crown.svg" alt="" style="filter: invert(100%);" >
           <!--<![endif]-->
           <!--[if IE 8]>
-          <img  src="{{ params.assetsPath | default('/assets/images') }}/govuk-logotype-crown.png"" class="govuk-header__logotype-crown-fallback-image" width="36" height="32" alt="">
+          <img  src="//{{CDN_URL}}/images/govuk-logotype-crown.png" class="govuk-header__logotype-crown-fallback-image" width="36" height="32" alt="">
           <![endif]-->
 
           <span class="govuk-header__logotype-text">
