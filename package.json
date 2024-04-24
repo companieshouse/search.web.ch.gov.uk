@@ -91,7 +91,6 @@
     "chokidar": "3.5.3",
     "glob-stream": "8.0.0",
     "semver": "7.5.4",
-    "simple-update-notifier": "2.0.0",
-    "formidable": "3.5.1"
+    "simple-update-notifier": "2.0.0"
   }
 }
