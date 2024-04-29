@@ -50,7 +50,7 @@ security-check:
 package: build
 
 ifndef version
-	$(error No version given. Aborting..)
+	$(error No version given. Aborting)
 endif
 	$(info Packaging version: $(version))
 	$(eval tmpdir := $(shell mktemp -d build-XXXXXXXXXX))
