@@ -18,7 +18,7 @@ clean:
 
 .PHONY: npm-install
 npm-install:
-	npm i
+	npm ci
 
 .PHONY: gulp-install
 gulp-install:
@@ -59,7 +59,7 @@ endif
 	cp ./api-enumerations/*.yml $(tmpdir)/api-enumerations
 	cp -r ./package.json $(tmpdir)
 	cp -r ./package-lock.json $(tmpdir)
-	cd $(tmpdir) && npm i --production
+	cd $(tmpdir) && npm ci --production
 	rm $(tmpdir)/package.json $(tmpdir)/package-lock.json
 	cd $(tmpdir) && zip -r ../$(artifact_name)-$(version).zip .
 	rm -rf $(tmpdir)
