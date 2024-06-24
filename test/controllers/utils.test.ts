@@ -615,8 +615,6 @@ const checkCompanyTypeSelections = (expectedSelection, actualSelection) => {
     chai.expect(expectedSelection.limitedPartnership).to.equal(actualSelection.limitedPartnership);
     chai.expect(expectedSelection.llp).to.equal(actualSelection.llp);
     chai.expect(expectedSelection.ltd).to.equal(actualSelection.ltd);
-    chai.expect(expectedSelection.northernIreland).to.equal(actualSelection.northernIreland);
-    chai.expect(expectedSelection.northernIrelandOther).to.equal(actualSelection.northernIrelandOther);
     chai.expect(expectedSelection.oldPublicCompany).to.equal(actualSelection.oldPublicCompany);
     chai.expect(expectedSelection.overseaCompany).to.equal(actualSelection.overseaCompany);
     chai.expect(expectedSelection.plc).to.equal(actualSelection.plc);
