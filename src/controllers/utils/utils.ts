@@ -384,8 +384,6 @@ export const mapCompanyTypeCheckboxes = (companyType: string | null | undefined)
         limitedPartnership: "",
         llp: "",
         ltd: "",
-        northernIreland: "",
-        northernIrelandOther: "",
         oldPublicCompany: "",
         overseaCompany: "",
         plc: "",
@@ -421,8 +419,6 @@ export const mapCompanyTypeCheckboxes = (companyType: string | null | undefined)
     selectedTypeCheckboxes.limitedPartnership = (selectedCompanyTypeArray.includes("limited-partnership")) ? "checked" : "";
     selectedTypeCheckboxes.llp = (selectedCompanyTypeArray.includes("llp")) ? "checked" : "";
     selectedTypeCheckboxes.ltd = (selectedCompanyTypeArray.includes("ltd")) ? "checked" : "";
-    selectedTypeCheckboxes.northernIreland = (selectedCompanyTypeArray.includes("northern-ireland")) ? "checked" : "";
-    selectedTypeCheckboxes.northernIrelandOther = (selectedCompanyTypeArray.includes("northern-ireland-other")) ? "checked" : "";
     selectedTypeCheckboxes.oldPublicCompany = (selectedCompanyTypeArray.includes("old-public-company")) ? "checked" : "";
     selectedTypeCheckboxes.overseaCompany = (selectedCompanyTypeArray.includes("oversea-company")) ? "checked" : "";
     selectedTypeCheckboxes.plc = (selectedCompanyTypeArray.includes("plc")) ? "checked" : "";
