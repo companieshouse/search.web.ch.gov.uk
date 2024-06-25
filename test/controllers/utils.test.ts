@@ -385,7 +385,7 @@ describe("utils.test", () => {
             expectedSelection.unregisteredCompany = "checked";
             const actualSelection = mapCompanyTypeCheckboxes("assurance-company,charitable-incorporated-organisation," +
                 "converted-or-closed,eeig,european-public-limited-liability-company-se,further-education-or-sixth-form-college-corporation," +
-                "icvc-warrant,industrial-and-provident-society,limited-partnership,llp,ltd,northern-ireland,northern-ireland-other," +
+                "icvc-warrant,industrial-and-provident-society,limited-partnership,llp,ltd," +
                 "old-public-company,oversea-company,plc,private-limited-guarant-nsc,private-limited-guarant-nsc-limited-exemption," +
                 "private-limited-shares-section-30-exemption,private-unlimited,private-unlimited-nsc,protected-cell-company," +
                 "registered-society-non-jurisdictional,royal-charter,scottish-charitable-incorporated-organisation,scottish-partnership," +
@@ -650,8 +650,6 @@ const setUpSelectedCompanyType = () => {
         limitedPartnership: "",
         llp: "",
         ltd: "",
-        northernIreland: "",
-        northernIrelandOther: "",
         oldPublicCompany: "",
         overseaCompany: "",
         plc: "",
