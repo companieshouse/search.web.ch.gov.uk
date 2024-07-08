@@ -108,6 +108,7 @@ export const generateROAddress = (registered_office_address) => {
     let addressLine2 = "";
     let town = "";
     let postCode = "";
+    let country = "";
 
     if (registered_office_address?.address_line_1 !== undefined) {
         addressLine1 = registered_office_address?.address_line_1 + " ";
@@ -125,12 +126,16 @@ export const generateROAddress = (registered_office_address) => {
         postCode = registered_office_address?.postal_code;
     }
 
+    if (registered_office_address?.country !== undefined) {
+        postCode = registered_office_address?.country;
+    }
+
     if (registered_office_address?.address_line_1 === undefined && registered_office_address?.address_line_2 === undefined &&
-        registered_office_address?.locality === undefined && registered_office_address?.postal_code === undefined) {
+        registered_office_address?.locality === undefined && registered_office_address?.postal_code === undefined && registered_office_address?.country === undefined) {
         addressLine1 = "Not available";
     }
 
-    return addressLine1 + addressLine2 + town + postCode;
+    return addressLine1 + addressLine2 + town + postCode + country;
 };
 
 export const formatDate = (unformattedDate) => {
