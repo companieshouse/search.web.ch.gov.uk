@@ -123,11 +123,11 @@ export const generateROAddress = (registered_office_address) => {
     }
 
     if (registered_office_address?.postal_code !== undefined) {
-        postCode = registered_office_address?.postal_code;
+        postCode = registered_office_address?.postal_code + " ";
     }
 
     if (registered_office_address?.country !== undefined) {
-        postCode = registered_office_address?.country;
+        country = registered_office_address?.country;
     }
 
     if (registered_office_address?.address_line_1 === undefined && registered_office_address?.address_line_2 === undefined &&
