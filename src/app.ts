@@ -10,6 +10,7 @@ import { ERROR_SUMMARY_TITLE } from "./model/error.messages";
 import errorHandlers from "./controllers/error.controller";
 import { ADVANCED_ROOT, ALPHABETICAL_ROOT, DISSOLVED_ROOT } from "./model/page.urls";
 import { CookieConfig } from "@companieshouse/node-session-handler/lib/config/CookieConfig";
+import { CsrfProtectionMiddleware } from "@companieshouse/web-security-node";
 import { SessionMiddleware, SessionStore } from "@companieshouse/node-session-handler";
 import {
     ALPHABETICAL_SERVICE_NAME,
@@ -41,6 +42,13 @@ const actuatorOptions = {
 };
 
 app.use(actuator(actuatorOptions));
+
+const csrfProtectionMiddleware = CsrfProtectionMiddleware({
+  sessionStore,
+  enabled: true,
+  sessionCookieName: config.COOKIE_NAME
+});
+app.use(csrfProtectionMiddleware);
 
 // where nunjucks templates should resolve to
 const viewPath = path.join(__dirname, "views");
