@@ -11,6 +11,7 @@ import errorHandlers from "./controllers/error.controller";
 import { ADVANCED_ROOT, ALPHABETICAL_ROOT, DISSOLVED_ROOT } from "./model/page.urls";
 import { CookieConfig } from "@companieshouse/node-session-handler/lib/config/CookieConfig";
 import { SessionMiddleware, SessionStore } from "@companieshouse/node-session-handler";
+import { CsrfProtectionMiddleware } from "@companieshouse/web-security-node";
 import {
     ALPHABETICAL_SERVICE_NAME,
     ADVANCED_SERVICE_NAME,
@@ -21,6 +22,7 @@ import {
     PIWIK_URL,
     SERVICE_NAME_GENERIC,
     PIWIK_DISSOLVED_SERVICE_NAME,
+    COOKIE_NAME,
     COOKIE_SECRET,
     COOKIE_DOMAIN,
     CACHE_SERVER,
@@ -49,7 +51,8 @@ const viewPath = path.join(__dirname, "views");
 const env = nunjucks.configure([
     viewPath,
     "node_modules/govuk-frontend/",
-    "node_modules/govuk-frontend/components"
+    "node_modules/govuk-frontend/components",
+    "node_modules/@companieshouse"
 ], {
     autoescape: true,
     express: app
@@ -115,5 +118,15 @@ env.addGlobal("MOBILE_MENU", "/search-assets/static/js/mobile-menu.js");
 // apply our default router to /
 app.use("/", router);
 app.use(...errorHandlers);
+
+// CSRF Protection middleware
+app.use(SessionMiddleware(cookieConfig, sessionStore));
+
+const csrfProtectionMiddleware = CsrfProtectionMiddleware({
+    sessionStore,
+    enabled: true,
+    sessionCookieName: COOKIE_NAME
+  });
+  app.use(csrfProtectionMiddleware);
 
 export default app;
