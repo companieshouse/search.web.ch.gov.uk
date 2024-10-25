@@ -18,6 +18,7 @@ export const PIWIK_SITE_ID = getEnvironmentValue("PIWIK_SITE_ID");
 export const API_URL = getEnvironmentValue("API_URL");
 export const APPLICATION_NAME = "search.web.ch.gov.uk";
 export const API_KEY = getEnvironmentValue("CHS_API_KEY");
+export const COOKIE_NAME = getEnvironmentValue("COOKIE_NAME");
 export const COOKIE_SECRET = getEnvironmentValue("COOKIE_SECRET");
 export const COOKIE_DOMAIN = getEnvironmentValue("COOKIE_DOMAIN");
 export const CACHE_SERVER = getEnvironmentValue("CACHE_SERVER");
