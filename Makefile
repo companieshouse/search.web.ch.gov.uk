@@ -39,7 +39,7 @@ lint:
 	npm run lint
 
 .PHONY: sonar
-sonar:
+sonar: test
 	npm run analyse-code
 
 .PHONY: security-check
