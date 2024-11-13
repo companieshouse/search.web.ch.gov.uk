@@ -4,7 +4,7 @@ import ioredis from "ioredis";
 import * as mockUtils from "../../MockUtils/advanced-search/mock.util";
 import * as apiClient from "../../../src/client/apiclient";
 import { signedInSession } from "../../MockUtils/redis.mocks";
-import { getAppWithMockedCsrf } from '../../MockUtils/csrf.mocks';
+import { getAppWithMockedCsrf } from "../../MockUtils/csrf.mocks";
 
 const sandbox = sinon.createSandbox();
 let testApp = null;
@@ -14,7 +14,7 @@ describe("search.controller.spec.unit", () => {
     beforeEach((done) => {
         sandbox.stub(ioredis.prototype, "connect").returns(Promise.resolve());
         sandbox.stub(ioredis.prototype, "get").returns(Promise.resolve(signedInSession));
-        testApp = getAppWithMockedCsrf(sandbox)
+        testApp = getAppWithMockedCsrf(sandbox);
         done();
     });
 

@@ -126,7 +126,7 @@ const csrfProtectionMiddleware = CsrfProtectionMiddleware({
     sessionStore,
     enabled: true,
     sessionCookieName: COOKIE_NAME
-  });
-  app.use(csrfProtectionMiddleware);
+});
+app.use(csrfProtectionMiddleware);
 
 export default app;

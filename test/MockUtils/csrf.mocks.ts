@@ -1,5 +1,5 @@
-import sinon from 'sinon';
-import proxyquire from 'proxyquire';
+import sinon from "sinon";
+import proxyquire from "proxyquire";
 
 // Function to return the stubbed WebSecurity module
 export const getAppWithMockedCsrf = (sandbox: sinon.SinonSandbox) => {

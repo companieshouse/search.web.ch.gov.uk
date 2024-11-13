@@ -5,8 +5,7 @@ import { APPLICATION_NAME, CHS_URL } from "../config/config";
 import { createLogger } from "@companieshouse/structured-logging-node";
 import { PageHeader } from "../model/PageHeader";
 import { mapPageHeader } from "../utils/page.header.utils";
-import { CsrfError } from '@companieshouse/web-security-node';
-
+import { CsrfError } from "@companieshouse/web-security-node";
 
 const logger = createLogger(APPLICATION_NAME);
 const SERVICE_URL = CHS_URL;
@@ -17,7 +16,7 @@ const SERVICE_URL = CHS_URL;
 const csrfErrorHandler = (err: CsrfError | Error, req: Request, res: Response, next: NextFunction) => {
     // Handle non-CSRF Errors immediately
     if (!(err instanceof CsrfError)) {
-      return next(err);
+        return next(err);
     }
 
     const pageHeader: PageHeader = mapPageHeader(req);
