@@ -17,11 +17,7 @@ describe("advanced search search.controller.test", () => {
         sandbox.stub(ioredis.prototype, "get")
             .withArgs(SIGNED_IN_ID).returns(Promise.resolve(signedInSession))
             .withArgs(SIGNED_OUT_ID).returns(Promise.resolve(signedOutSession));
-<<<<<<< HEAD
             testApp = require("../../../src/app").default;
-=======
-        testApp = getAppWithMockedCsrf(sandbox);
->>>>>>> d7d5b4c (linting issues)
         done();
     });
 
