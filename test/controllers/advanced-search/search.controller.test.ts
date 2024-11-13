@@ -17,7 +17,7 @@ describe("advanced search search.controller.test", () => {
         sandbox.stub(ioredis.prototype, "get")
             .withArgs(SIGNED_IN_ID).returns(Promise.resolve(signedInSession))
             .withArgs(SIGNED_OUT_ID).returns(Promise.resolve(signedOutSession));
-            testApp = getAppWithMockedCsrf(sandbox)
+            testApp = require("../../../src/app").default;
         done();
     });
 
