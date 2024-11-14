@@ -45,4 +45,4 @@ const errorHandler = async (err: unknown, req: Request, res: Response, next: Nex
     res.status(500).render(templatePaths.ERROR, { templateName: templatePaths.ERROR });
 };
 
-export default [notFoundHandler, errorHandler];
+export default [csrfErrorHandler, notFoundHandler, errorHandler];
