@@ -7,19 +7,6 @@ const sandbox = sinon.createSandbox();
 let testApp = null;
 
 describe("index.test", () => {
-    describe("getAppWithMockedCsrf", () => {
-        it("should return an app instance with mocked CSRF protection", () => {
-            const app = getAppWithMockedCsrf(sandbox);
-            chai.expect(app).to.be.an("object");
-        });
-    });
-
-    it.only("should stub CsrfProtectionMiddleware and call it", () => {
-        const stubbedWebSecurity = {
-            CsrfProtectionMiddleware: sandbox.stub().callsFake(() => (req, res, next) => next())
-        };
-    });
-
     beforeEach((done) => {
         testApp = getAppWithMockedCsrf(sandbox);
         done();
