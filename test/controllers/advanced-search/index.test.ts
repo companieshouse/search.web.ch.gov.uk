@@ -3,6 +3,7 @@ import chai from "chai";
 import ioredis from "ioredis";
 import cheerio from "cheerio";
 import { signedInSession } from "../../MockUtils/redis.mocks";
+import { getAppWithMockedCsrf } from "../../MockUtils/csrf.mocks";
 
 const sandbox = sinon.createSandbox();
 let testApp = null;
@@ -10,7 +11,7 @@ describe("advanced search search.controller.test", () => {
     beforeEach((done) => {
         sandbox.stub(ioredis.prototype, "connect").returns(Promise.resolve());
         sandbox.stub(ioredis.prototype, "get").returns(Promise.resolve(signedInSession));
-        testApp = require("../../../src/app").default;
+        testApp = getAppWithMockedCsrf(sandbox);
         done();
     });
 

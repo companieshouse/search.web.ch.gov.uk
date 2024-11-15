@@ -13,6 +13,7 @@ import {
 } from "../../MockUtils/redis.mocks";
 import { getDummyBasket } from "../../MockUtils/dissolved-search/mock.util";
 import { checkSignInSignOutNavBar } from "../../test.utils";
+import { getAppWithMockedCsrf } from "../../MockUtils/csrf.mocks";
 
 import * as chai from "chai";
 import chaiHttp = require("chai-http");
@@ -127,7 +128,7 @@ describe("dissolved search search.controller.test", () => {
         sandbox.stub(ioredis.prototype, "get")
             .withArgs(SIGNED_IN_ID).returns(Promise.resolve(signedInSession))
             .withArgs(SIGNED_OUT_ID).returns(Promise.resolve(signedOutSession));
-        testApp = require("../../../src/app").default;
+        testApp = getAppWithMockedCsrf(sandbox);
         done();
     });
 

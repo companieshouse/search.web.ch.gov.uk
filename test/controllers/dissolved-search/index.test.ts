@@ -1,13 +1,14 @@
 import sinon from "sinon";
 import chai from "chai";
 import cheerio from "cheerio";
+import { getAppWithMockedCsrf } from "../../MockUtils/csrf.mocks";
 
 const sandbox = sinon.createSandbox();
 let testApp = null;
 
 describe("index.test", () => {
     beforeEach((done) => {
-        testApp = require("../../../src/app").default;
+        testApp = getAppWithMockedCsrf(sandbox);
         done();
     });
 

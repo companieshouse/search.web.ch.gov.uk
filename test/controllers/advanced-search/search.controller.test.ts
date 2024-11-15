@@ -5,6 +5,7 @@ import * as mockUtils from "../../MockUtils/advanced-search/mock.util";
 import * as apiClient from "../../../src/client/apiclient";
 import { SIGNED_IN_ID, SIGNED_OUT_ID, signedInSession, signedOutSession } from "../../MockUtils/redis.mocks";
 import { checkSignInSignOutNavBar } from "../../test.utils";
+import { getAppWithMockedCsrf } from "../../MockUtils/csrf.mocks";
 
 const sandbox = sinon.createSandbox();
 let testApp = null;
