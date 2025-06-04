@@ -7,6 +7,11 @@ use_set_environment_files = true
 
 # Scaling configs
 desired_task_count = 2 # use multi instance in staging
+max_task_count = 5
+min_task_count = 2
+
+required_cpus = 512
+required_memory = 1024
 
 # Scheduled scaling of tasks
 service_autoscale_enabled  = true
