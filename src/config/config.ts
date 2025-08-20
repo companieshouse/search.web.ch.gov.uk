@@ -9,6 +9,7 @@ const getEnvironmentValue = (key: string, defaultValue?: any): string => {
     return value || defaultValue as string;
 };
 
+export const APP_ASSETS_PATH = getEnvironmentValue("APP_ASSETS_PATH", "static");
 export const ALPHABETICAL_SEARCH_URL = getEnvironmentValue("ALPHABETICAL_SEARCH_URL");
 export const CHS_API_KEY = getEnvironmentValue("CHS_API_KEY");
 export const CHS_URL = getEnvironmentValue("CHS_URL");

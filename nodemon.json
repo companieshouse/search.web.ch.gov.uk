@@ -1,0 +1,13 @@
+{
+	"env": {
+		"APP_ASSETS_PATH": "dist/static"
+	},
+	"exec": "ts-node ./src/bin/nodemon-entry.ts",
+	"ext": "ts,html",
+	"watch": ["./src"],
+	"ignore": ["**/*.test.ts"],
+	"events": {
+		"restart": "echo '🔄 '  Nodemon Restarting...",
+		"crash": "echo '💥 '  Nodemon Crashed!"
+	}
+}
