@@ -13,6 +13,7 @@ import { CookieConfig } from "@companieshouse/node-session-handler/lib/config/Co
 import { SessionMiddleware, SessionStore } from "@companieshouse/node-session-handler";
 import { CsrfProtectionMiddleware } from "@companieshouse/web-security-node";
 import {
+    APP_ASSETS_PATH,
     ALPHABETICAL_SERVICE_NAME,
     ADVANCED_SERVICE_NAME,
     CHS_URL,
@@ -107,7 +108,7 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use("/search-assets/static", express.static("static"));
+app.use("/search-assets/static", express.static(APP_ASSETS_PATH));
 env.addGlobal("CSS_URL", "/search-assets/static/app.css");
 env.addGlobal("ALPHABETICAL_SEARCH", "/search-assets/static/alphabetical_search.css");
 env.addGlobal("NUMBERED_PAGING", "/search-assets/static/numbered_paging.css");
