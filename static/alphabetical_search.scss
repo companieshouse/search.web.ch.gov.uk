@@ -1,3 +1,5 @@
+@import "../node_modules/govuk-frontend/dist/govuk/base";
+
 html, body {
   height: 100%;
 }
@@ -35,7 +37,7 @@ html, body {
 }
 
 #chs-customer-insights {
-  background-color: #005ea5;
+  background-color: $govuk-brand-colour;
   padding: 0.5em 0.5em 0;
   margin: 0 auto 0;
   height: auto;
