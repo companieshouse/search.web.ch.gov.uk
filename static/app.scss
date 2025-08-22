@@ -2,7 +2,7 @@
 @import "variables";
 
 // the govuk frontend
-@import "../node_modules/govuk-frontend/govuk/all";
+@import "../node_modules/govuk-frontend/dist/govuk/base";
 
 .no-wrap {
     white-space: nowrap;
