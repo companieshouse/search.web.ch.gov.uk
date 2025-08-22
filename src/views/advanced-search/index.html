@@ -12,6 +12,7 @@
   text: "Back to Companies House service",
   href: "/"
   }) }}
+  {{ super() }}
 {% endblock %}
 
 {% set companyStatusHtml %}
@@ -236,7 +237,8 @@
         <form action="/advanced-search/get-results" method="GET" autocomplete="off" id="advancedSearchStartPageForm" name="advancedSearchStartPageForm">
           {{ govukAccordion({
             id: "accordion-default",
-
+            showAllSectionsText: "Show all",
+            hideAllSectionsText: "Hide all",
             items: [
               {
                 heading: {

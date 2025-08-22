@@ -1,3 +1,5 @@
+@import "../node_modules/govuk-frontend/dist/govuk/base";
+
 html, body {
   height: 100%;
 }
@@ -53,14 +55,22 @@ html, body {
     &:focus {
       color: #0b0c0c;
     }
+
     &:hover {
       color: #bfc1c3;
     }
+
     &.secondary-customer-insights {
       float: right;
     }
   }
+
+  .govuk-template--rebranded & {
+    background-color: $govuk-brand-colour;
+    border-color: $govuk-brand-colour;
+  }
 }
+
 @media (max-width: 641px) {
   #chs-customer-insights {
     padding-bottom: 3em;
@@ -86,61 +96,72 @@ html, body {
 }
 
 .near {
-  background-color:#1d70b8;
+  background-color: #1d70b8;
   color: #ffffff;
+
   a {
-    color:#ffffff;
+    color: #ffffff;
   }
 }
 
 .pagination {
   display: inline-block;
-  }
-  
+}
+
 .pagination a {
   float: left;
   font-size: 19px;
   padding: 8px 30px 0px 0px;
-  }
+}
 
-  .accordion-label{
-    font-family: "GDS Transport", Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    font-weight: 400;
-    font-size: 12px;
-    font-size: 1rem;
-    line-height: 1.25;
-    color: #0b0c0c;
-    display: block;
-    margin-bottom: 5px;
+.accordion-label {
+  font-family: "GDS Transport", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 12px;
+  font-size: 1rem;
+  line-height: 1.25;
+  color: #0b0c0c;
+  display: block;
+  margin-bottom: 5px;
 }
 
 .accordion-hint {
-    font-family: "GDS Transport", Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    font-weight: 400;
-    font-size: 12px;
-    font-size: 1rem;
-    line-height: 1.25;
-    display: block;
-    margin-bottom: 15px;
-    color: #626a6e;
+  font-family: "GDS Transport", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  font-size: 12px;
+  font-size: 1rem;
+  line-height: 1.25;
+  display: block;
+  margin-bottom: 15px;
+  color: #626a6e;
 }
 
-.govuk-accordion__section-header {
-  padding-top: 9px;
-  padding-bottom: 9px;
+.govuk-frontend-supported .app-accordion--compact {
+  /* Since we're going to override the layout of the accordion button, reset all spacing. */
+  .govuk-accordion__section-heading-text,
+  .govuk-accordion__section-toggle {
+    margin: 0;
+    padding: 0;
+  }
+  .govuk-accordion__section-button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 0;
+  }
+  .govuk-accordion__section--expanded .govuk-accordion__section-button {
+    padding-bottom: govuk-spacing(2);
+  }
+  .govuk-accordion__section-toggle,
+  .govuk-accordion__section-button {
+    @include govuk-font-size($size: 16);
+  }
 }
 
- // Buttons within the sections don’t need default styling
-.govuk-accordion__section-button {
-  font-size: 16px;
-  font-weight: bold;
-  margin-bottom: 0;
-  padding-top: 12px;
-}
 .govuk-input {
   font-family: "GDS Transport", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

@@ -8,11 +8,11 @@
 {% endblock %}
 
 {% block beforeContent %}
-
   {{ govukBackLink({
   text: "Back to Companies House service",
   href: "/"
   }) }}
+  {{ super() }}
 {% endblock %}
 
 {% block content %}
@@ -991,8 +991,10 @@
         </div>
 
         {{ govukAccordion({
+          classes: "app-accordion--compact",
           id: "Search",
-
+          showAllSectionsText: "Show filters",
+          hideAllSectionsText: "Hide filters",
           items: [
             {
               heading: {
