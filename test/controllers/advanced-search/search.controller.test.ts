@@ -943,7 +943,7 @@ describe("advanced search search.controller.test", () => {
                 .get("/advanced-search/get-results?companyNameIncludes=test");
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain("<div class=\"govuk-button-group download-button\">\n                <button class=\"govuk-button\" data-module=\"govuk-button\" data-event-id=advanced-search-results-page-download-results>\n                Download results\n                </button>");
+            chai.expect(resp.text).to.contain(`<button class="govuk-button" data-module="govuk-button" data-event-id=advanced-search-results-page-download-results>\n                    Download results\n                    </button>`);
         });
 
         it("should show an inactive download button if there are no results", async () => {
