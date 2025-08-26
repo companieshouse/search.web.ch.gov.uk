@@ -6,7 +6,12 @@ sass.compiler = require('sass');
 // compiles the sass down to css
 gulp.task('sass', function() {
   return gulp.src('./static/**/*.scss')
-    .pipe(sass())
+    .pipe(sass({
+        quietDeps: true,
+        includePaths: [
+          "node_modules/govuk-frontend/dist"
+        ]
+    }))
     .pipe(gulp.dest('./dist/static'));
 });
 
