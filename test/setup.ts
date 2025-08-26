@@ -20,3 +20,4 @@ process.env.ADVANCED_SEARCH_NUMBER_OF_RESULTS_TO_DOWNLOAD = "20";
 process.env.ROE_FEATURE_FLAG = "1";
 process.env.ACCOUNT_URL = "http://account.co";
 process.env.CHS_MONITOR_GUI_URL = "http://follow.co";
+process.env.CDN_HOST = "cdn.chs.local";
