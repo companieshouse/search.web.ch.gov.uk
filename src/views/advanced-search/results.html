@@ -977,7 +977,7 @@
 
   <div class="govuk-grid-row">
 
-    <div class="govuk-grid-column-one-third" style="margin-right: 15px;">
+    <div class="govuk-grid-column-one-third-from-desktop">
 
       <form action="/advanced-search/get-results" method="GET" autocomplete="off" id="advancedSearchResultsPageForm" name="advancedSearchResultsPageForm">
 
@@ -1070,14 +1070,14 @@
       </form>
     </div>
 
-    <div class="govuk-grid-two-thirds two-thirds-div" style="padding-top: 45px;">
+    <div class="govuk-grid-column-two-thirds-from-desktop govuk-!-margin-top-9">
       {% if searchResults.length > 0 %}
         {% include "../components/download-results.html"%}
       {% endif %}
 
         <div>
           {% if searchResults.length > 0 %}
-          <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible hr-margin hr-margin-mobile">
+          <hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-top-5">
             {{ govukTable ({
                 rows: searchResults,
                 classes: 'govuk-!-font-size-16'
@@ -1102,7 +1102,7 @@
             Download results
           </button>
         </div>
-        <div class="flex-end one-half-div-right">
+        <div>
           <span class="govuk-body-s download-text">Results are downloaded as a CSV file. Only the first {{ADV_SEARCH_NUM_OF_RESULTS_TO_DOWNLOAD}} results can be downloaded.</span>
         </div>
       {% endif %}
