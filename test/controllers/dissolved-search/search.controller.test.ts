@@ -1,6 +1,7 @@
 import * as mockUtils from "../../MockUtils/dissolved-search/mock.util";
 import sinon from "sinon";
 import ioredis from "ioredis";
+import cheerio from "cheerio";
 import * as apiClient from "../../../src/client/apiclient";
 import { CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/dissolved-search/types";
 import { formatDate, sanitiseCompanyName, generateROAddress, determineReportAvailableBool } from "../../../src/controllers/utils/utils";
@@ -340,9 +341,10 @@ describe("dissolved search search.controller.test", () => {
 
             const resp = await chai.request(testApp)
                 .get("/dissolved-search/get-results?companyName=testo&changedName=name-at-dissolution&page=1");
+            const $ = cheerio.load(resp.text);
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain("<span class=\"active\">1</span>");
+            chai.expect($(".govuk-pagination__item--current").text().trim()).to.equal("1");
         });
 
         it("should show the previous and next links if on any middle page", async () => {
@@ -399,9 +401,10 @@ describe("dissolved search search.controller.test", () => {
 
             const resp = await chai.request(testApp)
                 .get("/dissolved-search/get-results?companyName=testo&changedName=previousNameDissolved&page=1");
+            const $ = cheerio.load(resp.text);
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain("<span class=\"active\">1</span>");
+            chai.expect($(".govuk-pagination__item--current").text().trim()).to.equal("1");
         });
 
         it("should show the previous and next links if on any middle page", async () => {

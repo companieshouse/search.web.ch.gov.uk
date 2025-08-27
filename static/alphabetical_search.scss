@@ -63,16 +63,6 @@
   }
 }
 
-.pagination {
-  display: inline-block;
-  }
-  
-.pagination a {
-  float: left;
-  font-size: 19px;
-  padding: 8px 30px 0px 0px;
-  }
-
   .accordion-label{
     font-family: "GDS Transport", Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -126,16 +116,6 @@
 
 .no-wrap {
 white-space: nowrap;
-}
-
-.pagination {
-display: inline-block;
-}
-
-.pagination a {
-float: left;
-font-size: 19px;
-padding: 8px 16px;
 }
 
 @media (min-width: 641px) {
@@ -221,10 +201,6 @@ padding: 8px 16px;
   color: black !important;
 }
 
-.pager .govuk-link:focus {
-  border-bottom: 4px solid black;
-}
-
 /* GOV.UK Accordion overrides */
 .govuk-frontend-supported .app-accordion--compact {
   /* Since we're going to override the layout of the accordion button, reset all spacing. */
@@ -261,5 +237,14 @@ padding: 8px 16px;
     display: inline-flex;
     gap: govuk-spacing(1);
     flex-direction: row-reverse;
+  }
+}
+
+/* GOV.UK Pagination overrides */
+/* By default the accordion component hides page numbers on small screens,
+force them visible since we're not using the ellpises feature */
+.app-pagination--show-all {
+  .govuk-pagination__item {
+    display: block;
   }
 }
