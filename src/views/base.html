@@ -1,16 +1,17 @@
 {% extends "ch-node-utils/templates/layouts/template.njk" %}
 
-{% from "govuk/components/accordion/macro.njk"        import govukAccordion %}
-{% from "govuk/components/back-link/macro.njk"        import govukBackLink %}
-{% from "govuk/components/button/macro.njk"           import govukButton %}
-{% from "govuk/components/checkboxes/macro.njk"       import govukCheckboxes %}
-{% from "govuk/components/radios/macro.njk"           import govukRadios %}
-{% from "govuk/components/input/macro.njk"            import govukInput %}
-{% from "govuk/components/table/macro.njk"            import govukTable %}
-{% from "govuk/components/error-summary/macro.njk"    import govukErrorSummary %}
-{% from "govuk/components/header/macro.njk"           import govukHeader %}
-{% from "govuk/components/footer/macro.njk"           import govukFooter %}
-{% from "govuk/components/service-navigation/macro.njk" import govukServiceNavigation %}
+{% from "govuk/components/accordion/macro.njk"                    import govukAccordion %}
+{% from "govuk/components/back-link/macro.njk"                    import govukBackLink %}
+{% from "govuk/components/button/macro.njk"                       import govukButton %}
+{% from "govuk/components/checkboxes/macro.njk"                   import govukCheckboxes %}
+{% from "govuk/components/radios/macro.njk"                       import govukRadios %}
+{% from "govuk/components/input/macro.njk"                        import govukInput %}
+{% from "govuk/components/table/macro.njk"                        import govukTable %}
+{% from "govuk/components/error-summary/macro.njk"                import govukErrorSummary %}
+{% from "govuk/components/header/macro.njk"                       import govukHeader %}
+{% from "govuk/components/footer/macro.njk"                       import govukFooter %}
+{% from "govuk/components/service-navigation/macro.njk"           import govukServiceNavigation %}
+{% from "govuk/components/pagination/macro.njk"                   import govukPagination %}
 {% from "web-security-node/components/csrf-token-input/macro.njk" import csrfTokenInput %}
 
 {% block head %}

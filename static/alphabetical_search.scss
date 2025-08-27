@@ -263,3 +263,12 @@ padding: 8px 16px;
     flex-direction: row-reverse;
   }
 }
+
+/* GOV.UK Pagination overrides */
+/* By default the accordion component hides page numbers on small screens,
+force them visible since we're not using the ellpises feature */
+.app-pagination--show-all {
+  .govuk-pagination__item {
+    display: block;
+  }
+}

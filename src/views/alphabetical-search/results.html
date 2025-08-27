@@ -36,14 +36,7 @@
           ],
           rows: searchResults
       }) }}
-      <div class="pagination">
-        {% if prevLink !== "" %}
-            <a class="govuk-link" id="previousLink" href={{previousUrl}}>Previous</a>
-        {% endif %}
-        {% if nextLink !== "" %}
-            <a class="govuk-link" id="nextLink" href={{nextUrl}}>Next</a>
-        {% endif %}
-      </div>
+      {% include "../components/simple-pagination.html" %}
     {% else %}
       <div id="no-results" role="status">
         <h2 class="govuk-heading-l" style="overflow-wrap: break-word;">No results found</h2>
