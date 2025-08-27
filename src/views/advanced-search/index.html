@@ -219,11 +219,8 @@
 {% endset %}
 
 {% block content %}
-
 {# reloads the page if the user uses the navigation buttons in chrome or IE, the search fields will be populated correctly with the queries #}
 <script>reloadPage()</script>
-
-<div class="govuk-width-container">
 
     <div class="govuk-grid-row">
 
@@ -236,7 +233,8 @@
         <form action="/advanced-search/get-results" method="GET" autocomplete="off" id="advancedSearchStartPageForm" name="advancedSearchStartPageForm">
           {{ govukAccordion({
             id: "accordion-default",
-
+            showAllSectionsText: "Show all filters",
+            hideAllSectionsText: "Hide all filters",
             items: [
               {
                 heading: {
@@ -609,5 +607,4 @@
           </div>
         </form>
     </div>
-  </div>
 {% endblock %}

@@ -12,6 +12,7 @@ import { ADVANCED_ROOT, ALPHABETICAL_ROOT, DISSOLVED_ROOT } from "./model/page.u
 import { CookieConfig } from "@companieshouse/node-session-handler/lib/config/CookieConfig";
 import { SessionMiddleware, SessionStore } from "@companieshouse/node-session-handler";
 import { CsrfProtectionMiddleware } from "@companieshouse/web-security-node";
+import { getGOVUKFrontendVersion } from "@companieshouse/ch-node-utils";
 import {
     APP_ASSETS_PATH,
     ALPHABETICAL_SERVICE_NAME,
@@ -31,7 +32,8 @@ import {
     DISSOLVED_FEEDBACK_SOURCE,
     ADVANCED_FEEDBACK_SOURCE,
     PIWIK_ADVANCED_SERVICE_NAME,
-    ROE_FEATURE_FLAG
+    ROE_FEATURE_FLAG,
+    FEATURE_GOVUK_REBRAND
 } from "./config/config";
 
 const app = express();
@@ -51,8 +53,8 @@ const viewPath = path.join(__dirname, "views");
 // set up the template engine
 const env = nunjucks.configure([
     viewPath,
-    "node_modules/govuk-frontend/",
-    "node_modules/govuk-frontend/components",
+    "node_modules/govuk-frontend/dist",
+    "node_modules/govuk-frontend/dist/components",
     "node_modules/@companieshouse"
 ], {
     autoescape: true,
@@ -81,6 +83,11 @@ env.addGlobal("PIWIK_SITE_ID", PIWIK_SITE_ID);
 env.addGlobal("CDN_URL", process.env.CDN_HOST);
 env.addGlobal("ACCOUNT_URL", process.env.ACCOUNT_URL);
 env.addGlobal("CHS_MONITOR_GUI_URL", process.env.CHS_MONITOR_GUI_URL);
+
+// Variables needed for ch-node-utils/template
+env.addGlobal("cdnHost", "//" + process.env.CDN_HOST);
+env.addGlobal("govukFrontendVersion", getGOVUKFrontendVersion());
+env.addGlobal("govukRebrand", FEATURE_GOVUK_REBRAND);
 
 app.use((req, res, next) => {
     if (req.path.includes("/alphabetical-search")) {

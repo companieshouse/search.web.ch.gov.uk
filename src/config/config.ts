@@ -1,5 +1,5 @@
 const getEnvironmentValue = (key: string, defaultValue?: any): string => {
-    const isMandatory: boolean = !defaultValue;
+    const isMandatory: boolean = typeof defaultValue === undefined;
     const value: string = process.env[key] || "";
 
     if (!value && isMandatory) {
@@ -43,3 +43,4 @@ export const ALPHABETICAL_FEEDBACK_SOURCE = "alphabetical-search";
 export const DISSOLVED_FEEDBACK_SOURCE = "dissolved-search";
 export const ADVANCED_FEEDBACK_SOURCE = "advanced-search";
 export const ROE_FEATURE_FLAG = getEnvironmentValue("ROE_FEATURE_FLAG");
+export const FEATURE_GOVUK_REBRAND = getEnvironmentValue("FEATURE_GOVUK_REBRAND", false);

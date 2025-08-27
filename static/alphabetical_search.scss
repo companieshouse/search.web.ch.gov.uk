@@ -1,41 +1,11 @@
-html, body {
-  height: 100%;
-}
-
-.govuk-template {
-  background-color: #FFF;
-}
-
-.entire-wrapper {
-    min-height: 95%;
-    height: auto !important;
-    height: 100%;
-    margin: 0 auto -71px; /* the bottom margin is the negative value of the footer's height - plus 11px for border */
-}
-
-.govuk-footer__inline-list .govuk-footer__link, .govuk-footer__list .govuk-footer__link {
-  text-decoration: underline;
-}
-
-#footer {
-  border-top: 10px solid #005ea5;
-}
-
-.push {
-    height: 71px;
-}
+@import "govuk/base";
 
 .hidden {
   display: none;
 }
 
-.govuk-footer.ch {
-  padding-bottom: 20px;
-  padding-top: 20px;
-}
-
 #chs-customer-insights {
-  background-color: #005ea5;
+  background-color: $govuk-brand-colour;
   padding: 0.5em 0.5em 0;
   margin: 0 auto 0;
   height: auto;
@@ -129,18 +99,6 @@ html, body {
     color: #626a6e;
 }
 
-.govuk-accordion__section-header {
-  padding-top: 9px;
-  padding-bottom: 9px;
-}
-
- // Buttons within the sections don’t need default styling
-.govuk-accordion__section-button {
-  font-size: 16px;
-  font-weight: bold;
-  margin-bottom: 0;
-  padding-top: 12px;
-}
 .govuk-input {
   font-family: "GDS Transport", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -237,19 +195,6 @@ padding: 8px 16px;
   color: #505a5f;
 } 
 
-.flex-end {
-  justify-content: flex-end;
-}
-
-.one-half-div {
-    float: left;
-    width: 50%;
-}
-
-.one-half-div-right {
-    float: right;
-    width: 50%;;
-}
 .hr-margin {
   margin-top: 60px;
   margin-bottom: 0px;
@@ -278,4 +223,43 @@ padding: 8px 16px;
 
 .pager .govuk-link:focus {
   border-bottom: 4px solid black;
+}
+
+/* GOV.UK Accordion overrides */
+.govuk-frontend-supported .app-accordion--compact {
+  /* Since we're going to override the layout of the accordion button, reset all spacing. */
+  .govuk-accordion__show-all-text,
+  .govuk-accordion__section-toggle-text,
+  .govuk-accordion__section-heading-text,
+  .govuk-accordion__section-toggle {
+    margin: 0;
+    padding: 0;
+  }
+  .govuk-accordion__section-button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 0;
+  }
+  .govuk-accordion__section--expanded .govuk-accordion__section-button {
+    padding-bottom: govuk-spacing(2);
+  }
+  .govuk-accordion__show-all {
+    float: right;
+    margin-bottom: govuk-spacing(1);
+  }
+  .govuk-accordion__show-all,
+  .govuk-accordion__section-toggle,
+  .govuk-accordion__section-button {
+    @include govuk-font-size($size: 16);
+  }
+  .govuk-accordion__section-content:not([hidden]) {
+    padding: govuk-spacing(3) 0;
+  }
+  .govuk-accordion__show-all,
+  .govuk-accordion__section-toggle-focus {
+    display: inline-flex;
+    gap: govuk-spacing(1);
+    flex-direction: row-reverse;
+  }
 }
