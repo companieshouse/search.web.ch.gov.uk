@@ -1,5 +1,6 @@
 import sinon from "sinon";
 import chai from "chai";
+import cheerio from "cheerio";
 import ioredis from "ioredis";
 import * as mockUtils from "../../MockUtils/advanced-search/mock.util";
 import * as apiClient from "../../../src/client/apiclient";
@@ -624,9 +625,10 @@ describe("advanced search search.controller.test", () => {
 
             const resp = await chai.request(testApp)
                 .get("/advanced-search/get-results?companyNameIncludes=test&page=500");
+            const $ = cheerio.load(resp.text);
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain("<span class=\"active\">500</span>");
+            chai.expect($(".govuk-pagination__item--current").text().trim()).to.equal("500");
             chai.expect(resp.text).to.not.contain("page-501");
         });
 
@@ -636,9 +638,10 @@ describe("advanced search search.controller.test", () => {
 
             const resp = await chai.request(testApp)
                 .get("/advanced-search/get-results?companyNameIncludes=test&page=1");
+            const $ = cheerio.load(resp.text);
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain("<span class=\"active\">1</span>");
+            chai.expect($(".govuk-pagination__item--current").text().trim()).to.equal("1");
         });
 
         it("should show the previous and next links if on any middle page", async () => {
