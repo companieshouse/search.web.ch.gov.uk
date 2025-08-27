@@ -63,16 +63,6 @@
   }
 }
 
-.pagination {
-  display: inline-block;
-  }
-  
-.pagination a {
-  float: left;
-  font-size: 19px;
-  padding: 8px 30px 0px 0px;
-  }
-
   .accordion-label{
     font-family: "GDS Transport", Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -126,16 +116,6 @@
 
 .no-wrap {
 white-space: nowrap;
-}
-
-.pagination {
-display: inline-block;
-}
-
-.pagination a {
-float: left;
-font-size: 19px;
-padding: 8px 16px;
 }
 
 @media (min-width: 641px) {
@@ -219,10 +199,6 @@ padding: 8px 16px;
 }
 .near .govuk-link:focus {
   color: black !important;
-}
-
-.pager .govuk-link:focus {
-  border-bottom: 4px solid black;
 }
 
 /* GOV.UK Accordion overrides */

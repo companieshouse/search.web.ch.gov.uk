@@ -118,7 +118,6 @@ app.use((req, res, next) => {
 app.use("/search-assets/static", express.static(APP_ASSETS_PATH));
 env.addGlobal("CSS_URL", "/search-assets/static/app.css");
 env.addGlobal("ALPHABETICAL_SEARCH", "/search-assets/static/alphabetical_search.css");
-env.addGlobal("NUMBERED_PAGING", "/search-assets/static/numbered_paging.css");
 env.addGlobal("MATCHER", "/search-assets/static/js/matcher.js");
 env.addGlobal("ALL", "/search-assets/static/js/all.js");
 env.addGlobal("MOBILE_MENU", "/search-assets/static/js/mobile-menu.js");
