@@ -1,5 +1,5 @@
 const getEnvironmentValue = (key: string, defaultValue?: any): string => {
-    const isMandatory: boolean = typeof defaultValue === undefined;
+    const isMandatory: boolean = typeof defaultValue === "undefined";
     const value: string = process.env[key] || "";
 
     if (!value && isMandatory) {
