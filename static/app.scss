@@ -322,3 +322,15 @@ border-left: 4px solid #1d70b8;
       display: none;
     }
   }
+
+/* GOV.UK Footer overrides */
+/* Remove the OGL licencing section */
+.app-footer {
+    .govuk-footer__licence-logo,
+    .govuk-footer__licence-description {
+        display: none;
+    }
+    .govuk-footer__meta-custom {
+        margin-bottom: 0;
+    }
+}
