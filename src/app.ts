@@ -32,8 +32,7 @@ import {
     DISSOLVED_FEEDBACK_SOURCE,
     ADVANCED_FEEDBACK_SOURCE,
     PIWIK_ADVANCED_SERVICE_NAME,
-    ROE_FEATURE_FLAG,
-    FEATURE_GOVUK_REBRAND
+    ROE_FEATURE_FLAG
 } from "./config/config";
 
 const app = express();
@@ -87,7 +86,7 @@ env.addGlobal("CHS_MONITOR_GUI_URL", process.env.CHS_MONITOR_GUI_URL);
 // Variables needed for ch-node-utils/template
 env.addGlobal("cdnHost", "//" + process.env.CDN_HOST);
 env.addGlobal("govukFrontendVersion", getGOVUKFrontendVersion());
-env.addGlobal("govukRebrand", FEATURE_GOVUK_REBRAND);
+env.addGlobal("govukRebrand", true);
 
 app.use((req, res, next) => {
     if (req.path.includes("/alphabetical-search")) {
