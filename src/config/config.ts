@@ -43,4 +43,3 @@ export const ALPHABETICAL_FEEDBACK_SOURCE = "alphabetical-search";
 export const DISSOLVED_FEEDBACK_SOURCE = "dissolved-search";
 export const ADVANCED_FEEDBACK_SOURCE = "advanced-search";
 export const ROE_FEATURE_FLAG = getEnvironmentValue("ROE_FEATURE_FLAG");
-export const FEATURE_GOVUK_REBRAND = getEnvironmentValue("FEATURE_GOVUK_REBRAND", false);
