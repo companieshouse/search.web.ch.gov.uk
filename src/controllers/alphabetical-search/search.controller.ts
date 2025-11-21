@@ -20,7 +20,7 @@ const validators = [
     check("companyName").not().isEmpty().withMessage(errorMessages.COMPANY_NAME_EMPTY)
 ];
 
-const route = async (req: Request, res: Response, next:NextFunction) => {
+const route = async (req: Request, res: Response, next: NextFunction) => {
     try {
         await wrappedRoute(req, res);
     } catch (error) {
@@ -113,6 +113,7 @@ const getSearchResults = async (encodedCompanyName: string, cookies: Cookies, se
             return [
                 {
                     classes: nearestClass,
+                    attributes: nearestClass === "nearest" ? { "aria-current": "true" } : undefined,
                     html: `<a href="${links.company_profile}" class="govuk-link">${sanitisedCompanyName}</a>`
                 },
                 {
