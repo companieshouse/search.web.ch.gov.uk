@@ -14,7 +14,7 @@ describe("actuator.endpoints.integration", () => {
     beforeEach((done) => {
         sandbox.stub(ioredis.prototype, "connect").resolves();
         sandbox.stub(ioredis.prototype, "get").resolves(signedInSession);
-
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
         testApp = require("../../../src/app").default;
         done();
     });

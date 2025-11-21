@@ -18,6 +18,7 @@ describe("advanced search search.controller.test", () => {
         sandbox.stub(ioredis.prototype, "get")
             .withArgs(SIGNED_IN_ID).returns(Promise.resolve(signedInSession))
             .withArgs(SIGNED_OUT_ID).returns(Promise.resolve(signedOutSession));
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
         testApp = require("../../../src/app").default;
         done();
     });
@@ -114,7 +115,7 @@ describe("advanced search search.controller.test", () => {
 
         it("should not show the company subtype where undefined", async () => {
             const resource = mockUtils.getDummyAdvancedCompanyResource("test", 1);
-            // @ts-ignore
+            // @ts-expect-error: overriding type for test scenario
             resource.items[0].company_subtype = undefined;
             getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
                 .returns(Promise.resolve(resource));

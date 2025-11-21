@@ -15,6 +15,7 @@ export const checkSignInSignOutNavBar = (
     searchName: string,
     pageName: string,
     pagePath: string) => {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     testApp = require("../src/app").default;
 
     describe(`check the sign in/sign out nav bar on ${searchName} ${pageName} page`, () => {

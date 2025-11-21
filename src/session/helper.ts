@@ -5,7 +5,7 @@ import { UserProfileKeys } from "@companieshouse/node-session-handler/lib/sessio
 export const getAccessToken = (session): string => {
     const signInInfo = session?.data[SessionKey.SignInInfo];
 
-    const accessToken = signInInfo?.[SignInInfoKeys.AccessToken]?.[SignInInfoKeys.AccessToken]!;
+    const accessToken = signInInfo?.[SignInInfoKeys.AccessToken]?.[SignInInfoKeys.AccessToken] ?? "";
 
     return accessToken;
 };

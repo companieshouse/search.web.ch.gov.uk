@@ -71,7 +71,7 @@ describe("utils.test", () => {
     describe("check that the mapResponsiveHeaders returns the correct string of html", () => {
         it("should return a html string which includes the field name and field value", () => {
             const expectedString = "<span class=\"responsive-table__heading\" aria-hidden=\"false\">Company name</span>" +
-            "<span class=\"responsive-table__cell\" aria-hidden=\"false\">Test Company</span>";
+                "<span class=\"responsive-table__cell\" aria-hidden=\"false\">Test Company</span>";
 
             chai.expect(mapResponsiveHeaders("Company name", "Test Company")).to.equal(expectedString);
         });
@@ -511,7 +511,7 @@ describe("utils.test", () => {
 
     describe("getDatesFromParams", () => {
         it("should return a Full Dates object with dissolved to and from dates and incorporation to and from dates", () => {
-            chai.expect(getDatesFromParams(mockRequestDatesQueries)).to.deep.equal({
+            chai.expect(getDatesFromParams(mockRequestDatesQueries as Request)).to.deep.equal({
                 fullDissolvedDates: {
                     dissolvedFromDate: "1/1/2014",
                     dissolvedToDate: "2/2/2015"
@@ -690,4 +690,4 @@ const mockRequestDatesQueries = {
         incorporationToMonth: "2",
         incorporationToYear: "2015"
     }
-} as any;
+} as Partial<Request>;

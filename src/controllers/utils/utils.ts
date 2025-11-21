@@ -82,7 +82,7 @@ export const determineReturnToUrl = (req): string => {
 
     if (searchTypeRequestParam != null) {
         url += SEARCH_TYPE_QUERY;
-    };
+    }
 
     if (changeNameTypeParam != null) {
         url += CHANGED_NAME_QUERY;

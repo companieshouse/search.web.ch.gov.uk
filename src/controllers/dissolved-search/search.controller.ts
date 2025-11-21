@@ -98,7 +98,7 @@ const wrappedRoute = async (req: Request, res: Response) => {
         searchType = PREVIOUS_NAME_SEARCH_TYPE;
     } else {
         searchType = BEST_MATCH_SEARCH_TYPE;
-    };
+    }
 
     const { companyResource, searchResults } = await getSearchResults(encodedCompanyName, cookies, searchType, page, searchBefore, searchAfter, size, signedIn, returnToUrl);
 
@@ -186,7 +186,7 @@ const getSearchResults = async (encodedCompanyName: string, cookies: Cookies, se
             const downloadReportText: string = getDownloadReportText(signedIn, reportAvailable, returnToUrl, company_number, company_name);
             if (!noNearestMatch) {
                 noNearestMatch = nearestClass === "nearest";
-            };
+            }
 
             if (searchType === ALPHABETICAL_SEARCH_TYPE) {
                 return alphabeticalMapping(nearestClass, company_name, company_number, date_of_cessation, date_of_creation, registered_office_address, downloadReportText);
@@ -194,7 +194,7 @@ const getSearchResults = async (encodedCompanyName: string, cookies: Cookies, se
                 return bestMatchMapping(company_name, company_number, date_of_cessation, date_of_creation, registered_office_address, downloadReportText);
             } else {
                 return previousNameResults(company_name, company_number, date_of_cessation, date_of_creation, registered_office_address, previous_company_names, matched_previous_company_name, downloadReportText);
-            };
+            }
         });
 
         return {

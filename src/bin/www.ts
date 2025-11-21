@@ -51,7 +51,7 @@ function normalizePort (val) {
     }
 
     return false;
-};
+}
 
 /**
  * Event listener for HTTP server "error" event.
@@ -71,9 +71,11 @@ function onError (error) {
     case "EACCES":
         logger.error(bind + " requires elevated privileges");
         process.exit(1);
+    // eslint-disable-next-line no-fallthrough
     case "EADDRINUSE":
         logger.error(bind + " is already in use");
         process.exit(1);
+    // eslint-disable-next-line no-fallthrough
     default:
         throw error;
     }

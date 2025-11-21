@@ -7,6 +7,7 @@ import { CHS_URL } from "../../src/config/config";
 import * as templatePaths from "../../src/model/template.paths";
 import { CsrfError } from "@companieshouse/web-security-node";
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const errorHandlers = require("../../src/controllers/error.controller").default;
 const csrfErrorHandler = errorHandlers[0];
 

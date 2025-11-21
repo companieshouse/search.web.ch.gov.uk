@@ -39,9 +39,9 @@ const emptyCompaniesResource: CompaniesResource = {
     items: []
 };
 
-export const getSearchResults = async (advancedSearchParams: AdvancedSearchParams, cookies: Cookies) : Promise<{
+export const getSearchResults = async (advancedSearchParams: AdvancedSearchParams, cookies: Cookies): Promise<{
     companyResource: CompaniesResource,
-    searchResults: any[]
+    searchResults: { html: string }[][]
 }> => {
     try {
         if (isAdvancedSearchParamsEmpty(advancedSearchParams)) {
