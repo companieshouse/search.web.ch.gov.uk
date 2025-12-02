@@ -1,10 +1,6 @@
 {% extends "base.html" %}
 {% block pageTitle %}
-{% if searchResults.length > 0 %}
-    {{searchedName}} - Search for a dissolved company - Find and update company information - GOV.UK
-{% else %}
-    {{searchedName}} - No results found - Find and update company information - GOV.UK
-{% endif %}
+    {% include "../dissolved-search/page-title.html" %}
 {% endblock %}
 
 {% block beforeContent %}
@@ -14,28 +10,28 @@
     }) }}
 {% endblock %}
 {% block content %}
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-full">
-    <noscript>
-      {% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+            <noscript>
+                {% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
 
-      {% set html %}      
-        <p class="govuk-notification-banner__heading">
+                {% set html %}
+                <p class="govuk-notification-banner__heading">
           To download reports, turn on JavaScript in your browser settings and reload this page.
-        </p>           
-      {% endset %}
+        </p>
+                {% endset %}
 
-      {{ govukNotificationBanner({
+                {{ govukNotificationBanner({
         html: html
       }) }}
-    </noscript>
-    <h1 class="govuk-heading-xl">Search results</h1>
-    <p class="govuk-body govuk-!-width-full">Reports currently include a company overview, officer details, and a list of filings from the company’s filing history.</p>
-    <p class="govuk-body govuk-!-width-full">You can <a href="https://find-and-update.company-information.service.gov.uk/help/contact-us" class="govuk-link">contact Companies House</a> to find out if there is any more information available about a company. </p>
-    <p class="govuk-body govuk-!-width-full">We cannot show the registered office address if this information is missing from our records, or for companies dissolved more than 20 years ago. We cannot provide reports for companies that have been dissolved for more than 20 years.</p>
+            </noscript>
+            <h1 class="govuk-heading-xl">Search results</h1>
+            <p class="govuk-body govuk-!-width-full">Reports currently include a company overview, officer details, and a list of filings from the company’s filing history.</p>
+            <p class="govuk-body govuk-!-width-full">You can <a href="https://find-and-update.company-information.service.gov.uk/help/contact-us" class="govuk-link">contact Companies House</a> to find out if there is any more information available about a company. </p>
+            <p class="govuk-body govuk-!-width-full">We cannot show the registered office address if this information is missing from our records, or for companies dissolved more than 20 years ago. We cannot provide reports for companies that have been dissolved for more than 20 years.</p>
 
-    {% if searchResults.length > 0 %}
-      {{ govukTable({
+            {% if searchResults.length > 0 %}
+                {{ govukTable({
         firstCellIsHeader: false,
           head: [
             {
@@ -70,16 +66,16 @@
           rows: searchResults,
           classes: 'govuk-!-font-size-16'
       }) }}
-      {% if numberOfPages > 1 %}
-        {% include "../components/pagination.html" %}
-      {% endif %}
-      <p class="govuk-body">Data is updated daily.</p>
-    {% else %}
-      <div id="no-results" role="status">
-        <h2 class="govuk-heading-l" style="overflow-wrap: break-word;">No results found</h2>
-        <p class="govuk-body">There are no companies that match your search. Try searching again using different search criteria.</p>
-      </div>
-    {% endif %}
-  </div>
-</div>
+                {% if numberOfPages > 1 %}
+                    {% include "../components/pagination.html" %}
+                {% endif %}
+                <p class="govuk-body">Data is updated daily.</p>
+            {% else %}
+                <div id="no-results" role="status">
+                    <h2 class="govuk-heading-l" style="overflow-wrap: break-word;">No results found</h2>
+                    <p class="govuk-body">There are no companies that match your search. Try searching again using different search criteria.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
 {% endblock %}
