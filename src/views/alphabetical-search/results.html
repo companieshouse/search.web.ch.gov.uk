@@ -1,11 +1,7 @@
 {% extends "base.html" %}
 
 {% block pageTitle %}
-{% if searchResults.length > 0 %}
-    {{searchTerm}} - Search results - Find and update company information - GOV.UK
-{% else %}
-    {{searchTerm}} - No results found - Find and update company information - GOV.UK
-{% endif %}
+Alphabetical company search results - Find and update company information - GOV.UK
 {% endblock %}
 
 {% block beforeContent %}
@@ -17,33 +13,33 @@
 
 {% block content %}
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-full">
-    <h1 class="govuk-heading-xl">Search results</h1>
-    {% if searchResults.length > 0 %}
-      {{ govukTable({
-        firstCellIsHeader: false,
-          head: [
-            {
-              text: "Company name"
-            },
-            {
-              text: "Company number"
-            },
-            {
-              text: "Status"
-            }
-          ],
-          rows: searchResults
-      }) }}
-      {% include "../components/simple-pagination.html" %}
-    {% else %}
-      <div id="no-results" role="status">
-        <h2 class="govuk-heading-l" style="overflow-wrap: break-word;">No results found</h2>
-        <p class="govuk-body">There are no companies that match your search. Try searching again using different search criteria.</p>
-      </div>
-    {% endif %}
-  </div>
-</div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+            <h1 class="govuk-heading-xl">Search results</h1>
+            {% if searchResults.length > 0 %}
+                {{ govukTable({
+                    firstCellIsHeader: false,
+                    head: [
+                        {
+                        text: "Company name"
+                        },
+                        {
+                        text: "Company number"
+                        },
+                        {
+                        text: "Status"
+                        }
+                    ],
+                    rows: searchResults
+                }) }}
+                {% include "../components/simple-pagination.html" %}
+            {% else %}
+                <div id="no-results" role="status">
+                    <h2 class="govuk-heading-l" style="overflow-wrap: break-word;">No results found</h2>
+                    <p class="govuk-body">There are no companies that match your search. Try searching again using different search criteria.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
 
 {% endblock %}
