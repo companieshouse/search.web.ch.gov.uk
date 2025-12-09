@@ -11,7 +11,9 @@
     "lint:fix": "eslint 'src/*.ts' 'src/**/*.ts' './test/*.ts' './test/**/*.ts' --fix",
     "test": "mocha test/**/*.test.ts",
     "test:coverage": "nyc npm test",
-    "analyse-code": "sonar-scanner",
+    "sonarqube-base-branch": "sonar-scanner",
+    "sonarqube-pull-request": "sonar-scanner -D sonar.pullrequest.base=master",
+    "sonarqube": "branch=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD); if [[ $branch == \"HEAD\" ]]; then echo $branch && npm run sonarqube-base-branch; else echo $branch && npm run sonarqube-pull-request; fi;",
     "chs-dev": "nodemon --legacy-watch"
   },
   "keywords": [],
@@ -79,7 +81,7 @@
     "sass": "^1.64.2",
     "sinon": "~9.0.2",
     "sinon-chai": "3.5.0",
-    "sonarqube-scanner": "^2.8.1",
+    "sonarqube-scanner": "^3.3.0",
     "ts-node": "~8.8.2",
     "typescript": "~5.1.6"
   },
