@@ -40,7 +40,7 @@ lint:
 
 .PHONY: sonar
 sonar: test
-	npm run analyse-code
+	npm run sonarqube
 
 .PHONY: security-check
 security-check:
