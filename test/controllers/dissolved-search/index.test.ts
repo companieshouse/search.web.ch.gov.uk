@@ -4,8 +4,7 @@ import cheerio from "cheerio";
 import { getAppWithMockedCsrf } from "../../MockUtils/csrf.mocks";
 
 const sandbox = sinon.createSandbox();
-let testApp = null;
-
+let testApp: null = null;
 describe("index.test", () => {
     beforeEach((done) => {
         testApp = getAppWithMockedCsrf(sandbox);
