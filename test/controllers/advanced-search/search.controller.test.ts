@@ -9,7 +9,8 @@ import { checkSignInSignOutNavBar } from "../../test.utils";
 import { getAppWithMockedCsrf } from "../../MockUtils/csrf.mocks";
 
 const sandbox = sinon.createSandbox();
-let testApp: null = null;let getCompanyItemStub;
+let testApp: null = null;
+let getCompanyItemStub;
 
 describe("advanced search search.controller.test", () => {
     beforeEach((done) => {
