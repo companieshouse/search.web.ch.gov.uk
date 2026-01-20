@@ -5,10 +5,10 @@ import { SinonSandbox } from "sinon";
 import createError from "http-errors";
 
 import * as chai from "chai";
-import chaiHttp = require("chai-http");
+import chaiHttp from "chai-http";
 chai.use(chaiHttp);
 
-let testApp = null;
+let testApp: null = null;
 
 export const checkSignInSignOutNavBar = (
     sandbox: SinonSandbox,

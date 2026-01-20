@@ -9,7 +9,7 @@ import { checkSignInSignOutNavBar } from "../../test.utils";
 import { getAppWithMockedCsrf } from "../../MockUtils/csrf.mocks";
 
 const sandbox = sinon.createSandbox();
-let testApp = null;
+let testApp: null = null;
 let getCompanyItemStub;
 
 describe("alphabetical search search.controller.test", () => {

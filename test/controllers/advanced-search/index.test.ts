@@ -6,7 +6,8 @@ import { signedInSession } from "../../MockUtils/redis.mocks";
 import { getAppWithMockedCsrf } from "../../MockUtils/csrf.mocks";
 
 const sandbox = sinon.createSandbox();
-let testApp = null;
+let testApp: null = null;
+
 describe("advanced search search.controller.test", () => {
     beforeEach((done) => {
         sandbox.stub(ioredis.prototype, "connect").returns(Promise.resolve());
