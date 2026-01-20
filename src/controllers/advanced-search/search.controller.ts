@@ -91,7 +91,8 @@ const wrappedRoute = async (req: Request, res: Response) => {
     const pagingRange = getPagingRange(page, numberOfPages);
     const partialHref: string = buildPagingUrl(advancedSearchParams, incorporationDates, dissolvedDates);
     const downloadResultsMatomoEventId: string = advancedSearchParams.companyType === "registered-overseas-entity"
-        ? "advanced-search-results-page-roe-download-results" : "advanced-search-results-page-download-results";
+        ? "advanced-search-results-page-roe-download-results"
+        : "advanced-search-results-page-download-results";
 
     return res.render(templatePaths.ADVANCED_SEARCH_RESULTS, {
         ...dissolvedDates,

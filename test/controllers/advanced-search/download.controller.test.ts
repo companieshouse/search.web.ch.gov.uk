@@ -7,7 +7,7 @@ import { signedInSession } from "../../MockUtils/redis.mocks";
 import { getAppWithMockedCsrf } from "../../MockUtils/csrf.mocks";
 
 const sandbox = sinon.createSandbox();
-let testApp = null;
+let testApp: null = null;
 let getCompanyItemStub;
 
 describe("search.controller.spec.unit", () => {

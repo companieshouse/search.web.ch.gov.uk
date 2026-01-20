@@ -17,11 +17,11 @@ import { checkSignInSignOutNavBar } from "../../test.utils";
 import { getAppWithMockedCsrf } from "../../MockUtils/csrf.mocks";
 
 import * as chai from "chai";
-import chaiHttp = require("chai-http");
+import chaiHttp from "chai-http";
 chai.use(chaiHttp);
 
 const sandbox = sinon.createSandbox();
-let testApp = null;
+let testApp: null = null;
 let getCompanyItemStub;
 const cessationDate = new Date(1991, 11, 12);
 const creationDate = new Date(1991, 11, 12);

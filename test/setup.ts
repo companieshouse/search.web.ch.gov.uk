@@ -14,7 +14,7 @@ process.env.LAST_UPDATED_MESSAGE = "test updated message";
 process.env.DISSOLVED_SEARCH_NUMBER_OF_RESULTS = "20";
 process.env.COOKIE_NAME = "test";
 process.env.COOKIE_SECRET = "Xy6onkjQWF0TkRn0hfdqUw==";
-process.env.COOKIE_DOMAIN = "cookie domain";
+process.env.COOKIE_DOMAIN = ".localhost";
 process.env.CACHE_SERVER = "secret";
 process.env.ADVANCED_SEARCH_NUMBER_OF_RESULTS_TO_DOWNLOAD = "20";
 process.env.ROE_FEATURE_FLAG = "1";

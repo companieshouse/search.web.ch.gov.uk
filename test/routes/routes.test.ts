@@ -9,10 +9,10 @@ import {
 import { checkSignInSignOutNavBar } from "../test.utils";
 
 import * as chai from "chai";
-import chaiHttp = require("chai-http");
+import chaiHttp from "chai-http";
 chai.use(chaiHttp);
 
-let testApp = null;
+let testApp: null = null;
 const sandbox = sinon.createSandbox();
 
 describe("routes.test", () => {
