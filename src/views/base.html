@@ -63,7 +63,6 @@
     <a id="feedback-link" href="../help/feedback?sourceurl={{ FEEDBACK_SOURCE }}" class="secondary-customer-insights govuk-link" target="_blank">Is there anything wrong with this page?<span class="hidden">(link opens a new window)</span></a>
   </div>
   {{ govukFooter({
-      classes: "app-footer",
       meta: {
         items: [
           {
@@ -91,7 +90,8 @@
           }
         ],
         html: 'Built by <a class="govuk-footer__link" href="https://www.gov.uk/government/organisations/companies-house">Companies House</a>'
-      }
+      },
+      contentLicence: null
     }) }}
 {% endblock %}
 
