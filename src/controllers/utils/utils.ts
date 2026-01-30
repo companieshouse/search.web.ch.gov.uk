@@ -280,7 +280,8 @@ export const mapCompanyStatusCheckboxes = (companyStatus) => {
         liquidation: "",
         administration: "",
         insolvencyProceedings: "",
-        voluntaryArrangement: ""
+        voluntaryArrangement: "",
+        removed: ""
     };
 
     if (companyStatus === null || companyStatus === undefined) {
@@ -298,6 +299,7 @@ export const mapCompanyStatusCheckboxes = (companyStatus) => {
     selectedStatusCheckboxes.administration = (selectedCompanyStatusArray.includes("administration")) ? "checked" : "";
     selectedStatusCheckboxes.insolvencyProceedings = (selectedCompanyStatusArray.includes("insolvency-proceedings")) ? "checked" : "";
     selectedStatusCheckboxes.voluntaryArrangement = (selectedCompanyStatusArray.includes("voluntary-arrangement")) ? "checked" : "";
+    selectedStatusCheckboxes.removed = (selectedCompanyStatusArray.includes("removed")) ? "checked" : "";
 
     return selectedStatusCheckboxes;
 };

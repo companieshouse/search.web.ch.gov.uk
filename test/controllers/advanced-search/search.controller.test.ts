@@ -304,6 +304,17 @@ describe("advanced search search.controller.test", () => {
             chai.expect(resp.text).to.not.contain("<input class='govuk-checkboxes__input' id='openCompanies' name='status' type='checkbox' value='open' checked>");
         });
 
+        it("should display the removed company status as checked when passed in the query", async () => {
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 20)));
+
+            const resp = await chai.request(testApp)
+                .get("/advanced-search/get-results?status=removed");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("<input class='govuk-checkboxes__input' id='removedCompanies' name='status' type='checkbox' value='removed' checked>");
+        });
+
         it("should display the sic codes search term in the relevant search field", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
                 .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 20)));
