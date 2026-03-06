@@ -65,6 +65,7 @@ const wrappedRoute = async (req: Request, res: Response) => {
 
     const errorList = validate(errors);
     const ADV_SEARCH_NUM_OF_RESULTS_TO_DOWNLOAD = formatNumberWithCommas(ADVANCED_SEARCH_NUMBER_OF_RESULTS_TO_DOWNLOAD);
+    const MAX_RESULTS = formatNumberWithCommas(ELASTIC_SEARCH_MAX_RESULTS);
 
     if (!errors.isEmpty()) {
         return res.render(templatePaths.ADVANCED_SEARCH_RESULTS, {
@@ -76,6 +77,7 @@ const wrappedRoute = async (req: Request, res: Response) => {
             selectedTypeCheckboxes,
             selectedSubtypeCheckboxes,
             ADV_SEARCH_NUM_OF_RESULTS_TO_DOWNLOAD,
+            MAX_RESULTS,
             ...basketLink,
             ...pageHeader
         });
@@ -105,6 +107,7 @@ const wrappedRoute = async (req: Request, res: Response) => {
         selectedTypeCheckboxes,
         selectedSubtypeCheckboxes,
         ADV_SEARCH_NUM_OF_RESULTS_TO_DOWNLOAD,
+        MAX_RESULTS,
         totalReturnedHitsFormatted,
         totalReturnedHits,
         downloadResultsMatomoEventId,
