@@ -33,7 +33,7 @@ export const PIWIK_ALPHABETICAL_SERVICE_NAME = "alphabetical-search";
 export const DISSOLVED_SERVICE_NAME = "Dissolved company search";
 export const PIWIK_DISSOLVED_SERVICE_NAME = "dissolved-search";
 export const SERVICE_NAME_GENERIC = "";
-export const PIWIK_ADVANCED_SERVICE_NAME = "advanced-search";
+export const PIWIK_ADVANCED_SsssERVICE_NAME = "advanced-search";
 
 export const LAST_UPDATED_MESSAGE = getEnvironmentValue("LAST_UPDATED_MESSAGE");
 export const DISSOLVED_SEARCH_NUMBER_OF_RESULTS = Number(getEnvironmentValue("DISSOLVED_SEARCH_NUMBER_OF_RESULTS"));
@@ -45,4 +45,4 @@ export const ADVANCED_FEEDBACK_SOURCE = "advanced-search";
 export const ROE_FEATURE_FLAG = getEnvironmentValue("ROE_FEATURE_FLAG");
 
 // In the Elastic Search instance index.max_result_window has to match ELASTIC_SEARCH_MAX_RESULTS below
-export const ELASTIC_SEARCH_MAX_RESULTS = 30000;
+export const ELASTIC_SEARCH_MAX_RESULTS = Number(getEnvironmentValue("ELASTIC_SEARCH_MAX_RESULTS"));
