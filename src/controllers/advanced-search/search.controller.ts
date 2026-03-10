@@ -86,7 +86,7 @@ const wrappedRoute = async (req: Request, res: Response) => {
     const { companyResource, searchResults } = await getSearchResults(advancedSearchParams, cookies);
     const totalReturnedHits: number = companyResource.hits;
     const totalReturnedHitsFormatted: string = companyResource.hits.toLocaleString();
-    const maximumDisplayableResults = totalReturnedHits <= ELASTIC_SEARCH_MAX_RESULTS ? totalReturnedHits : ELASTIC_SEARCH_MAX_RESULTS;
+    const maximumDisplayableResults = totalReturnedHits <= ADVANCED_SEARCH_MAX_RESULTS ? totalReturnedHits : ADVANCED_SEARCH_MAX_RESULTS;
     const numberOfPages: number = Math.ceil(maximumDisplayableResults / 20);
     const pagingRange = getPagingRange(page, numberOfPages);
     const partialHref: string = buildPagingUrl(advancedSearchParams, incorporationDates, dissolvedDates);
