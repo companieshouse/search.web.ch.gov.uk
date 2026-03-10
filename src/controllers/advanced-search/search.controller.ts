@@ -17,7 +17,7 @@ import * as templatePaths from "../../model/template.paths";
 import { AdvancedSearchParams } from "../../model/advanced.search.params";
 import { DissolvedDates, IncorporationDates } from "model/date.params";
 import { getSearchResults } from "../../service/advanced-search/search.service";
-import { ADVANCED_SEARCH_NUMBER_OF_RESULTS_TO_DOWNLOAD, ELASTIC_SEARCH_MAX_RESULTS } from "../../config/config";
+import { ADVANCED_SEARCH_NUMBER_OF_RESULTS_TO_DOWNLOAD, ADVANCED_SEARCH_MAX_RESULTS } from "../../config/config";
 import { mapPageHeader } from "../../utils/page.header.utils";
 import Cookies = require("cookies");
 
@@ -65,7 +65,7 @@ const wrappedRoute = async (req: Request, res: Response) => {
 
     const errorList = validate(errors);
     const ADV_SEARCH_NUM_OF_RESULTS_TO_DOWNLOAD = formatNumberWithCommas(ADVANCED_SEARCH_NUMBER_OF_RESULTS_TO_DOWNLOAD);
-    const MAX_RESULTS = formatNumberWithCommas(ELASTIC_SEARCH_MAX_RESULTS);
+    const MAX_RESULTS = formatNumberWithCommas(ADVANCED_SEARCH_MAX_RESULTS);
 
     if (!errors.isEmpty()) {
         return res.render(templatePaths.ADVANCED_SEARCH_RESULTS, {

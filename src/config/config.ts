@@ -44,5 +44,5 @@ export const DISSOLVED_FEEDBACK_SOURCE = "dissolved-search";
 export const ADVANCED_FEEDBACK_SOURCE = "advanced-search";
 export const ROE_FEATURE_FLAG = getEnvironmentValue("ROE_FEATURE_FLAG");
 
-// In the Elastic Search instance index.max_result_window has to match ELASTIC_SEARCH_MAX_RESULTS below
-export const ELASTIC_SEARCH_MAX_RESULTS = Number(getEnvironmentValue("ELASTIC_SEARCH_MAX_RESULTS"));
+// In the Elastic Search instance index.max_result_window has to match ADVANCED_SEARCH_MAX_RESULTS below
+export const ADVANCED_SEARCH_MAX_RESULTS = Number(getEnvironmentValue("ADVANCED_SEARCH_MAX_RESULTS"));
