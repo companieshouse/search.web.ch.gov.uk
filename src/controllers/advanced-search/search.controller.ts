@@ -17,7 +17,7 @@ import * as templatePaths from "../../model/template.paths";
 import { AdvancedSearchParams } from "../../model/advanced.search.params";
 import { DissolvedDates, IncorporationDates } from "model/date.params";
 import { getSearchResults } from "../../service/advanced-search/search.service";
-import { ADVANCED_SEARCH_NUMBER_OF_RESULTS_TO_DOWNLOAD } from "../../config/config";
+import { ADVANCED_SEARCH_NUMBER_OF_RESULTS_TO_DOWNLOAD, ADVANCED_SEARCH_MAX_RESULTS } from "../../config/config";
 import { mapPageHeader } from "../../utils/page.header.utils";
 import Cookies = require("cookies");
 
@@ -30,8 +30,6 @@ const route = async (req: Request, res: Response, next:NextFunction) => {
 };
 
 const wrappedRoute = async (req: Request, res: Response) => {
-    // Elastic search returns a maximum of 10,000 company profiles in the resource
-    const ELASTIC_SEARCH_MAX_RESULTS = 10000;
     const cookies = new Cookies(req, res);
     const page = req.query.page ? Number(req.query.page) : 1;
     const { fullDissolvedDates, fullIncorporationDates } = getDatesFromParams(req);
@@ -67,6 +65,7 @@ const wrappedRoute = async (req: Request, res: Response) => {
 
     const errorList = validate(errors);
     const ADV_SEARCH_NUM_OF_RESULTS_TO_DOWNLOAD = formatNumberWithCommas(ADVANCED_SEARCH_NUMBER_OF_RESULTS_TO_DOWNLOAD);
+    const MAX_RESULTS = formatNumberWithCommas(ADVANCED_SEARCH_MAX_RESULTS);
 
     if (!errors.isEmpty()) {
         return res.render(templatePaths.ADVANCED_SEARCH_RESULTS, {
@@ -78,6 +77,7 @@ const wrappedRoute = async (req: Request, res: Response) => {
             selectedTypeCheckboxes,
             selectedSubtypeCheckboxes,
             ADV_SEARCH_NUM_OF_RESULTS_TO_DOWNLOAD,
+            MAX_RESULTS,
             ...basketLink,
             ...pageHeader
         });
@@ -86,7 +86,7 @@ const wrappedRoute = async (req: Request, res: Response) => {
     const { companyResource, searchResults } = await getSearchResults(advancedSearchParams, cookies);
     const totalReturnedHits: number = companyResource.hits;
     const totalReturnedHitsFormatted: string = companyResource.hits.toLocaleString();
-    const maximumDisplayableResults = totalReturnedHits <= ELASTIC_SEARCH_MAX_RESULTS ? totalReturnedHits : ELASTIC_SEARCH_MAX_RESULTS;
+    const maximumDisplayableResults = totalReturnedHits <= ADVANCED_SEARCH_MAX_RESULTS ? totalReturnedHits : ADVANCED_SEARCH_MAX_RESULTS;
     const numberOfPages: number = Math.ceil(maximumDisplayableResults / 20);
     const pagingRange = getPagingRange(page, numberOfPages);
     const partialHref: string = buildPagingUrl(advancedSearchParams, incorporationDates, dissolvedDates);
@@ -107,6 +107,7 @@ const wrappedRoute = async (req: Request, res: Response) => {
         selectedTypeCheckboxes,
         selectedSubtypeCheckboxes,
         ADV_SEARCH_NUM_OF_RESULTS_TO_DOWNLOAD,
+        MAX_RESULTS,
         totalReturnedHitsFormatted,
         totalReturnedHits,
         downloadResultsMatomoEventId,

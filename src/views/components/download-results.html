@@ -65,7 +65,7 @@
             {% elseif totalReturnedHits >= 10000 %}
                 <div class="govuk-grid-column-one-half">
                     <p class="govuk-heading-m">{{totalReturnedHitsFormatted}} results</p>
-                    <p class="govuk-body-s">Only 10,000 results can be displayed.</p>
+                    <p class="govuk-body-s">Only {{MAX_RESULTS}} results can be displayed.</p>
                 </div>
             {% else %}
                 <div class="govuk-grid-column-one-half">
