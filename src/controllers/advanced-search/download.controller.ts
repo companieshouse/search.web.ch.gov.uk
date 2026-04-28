@@ -25,6 +25,10 @@ const route = async (req: Request, res: Response) => {
     const companyJson = mapCompanyResource(companyResource);
     const parsedData = Papa.unparse(companyJson);
 
+    getCompaniesAsCsv(page, req.query.companyNameIncludes as string || null, req.query.companyNameExcludes as string || null, req.query.registeredOfficeAddress as string || null,
+        fullIncorporationDates.incorporationFromDate || null, fullIncorporationDates.incorporationToDate || null, req.query.sicCodes as string || null, req.query.status as string || null, req.query.type as string || null,
+        req.query.subtype as string || null, fullDissolvedDates.dissolvedFromDate || null, fullDissolvedDates.dissolvedToDate || null, ADVANCED_SEARCH_NUMBER_OF_RESULTS_TO_DOWNLOAD, "search.web.user")
+
     res.header("Content-Type", "text/csv");
     res.attachment("Companies-House-search-results.csv");
     return res.send(parsedData);
