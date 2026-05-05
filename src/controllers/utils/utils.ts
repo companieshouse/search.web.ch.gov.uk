@@ -466,6 +466,7 @@ export const mapCompanySubtypeCheckboxes = (companySubtype: string | null | unde
 
 export const mapCompanyResource = (companyResource) => {
     const excludedCompanyTypeIncorpDates = ["registered-overseas-entity", "protected-cell-company"];
+    //this is the bottleneck
     const listOfCompanies = companyResource.items.map(item => {
         const sicCodes = item.sic_codes !== undefined ? item.sic_codes.toString().replace(/,/g, " ") : " ";
         const dissolutionDate = item.company_type !== "registered-overseas-entity" ? item.date_of_cessation : "";
