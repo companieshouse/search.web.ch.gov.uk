@@ -1,16 +1,10 @@
 import { Request, Response } from "express";
 import { getDatesFromParams, mapAdvancedSearchParams } from "../utils/utils";
 import { getAdvancedCompaniesAsCsv } from "../../client/apiclient";
-import { ADVANCED_SEARCH_NUMBER_OF_RESULTS_TO_DOWNLOAD, API_KEY, SEARCH_WEB_COOKIE_NAME } from "../../config/config";
+import { ADVANCED_SEARCH_NUMBER_OF_RESULTS_TO_DOWNLOAD, API_KEY, SEARCH_WEB_COOKIE_NAME, APPLICATION_NAME } from "../../config/config";
 import { AdvancedSearchParams } from "../../model/advanced.search.params";
-import Papa from "papaparse";
 import Cookies = require("cookies");
 import { createLogger } from "@companieshouse/structured-logging-node";
-import { APPLICATION_NAME } from "../../config/config";
-import { CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/advanced-search/types";
-import Resource from "@companieshouse/api-sdk-node/dist/services/resource";
-import AdvancedSearchService from "@companieshouse/api-sdk-node/dist/services/search/advanced-search/service";
-import { IHttpClient } from "@companieshouse/api-sdk-node";
 
 const logger = createLogger(APPLICATION_NAME);
 
