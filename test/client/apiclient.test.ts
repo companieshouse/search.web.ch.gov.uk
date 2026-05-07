@@ -6,7 +6,7 @@ import Resource from "@companieshouse/api-sdk-node/dist/services/resource";
 import { CompaniesResource } from "@companieshouse/api-sdk-node/dist/services/search/alphabetical-search/types";
 import { CompaniesResource as DissolvedCompanyResource } from "@companieshouse/api-sdk-node/dist/services/search/dissolved-search/types";
 import { CompaniesResource as AdvancedCompanyResource } from "@companieshouse/api-sdk-node/dist/services/search/advanced-search/types";
-import { getCompanies, getDissolvedCompanies, getAdvancedCompanies, getBasket } from "../../src/client/apiclient";
+import { getCompanies, getDissolvedCompanies, getAdvancedCompanies, getBasket, getAdvancedCompaniesAsCsv } from "../../src/client/apiclient";
 import AlphabeticalSearchService from "@companieshouse/api-sdk-node/dist/services/search/alphabetical-search/service";
 import DissolvedSearchService from "@companieshouse/api-sdk-node/dist/services/search/dissolved-search/service";
 import AdvancedSearchService from "@companieshouse/api-sdk-node/dist/services/search/advanced-search/service";
@@ -244,6 +244,23 @@ describe("api.client", () => {
 
             const advancedSearchResults = await getAdvancedCompanies("api key", searchParams, "request id");
             chai.expect(advancedSearchResults).to.equal(mockAdvancedResponse.resource);
+        });
+    });
+
+    describe("advanced search", () => {
+        it("GET returns advanced search results as csv", async () => {
+            const mockCsvResponse: Resource<string> = {
+                httpStatusCode: 200,
+                resource: "csv response"
+            };
+            sandbox.stub(AdvancedSearchService.prototype, "getCompaniesAsCsv")
+                .returns(Promise.resolve(mockCsvResponse));
+
+            const searchParams: AdvancedSearchParams = createDummyAdvancedSearchParams("1", "testCompanyNameIncludes", "testCompanyNameExcludes", "testLocation", "01/01/2000",
+                "01/01/2001", "07210", "active", "ltd", "community-interest-company", "01", "10", "2010", "01", "03", "2010", 20);
+
+            const advancedSearchResults = await getAdvancedCompaniesAsCsv("api key", searchParams, "request id");
+            chai.expect(advancedSearchResults).to.equal(mockCsvResponse.resource);
         });
     });
 });
