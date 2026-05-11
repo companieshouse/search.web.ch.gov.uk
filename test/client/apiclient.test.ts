@@ -248,7 +248,7 @@ describe("api.client", () => {
     });
 
     describe("advanced search", () => {
-        it("GET returns advanced search results as csv", async () => {
+        it("GET returns advanced search results as csv with 200", async () => {
             const mockCsvResponse: Resource<string> = {
                 httpStatusCode: 200,
                 resource: "csv response"
@@ -261,6 +261,45 @@ describe("api.client", () => {
 
             const advancedSearchResults = await getAdvancedCompaniesAsCsv("api key", searchParams, "request id");
             chai.expect(advancedSearchResults).to.equal(mockCsvResponse.resource);
+            chai.expect(advancedSearchResults)
+        });
+    });
+
+describe("advanced search", () => {
+    it("GET returns advanced search results as csv with 201", async () => {
+        const mockCsvResponse: Resource<string> = {
+            httpStatusCode: 201,
+            resource: "csv response"
+        };
+        sandbox.stub(AdvancedSearchService.prototype, "getCompaniesAsCsv")
+            .returns(Promise.resolve(mockCsvResponse));
+
+        const searchParams: AdvancedSearchParams = createDummyAdvancedSearchParams("1", "testCompanyNameIncludes", "testCompanyNameExcludes", "testLocation", "01/01/2000",
+            "01/01/2001", "07210", "active", "ltd", "community-interest-company", "01", "10", "2010", "01", "03", "2010", 20);
+
+        const advancedSearchResults = await getAdvancedCompaniesAsCsv("api key", searchParams, "request id");
+        chai.expect(advancedSearchResults).to.equal(mockCsvResponse.resource);
+        chai.expect(advancedSearchResults)
+    });
+});
+    describe("advanced search", () => {
+        it("GET returns error with 404", async () => {
+            const mockCsvResponse: Resource<string> = {
+                httpStatusCode: 404,
+                resource: "error response"
+            };
+            // const spy = sandbox.spy(AdvancedSearchService.prototype, 'createError')
+            sandbox.stub(AdvancedSearchService.prototype, "getCompaniesAsCsv")
+                .returns(Promise.resolve(mockCsvResponse));
+    
+            const searchParams: AdvancedSearchParams = createDummyAdvancedSearchParams("1", "testCompanyNameIncludes", "testCompanyNameExcludes", "testLocation", "01/01/2000",
+                "01/01/2001", "07210", "active", "ltd", "community-interest-company", "01", "10", "2010", "01", "03", "2010", 20);
+    
+            try {
+                const advancedSearchResults = await getAdvancedCompaniesAsCsv("api key", searchParams, "request id");
+            } catch (error) {
+                chai.expect(error.message).to.equal('404');
+            }
         });
     });
 });
