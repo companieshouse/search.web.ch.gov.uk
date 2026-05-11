@@ -443,33 +443,6 @@ describe("utils.test", () => {
         });
     });
 
-    // describe("check that the mapCompanyResource maps the company resource correctly ready for csv download", () => {
-    //     it("should map the input company resource correctly", () => {
-    //         const listOfCompanies = getDummyAdvancedCompanyResource("test", 10);
-    //         listOfCompanies.items[1].company_type = "registered-overseas-entity";
-    //         listOfCompanies.items[1].company_status = "removed";
-    //         const mappedCompanies = mapCompanyResource(listOfCompanies);
-
-    //         chai.expect(mappedCompanies[0].company_name).to.equal("test0");
-    //         chai.expect(mappedCompanies[0].company_number).to.equal("06500000");
-    //         chai.expect(mappedCompanies[0].company_status).to.equal("Active");
-    //         chai.expect(mappedCompanies[0].company_type).to.equal("Private limited company");
-    //         chai.expect(mappedCompanies[0].company_subtype).to.equal("Community Interest Company (CIC)");
-    //         chai.expect(mappedCompanies[0].dissolution_date).to.deep.equal(new Date(1991, 11, 12));
-    //         chai.expect(mappedCompanies[0].incorporation_date).to.deep.equal(new Date(1980, 13, 8));
-    //         chai.expect(mappedCompanies[0].removed_date).to.deep.equal("");
-    //         chai.expect(mappedCompanies[0].registered_date).to.deep.equal("");
-    //         chai.expect(mappedCompanies[0].registered_office_address).to.equal("test house test street cardiff cf5 6rb country");
-    //         chai.expect(mappedCompanies[1].company_name).to.equal("test1");
-    //         chai.expect(mappedCompanies[1].company_status).to.equal("Removed");
-    //         chai.expect(mappedCompanies[1].company_type).to.equal("Overseas entity");
-    //         chai.expect(mappedCompanies[1].removed_date).to.deep.equal(new Date(1991, 11, 12));
-    //         chai.expect(mappedCompanies[1].registered_date).to.deep.equal(new Date(1980, 13, 8));
-    //         chai.expect(mappedCompanies[1].dissolution_date).to.deep.equal("");
-    //         chai.expect(mappedCompanies[1].incorporation_date).to.deep.equal("");
-    //     });
-    // });
-
     describe("mapAdvancedSearchParams", () => {
         it("should map function arguments to advanced search params", async () => {
             const advancedSearchMappedParams: AdvancedSearchParams = mapAdvancedSearchParams(1, "companyNameIncludes", "companyNameExcludes", "address", "01/01/2010", "01/01/2010",
