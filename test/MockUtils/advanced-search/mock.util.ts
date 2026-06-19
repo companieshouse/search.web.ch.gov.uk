@@ -1,6 +1,6 @@
 import { Address, CompaniesResource, Items, TopHit } from "@companieshouse/api-sdk-node/dist/services/search/advanced-search/types";
 import { AdvancedSearchParams } from "../../../src/model/advanced.search.params";
-import { format } from 'date-fns';
+import { format } from "date-fns";
 
 const emptyDate = new Date();
 const addressString = "test house test street cardiff cf5 6rb";
@@ -18,14 +18,14 @@ export const getDummyAdvancedCompanyResource = (name: string, numberOfCompanies:
 export const getDummyAdvancedCompanyCsv = (items: Items[]): string => {
     let csv: string = "company_name,company_number,company_status,company_type,company_subtype,dissolution_date,incorporation_date,removed_date,registered_date,nature_of_business,registered_office_address\n";
     for (let i = 0; i < items.length; i++) {
-        const line = items[i].company_name + "," + 
-            items[i].company_number + "," + 
-            items[i].company_status + "," + 
-            items[i].company_type + "," + 
-            items[i].company_subtype + "," + 
-            format(items[i].date_of_cessation, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'") + "," + 
-            format(items[i].date_of_creation, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'") + ",,," + 
-            items[i].sic_codes + "," + 
+        const line = items[i].company_name + "," +
+            items[i].company_number + "," +
+            items[i].company_status + "," +
+            items[i].company_type + "," +
+            items[i].company_subtype + "," +
+            format(items[i].date_of_cessation, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'") + "," +
+            format(items[i].date_of_creation, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'") + ",,," +
+            items[i].sic_codes + "," +
             addressString + "\n";
         csv = csv + line;
     }
@@ -33,9 +33,8 @@ export const getDummyAdvancedCompanyCsv = (items: Items[]): string => {
 };
 
 const formatDate = (date: Date): string => {
-
     return `${date.getFullYear()}-${date.getMonth()}-${date.getDay()}T${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}.${date.getMilliseconds()}Z`;
-}
+};
 
 export const createDummyItemsArray = (name: string, numberOfCompanies: number): Items[] => {
     const itemsArray: Items[] = [];
