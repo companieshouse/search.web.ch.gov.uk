@@ -14,8 +14,8 @@ const route = async (req: Request, res: Response) => {
     const { fullDissolvedDates, fullIncorporationDates } = getDatesFromParams(req);
     const searchParams: AdvancedSearchParams = mapAdvancedSearchParams(page, req.query.companyNameIncludes as string || null, req.query.companyNameExcludes as string || null, req.query.registeredOfficeAddress as string || null,
         fullIncorporationDates.incorporationFromDate || null, fullIncorporationDates.incorporationToDate || null, req.query.sicCodes as string || null, req.query.status as string || null, req.query.type as string || null,
-        req.query.subtype as string || null, fullDissolvedDates.dissolvedFromDate || null, fullDissolvedDates.dissolvedToDate || null, ADVANCED_SEARCH_NUMBER_OF_RESULTS_TO_DOWNLOAD)
-    const csvData = await getAdvancedCompaniesAsCsv(API_KEY, searchParams, (cookies.get(SEARCH_WEB_COOKIE_NAME) as string))
+        req.query.subtype as string || null, fullDissolvedDates.dissolvedFromDate || null, fullDissolvedDates.dissolvedToDate || null, ADVANCED_SEARCH_NUMBER_OF_RESULTS_TO_DOWNLOAD);
+    const csvData = await getAdvancedCompaniesAsCsv(API_KEY, searchParams, (cookies.get(SEARCH_WEB_COOKIE_NAME) as string));
 
     res.header("Content-Type", "text/csv");
     res.attachment("Companies-House-search-results.csv");
