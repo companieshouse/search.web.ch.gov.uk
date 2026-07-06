@@ -90,13 +90,7 @@ const wrappedRoute = async (req: Request, res: Response) => {
     const numberOfPages: number = Math.ceil(maximumDisplayableResults / 20);
     const pagingRange = getPagingRange(page, numberOfPages);
     const partialHref: string = buildPagingUrl(advancedSearchParams, incorporationDates, dissolvedDates);
-
-    let downloadResultsMatomoEventId: string = "advanced-search-results-page-download-results";
-    if (advancedSearchParams.companyType === "registered-overseas-entity") {
-        downloadResultsMatomoEventId = "advanced-search-results-page-roe-download-results";
-    } else if (advancedSearchParams.companyType === "limited-partnership") {
-        downloadResultsMatomoEventId = "advanced-search-results-page-limited-partnership-download-results";
-    }
+    const downloadResultsMatomoEventId: string = getDownloadResultsMatomoEventId(advancedSearchParams.companyType);
 
     return res.render(templatePaths.ADVANCED_SEARCH_RESULTS, {
         ...dissolvedDates,
@@ -118,6 +112,16 @@ const wrappedRoute = async (req: Request, res: Response) => {
         ...basketLink,
         ...pageHeader
     });
+};
+
+const getDownloadResultsMatomoEventId = (companyType: string | null): string => {
+    if (companyType === "registered-overseas-entity") {
+        return "advanced-search-results-page-roe-download-results";
+    }
+    if (companyType === "limited-partnership") {
+        return "advanced-search-results-page-limited-partnership-download-results";
+    }
+    return "advanced-search-results-page-download-results";
 };
 
 export default [...advancedSearchValidationRules, route];
