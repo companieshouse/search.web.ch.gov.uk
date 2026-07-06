@@ -90,9 +90,13 @@ const wrappedRoute = async (req: Request, res: Response) => {
     const numberOfPages: number = Math.ceil(maximumDisplayableResults / 20);
     const pagingRange = getPagingRange(page, numberOfPages);
     const partialHref: string = buildPagingUrl(advancedSearchParams, incorporationDates, dissolvedDates);
-    const downloadResultsMatomoEventId: string = advancedSearchParams.companyType === "registered-overseas-entity"
-        ? "advanced-search-results-page-roe-download-results"
-        : "advanced-search-results-page-download-results";
+
+    let downloadResultsMatomoEventId: string = "advanced-search-results-page-download-results";
+    if (advancedSearchParams.companyType === "registered-overseas-entity") {
+        downloadResultsMatomoEventId = "advanced-search-results-page-roe-download-results";
+    } else if (advancedSearchParams.companyType === "limited-partnership") {
+        downloadResultsMatomoEventId = "advanced-search-results-page-limited-partnership-download-results";
+    }
 
     return res.render(templatePaths.ADVANCED_SEARCH_RESULTS, {
         ...dissolvedDates,
