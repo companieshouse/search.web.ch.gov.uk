@@ -350,7 +350,7 @@ describe("advanced search search.controller.test", () => {
                 .get("/advanced-search/get-results?type=limited-partnership");
 
             chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain("<input class='govuk-checkboxes__input' id='limited-partnership' name='type' type='checkbox' value='limited-partnership' checked>");
+            chai.expect(resp.text).to.contain("<input class='govuk-checkboxes__input' id='limited-partnership' name='type' type='checkbox' value='limited-partnership' checked data-event-id='advanced-search-limited-partnership-selected-results-page'>");
         });
 
         it("should display the company subtypes search term is checked", async () => {
@@ -949,6 +949,33 @@ describe("advanced search search.controller.test", () => {
     });
 
     describe("Download button", () => {
+        const downloadButtonEventTypeTestCases = [
+            {
+                companyType: "registered-overseas-entity",
+                expectedEventId: "advanced-search-results-page-roe-download-results"
+            },
+            {
+                companyType: "limited-partnership",
+                expectedEventId: "advanced-search-results-page-limited-partnership-download-results"
+            }
+        ];
+
+        for (const { companyType, expectedEventId } of downloadButtonEventTypeTestCases) {
+            it(`should set correct data event id on download button when company type is ${companyType}`, async () => {
+                const data = Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 1));
+                (await data).items[0].company_type = companyType;
+
+                getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                    .returns(data);
+
+                const resp = await chai.request(testApp)
+                    .get(`/advanced-search/get-results?companyNameIncludes=test&type=${companyType}`);
+
+                chai.expect(resp.status).to.equal(200);
+                chai.expect(resp.text).to.contain(`<button class="govuk-button" data-module="govuk-button" data-event-id=${expectedEventId}>\n                    Download results\n                    </button>`);
+            });
+        }
+
         it("should show an active download button", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
                 .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 50)));
