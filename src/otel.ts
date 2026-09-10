@@ -5,9 +5,10 @@ import { OTLPMetricExporter } from "@opentelemetry/exporter-metrics-otlp-proto";
 import { PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
 import { ALLOW_ALL_BAGGAGE_KEYS, BaggageSpanProcessor } from "@opentelemetry/baggage-span-processor";
 import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-node";
+import { OTEL_EXPORTER_OTLP_ENDPOINT, OTEL_LOG_ENABLED } from "./config/config";
 
-const otlpEndpoint = process.env.OTEL_EXPORTER_OTLP_ENDPOINT;
-const otelLogEnabled = process.env.OTEL_LOG_ENABLED === "true";
+const otlpEndpoint = OTEL_EXPORTER_OTLP_ENDPOINT;
+const otelLogEnabled = OTEL_LOG_ENABLED === "true";
 
 const traceExporter = new OTLPTraceExporter({
     url: `${otlpEndpoint}/v1/traces`,
