@@ -22,3 +22,5 @@ process.env.ROE_FEATURE_FLAG = "1";
 process.env.ACCOUNT_URL = "http://account.co";
 process.env.CHS_MONITOR_GUI_URL = "http://follow.co";
 process.env.CDN_HOST = "cdn.chs.local";
+process.env.OTEL_EXPORTER_OTLP_ENDPOINT = "http://otel-collector:4318";
+process.env.OTEL_LOG_ENABLED = "true";
