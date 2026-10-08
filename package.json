@@ -20,7 +20,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@companieshouse/api-sdk-node": "^2.0.366",
+    "@companieshouse/api-sdk-node": "^2.0.370",
     "@companieshouse/ch-node-utils": "^2.1.13",
     "@companieshouse/node-session-handler": "^5.2.8",
     "@companieshouse/structured-logging-node": "^2.0.6",
