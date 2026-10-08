@@ -1,5 +1,5 @@
 <div>
-    <form action="/advanced-search/download" method="GET">
+    <form action="/advanced-search/csv" method="GET">
         <input class='hidden govuk-input govuk-!-width-width-full' name='companyNameIncludes' type='text' value='{{ advancedSearchParams.companyNameIncludes }}' aria-hidden='true' aria-label='companyNameIncludes'>
         <input class='hidden govuk-input govuk-!-width-width-full' name='companyNameExcludes' type='text' value='{{ advancedSearchParams.companyNameExcludes }}' aria-hidden='true' aria-label='companyNameExcludes'>
         <input class='hidden govuk-input govuk-!-width-width-full' name='registeredOfficeAddress' type='text' value='{{ advancedSearchParams.location }}' aria-hidden='true' aria-label='registeredOfficeAddress'>
@@ -65,7 +65,7 @@
             {% elseif totalReturnedHits >= 10000 %}
                 <div class="govuk-grid-column-one-half">
                     <p class="govuk-heading-m">{{totalReturnedHitsFormatted}} results</p>
-                    <p class="govuk-body-s">Only 10,000 results can be displayed.</p>
+                    <p class="govuk-body-s">Only {{MAX_RESULTS}} results can be displayed.</p>
                 </div>
             {% else %}
                 <div class="govuk-grid-column-one-half">

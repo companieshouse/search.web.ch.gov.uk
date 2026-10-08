@@ -43,3 +43,8 @@ export const ALPHABETICAL_FEEDBACK_SOURCE = "alphabetical-search";
 export const DISSOLVED_FEEDBACK_SOURCE = "dissolved-search";
 export const ADVANCED_FEEDBACK_SOURCE = "advanced-search";
 export const ROE_FEATURE_FLAG = getEnvironmentValue("ROE_FEATURE_FLAG");
+
+// In the Elastic Search instance index.max_result_window has to match ADVANCED_SEARCH_MAX_RESULTS below
+export const ADVANCED_SEARCH_MAX_RESULTS = Number(getEnvironmentValue("ADVANCED_SEARCH_MAX_RESULTS"));
+export const OTEL_EXPORTER_OTLP_ENDPOINT = getEnvironmentValue("OTEL_EXPORTER_OTLP_ENDPOINT");
+export const OTEL_LOG_ENABLED = getEnvironmentValue("OTEL_LOG_ENABLED");

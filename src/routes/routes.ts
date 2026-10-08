@@ -8,7 +8,7 @@ import * as pageUrls from "../model/page.urls";
 import * as templatePaths from "../model/template.paths";
 import { BasketLink, getBasketLink } from "../controllers/utils/utils";
 import { mapPageHeader } from "../utils/page.header.utils";
-import uuid = require("uuid/v4");
+import { v4 as uuid } from "uuid";
 import Cookies = require("cookies");
 
 const router = Router();

@@ -67,6 +67,37 @@ export const getAdvancedCompanies =
         return companiesResource.resource as AdvancedCompaniesResource;
     };
 
+export const getAdvancedCompaniesAsCsv =
+    async (apiKey: string, advancedSearchParams: AdvancedSearchParams, requestId: string): Promise<string> => {
+        const api = createApiClient(apiKey, undefined, API_URL);
+        const startIndexOffset = (advancedSearchParams.page * 20) - 20;
+        const csvResource: Resource<string> =
+            await api.advancedSearch.getCompaniesAsCsv(startIndexOffset,
+                advancedSearchParams.companyNameIncludes,
+                advancedSearchParams.companyNameExcludes,
+                advancedSearchParams.location,
+                advancedSearchParams.incorporatedFrom,
+                advancedSearchParams.incorporatedTo,
+                advancedSearchParams.sicCodes,
+                advancedSearchParams.companyStatus,
+                advancedSearchParams.companyType,
+                advancedSearchParams.companySubtype,
+                advancedSearchParams.dissolvedFrom,
+                advancedSearchParams.dissolvedTo,
+                advancedSearchParams.size,
+                requestId);
+
+        if (csvResource.httpStatusCode !== 200 && csvResource.httpStatusCode !== 201) {
+            throw createError(csvResource.httpStatusCode, csvResource.httpStatusCode.toString());
+        }
+        logger.info(`Get advanced search results, company_name_includes=${advancedSearchParams.companyNameIncludes},company_name_excludes=${advancedSearchParams.companyNameExcludes},
+          location=${advancedSearchParams.location}, incorporated_from=${advancedSearchParams.incorporatedFrom}, incorporated_to=${advancedSearchParams.incorporatedTo},
+          company_status=${advancedSearchParams.companyStatus}, sic_codes=${advancedSearchParams.sicCodes}, company_type=${advancedSearchParams.companyType}, 
+          company_subtype=${advancedSearchParams.companySubtype}, dissolved_from=${advancedSearchParams.dissolvedFrom}, dissolved_to=${advancedSearchParams.dissolvedTo}, 
+          size=${advancedSearchParams.size}, status_code=${csvResource.httpStatusCode}`);
+        return csvResource.resource as string;
+    };
+
 export const getBasket =
     async (oAuth: string): Promise<Basket> => {
         const api = createApiClient(undefined, oAuth, API_URL);

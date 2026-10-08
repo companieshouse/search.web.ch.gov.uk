@@ -25,23 +25,19 @@ describe("search.controller.spec.unit", () => {
 
     describe("check it returns parsed data csv format", () => {
         it("should return csv file", async () => {
-            const data = Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 3));
-            (await data).items[1].company_type = "registered-overseas-entity";
-            (await data).items[1].company_status = "removed";
-            (await data).items[2].company_type = "protected-cell-company";
+            const items = mockUtils.createDummyItemsArray("test", 3);
+            const data = Promise.resolve(mockUtils.getDummyAdvancedCompanyCsv(items));
 
-            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+            getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompaniesAsCsv")
                 .returns(data);
 
             const resp = await chai.request(testApp)
-                .get("/advanced-search/download")
+                .get("/advanced-search/csv?companyNameIncludes=a")
                 .set("Content-Type", "text/csv");
 
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain("company_name,company_number,company_status,company_type,company_subtype,dissolution_date,incorporation_date,removed_date,registered_date,nature_of_business,registered_office_address");
-            chai.expect(resp.text).to.contain("test0,06500000,Active,Private limited company,Community Interest Company (CIC),1991-12-12T00:00:00.000Z,1981-02-08T00:00:00.000Z,,,01120,test house test street cardiff cf5 6rb");
-            chai.expect(resp.text).to.contain("test1,06500001,Removed,Overseas entity,Community Interest Company (CIC),,,1991-12-12T00:00:00.000Z,1981-02-08T00:00:00.000Z,01120,test house test street cardiff cf5 6rb");
-            chai.expect(resp.text).to.contain("test2,06500002,Active,Protected cell company,Community Interest Company (CIC),1991-12-12T00:00:00.000Z,,,,01120,test house test street cardiff cf5 6rb");
+            chai.expect(resp.text).to.contain("test0,06500000,Active,ltd,community-interest-company,1991-12-12T00:00:00.000Z,1981-02-08T00:00:00.000Z,,,01120,test house test street cardiff cf5 6rb");
         });
     });
 });

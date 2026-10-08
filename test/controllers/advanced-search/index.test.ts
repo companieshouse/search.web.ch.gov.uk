@@ -87,6 +87,15 @@ describe("advanced search search.controller.test", () => {
             chai.expect(resp.text).to.contain("Dissolved date");
             chai.expect(resp.text).to.contain("We can only show companies dissolved since 01/01/2010.");
         });
+
+        it("should set correct data event ids for company type options", async () => {
+            const resp = await chai.request(testApp)
+                .get("/advanced-search");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("<input class='govuk-checkboxes__input' id='limited-partnership' name='type' type='checkbox' value='limited-partnership' data-event-id='advanced-search-limited-partnership-selected-start-page'>");
+            chai.expect(resp.text).to.contain("<input class='govuk-checkboxes__input' id='registered-overseas-entity' name='type' type='checkbox' value='registered-overseas-entity' data-event-id='advanced-search-overseas-entity-selected-start-page'>");
+        });
     });
 
     describe("populate feedback link with the advanced-search source url", () => {
