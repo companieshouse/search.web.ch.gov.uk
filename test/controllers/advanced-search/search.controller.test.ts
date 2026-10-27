@@ -358,10 +358,14 @@ describe("advanced search search.controller.test", () => {
                 .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 20)));
 
             const resp = await chai.request(testApp)
-                .get("/advanced-search/get-results?subtype=community-interest-company");
+                .get("/advanced-search/get-results?subtype=community-interest-company&subtype=lp&subtype=pflp&subtype=slp&subtype=spflp");
 
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain("<input class='govuk-checkboxes__input' id='community-interest-company' name='subtype' type='checkbox' value='community-interest-company' checked>");
+            chai.expect(resp.text).to.contain("<input class='govuk-checkboxes__input' id='limited-partnership' name='subtype' type='checkbox' value='lp' checked>");
+            chai.expect(resp.text).to.contain("<input class='govuk-checkboxes__input' id='private-fund-limited-partnership' name='subtype' type='checkbox' value='pflp' checked>");
+            chai.expect(resp.text).to.contain("<input class='govuk-checkboxes__input' id='scottish-limited-partnership' name='subtype' type='checkbox' value='slp' checked>");
+            chai.expect(resp.text).to.contain("<input class='govuk-checkboxes__input' id='scottish-private-fund-limited-partnership' name='subtype' type='checkbox' value='spflp' checked>");
         });
     });
 
@@ -1026,7 +1030,10 @@ describe("advanced search search.controller.test", () => {
                     "&status=active&sicCodes=01120" +
                     "&type=llp" +
                     "&subtype=community-interest-company" +
-                    "&subtype=private-fund-limited-partnership" +
+                    "&subtype=lp" +
+                    "&subtype=pflp" +
+                    "&subtype=slp" +
+                    "&subtype=spflp" +
                     "&dissolvedFromDay=13" +
                     "&dissolvedFromMonth=4" +
                     "&dissolvedFromYear=2011" +
@@ -1048,7 +1055,10 @@ describe("advanced search search.controller.test", () => {
             chai.expect(resp.text).to.contain("<input class='hidden govuk-input govuk-!-width-full' name='sicCodes' type='text' value='01120'");
             chai.expect(resp.text).to.contain("<input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='llp' checked");
             chai.expect(resp.text).to.contain("<input class='hidden govuk-checkboxes__input' name='subtype' type='checkbox' value='community-interest-company' checked");
-            chai.expect(resp.text).to.contain("<input class='hidden govuk-checkboxes__input' name='subtype' type='checkbox' value='private-fund-limited-partnership' checked");
+            chai.expect(resp.text).to.contain("<input class='hidden govuk-checkboxes__input' name='subtype' type='checkbox' value='lp' checked");
+            chai.expect(resp.text).to.contain("<input class='hidden govuk-checkboxes__input' name='subtype' type='checkbox' value='pflp' checked");
+            chai.expect(resp.text).to.contain("<input class='hidden govuk-checkboxes__input' name='subtype' type='checkbox' value='slp' checked");
+            chai.expect(resp.text).to.contain("<input class='hidden govuk-checkboxes__input' name='subtype' type='checkbox' value='spflp' checked");
             chai.expect(resp.text).to.contain("<input class='hidden govuk-input govuk-input--width-10' name='dissolvedFromDay' type='text' value='13'");
             chai.expect(resp.text).to.contain("<input class='hidden govuk-input govuk-input--width-10' name='dissolvedFromMonth' type='text' value='4'");
             chai.expect(resp.text).to.contain("<input class='hidden govuk-input govuk-input--width-10' name='dissolvedFromYear' type='text' value='2011'");

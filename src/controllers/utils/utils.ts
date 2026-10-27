@@ -449,7 +449,10 @@ export const mapCompanyTypeCheckboxes = (companyType: string | null | undefined)
 export const mapCompanySubtypeCheckboxes = (companySubtype: string | null | undefined) => {
     const selectedSubtypeCheckboxes = {
         communityInterestCompany: "",
-        privateFundLimitedPartnership: ""
+        limitedPartnership: "",
+        privateFundLimitedPartnership: "",
+        scottishLimitedPartnership: "",
+        scottishPrivateFundLimitedPartnership: ""
     };
 
     if (companySubtype === null || companySubtype === undefined) {
@@ -459,7 +462,10 @@ export const mapCompanySubtypeCheckboxes = (companySubtype: string | null | unde
     const selectedCompanySubtypeArray : string[] = String(companySubtype).split(",");
 
     selectedSubtypeCheckboxes.communityInterestCompany = (selectedCompanySubtypeArray.includes("community-interest-company")) ? "checked" : "";
-    selectedSubtypeCheckboxes.privateFundLimitedPartnership = (selectedCompanySubtypeArray.includes("private-fund-limited-partnership")) ? "checked" : "";
+    selectedSubtypeCheckboxes.limitedPartnership = (selectedCompanySubtypeArray.includes("lp")) ? "checked" : "";
+    selectedSubtypeCheckboxes.privateFundLimitedPartnership = (selectedCompanySubtypeArray.includes("pflp")) ? "checked" : "";
+    selectedSubtypeCheckboxes.scottishLimitedPartnership = (selectedCompanySubtypeArray.includes("slp")) ? "checked" : "";
+    selectedSubtypeCheckboxes.scottishPrivateFundLimitedPartnership = (selectedCompanySubtypeArray.includes("spflp")) ? "checked" : "";
 
     return selectedSubtypeCheckboxes;
 };
