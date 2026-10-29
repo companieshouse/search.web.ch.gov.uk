@@ -4,6 +4,7 @@ import cheerio from "cheerio";
 import ioredis from "ioredis";
 import * as mockUtils from "../../MockUtils/advanced-search/mock.util";
 import * as apiClient from "../../../src/client/apiclient";
+import * as config from "../../../src/config/config";
 import { SIGNED_IN_ID, SIGNED_OUT_ID, signedInSession, signedOutSession } from "../../MockUtils/redis.mocks";
 import { checkSignInSignOutNavBar } from "../../test.utils";
 import { getAppWithMockedCsrf } from "../../MockUtils/csrf.mocks";
@@ -14,6 +15,7 @@ let getCompanyItemStub;
 
 describe("advanced search search.controller.test", () => {
     beforeEach((done) => {
+        sandbox.stub(config, "LP_COMPANY_SUBTYPE_FEATURE_FLAG").value("1");
         sandbox.stub(ioredis.prototype, "connect").returns(Promise.resolve());
         sandbox.stub(ioredis.prototype, "get")
             .withArgs(SIGNED_IN_ID).returns(Promise.resolve(signedInSession))
@@ -358,10 +360,14 @@ describe("advanced search search.controller.test", () => {
                 .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 20)));
 
             const resp = await chai.request(testApp)
-                .get("/advanced-search/get-results?subtype=community-interest-company");
+                .get("/advanced-search/get-results?subtype=community-interest-company&subtype=lp&subtype=pflp&subtype=slp&subtype=spflp");
 
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain("<input class='govuk-checkboxes__input' id='community-interest-company' name='subtype' type='checkbox' value='community-interest-company' checked>");
+            chai.expect(resp.text).to.contain("<input class='govuk-checkboxes__input' id='limited-partnership' name='subtype' type='checkbox' value='lp' checked>");
+            chai.expect(resp.text).to.contain("<input class='govuk-checkboxes__input' id='private-fund-limited-partnership' name='subtype' type='checkbox' value='pflp' checked>");
+            chai.expect(resp.text).to.contain("<input class='govuk-checkboxes__input' id='scottish-limited-partnership' name='subtype' type='checkbox' value='slp' checked>");
+            chai.expect(resp.text).to.contain("<input class='govuk-checkboxes__input' id='scottish-private-fund-limited-partnership' name='subtype' type='checkbox' value='spflp' checked>");
         });
     });
 
@@ -1026,7 +1032,10 @@ describe("advanced search search.controller.test", () => {
                     "&status=active&sicCodes=01120" +
                     "&type=llp" +
                     "&subtype=community-interest-company" +
-                    "&subtype=private-fund-limited-partnership" +
+                    "&subtype=lp" +
+                    "&subtype=pflp" +
+                    "&subtype=slp" +
+                    "&subtype=spflp" +
                     "&dissolvedFromDay=13" +
                     "&dissolvedFromMonth=4" +
                     "&dissolvedFromYear=2011" +
@@ -1048,7 +1057,10 @@ describe("advanced search search.controller.test", () => {
             chai.expect(resp.text).to.contain("<input class='hidden govuk-input govuk-!-width-full' name='sicCodes' type='text' value='01120'");
             chai.expect(resp.text).to.contain("<input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='llp' checked");
             chai.expect(resp.text).to.contain("<input class='hidden govuk-checkboxes__input' name='subtype' type='checkbox' value='community-interest-company' checked");
-            chai.expect(resp.text).to.contain("<input class='hidden govuk-checkboxes__input' name='subtype' type='checkbox' value='private-fund-limited-partnership' checked");
+            chai.expect(resp.text).to.contain("<input class='hidden govuk-checkboxes__input' name='subtype' type='checkbox' value='lp' checked");
+            chai.expect(resp.text).to.contain("<input class='hidden govuk-checkboxes__input' name='subtype' type='checkbox' value='pflp' checked");
+            chai.expect(resp.text).to.contain("<input class='hidden govuk-checkboxes__input' name='subtype' type='checkbox' value='slp' checked");
+            chai.expect(resp.text).to.contain("<input class='hidden govuk-checkboxes__input' name='subtype' type='checkbox' value='spflp' checked");
             chai.expect(resp.text).to.contain("<input class='hidden govuk-input govuk-input--width-10' name='dissolvedFromDay' type='text' value='13'");
             chai.expect(resp.text).to.contain("<input class='hidden govuk-input govuk-input--width-10' name='dissolvedFromMonth' type='text' value='4'");
             chai.expect(resp.text).to.contain("<input class='hidden govuk-input govuk-input--width-10' name='dissolvedFromYear' type='text' value='2011'");
@@ -1059,4 +1071,55 @@ describe("advanced search search.controller.test", () => {
     });
 
     checkSignInSignOutNavBar(sandbox, "advanced search", "results", "/advanced-search/get-results");
+});
+
+describe("advanced search with LP_COMPANY_SUBTYPE_FEATURE_FLAG disabled search.controller.test", () => {
+    beforeEach((done) => {
+        process.env.LP_COMPANY_SUBTYPE_FEATURE_FLAG = "0";
+        delete require.cache[require.resolve("../../../src/config/config")];
+        delete require.cache[require.resolve("../../../src/app")];
+
+        sandbox.stub(config, "LP_COMPANY_SUBTYPE_FEATURE_FLAG").value("0");
+        sandbox.stub(ioredis.prototype, "connect").returns(Promise.resolve());
+        sandbox.stub(ioredis.prototype, "get")
+            .withArgs(SIGNED_IN_ID).returns(Promise.resolve(signedInSession))
+            .withArgs(SIGNED_OUT_ID).returns(Promise.resolve(signedOutSession));
+        testApp = require("../../../src/app").default;
+        done();
+    });
+
+    afterEach(() => {
+        process.env.LP_COMPANY_SUBTYPE_FEATURE_FLAG = "1";
+        delete require.cache[require.resolve("../../../src/config/config")];
+        delete require.cache[require.resolve("../../../src/app")];
+
+        sandbox.reset();
+        sandbox.restore();
+    });
+
+    it("should display the company subtypes search term is checked", async () => {
+        getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+            .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 20)));
+
+        const resp = await chai.request(testApp)
+            .get("/advanced-search/get-results?subtype=community-interest-company" +
+                "&subtype=private-fund-limited-partnership");
+
+        chai.expect(resp.status).to.equal(200);
+        chai.expect(resp.text).to.contain("<input class='govuk-checkboxes__input' id='community-interest-company' name='subtype' type='checkbox' value='community-interest-company' checked>");
+        chai.expect(resp.text).to.contain("<input class='govuk-checkboxes__input' id='private-fund-limited-partnership-paper' name='subtype' type='checkbox' value='private-fund-limited-partnership' checked>");
+    });
+
+    it("the hidden download form fields should have the same values as the search queries from the main search form", async () => {
+        getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+            .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 50)));
+
+        const resp = await chai.request(testApp)
+            .get("/advanced-search/get-results?subtype=community-interest-company" +
+                "&subtype=private-fund-limited-partnership");
+
+        chai.expect(resp.status).to.equal(200);
+        chai.expect(resp.text).to.contain("<input class='hidden govuk-checkboxes__input' name='subtype' type='checkbox' value='community-interest-company' checked");
+        chai.expect(resp.text).to.contain("<input class='hidden govuk-checkboxes__input' name='subtype' type='checkbox' value='private-fund-limited-partnership' checked");
+    });
 });
