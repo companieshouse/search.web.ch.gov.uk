@@ -628,6 +628,7 @@ const checkCompanyTypeSelections = (expectedSelection, actualSelection) => {
 
 const checkCompanySubtypeSelections = (expectedSelection, actualSelection) => {
     chai.expect(expectedSelection.communityInterestCompany).to.equal(actualSelection.communityInterestCompany);
+    chai.expect(expectedSelection.privateFundLimitedPartnershipPaper).to.equal(actualSelection.privateFundLimitedPartnershipPaper);
     chai.expect(expectedSelection.limitedPartnership).to.equal(actualSelection.limitedPartnership);
     chai.expect(expectedSelection.privateFundLimitedPartnership).to.equal(actualSelection.privateFundLimitedPartnership);
     chai.expect(expectedSelection.scottishLimitedPartnership).to.equal(actualSelection.scottishLimitedPartnership);
@@ -671,7 +672,8 @@ const setUpSelectedCompanySubtype = () => {
         limitedPartnership: "",
         privateFundLimitedPartnership: "",
         scottishLimitedPartnership: "",
-        scottishPrivateFundLimitedPartnership: ""
+        scottishPrivateFundLimitedPartnership: "",
+        privateFundLimitedPartnershipPaper: ""
     };
 };
 

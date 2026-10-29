@@ -218,6 +218,69 @@
   </fieldset>
 {% endset %}
 
+{% set companySubtypeHtml %}
+  <fieldset class='govuk-fieldset'>
+    <div class='govuk-form-group'>
+      <fieldset class='govuk-fieldset'>
+        <div class='govuk-checkboxes--small'>
+
+          <div class='govuk-checkboxes__item'>
+            <input class='govuk-checkboxes__input' id='community-interest-company' name='subtype' type='checkbox'
+              value='community-interest-company'>
+            <label class='govuk-label govuk-checkboxes__label' for='community-interest-company'>
+              Community interest company
+            </label>
+          </div>
+
+          {% if COMPANY_SUBTYPE_FEATURE_FLAG === "1" %}
+
+          <div class='govuk-checkboxes__item'>
+            <input class='govuk-checkboxes__input' id='limited-partnership' name='subtype' type='checkbox' value='lp'>
+            <label class='govuk-label govuk-checkboxes__label' for='limited-partnership'>
+              Limited partnership
+            </label>
+          </div>
+
+          <div class='govuk-checkboxes__item'>
+            <input class='govuk-checkboxes__input' id='private-fund-limited-partnership' name='subtype' type='checkbox'
+              value='pflp'>
+            <label class='govuk-label govuk-checkboxes__label' for='private-fund-limited-partnership'>
+              Private fund limited partnership
+            </label>
+          </div>
+
+          <div class='govuk-checkboxes__item'>
+            <input class='govuk-checkboxes__input' id='scottish-limited-partnership' name='subtype' type='checkbox'
+              value='slp'>
+            <label class='govuk-label govuk-checkboxes__label' for='scottish-limited-partnership'>
+              Scottish limited partnership
+            </label>
+          </div>
+
+          <div class='govuk-checkboxes__item'>
+            <input class='govuk-checkboxes__input' id='scottish-private-fund-limited-partnership' name='subtype'
+              type='checkbox' value='spflp'>
+            <label class='govuk-label govuk-checkboxes__label' for='scottish-private-fund-limited-partnership'>
+              Scottish private fund limited partnership
+            </label>
+          </div>
+
+          {% else %}
+
+          <div class='govuk-checkboxes__item'>
+            <input class='govuk-checkboxes__input' id='private-fund-limited-partnership-paper' name='subtype'
+              type='checkbox' value='private-fund-limited-partnership'>
+            <label class='govuk-label govuk-checkboxes__label' for='private-fund-limited-partnership-paper'>
+              Private fund limited partnership
+            </label>
+          </div>
+          {% endif %}
+        </div>
+      </fieldset>
+    </div>
+  </fieldset>
+{% endset %}
+
 {% block content %}
 {# reloads the page if the user uses the navigation buttons in chrome or IE, the search fields will be populated correctly with the queries #}
 <script>reloadPage()</script>
@@ -485,51 +548,7 @@
                   text: "Company subtype"
                 },
                 content: {
-                  html: "
-                    <fieldset class='govuk-fieldset'>
-                      <div class='govuk-form-group'>
-                        <fieldset class='govuk-fieldset'>
-                          <div class='govuk-checkboxes--small'>
-
-                            <div class='govuk-checkboxes__item'>
-                              <input class='govuk-checkboxes__input' id='community-interest-company' name='subtype' type='checkbox' value='community-interest-company'>
-                              <label class='govuk-label govuk-checkboxes__label' for='community-interest-company'>
-                                Community interest company
-                              </label>
-                            </div>
-
-                            <div class='govuk-checkboxes__item'>
-                              <input class='govuk-checkboxes__input' id='limited-partnership' name='subtype' type='checkbox' value='lp'>
-                              <label class='govuk-label govuk-checkboxes__label' for='limited-partnership'>
-                                Limited partnership
-                              </label>
-                            </div>
-
-                            <div class='govuk-checkboxes__item'>
-                              <input class='govuk-checkboxes__input' id='private-fund-limited-partnership' name='subtype' type='checkbox' value='pflp'>
-                              <label class='govuk-label govuk-checkboxes__label' for='private-fund-limited-partnership'>
-                                Private fund limited partnership
-                              </label>
-                            </div>
-
-                            <div class='govuk-checkboxes__item'>
-                              <input class='govuk-checkboxes__input' id='scottish-limited-partnership' name='subtype' type='checkbox' value='slp'>
-                              <label class='govuk-label govuk-checkboxes__label' for='scottish-limited-partnership'>
-                                Scottish limited partnership
-                              </label>
-                            </div>
-
-                            <div class='govuk-checkboxes__item'>
-                              <input class='govuk-checkboxes__input' id='scottish-private-fund-limited-partnership' name='subtype' type='checkbox' value='spflp'>
-                              <label class='govuk-label govuk-checkboxes__label' for='scottish-private-fund-limited-partnership'>
-                                Scottish private fund limited partnership
-                              </label>
-                            </div>
-
-                          </div>
-                        </fieldset>
-                      </div>
-                  </fieldset>"
+                  html: companySubtypeHtml
                 }
               },
               {

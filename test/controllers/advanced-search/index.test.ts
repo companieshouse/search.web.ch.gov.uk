@@ -97,13 +97,14 @@ describe("advanced search search.controller.test", () => {
             chai.expect(resp.text).to.contain("<input class='govuk-checkboxes__input' id='registered-overseas-entity' name='type' type='checkbox' value='registered-overseas-entity' data-event-id='advanced-search-overseas-entity-selected-start-page'>");
         });
 
-        it("should display the company subtype section", async () => {
+        it("should display the company subtype section when COMPANY_SUBTYPE_FEATURE_FLAG is enabled", async () => {
             const resp = await chai.request(testApp)
                 .get("/advanced-search");
 
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain("Company subtype");
             chai.expect(resp.text).to.contain("<label class='govuk-label govuk-checkboxes__label' for='community-interest-company'>");
+            chai.expect(resp.text).not.to.contain("<label class='govuk-label govuk-checkboxes__label' for='private-fund-limited-partnership-paper'>");
             chai.expect(resp.text).to.contain("<label class='govuk-label govuk-checkboxes__label' for='limited-partnership'>");
             chai.expect(resp.text).to.contain("<label class='govuk-label govuk-checkboxes__label' for='private-fund-limited-partnership'>");
             chai.expect(resp.text).to.contain("<label class='govuk-label govuk-checkboxes__label' for='scottish-limited-partnership'>");
