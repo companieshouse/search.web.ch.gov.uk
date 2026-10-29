@@ -19,7 +19,7 @@ process.env.CACHE_SERVER = "secret";
 process.env.ADVANCED_SEARCH_NUMBER_OF_RESULTS_TO_DOWNLOAD = "20";
 process.env.ADVANCED_SEARCH_MAX_RESULTS = "10000";
 process.env.ROE_FEATURE_FLAG = "1";
-process.env.COMPANY_SUBTYPE_FEATURE_FLAG = "1";
+process.env.LP_COMPANY_SUBTYPE_FEATURE_FLAG = "1";
 
 process.env.ACCOUNT_URL = "http://account.co";
 process.env.CHS_MONITOR_GUI_URL = "http://follow.co";

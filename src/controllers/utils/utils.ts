@@ -11,7 +11,7 @@ import moment from "moment";
 import escape from "escape-html";
 import { SessionKey } from "@companieshouse/node-session-handler/lib/session/keys/SessionKey";
 import { SignInInfoKeys } from "@companieshouse/node-session-handler/lib/session/keys/SignInInfoKeys";
-import { APPLICATION_NAME, BASKET_WEB_URL, COMPANY_SUBTYPE_FEATURE_FLAG } from "../../config/config";
+import { APPLICATION_NAME, BASKET_WEB_URL, LP_COMPANY_SUBTYPE_FEATURE_FLAG } from "../../config/config";
 import { Basket } from "@companieshouse/api-sdk-node/dist/services/order/basket";
 import { getBasket } from "../../client/apiclient";
 import { createLogger } from "@companieshouse/structured-logging-node";
@@ -463,7 +463,7 @@ export const mapCompanySubtypeCheckboxes = (companySubtype: string | null | unde
     const selectedCompanySubtypeArray : string[] = String(companySubtype).split(",");
 
     selectedSubtypeCheckboxes.communityInterestCompany = (selectedCompanySubtypeArray.includes("community-interest-company")) ? "checked" : "";
-    if (COMPANY_SUBTYPE_FEATURE_FLAG !== "1") {
+    if (LP_COMPANY_SUBTYPE_FEATURE_FLAG !== "1") {
         selectedSubtypeCheckboxes.privateFundLimitedPartnershipPaper = (selectedCompanySubtypeArray.includes("private-fund-limited-partnership")) ? "checked" : "";
         return selectedSubtypeCheckboxes;
     }
