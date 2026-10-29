@@ -355,7 +355,7 @@ describe("advanced search search.controller.test", () => {
             chai.expect(resp.text).to.contain("<input class='govuk-checkboxes__input' id='limited-partnership' name='type' type='checkbox' value='limited-partnership' checked data-event-id='advanced-search-limited-partnership-selected-results-page'>");
         });
 
-        it("should display the digital company subtypes search term is checked", async () => {
+        it("should display the company subtypes search term is checked", async () => {
             getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
                 .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 20)));
 
@@ -1097,7 +1097,7 @@ describe("advanced search with LP_COMPANY_SUBTYPE_FEATURE_FLAG disabled search.c
         sandbox.restore();
     });
 
-    it("should display the paper company subtypes search term is checked", async () => {
+    it("should display the company subtypes search term is checked", async () => {
         getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
             .returns(Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 20)));
 
