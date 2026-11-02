@@ -4,24 +4,25 @@ import ioredis from "ioredis";
 import cheerio from "cheerio";
 import { signedInSession } from "../../MockUtils/redis.mocks";
 import { getAppWithMockedCsrf } from "../../MockUtils/csrf.mocks";
+import { prototype } from "events";
 
 const sandbox = sinon.createSandbox();
 let testApp: null = null;
 
 describe("advanced search search.controller.test", () => {
-    beforeEach((done) => {
-        sandbox.stub(ioredis.prototype, "connect").returns(Promise.resolve());
-        sandbox.stub(ioredis.prototype, "get").returns(Promise.resolve(signedInSession));
-        testApp = getAppWithMockedCsrf(sandbox);
-        done();
-    });
-
-    afterEach(() => {
-        sandbox.reset();
-        sandbox.restore();
-    });
-
     describe("check advanced search start page", () => {
+        beforeEach((done) => {
+            sandbox.stub(ioredis.prototype, "connect").returns(Promise.resolve());
+            sandbox.stub(ioredis.prototype, "get").returns(Promise.resolve(signedInSession));
+            testApp = getAppWithMockedCsrf(sandbox);
+            done();
+        });
+
+        afterEach(() => {
+            sandbox.reset();
+            sandbox.restore();
+        });
+
         it("should return the start search page successfully", async () => {
             const resp = await chai.request(testApp)
                 .get("/advanced-search");
@@ -96,15 +97,65 @@ describe("advanced search search.controller.test", () => {
             chai.expect(resp.text).to.contain("<input class='govuk-checkboxes__input' id='limited-partnership' name='type' type='checkbox' value='limited-partnership' data-event-id='advanced-search-limited-partnership-selected-start-page'>");
             chai.expect(resp.text).to.contain("<input class='govuk-checkboxes__input' id='registered-overseas-entity' name='type' type='checkbox' value='registered-overseas-entity' data-event-id='advanced-search-overseas-entity-selected-start-page'>");
         });
-    });
 
-    describe("populate feedback link with the advanced-search source url", () => {
-        it("should contain dissolved-search", async () => {
+        it("should display the digital LP company subtypes when LP_COMPANY_SUBTYPE_FEATURE_FLAG is enabled", async () => {
             const resp = await chai.request(testApp)
                 .get("/advanced-search");
-            cheerio.load(resp.text);
+
             chai.expect(resp.status).to.equal(200);
-            chai.expect(resp.text).to.contain("help/feedback?sourceurl=advanced-search");
+            chai.expect(resp.text).to.contain("Company subtype");
+            chai.expect(resp.text).to.contain("<input class='govuk-checkboxes__input' id='community-interest-company' name='subtype' type='checkbox' value='community-interest-company'>");
+            chai.expect(resp.text).not.to.contain("<input class='govuk-checkboxes__input' id='private-fund-limited-partnership-paper' name='subtype' type='checkbox' value='private-fund-limited-partnership'>");
+            chai.expect(resp.text).to.contain("<input class='govuk-checkboxes__input' id='limited-partnership' name='subtype' type='checkbox' value='lp'>");
+            chai.expect(resp.text).to.contain("<input class='govuk-checkboxes__input' id='private-fund-limited-partnership' name='subtype' type='checkbox' value='pflp'>");
+            chai.expect(resp.text).to.contain("<input class='govuk-checkboxes__input' id='scottish-limited-partnership' name='subtype' type='checkbox' value='slp'>");
+            chai.expect(resp.text).to.contain("<input class='govuk-checkboxes__input' id='scottish-private-fund-limited-partnership' name='subtype' type='checkbox' value='spflp'>");
+        });
+
+        describe("populate feedback link with the advanced-search source url", () => {
+            it("should contain dissolved-search", async () => {
+                const resp = await chai.request(testApp)
+                    .get("/advanced-search");
+                cheerio.load(resp.text);
+                chai.expect(resp.status).to.equal(200);
+                chai.expect(resp.text).to.contain("help/feedback?sourceurl=advanced-search");
+            });
+        });
+    });
+
+    describe("check advanced search start page with LP_COMPANY_SUBTYPE_FEATURE_FLAG disabled", () => {
+        beforeEach((done) => {
+            process.env.LP_COMPANY_SUBTYPE_FEATURE_FLAG = "0";
+            delete require.cache[require.resolve("../../../src/config/config")];
+            delete require.cache[require.resolve("../../../src/app")];
+
+            sandbox.stub(ioredis.prototype, "connect").returns(Promise.resolve());
+            sandbox.stub(ioredis.prototype, "get").returns(Promise.resolve(signedInSession));
+            testApp = getAppWithMockedCsrf(sandbox);
+            done();
+        });
+
+        afterEach(() => {
+            process.env.LP_COMPANY_SUBTYPE_FEATURE_FLAG = "1";
+            delete require.cache[require.resolve("../../../src/config/config")];
+            delete require.cache[require.resolve("../../../src/app")];
+
+            sandbox.reset();
+            sandbox.restore();
+        });
+
+        it("should display the paper LP company subtypes when LP_COMPANY_SUBTYPE_FEATURE_FLAG is disabled", async () => {
+            const resp = await chai.request(testApp)
+                .get("/advanced-search");
+
+            chai.expect(resp.status).to.equal(200);
+            chai.expect(resp.text).to.contain("Company subtype");
+            chai.expect(resp.text).to.contain("<input class='govuk-checkboxes__input' id='community-interest-company' name='subtype' type='checkbox' value='community-interest-company'>");
+            chai.expect(resp.text).to.contain("<input class='govuk-checkboxes__input' id='private-fund-limited-partnership-paper' name='subtype' type='checkbox' value='private-fund-limited-partnership'>");
+            chai.expect(resp.text).not.to.contain("<input class='govuk-checkboxes__input' id='limited-partnership' name='subtype' type='checkbox' value='lp'>");
+            chai.expect(resp.text).not.to.contain("<input class='govuk-checkboxes__input' id='private-fund-limited-partnership' name='subtype' type='checkbox' value='pflp'>");
+            chai.expect(resp.text).not.to.contain("<input class='govuk-checkboxes__input' id='scottish-limited-partnership' name='subtype' type='checkbox' value='slp'>");
+            chai.expect(resp.text).not.to.contain("<input class='govuk-checkboxes__input' id='scottish-private-fund-limited-partnership' name='subtype' type='checkbox' value='spflp'>");
         });
     });
 });

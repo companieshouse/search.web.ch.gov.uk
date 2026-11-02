@@ -11,6 +11,7 @@ import { createDummyAdvancedSearchParams, getDummyAdvancedCompanyResource } from
 import { Request } from "express";
 import { signedInSessionData, signedOutSessionData } from "../MockUtils/redis.mocks";
 import * as apiClient from "../../src/client/apiclient";
+import * as config from "../../src/config/config";
 import { getDummyBasket } from "../MockUtils/dissolved-search/mock.util";
 import sinon from "sinon";
 // Without this import these tests will not compile.
@@ -410,11 +411,74 @@ describe("utils.test", () => {
         });
     });
 
-    describe("ensure that mapCompanySubtypeCheckboxes assigns checked to the correct checkbox entries", () => {
+    describe("ensure that mapCompanySubtypeCheckboxes assigns checked to the correct checkbox entries - LP_COMPANY_SUBTYPE_FEATURE_FLAG enabled", () => {
         it("should return an object with all variables set as checked if all company subtype options are included", () => {
             const expectedSelection = setUpSelectedCompanySubtype();
             expectedSelection.communityInterestCompany = "checked";
+            expectedSelection.limitedPartnership = "checked";
             expectedSelection.privateFundLimitedPartnership = "checked";
+            expectedSelection.scottishLimitedPartnership = "checked";
+            expectedSelection.scottishPrivateFundLimitedPartnership = "checked";
+
+            const actualSelection = mapCompanySubtypeCheckboxes("community-interest-company,lp,pflp,slp,spflp");
+            checkCompanySubtypeSelections(expectedSelection, actualSelection);
+        });
+        it("should return an object with communityInterestCompany variable set as checked if that is the only company subtype option passed in", () => {
+            const expectedSelection = setUpSelectedCompanySubtype();
+            expectedSelection.communityInterestCompany = "checked";
+            const actualSelection = mapCompanySubtypeCheckboxes("community-interest-company");
+            checkCompanySubtypeSelections(expectedSelection, actualSelection);
+        });
+        it("should return an object with limitedPartnership variable set as checked if that is the only company subtype option passed in", () => {
+            const expectedSelection = setUpSelectedCompanySubtype();
+            expectedSelection.limitedPartnership = "checked";
+            const actualSelection = mapCompanySubtypeCheckboxes("lp");
+            checkCompanySubtypeSelections(expectedSelection, actualSelection);
+        });
+        it("should return an object with privateFundLimitedPartnership variable set as checked if that is the only company subtype option passed in", () => {
+            const expectedSelection = setUpSelectedCompanySubtype();
+            expectedSelection.privateFundLimitedPartnership = "checked";
+            const actualSelection = mapCompanySubtypeCheckboxes("pflp");
+            checkCompanySubtypeSelections(expectedSelection, actualSelection);
+        });
+        it("should return an object with scottishLimitedPartnership variable set as checked if that is the only company subtype option passed in", () => {
+            const expectedSelection = setUpSelectedCompanySubtype();
+            expectedSelection.scottishLimitedPartnership = "checked";
+            const actualSelection = mapCompanySubtypeCheckboxes("slp");
+            checkCompanySubtypeSelections(expectedSelection, actualSelection);
+        }); 
+        it("should return an object with scottishPrivateFundLimitedPartnership variable set as checked if that is the only company subtype option passed in", () => {
+            const expectedSelection = setUpSelectedCompanySubtype();
+            expectedSelection.scottishPrivateFundLimitedPartnership = "checked";
+            const actualSelection = mapCompanySubtypeCheckboxes("spflp");
+            checkCompanySubtypeSelections(expectedSelection, actualSelection);
+        });
+        it("should return an object with no variables set as checked if null is provided", () => {
+            const expectedSelection = setUpSelectedCompanySubtype();
+            const actualSelection = mapCompanySubtypeCheckboxes(null);
+            checkCompanySubtypeSelections(expectedSelection, actualSelection);
+        });
+        it("should return an object with no variables set as checked if undefined is provided", () => {
+            const expectedSelection = setUpSelectedCompanySubtype();
+            const actualSelection = mapCompanySubtypeCheckboxes(undefined);
+            checkCompanySubtypeSelections(expectedSelection, actualSelection);
+        });
+    });
+    describe("ensure that mapCompanySubtypeCheckboxes assigns checked to the correct checkbox entries - LP_COMPANY_SUBTYPE_FEATURE_FLAG disabled", () => {
+        beforeEach((done) => {
+            sandbox.stub(config, "LP_COMPANY_SUBTYPE_FEATURE_FLAG").value("0");
+            done();
+        });
+
+        afterEach(() => {
+            sandbox.reset();
+            sandbox.restore();
+        });
+
+        it("should return an object with all variables set as checked if all company subtype options are included", () => {
+            const expectedSelection = setUpSelectedCompanySubtype();
+            expectedSelection.communityInterestCompany = "checked";
+            expectedSelection.privateFundLimitedPartnershipPaper = "checked";
 
             const actualSelection = mapCompanySubtypeCheckboxes("community-interest-company,private-fund-limited-partnership");
             checkCompanySubtypeSelections(expectedSelection, actualSelection);
@@ -425,9 +489,9 @@ describe("utils.test", () => {
             const actualSelection = mapCompanySubtypeCheckboxes("community-interest-company");
             checkCompanySubtypeSelections(expectedSelection, actualSelection);
         });
-        it("should return an object with privateFundLimitedPartnership variable set as checked if that is the only company subtype option passed in", () => {
+        it("should return an object with privateFundLimitedPartnershipPaper variable set as checked if that is the only company subtype option passed in", () => {
             const expectedSelection = setUpSelectedCompanySubtype();
-            expectedSelection.privateFundLimitedPartnership = "checked";
+            expectedSelection.privateFundLimitedPartnershipPaper = "checked";
             const actualSelection = mapCompanySubtypeCheckboxes("private-fund-limited-partnership");
             checkCompanySubtypeSelections(expectedSelection, actualSelection);
         });
@@ -563,6 +627,51 @@ describe("utils.test", () => {
     });
 });
 
+describe("LP_COMPANY_SUBTYPE_FEATURE_FLAG disabled utils.test", () => {
+    beforeEach((done) => {
+        sandbox.stub(config, "LP_COMPANY_SUBTYPE_FEATURE_FLAG").value("0");
+        done();
+    });
+
+    afterEach(() => {
+        sandbox.reset();
+        sandbox.restore();
+    });
+
+    describe("ensure that mapCompanySubtypeCheckboxes assigns checked to the correct checkbox entries", () => {
+        it("should return an object with all variables set as checked if all company subtype options are included", () => {
+            const expectedSelection = setUpSelectedCompanySubtype();
+            expectedSelection.communityInterestCompany = "checked";
+            expectedSelection.privateFundLimitedPartnershipPaper = "checked";
+
+            const actualSelection = mapCompanySubtypeCheckboxes("community-interest-company,private-fund-limited-partnership");
+            checkCompanySubtypeSelections(expectedSelection, actualSelection);
+        });
+        it("should return an object with communityInterestCompany variable set as checked if that is the only company subtype option passed in", () => {
+            const expectedSelection = setUpSelectedCompanySubtype();
+            expectedSelection.communityInterestCompany = "checked";
+            const actualSelection = mapCompanySubtypeCheckboxes("community-interest-company");
+            checkCompanySubtypeSelections(expectedSelection, actualSelection);
+        });
+        it("should return an object with privateFundLimitedPartnershipPaper variable set as checked if that is the only company subtype option passed in", () => {
+            const expectedSelection = setUpSelectedCompanySubtype();
+            expectedSelection.privateFundLimitedPartnershipPaper = "checked";
+            const actualSelection = mapCompanySubtypeCheckboxes("private-fund-limited-partnership");
+            checkCompanySubtypeSelections(expectedSelection, actualSelection);
+        });
+        it("should return an object with no variables set as checked if null is provided", () => {
+            const expectedSelection = setUpSelectedCompanySubtype();
+            const actualSelection = mapCompanySubtypeCheckboxes(null);
+            checkCompanySubtypeSelections(expectedSelection, actualSelection);
+        });
+        it("should return an object with no variables set as checked if undefined is provided", () => {
+            const expectedSelection = setUpSelectedCompanySubtype();
+            const actualSelection = mapCompanySubtypeCheckboxes(undefined);
+            checkCompanySubtypeSelections(expectedSelection, actualSelection);
+        });
+    });
+});
+
 const compareCheckboxSelections = (expectedSelectedStatusCheckboxes, actualSelectedStatusCheckboxes) => {
     chai.expect(expectedSelectedStatusCheckboxes.active).to.equal(actualSelectedStatusCheckboxes.active);
     chai.expect(expectedSelectedStatusCheckboxes.dissolved).to.equal(actualSelectedStatusCheckboxes.dissolved);
@@ -607,7 +716,11 @@ const checkCompanyTypeSelections = (expectedSelection, actualSelection) => {
 
 const checkCompanySubtypeSelections = (expectedSelection, actualSelection) => {
     chai.expect(expectedSelection.communityInterestCompany).to.equal(actualSelection.communityInterestCompany);
+    chai.expect(expectedSelection.privateFundLimitedPartnershipPaper).to.equal(actualSelection.privateFundLimitedPartnershipPaper);
+    chai.expect(expectedSelection.limitedPartnership).to.equal(actualSelection.limitedPartnership);
     chai.expect(expectedSelection.privateFundLimitedPartnership).to.equal(actualSelection.privateFundLimitedPartnership);
+    chai.expect(expectedSelection.scottishLimitedPartnership).to.equal(actualSelection.scottishLimitedPartnership);
+    chai.expect(expectedSelection.scottishPrivateFundLimitedPartnership).to.equal(actualSelection.scottishPrivateFundLimitedPartnership);
 };
 
 const setUpSelectedCompanyType = () => {
@@ -644,7 +757,11 @@ const setUpSelectedCompanyType = () => {
 const setUpSelectedCompanySubtype = () => {
     return {
         communityInterestCompany: "",
-        privateFundLimitedPartnership: ""
+        limitedPartnership: "",
+        privateFundLimitedPartnership: "",
+        scottishLimitedPartnership: "",
+        scottishPrivateFundLimitedPartnership: "",
+        privateFundLimitedPartnershipPaper: ""
     };
 };
 
