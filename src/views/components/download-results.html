@@ -50,7 +50,7 @@
         <input class='hidden govuk-checkboxes__input' name='type' type='checkbox' value='registered-overseas-entity' {{ selectedTypeCheckboxes.registeredOverseasEntity }} aria-hidden='true' aria-label='registered-overseas-entity'>
         <input class='hidden govuk-checkboxes__input' name='subtype' type='checkbox' value='community-interest-company' {{ selectedSubtypeCheckboxes.communityInterestCompany }} aria-hidden='true' aria-label='community-interest-company'>
         {% if LP_COMPANY_SUBTYPE_FEATURE_FLAG === "1" %}
-            <input class='hidden govuk-checkboxes__input' name='subtype' type='checkbox' value='lp' {{ selectedSubtypeCheckboxes.limitedPartnership }} aria-hidden='true' aria-label='limited-partnership'>
+            <input class='hidden govuk-checkboxes__input' name='subtype' type='checkbox' value='lp' {{ selectedSubtypeCheckboxes.limitedPartnership }} aria-hidden='true' aria-label='limited-partnership-subtype'>
             <input class='hidden govuk-checkboxes__input' name='subtype' type='checkbox' value='pflp' {{ selectedSubtypeCheckboxes.privateFundLimitedPartnership }} aria-hidden='true' aria-label='private-fund-limited-partnership'>
             <input class='hidden govuk-checkboxes__input' name='subtype' type='checkbox' value='slp' {{ selectedSubtypeCheckboxes.scottishLimitedPartnership }} aria-hidden='true' aria-label='scottish-limited-partnership'>
             <input class='hidden govuk-checkboxes__input' name='subtype' type='checkbox' value='spflp' {{ selectedSubtypeCheckboxes.scottishPrivateFundLimitedPartnership }} aria-hidden='true' aria-label='scottish-private-fund-limited-partnership'>
