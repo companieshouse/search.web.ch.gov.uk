@@ -106,10 +106,10 @@ describe("advanced search search.controller.test", () => {
             chai.expect(resp.text).to.contain("Company subtype");
             chai.expect(resp.text).to.contain("<input class='govuk-checkboxes__input' id='community-interest-company' name='subtype' type='checkbox' value='community-interest-company'>");
             chai.expect(resp.text).not.to.contain("<input class='govuk-checkboxes__input' id='private-fund-limited-partnership-paper' name='subtype' type='checkbox' value='private-fund-limited-partnership'>");
-            chai.expect(resp.text).to.contain("<input class='govuk-checkboxes__input' id='limited-partnership' name='subtype' type='checkbox' value='lp'>");
-            chai.expect(resp.text).to.contain("<input class='govuk-checkboxes__input' id='private-fund-limited-partnership' name='subtype' type='checkbox' value='pflp'>");
-            chai.expect(resp.text).to.contain("<input class='govuk-checkboxes__input' id='scottish-limited-partnership' name='subtype' type='checkbox' value='slp'>");
-            chai.expect(resp.text).to.contain("<input class='govuk-checkboxes__input' id='scottish-private-fund-limited-partnership' name='subtype' type='checkbox' value='spflp'>");
+            chai.expect(resp.text).to.contain("<input class='govuk-checkboxes__input' id='limited-partnership' name='subtype' type='checkbox' value='lp' data-event-id='advanced-search-limited-partnership-selected-start-page'>");
+            chai.expect(resp.text).to.contain("<input class='govuk-checkboxes__input' id='private-fund-limited-partnership' name='subtype' type='checkbox' value='pflp' data-event-id='advanced-search-limited-partnership-selected-start-page'>");
+            chai.expect(resp.text).to.contain("<input class='govuk-checkboxes__input' id='scottish-limited-partnership' name='subtype' type='checkbox' value='slp' data-event-id='advanced-search-limited-partnership-selected-start-page'>");
+            chai.expect(resp.text).to.contain("<input class='govuk-checkboxes__input' id='scottish-private-fund-limited-partnership' name='subtype' type='checkbox' value='spflp' data-event-id='advanced-search-limited-partnership-selected-start-page'>");
         });
 
         describe("populate feedback link with the advanced-search source url", () => {

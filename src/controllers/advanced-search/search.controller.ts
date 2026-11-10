@@ -90,7 +90,7 @@ const wrappedRoute = async (req: Request, res: Response) => {
     const numberOfPages: number = Math.ceil(maximumDisplayableResults / 20);
     const pagingRange = getPagingRange(page, numberOfPages);
     const partialHref: string = buildPagingUrl(advancedSearchParams, incorporationDates, dissolvedDates);
-    const downloadResultsMatomoEventId: string = getDownloadResultsMatomoEventId(advancedSearchParams.companyType);
+    const downloadResultsMatomoEventId: string = getDownloadResultsMatomoEventId(advancedSearchParams.companyType, advancedSearchParams.companySubtype);
 
     return res.render(templatePaths.ADVANCED_SEARCH_RESULTS, {
         ...dissolvedDates,
@@ -114,11 +114,13 @@ const wrappedRoute = async (req: Request, res: Response) => {
     });
 };
 
-const getDownloadResultsMatomoEventId = (companyType: string | null): string => {
+const getDownloadResultsMatomoEventId = (companyType: string | null, companySubtype: string | null): string => {
+    const LP_SUBTYPES = ["lp", "pflp", "slp", "spflp"];
+
     if (companyType === "registered-overseas-entity") {
         return "advanced-search-results-page-roe-download-results";
     }
-    if (companyType === "limited-partnership") {
+    if (companyType === "limited-partnership" || LP_SUBTYPES.includes(companySubtype || "")) {
         return "advanced-search-results-page-limited-partnership-download-results";
     }
     return "advanced-search-results-page-download-results";
