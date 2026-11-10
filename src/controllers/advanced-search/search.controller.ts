@@ -21,6 +21,8 @@ import { ADVANCED_SEARCH_NUMBER_OF_RESULTS_TO_DOWNLOAD, ADVANCED_SEARCH_MAX_RESU
 import { mapPageHeader } from "../../utils/page.header.utils";
 import Cookies = require("cookies");
 
+const LP_SUBTYPES = ["lp", "pflp", "slp", "spflp"];
+
 const route = async (req: Request, res: Response, next:NextFunction) => {
     try {
         await wrappedRoute(req, res);
@@ -115,8 +117,6 @@ const wrappedRoute = async (req: Request, res: Response) => {
 };
 
 const getDownloadResultsMatomoEventId = (companyType: string | null, companySubtype: string | null): string => {
-    const LP_SUBTYPES = ["lp", "pflp", "slp", "spflp"];
-
     if (companyType === "registered-overseas-entity") {
         return "advanced-search-results-page-roe-download-results";
     }
