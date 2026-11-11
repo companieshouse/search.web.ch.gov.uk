@@ -364,10 +364,10 @@ describe("advanced search search.controller.test", () => {
 
             chai.expect(resp.status).to.equal(200);
             chai.expect(resp.text).to.contain("<input class='govuk-checkboxes__input' id='community-interest-company' name='subtype' type='checkbox' value='community-interest-company' checked>");
-            chai.expect(resp.text).to.contain("<input class='govuk-checkboxes__input' id='limited-partnership' name='subtype' type='checkbox' value='lp' checked>");
-            chai.expect(resp.text).to.contain("<input class='govuk-checkboxes__input' id='private-fund-limited-partnership' name='subtype' type='checkbox' value='pflp' checked>");
-            chai.expect(resp.text).to.contain("<input class='govuk-checkboxes__input' id='scottish-limited-partnership' name='subtype' type='checkbox' value='slp' checked>");
-            chai.expect(resp.text).to.contain("<input class='govuk-checkboxes__input' id='scottish-private-fund-limited-partnership' name='subtype' type='checkbox' value='spflp' checked>");
+            chai.expect(resp.text).to.contain("<input class='govuk-checkboxes__input' id='limited-partnership-subtype' name='subtype' type='checkbox' value='lp' checked data-event-id='advanced-search-limited-partnership-selected-results-page'>");
+            chai.expect(resp.text).to.contain("<input class='govuk-checkboxes__input' id='private-fund-limited-partnership' name='subtype' type='checkbox' value='pflp' checked data-event-id='advanced-search-limited-partnership-selected-results-page'>");
+            chai.expect(resp.text).to.contain("<input class='govuk-checkboxes__input' id='scottish-limited-partnership' name='subtype' type='checkbox' value='slp' checked data-event-id='advanced-search-limited-partnership-selected-results-page'>");
+            chai.expect(resp.text).to.contain("<input class='govuk-checkboxes__input' id='scottish-private-fund-limited-partnership' name='subtype' type='checkbox' value='spflp' checked data-event-id='advanced-search-limited-partnership-selected-results-page'>");
         });
     });
 
@@ -979,6 +979,22 @@ describe("advanced search search.controller.test", () => {
 
                 chai.expect(resp.status).to.equal(200);
                 chai.expect(resp.text).to.contain(`<button class="govuk-button" data-module="govuk-button" data-event-id=${expectedEventId}>\n                    Download results\n                    </button>`);
+            });
+        }
+
+        for (const companySubtype of ["lp", "slp", "pflp", "spflp"]) {
+            it(`should set correct data event id on download button when company subtype is ${companySubtype}`, async () => {
+                const data = Promise.resolve(mockUtils.getDummyAdvancedCompanyResource("test", 1));
+                (await data).items[0].company_subtype = companySubtype;
+
+                getCompanyItemStub = sandbox.stub(apiClient, "getAdvancedCompanies")
+                    .returns(data);
+
+                const resp = await chai.request(testApp)
+                    .get(`/advanced-search/get-results?companyNameIncludes=test&subtype=${companySubtype}`);
+
+                chai.expect(resp.status).to.equal(200);
+                chai.expect(resp.text).to.contain("<button class=\"govuk-button\" data-module=\"govuk-button\" data-event-id=advanced-search-results-page-limited-partnership-download-results>\n                    Download results\n                    </button>");
             });
         }
 
