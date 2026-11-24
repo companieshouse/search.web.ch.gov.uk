@@ -332,7 +332,7 @@ export const getPagingRange = (currentPage : number, numberOfPages : number) : {
             }
         }
     }
-    return { start: start, end: end };
+    return { start, end };
 };
 
 export const changeDateFormat = (inputDate: string) : string | null => {
@@ -483,19 +483,19 @@ export const mapAdvancedSearchParams = (page: number, companyNameIncludes: strin
         companyType = String(companyType).replace("icvc", "icvc-securities,icvc-warrant,icvc-umbrella,investment-company-with-variable-capital");
     }
     const advancedSearchParams: AdvancedSearchParams = {
-        page: page,
-        companyNameIncludes: companyNameIncludes,
-        companyNameExcludes: companyNameExcludes,
+        page,
+        companyNameIncludes,
+        companyNameExcludes,
         location: registeredOfficeAddress,
         incorporatedFrom: incorporatedFrom !== null ? changeDateFormat(incorporatedFrom) : null,
         incorporatedTo: incorporatedTo !== null ? changeDateFormat(incorporatedTo) : null,
-        sicCodes: sicCodes,
-        companyStatus: companyStatus,
-        companyType: companyType,
-        companySubtype: companySubtype,
+        sicCodes,
+        companyStatus,
+        companyType,
+        companySubtype,
         dissolvedFrom: dissolvedFrom !== null ? changeDateFormat(dissolvedFrom) : null,
         dissolvedTo: dissolvedTo !== null ? changeDateFormat(dissolvedTo) : null,
-        size: size
+        size
     };
 
     return advancedSearchParams;
