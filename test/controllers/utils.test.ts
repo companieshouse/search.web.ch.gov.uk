@@ -446,7 +446,7 @@ describe("utils.test", () => {
             expectedSelection.scottishLimitedPartnership = "checked";
             const actualSelection = mapCompanySubtypeCheckboxes("slp");
             checkCompanySubtypeSelections(expectedSelection, actualSelection);
-        }); 
+        });
         it("should return an object with scottishPrivateFundLimitedPartnership variable set as checked if that is the only company subtype option passed in", () => {
             const expectedSelection = setUpSelectedCompanySubtype();
             expectedSelection.scottishPrivateFundLimitedPartnership = "checked";

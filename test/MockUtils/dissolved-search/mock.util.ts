@@ -120,6 +120,6 @@ export const getDummyBasket = (enrolled: boolean): Basket => {
                 postalDelivery: false
             }
         ],
-        enrolled: enrolled
+        enrolled
     };
 };
